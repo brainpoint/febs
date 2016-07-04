@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "assert": "^1.3.0",
+    "co-busboy": "^1.3.1",
+    "fs": "0.0.2",
+    "path": "^0.11.14"
+  },
+  "files": [
+    "client",
+    "server"
+  ],
+  "license": "MIT",
+  "main": "server/index.js",
+  "maintainers": [
+    {
+      "name": "brainpoint",
+      "email": "bpoint.lee@gmail.com"
+    }
+  ],
+  "name": "citong",
+  "version": "1.3.7"
+}

@@ -1,0 +1,101 @@
+<style type="text/css">
+.control_loading_c {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(107, 107, 107, 0.6);
+  opacity: 1;
+  z-index: 999999;
+}
+.control_loading{
+    min-height: 80px;
+    min-width: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:200px;
+    line-height:56px;
+    color:#000;
+    font-size:15px;
+    background: url(citong/client/controls/loading/loader.gif) no-repeat center 22px;
+    opacity: 0.7;
+    -moz-border-radius:20px;
+    -webkit-border-radius:20px;
+    border-radius:20px;
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+    z-index: 999999;
+}
+.control_loading p{
+    padding-top: 50px;
+}
+</style>
+<span id="control_loading_span"></span>
+<script type="text/javascript">
+  var control_loading_timer;
+  var control_loading_text_hideFunc;
+  var control_loading_text_elemFunc;
+  var control_loading_index = 0;
+  var control_loading_text_array;
+
+  function control_loading_show(text, timeout) {
+    if (control_loading_timer)
+      window.clearInterval(control_loading_timer);
+    if (timeout)
+    {
+      control_loading_timer = window.setInterval(function(){
+        control_loading_show(text);
+      }, timeout);
+    }
+    else
+    {
+      $('#control_loading_span').html('<div class="control_loading_c"><div class="control_loading"><p style="margin-left:auto;margin-right:auto;text-align:center;max-width:400px;">' + (text?text:'') + '</p></div></div>');
+    }
+  }
+
+  function control_loading_show_text(textArray, changeTextCB, hideCB) {
+    if (control_loading_text_elemFunc)
+    {
+      if (control_loading_text_hideFunc) control_loading_text_hideFunc();
+      control_loading_text_hideFunc = null;
+      control_loading_text_elemFunc = null;
+      control_loading_text_array = null;
+      if (control_loading_timer)
+      {
+        window.clearInterval(control_loading_timer);
+        control_loading_timer = null;
+      }
+    }
+
+    control_loading_text_array = textArray;
+    control_loading_text_hideFunc = hideCB;
+    control_loading_text_elemFunc = changeTextCB;
+    control_loading_timer = window.setInterval(function(){
+      control_loading_text_elemFunc(control_loading_text_array[(control_loading_index++)%control_loading_text_array.length]);
+    }, 500);
+  }
+
+  function control_loading_hide() {
+    if (control_loading_timer)
+    {
+      window.clearInterval(control_loading_timer);
+      control_loading_timer = null;
+    }
+
+    if (control_loading_text_elemFunc)
+    {
+      if (control_loading_text_hideFunc) control_loading_text_hideFunc();
+      control_loading_text_hideFunc = null;
+      control_loading_text_elemFunc = null;
+      control_loading_text_array = null;
+      if (control_loading_timer)
+      {
+        window.clearInterval(control_loading_timer);
+        control_loading_timer = null;
+      }
+    }
+
+    $('#control_loading_span').html('');
+  }
+
+</script>
