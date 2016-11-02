@@ -157,12 +157,6 @@ ERROR
 PARAM
 // @desc: 越界
 OUT_OF_RANGE
-// @desc: 数据查询条件错误。参数问题.
-DB_ERROR_SQL
-// @desc: 数据连接问题.
-DB_ERROR_CONNECT
-// @desc: 数据执行错误.
-DB_ERROR
 ```
 
 #  服务端utils库

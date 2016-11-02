@@ -59,7 +59,7 @@ function dirAssure(dir) {
   var j = 0;
   var paths = new Array();
   for (var i = 0; i < dir.length; i++) {
-    if (dir[i] == '/' || dir[i] == '\\')
+    if ((dir[i] == '/' || dir[i] == '\\') && i != 0)
     {
       paths.push( dir.substring(j, i) );
       j = i+1;
@@ -168,9 +168,10 @@ exports.fileSize = function(file) {
 
 /**
  * @desc: 复制文件.
+ * @param callback: (err) => {}, 执行此函数时表示复制完成.
  * @return: bool.
  */
-exports.fileCopy = function(src, dest) {
+exports.fileCopy = function(src, dest, callback) {
   if (!src || !dest)
     return false;
 
@@ -188,6 +189,16 @@ exports.fileCopy = function(src, dest) {
   var writable = fs.createWriteStream( dest );
   // 通过管道来传输流
   readable.pipe( writable );
+  if (callback)
+    readable.on('end', function() {
+      callback(null);
+    });
+
+  readable.on('error', function(err) {
+    writable.end();
+    readable.end();
+    if (callback) callback(err);
+  });
   return true;
 }
 

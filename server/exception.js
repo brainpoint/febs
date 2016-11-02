@@ -30,20 +30,4 @@ module.exports = class extends Error {
   * @return:
   */
   static get OUT_OF_RANGE()        { return "out of range"; }
-
-  /**
-  * @desc: 数据查询条件错误。参数问题.
-  */
-  static get DB_ERROR_SQL()         { return "db sql error"; }
-
-  /**
-  * @desc: 数据连接问题.
-  */
-  static get DB_ERROR_CONNECT()       { return "db error: ENOTFOUND"; }
-
-  /**
-  * @desc: 数据执行错误.
-  */
-  static get DB_ERROR()               { return "db error"; }
-
 };

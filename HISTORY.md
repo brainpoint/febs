@@ -25,3 +25,12 @@
 1.3.7 / 2016-06-17
 ==================
   - server function file.dirRemoveRecursive/file.fileRemove return boolean to hint whether be removed.
+
+1.4.0 / 2016-10-8
+==================
+  - remove db exception.
+
+1.4.1 / 2016-10-31
+==================
+  - fix server.file.dirAssure bug.
+  

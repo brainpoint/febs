@@ -3,7 +3,17 @@
     "assert": "^1.3.0",
     "co-busboy": "^1.3.1",
     "fs": "0.0.2",
-    "path": "^0.11.14"
+    "path": "^0.11.14",
+    "promise": "^7.0.4",
+    "url": "0.10.3"
+  },
+  "description": "citong 库是一些常用的工具的合集;",
+  "devDependencies": {},
+  "directories": {},
+  "homepage": "https://github.com/brainpoint/citong#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/brainpoint/citong.git"
   },
   "files": [
     "client",
@@ -18,5 +28,6 @@
     }
   ],
   "name": "citong",
-  "version": "1.3.7"
+  "scripts": {},
+  "version": "1.4.3"
 }
