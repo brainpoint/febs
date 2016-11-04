@@ -139,3 +139,12 @@ function mergeMap()
 
   return map0;
 };
+
+
+/**
+* @desc: 判断参数是否是null,undefined,NaN
+* @return: boolean
+*/
+function isEmpty(e) {
+  return e === null || e === undefined || Number.isNaN(e);
+}

@@ -229,3 +229,12 @@ exports.denodeify = function (fn, self, argumentCount) {
     })
   }
 }
+
+
+/**
+* @desc: 判断参数是否是null,undefined,NaN
+* @return: boolean
+*/
+exports.isEmpty = function(e) {
+  return e === null || e === undefined || Number.isNaN(e);
+}

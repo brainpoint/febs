@@ -34,3 +34,6 @@
 ==================
   - fix server.file.dirAssure bug.
   
+1.5.0 / 2016-11-4
+==================
+  - add method server/client.utils.isEmpty()

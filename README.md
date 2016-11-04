@@ -82,6 +82,11 @@ getDate(strDate)
  * @return: {}
  */
 mergeMap()
+/**
+* @desc: 判断参数是否是null,undefined,NaN
+* @return: boolean
+*/
+isEmpty(e)
 ```
 
 ### crypt
@@ -211,6 +216,11 @@ mergeMap()
 * @return 生成一个uuid字符串.
 */
 uuid()
+/**
+* @desc: 判断参数是否是null,undefined,NaN
+* @return: boolean
+*/
+isEmpty(e)
 /**
 * @desc: 创建promise，但函数中的this可以为指定值.
 *         例如: yield denodeify(fs.exists)(path);
