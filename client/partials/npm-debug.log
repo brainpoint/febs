@@ -13,12 +13,12 @@
 7 silly cache add   escapedName: null,
 7 silly cache add   name: null,
 7 silly cache add   rawSpec: '.',
-7 silly cache add   spec: 'E:\\git\\citong\\client',
+7 silly cache add   spec: 'E:\\git\\citong\\client\\partials',
 7 silly cache add   type: 'local' }
-8 error addLocal Could not install E:\git\citong\client
+8 error addLocal Could not install E:\git\citong\client\partials
 9 verbose stack Error: EISDIR: illegal operation on a directory, read
 9 verbose stack     at Error (native)
-10 verbose cwd E:\git\citong\client
+10 verbose cwd E:\git\citong\client\partials
 11 error Windows_NT 6.1.7601
 12 error argv "D:\\nodejs\\node.exe" "D:\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "publish"
 13 error node v5.12.0
