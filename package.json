@@ -7,7 +7,7 @@
     "promise": "^7.0.4",
     "url": "0.10.3"
   },
-  "description": "citong 库是一些常用的工具的合集;",
+  "description": "citong is a useful utilities set",
   "devDependencies": {},
   "directories": {},
   "homepage": "https://github.com/brainpoint/citong#readme",
@@ -29,5 +29,5 @@
   ],
   "name": "citong",
   "scripts": {},
-  "version": "1.5.1"
+  "version": "1.5.2"
 }

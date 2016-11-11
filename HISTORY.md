@@ -37,3 +37,7 @@
 1.5.0 / 2016-11-4
 ==================
   - add method server/client.utils.isEmpty()
+
+1.5.2 / 2016-11-12
+==================
+  - improve client loading control.

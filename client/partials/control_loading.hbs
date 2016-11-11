@@ -5,24 +5,29 @@
   top: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(107, 107, 107, 0.6);
+  background-color: rgba(255, 255, 255, 0.0001);
   opacity: 1;
   z-index: 999999;
+  text-align: center;
 }
 .control_loading{
-    min-height: 80px;
-    min-width: 80px;
+    min-width: 150px;
+    display: inline-block;
     margin-left: auto;
     margin-right: auto;
     margin-top:200px;
+    padding-left: 10px;
+    padding-right: 10px;
     line-height:56px;
-    color:#000;
+    color:#cfcfcf;
     font-size:15px;
-    background: url(citong/client/controls/loading/loader.gif) no-repeat center 22px;
-    opacity: 0.7;
-    -moz-border-radius:20px;
-    -webkit-border-radius:20px;
-    border-radius:20px;
+    background: url(/citong/client/controls/loading/ActivityIndicator_white.gif) no-repeat center 22px;
+    background-size: 32px 32px; 
+    background-color: rgba(0, 0, 0, 0.8);
+    opacity: 1;
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    border-radius:8px;
     filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);
     z-index: 999999;
 }
