@@ -28,3 +28,14 @@ if (!global.__line) {
    }
   });
 }
+
+//
+// debug.
+//
+if (!console.debug) {
+  if ((process.env.NODE_ENV || 'development') == 'development') {
+    console.debug = console.warn;
+  } else {
+    console.debug = ()=>{}
+  }
+}

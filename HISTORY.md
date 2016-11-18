@@ -41,3 +41,7 @@
 1.5.2 / 2016-11-12
 ==================
   - improve client loading control.
+
+1.5.3 / 2016-11-18
+==================
+  - add console.debug.

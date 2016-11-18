@@ -35,10 +35,7 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
       stream.pause();
 
     process.nextTick(function () {
-      if (global.isDebug)
-      {
-        console.log('citong upload.accpet stream encoding should not be set');
-      }
+      console.debug('citong upload.accpet stream encoding should not be set');
       done(null, false)
     })
     return defer;
@@ -111,10 +108,7 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
     cleanup(err)
     if (err)
     {
-      if (global.isDebug)
-      {
-        console.log(err);
-      }
+      console.debug(err);
       done(null, false);
     }
     else
@@ -190,10 +184,7 @@ exports.accept = function*(app, conditionCB)
     var destStream = fs.createWriteStream(fn);
     if (!destStream)
     {
-      if (global.isDebug)
-      {
-        console.error('citong upload.accpet createWriteStream err:' + fn);
-      }
+      console.debug('citong upload.accpet createWriteStream err:' + fn);
 
       if (typeof srcStream.pause === 'function')
         srcStream.pause();

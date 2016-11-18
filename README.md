@@ -150,6 +150,13 @@ nav_ajax( ctx )
   - [file](#file-1)
   - [controls](#controls)
 
+定义了一些全局变量
+
+| name           | description |
+|----------------|-------------|
+| global.__line  | 当前所在行, 可以配合 global.__filename 定位错误日志   |
+| console.debug  | development 环境下输出日志  |
+
 ### file
 
 # 服务端exception
