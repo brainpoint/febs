@@ -47,8 +47,8 @@ function browserIsIOS() {
  * @desc: the browser is weixin.
  */
 function browserIsWeixin(){
-  var agent = window.navigator.userAgent.toLowerCase();
-  if(agent.match(/MicroMessenger/i)=="micromessenger") {
+  var agent = window.navigator.userAgent;
+  if(agent.match(/MicroMessenger/i)=="MicroMessenger") {
       return true;
   } else {
       return false;

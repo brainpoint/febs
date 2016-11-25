@@ -64,8 +64,8 @@ exports.browserIsPhone = function(userAgent) {
  * @desc: the browser is weixin.
  */
 exports.browserIsWeixin = function(userAgent) {
-  var agent = userAgent.toLowerCase();
-  if(agent.match(/MicroMessenger/i)=="micromessenger") {
+  var agent = userAgent;
+  if(agent.match(/MicroMessenger/i)=="MicroMessenger") {
       return true;
   } else {
       return false;
