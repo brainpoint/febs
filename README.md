@@ -56,6 +56,10 @@ browserIsIOS()
  */
 browserIsPhone()
 /**
+ * @desc: the browser is weixin.
+ */
+browserIsWeixin()
+/**
  * @desc: the browser is support html5.
  */
 browserIsSupportHtml5()
@@ -188,6 +192,11 @@ browserIsIOS(userAgent)
  * @param userAgent: the browser user agent string.
  */
 browserIsPhone(userAgent)
+/**
+ * @desc: the browser is weixin.
+ * @param userAgent: the browser user agent string.
+ */
+browserIsWeixin(userAgent)
 /**
 * @desc 无符big整型.
 */

@@ -59,6 +59,19 @@ exports.browserIsPhone = function(userAgent) {
   return agent.match(expression) != null;
 }
 
+
+/**
+ * @desc: the browser is weixin.
+ */
+exports.browserIsWeixin = function(userAgent) {
+  var agent = userAgent.toLowerCase();
+  if(agent.match(/MicroMessenger/i)=="micromessenger") {
+      return true;
+  } else {
+      return false;
+  }
+}
+
 /**
 * @desc 无符big整型.
 */
