@@ -7,12 +7,12 @@ citong web库分为客户端与服务器端;
   - [ajax](#ajax)
   - [controls](#controls)
 - [服务端](#server)
-  - [exception](#服务端exception)
-  - [utils](#服务端utils库)
-  - [string](#服务端string库)
-  - [crypt](#服务端crypt库)
-  - [file](#服务端file库)
-  - [controls](#服务端controls库)
+  - [exception](#server-side-exception)
+  - [utils](#server-side-utils)
+  - [string](#server-side-string)
+  - [crypt](#server-side-crypt)
+  - [file](#server-side-file)
+  - [controls](#controls)
 
 ##### 1. 网页模板在前端库中:
   citong/client/partials
@@ -35,11 +35,6 @@ citong web库分为客户端与服务器端;
 <script src="jquery.form.min.js"></script>
 <script src="citong/client/citong.js"></script>
 ```
-提供如下功能:
-  - [utils](#utils)
-  - [crypt](#crypt)
-  - [ajax](#ajax)
-  - [controls](#controls)
 
 ***
 ### utils
@@ -175,12 +170,6 @@ nav_ajax( ctx )
 
 # server
 ***
-  - [exception](#服务端exception)
-  - [utils](#服务端utils库)
-  - [string](#服务端string库)
-  - [crypt](#服务端crypt库)
-  - [file](#服务端file库)
-  - [controls](#服务端controls库)
 
 定义了一些全局变量
 
@@ -189,7 +178,7 @@ nav_ajax( ctx )
 | global.__line  | 当前所在行, 可以配合 global.__filename 定位错误日志   |
 | console.debug  | development 环境下输出日志  |
 
-# 服务端exception
+# server-side-exception
 定义了常用的错误类型.
 ```js
 
@@ -201,7 +190,7 @@ PARAM
 OUT_OF_RANGE
 ```
 
-#  服务端utils库
+#  server-side-utils
 ```js
 /**
  * @desc: the browser is mobile.
@@ -272,7 +261,7 @@ isEmpty(e)
 denodeify(fn, self, argumentCount)
 ```
 
-#  服务端string库
+#  server-side-string
 ```js
 /**
 * @desc: 判断是否是手机号码.
@@ -296,7 +285,7 @@ getByteSize(s)
 replace(str, strSrc, strDest)
 ```
 
-#  服务端crypt库
+#  server-side-crypt
 ```js
 /**
  * @desc: 计算crc32值.
@@ -311,7 +300,7 @@ crc32( str, crc )
 crc32_file( filename )
 ```
 
-#  服务端file库
+#  server-side-file
 ```js
 /**
  * @desc: 判断文件夹是否存在.
@@ -352,7 +341,7 @@ fileRemove(file)
 ```
 
 
-# 服务端controls库
+# controls
 
 ### loading
 ```js
