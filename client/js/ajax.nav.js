@@ -18,7 +18,7 @@ var nav_callback = null;
 var nav_url_equal_callback = null;
 var nav_ajax_count = 0;
 var nav_cur_url = null;
-var nav_options;
+var nav_options = {defaultTimeout:10000};
 
 
 /**
