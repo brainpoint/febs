@@ -45,3 +45,13 @@
 1.5.3 / 2016-11-18
 ==================
   - add console.debug.
+
+2.0.0 / 2016-12-5
+==================
+  - add nav_init(..., options).
+  - remove client.isPhoneMobile
+  - add client.str_isPhoneMobile
+  - add client.str_isEmpty
+  - add client.str_getByteSize
+  - add client.str_replace
+

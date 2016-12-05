@@ -2,7 +2,17 @@ citong 库是一些常用的工具的合集;
 
 citong web库分为客户端与服务器端;
 - [客户端](#client)
+  - [utils](#utils)
+  - [crypt](#crypt)
+  - [ajax](#ajax)
+  - [controls](#controls)
 - [服务端](#server)
+  - [exception](#服务端exception)
+  - [utils](#服务端utils库)
+  - [string](#服务端string库)
+  - [crypt](#服务端crypt库)
+  - [file](#服务端file库)
+  - [controls](#服务端controls库)
 
 ##### 1. 网页模板在前端库中:
   citong/client/partials
@@ -38,11 +48,6 @@ citong web库分为客户端与服务器端;
 * @return 生成一个uuid字符串.
 */
 uuid()
-/**
-* @desc: 判断是否是手机号码.
-* @return: boolean.
-*/
-isPhoneMobile(str)
 /**
  * @desc: the browser is mobile.
  */
@@ -91,6 +96,26 @@ mergeMap()
 * @return: boolean
 */
 isEmpty(e)
+/**
+* @desc: 判断是否是手机号码.
+* @return: boolean.
+*/
+str_isPhoneMobile(str)
+/**
+ * @desc: 是否为空串.
+ * @return: boolean.
+ */
+str_isEmpty(s) 
+/**
+ * @desc: 获得字符串utf8编码后的字节长度.
+ * @return: u32.
+ */
+str_getByteSize(s)
+/**
+ * @desc: 替换字符串中所有的strSrc->strDest.
+ * @return: string.
+ */
+str_replace(str, strSrc, strDest)
 ```
 
 ### crypt
@@ -112,11 +137,14 @@ crc32_file(file, cb)
 ```js
 /**
  * @desc: 使用跳转函数初始化.
- *          navCallback(object)
- *          urlObjEquelCallback(obj1, obj2) : bool
+ * @param navCallback: function(object); 触发页面切换时的回调.
+ * @param urlObjEquelCallback: function(obj1, obj2) : bool; 判断两个页面是否相等.
+ * @param options: {
+                     defaultTimeout: 10000,
+                   }
  * @return:
  */
-nav_init(navCallback, urlObjEquelCallback)
+nav_init(navCallback, urlObjEquelCallback, options)
 /**
  * @desc: 跳转至指定位置.
  * @param urlObject: null则当前页面刷新.
@@ -147,12 +175,12 @@ nav_ajax( ctx )
 
 # server
 ***
-  - [exception](#exception)
-  - [utils](#utils-1)
-  - [string](#string)
-  - [crypt](#crypt-1)
-  - [file](#file-1)
-  - [controls](#controls)
+  - [exception](#服务端exception)
+  - [utils](#服务端utils库)
+  - [string](#服务端string库)
+  - [crypt](#服务端crypt库)
+  - [file](#服务端file库)
+  - [controls](#服务端controls库)
 
 定义了一些全局变量
 
@@ -160,8 +188,6 @@ nav_ajax( ctx )
 |----------------|-------------|
 | global.__line  | 当前所在行, 可以配合 global.__filename 定位错误日志   |
 | console.debug  | development 环境下输出日志  |
-
-### file
 
 # 服务端exception
 定义了常用的错误类型.
@@ -314,9 +340,10 @@ fileSize(file)
 fileIsExist(file)
 /**
  * @desc: 复制文件.
+ * @param callback: (err) => {}, 执行此函数时表示复制完成.
  * @return: bool.
  */
-fileCopy(src, dest)
+fileCopy(src, dest, callback)
 /**
  * @desc: 移除文件.
  * @return: bool.指明是否删除.

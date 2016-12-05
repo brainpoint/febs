@@ -18,6 +18,7 @@ var nav_callback = null;
 var nav_url_equal_callback = null;
 var nav_ajax_count = 0;
 var nav_cur_url = null;
+var nav_options;
 
 
 /**
@@ -45,16 +46,23 @@ function nav_ajax( ctx )
       }
     }
   } // if.
+
+  if (!ctx.timeout)
+    ctx.timeout = nav_options.defaultTimeout;
+
   jQuery.ajax(ctx);
 }
 
 /**
  * @desc: 使用跳转函数初始化.
- *          navCallback(object)
- *          urlObjEquelCallback(obj1, obj2) : bool
+ * @param navCallback: function(object); 触发页面切换时的回调.
+ * @param urlObjEquelCallback: function(obj1, obj2) : bool; 判断两个页面是否相等.
+ * @param options: {
+                     defaultTimeout: 10000,
+                   }
  * @return:
  */
-function nav_init(navCallback, urlObjEquelCallback)
+function nav_init(navCallback, urlObjEquelCallback, options)
 {
   document.onkeydown = function(e){
     e = window.event || e;
@@ -70,6 +78,10 @@ function nav_init(navCallback, urlObjEquelCallback)
     }
   }
 
+  options = options||{};
+  options.defaultTimeout = options.defaultTimeout||10000;
+
+  nav_options = options;
   nav_callback = navCallback;
   nav_url_equal_callback = urlObjEquelCallback;
 }

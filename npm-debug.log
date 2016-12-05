@@ -1,8 +1,6 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'D:\\nodejs\\node.exe',
-1 verbose cli   'D:\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
-1 verbose cli   'publish' ]
-2 info using npm@3.10.8
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@3.8.6
 3 info using node@v5.12.0
 4 verbose publish [ '.' ]
 5 silly cache add args [ '.', null ]
@@ -10,25 +8,24 @@
 7 silly cache add parsed spec Result {
 7 silly cache add   raw: '.',
 7 silly cache add   scope: null,
-7 silly cache add   escapedName: null,
 7 silly cache add   name: null,
 7 silly cache add   rawSpec: '.',
-7 silly cache add   spec: 'E:\\git\\citong',
+7 silly cache add   spec: '/Users/brainpoint/Project/git/citong',
 7 silly cache add   type: 'directory' }
-8 verbose addLocalDirectory D:\nodejs\cache\citong\1.5.3\package.tgz not in flight; packing
-9 verbose correctMkdir D:\nodejs\cache correctMkdir not in flight; initializing
-10 info lifecycle citong@1.5.3~prepublish: citong@1.5.3
-11 silly lifecycle citong@1.5.3~prepublish: no script for prepublish, continuing
-12 verbose tar pack [ 'D:\\nodejs\\cache\\citong\\1.5.3\\package.tgz',
-12 verbose tar pack   'E:\\git\\citong' ]
-13 verbose tarball D:\nodejs\cache\citong\1.5.3\package.tgz
-14 verbose folder E:\git\citong
-15 verbose addLocalTarball adding from inside cache D:\nodejs\cache\citong\1.5.3\package.tgz
-16 verbose correctMkdir D:\nodejs\cache correctMkdir not in flight; initializing
-17 silly cache afterAdd citong@1.5.3
-18 verbose afterAdd D:\nodejs\cache\citong\1.5.3\package\package.json not in flight; writing
-19 verbose correctMkdir D:\nodejs\cache correctMkdir not in flight; initializing
-20 verbose afterAdd D:\nodejs\cache\citong\1.5.3\package\package.json written
+8 verbose addLocalDirectory /Users/brainpoint/.npm/citong/1.5.5/package.tgz not in flight; packing
+9 verbose correctMkdir /Users/brainpoint/.npm correctMkdir not in flight; initializing
+10 info lifecycle citong@1.5.5~prepublish: citong@1.5.5
+11 silly lifecycle citong@1.5.5~prepublish: no script for prepublish, continuing
+12 verbose tar pack [ '/Users/brainpoint/.npm/citong/1.5.5/package.tgz',
+12 verbose tar pack   '/Users/brainpoint/Project/git/citong' ]
+13 verbose tarball /Users/brainpoint/.npm/citong/1.5.5/package.tgz
+14 verbose folder /Users/brainpoint/Project/git/citong
+15 verbose addLocalTarball adding from inside cache /Users/brainpoint/.npm/citong/1.5.5/package.tgz
+16 verbose correctMkdir /Users/brainpoint/.npm correctMkdir not in flight; initializing
+17 silly cache afterAdd citong@1.5.5
+18 verbose afterAdd /Users/brainpoint/.npm/citong/1.5.5/package/package.json not in flight; writing
+19 verbose correctMkdir /Users/brainpoint/.npm correctMkdir not in flight; initializing
+20 verbose afterAdd /Users/brainpoint/.npm/citong/1.5.5/package/package.json written
 21 silly publish { dependencies:
 21 silly publish    { assert: '^1.3.0',
 21 silly publish      'co-busboy': '^1.3.1',
@@ -49,13 +46,13 @@
 21 silly publish   maintainers: [ { name: 'brainpoint', email: 'bpoint.lee@gmail.com' } ],
 21 silly publish   name: 'citong',
 21 silly publish   scripts: {},
-21 silly publish   version: '1.5.3',
-21 silly publish   readme: 'citong 库是一些常用的工具的合集;\r\n\r\ncitong web库分为客户端与服务器端;\r\n- [客户端](#client)\r\n- [服务端](#server)\r\n\r\n##### 1. 网页模板在前端库中:\r\n  citong/client/partials\r\n##### 2. 各个控件使用说明请参看后台库\r\n  citong/server/controls\r\n##### 3. 服务端库分为\r\n  exception,\r\n  utils,\r\n  controls,\r\n  file,\r\n  string,\r\n  crypt\r\n\r\n\r\n# client\r\n***\r\n浏览器前端库在位置citong/client中, 可以在浏览器中如下使用; 在使用前需引入jquery的两个库\r\n```js\r\n<script src="jquery.min.js"></script>\r\n<script src="jquery.form.min.js"></script>\r\n<script src="citong/client/citong.js"></script>\r\n```\r\n提供如下功能:\r\n  - [utils](#utils)\r\n  - [crypt](#crypt)\r\n  - [ajax](#ajax)\r\n  - [controls](#controls)\r\n\r\n***\r\n### utils\r\n```js\r\n/**\r\n* @return 生成一个uuid字符串.\r\n*/\r\nuuid()\r\n/**\r\n* @desc: 判断是否是手机号码.\r\n* @return: boolean.\r\n*/\r\nisPhoneMobile(str)\r\n/**\r\n * @desc: the browser is mobile.\r\n */\r\nbrowserIsMobile()\r\n/**\r\n * @desc: the browser is ios.\r\n */\r\nbrowserIsIOS()\r\n/**\r\n * @desc: the browser is phone.\r\n */\r\nbrowserIsPhone()\r\n/**\r\n * @desc: the browser is support html5.\r\n */\r\nbrowserIsSupportHtml5()\r\n\r\n/**\r\n * @desc: 获取时间的string.\r\n * @param time: 秒数.\r\n * @return: string. xxxx-xx-xx / xx:xx:xx\r\n */\r\ngetTimeString(time)\r\n/**\r\n * @desc: 获取日期的string.\r\n * @param time: 秒数.\r\n * @return: string. xxxx-xx-xx\r\n */\r\ngetDateString(time)\r\n/**\r\n * @desc: getDate(\'2012-05-09\')\r\n * @return: Date.\r\n */\r\ngetDate(strDate)\r\n/**\r\n * @desc: 合并多个map.\r\n * @return: {}\r\n */\r\nmergeMap()\r\n/**\r\n* @desc: 判断参数是否是null,undefined,NaN\r\n* @return: boolean\r\n*/\r\nisEmpty(e)\r\n```\r\n\r\n### crypt\r\n```js\r\n/**\r\n * @desc: 计算字符串的crc32值\r\n * @param crc 可以在这个值得基础上继续计算\r\n * @return: number.\r\n */\r\ncrc32( /* String */ str, /* Number */ crc )\r\n/**\r\n * @desc:\r\n * @param cb: cb(crc32)\r\n * @return:\r\n */\r\ncrc32_file(file, cb)\r\n```\r\n### ajax\r\n```js\r\n/**\r\n * @desc: 使用跳转函数初始化.\r\n *          navCallback(object)\r\n *          urlObjEquelCallback(obj1, obj2) : bool\r\n * @return:\r\n */\r\nnav_init(navCallback, urlObjEquelCallback)\r\n/**\r\n * @desc: 跳转至指定位置.\r\n * @param urlObject: null则当前页面刷新.\r\n * @return:\r\n */\r\nnav_go(urlObject)\r\n/**\r\n * @desc: 刷新页面.\r\n */\r\nnav_refresh()\r\n/**\r\n * @desc 刷新指定元素.\r\n */\r\nnav_refresh_elem(elem, url);\r\n/**\r\n * @desc: ajax 跳转.\r\n * @param ctx:例如: (详见jquery.ajax)\r\n    {\r\n     type: "GET",\r\n     url: url,\r\n     data: null,\r\n     success: cb\r\n   }\r\n * @return:\r\n */\r\nnav_ajax( ctx )\r\n```\r\n\r\n# server\r\n***\r\n  - [exception](#exception)\r\n  - [utils](#utils-1)\r\n  - [string](#string)\r\n  - [crypt](#crypt-1)\r\n  - [file](#file-1)\r\n  - [controls](#controls)\r\n\r\n定义了一些全局变量\r\n\r\n| name           | description |\r\n|----------------|-------------|\r\n| global.__line  | 当前所在行, 可以配合 global.__filename 定位错误日志   |\r\n| console.debug  | development 环境下输出日志  |\r\n\r\n### file\r\n\r\n# 服务端exception\r\n定义了常用的错误类型.\r\n```js\r\n\r\n// @desc: 一般错误.\r\nERROR\r\n// @desc: 参数错误.\r\nPARAM\r\n// @desc: 越界\r\nOUT_OF_RANGE\r\n```\r\n\r\n#  服务端utils库\r\n```js\r\n/**\r\n * @desc: the browser is mobile.\r\n * @param userAgent: the browser user agent string.\r\n */\r\nbrowserIsMobile(userAgent)\r\n/**\r\n * @desc: the browser is ios.\r\n * @param userAgent: the browser user agent string.\r\n */\r\nbrowserIsIOS(userAgent)\r\n/**\r\n * @desc: the browser is phone.\r\n * @param userAgent: the browser user agent string.\r\n */\r\nbrowserIsPhone(userAgent)\r\n/**\r\n* @desc 无符big整型.\r\n*/\r\nisBigint_u()\r\n/**\r\n* @desc 比较两个unsign-big整型的大小(假设两个都是合法的unsign-big整型).\r\n* @return a>b(>0); a==b(=0); a<b(<0).\r\n*/\r\nbigint_u_cmp(a,b)\r\n/**\r\n * @desc: 获取时间的string.\r\n * @param time: 秒数.\r\n * @return: string. xxxx-xx-xx / xx:xx:xx\r\n */\r\ngetTimeString(time)\r\n/**\r\n * @desc: 获取日期的string.\r\n * @param time: 秒数.\r\n * @return: string. xxxx-xx-xx\r\n */\r\ngetDateString(time)\r\n/**\r\n * @desc: getDate(\'2012-05-09\')\r\n * @return: Date.\r\n */\r\ngetDate(strDate)\r\n/**\r\n * @desc: 合并多个map.\r\n * @return: {}\r\n */\r\nmergeMap()\r\n/**\r\n* @return 生成一个uuid字符串.\r\n*/\r\nuuid()\r\n/**\r\n* @desc: 判断参数是否是null,undefined,NaN\r\n* @return: boolean\r\n*/\r\nisEmpty(e)\r\n/**\r\n* @desc: 创建promise，但函数中的this可以为指定值.\r\n*         例如: yield denodeify(fs.exists)(path);\r\n* @param self: 指定的对象.s\r\n* @return: promise.\r\n*/\r\ndenodeify(fn, self, argumentCount)\r\n```\r\n\r\n#  服务端string库\r\n```js\r\n/**\r\n* @desc: 判断是否是手机号码.\r\n* @return: boolean.\r\n*/\r\nisPhoneMobile(str)\r\n/**\r\n * @desc: 是否为空串.\r\n * @return: boolean.\r\n */\r\nisEmpty(s)\r\n/**\r\n * @desc: 获得字符串utf8编码后的字节长度.\r\n * @return: u32.\r\n */\r\ngetByteSize(s)\r\n/**\r\n * @desc: 替换字符串中所有的strSrc->strDest.\r\n * @return: string.\r\n */\r\nreplace(str, strSrc, strDest)\r\n```\r\n\r\n#  服务端crypt库\r\n```js\r\n/**\r\n * @desc: 计算crc32值.\r\n * @param str: string, buffer.\r\n * @return: crc32.\r\n */\r\ncrc32( str, crc )\r\n/**\r\n * @desc: 计算文件的crc32\r\n * @return:u32. crc32\r\n */\r\ncrc32_file( filename )\r\n```\r\n\r\n#  服务端file库\r\n```js\r\n/**\r\n * @desc: 判断文件夹是否存在.\r\n * @return: boolean.\r\n */\r\ndirIsExist(dir)\r\n/**\r\n * @desc: 保证文件夹存在.\r\n * @return: bool. 若不存在新建; 文件夹存在返回true.\r\n */\r\ndirAssure(dir)\r\n/**\r\n * @desc: 删除文件夹.\r\n * @return:bool.指明是否删除.\r\n */\r\ndirRemoveRecursive(dir)\r\n/**\r\n * @desc: 获得文件的字节大小.\r\n * @return: number.-1表示错误.\r\n */\r\nfileSize(file)\r\n/**\r\n * @desc: 判断文件是否存在.\r\n * @return: boolean.\r\n */\r\nfileIsExist(file)\r\n/**\r\n * @desc: 复制文件.\r\n * @return: bool.\r\n */\r\nfileCopy(src, dest)\r\n/**\r\n * @desc: 移除文件.\r\n * @return: bool.指明是否删除.\r\n */\r\nfileRemove(file)\r\n```\r\n\r\n\r\n# 服务端controls库\r\n\r\n### loading\r\n```js\r\n/**\r\n * Example:\r\n *      前台引入:\r\n *          1. control_loading.hbs页面\r\n *          2. 使用脚本\r\n *              // 使用延时显示加载框.\r\n *              control_loading_show(text, timeout);\r\n *\r\n *              // 通过文本改变方式显示加载框.\r\n *              // changeTextCB: 设置文本的函数. elemFunc(text)\r\n *              // textArray: 变化的文本数组.\r\n *              // hideCB:  隐藏加载框时的设置文本的函数. hideCB().\r\n *              control_loading_show_text(textArray, changeTextCB, hideCB);\r\n *            \r\n *              // 隐藏加载框.\r\n *              control_loading_hide();\r\n */\r\n ```\r\n\r\n### page\r\n```js\r\n/**\r\n* Example:\r\n*      前台引入:\r\n*          1. 在需要page的页面上引入 control_page.hbs页面\r\n*          2. 实现脚本: control_page_to(page); 当分页按钮被点击时将执行此函数.\r\n*      后台:\r\n*          1. var ctx = require(\'citong\').controls.page.renderCtx(curPage, pageCount, totalCount);\r\n*          2. 将ctx加入到render ctx中即可.\r\n*/\r\n```\r\n\r\n### upload\r\n```js\r\n/**\r\n * Desc:\r\n *      upload控件使用一个接口来上传文件, 使用multpart/form-data方式传输:\r\n *          1. uploadUrl: 上传文件.\r\n * Example:\r\n *      前台引入:\r\n *          1. 在需要upload的页面上引入 control_upload.hbs页面; 或者使用如下语句:\r\n *                <form method="post" role="form" enctype="multipart/form-data" id="fileForm">\r\n *                  <input type="file" class="form-control" name="file" onchange="control_upload(cfg)" multiple>\r\n *                </form>\r\n *          2. 调用脚本进行初始化设置: control_upload_init(uploadUrl, finishCB, progressCB);\r\n *                        其中 uploadUrl为上传地址, 不能带参数.\r\n *      后台:\r\n *          1. 在uploadUrl中调用  yield require(\'citong\').controls.upload.accept(app, conditionCB); 当满足条件时将存储, 并返回true表示成功.\r\n *\r\n *\r\n *\r\n * 客户端.\r\n ** 需要 jquery,jquery.form 库支持.\r\n  * 并且 <input type="file" name="file"... 中, 必须存在name属性.\r\n  * 使用post方式上传文件.\r\n  * @param cfg:  object, 其中\r\n  *              {\r\n  *                formObj:    , // 含有enctype="multipart/form-data"的form\r\n  *                fileObj:    , // form中的file对象\r\n  *                uploadUrl:  , // 上传文件内容的url. 系统将自动使用 uploadUrl?crc32=&size=的方式来上传.\r\n  *                maxFileSize:    , // 允许上传的最大文件.0表示无限制.默认为0\r\n  *                fileType:     , // 允许的文件类型.  如: image/gif,image/jpeg,image/x-png\r\n  *                finishCB:    , // 上传完成后的回调. function(err, fileObj, serverData)\r\n  *                               //                   err:  - \'no file\'      未选择文件.\r\n  *                               //                         - \'size too big\' 文件太大.\r\n  *                               //                         - \'check crc32 err\' 计算本地文件hash值时错误.\r\n  *                               //                         - \'ajax err\'     ajax上传时出错.\r\n  *                               //                   serverData: 服务器返回的数据.\r\n  *                progressCB:  , // 上传进度的回调. function(fileObj, percent)\r\n  *              }\r\n  * function control_upload(cfg)\r\n  *\r\n * 服务端.\r\n  ***\r\n  * 接收上传文件内容.\r\n  * @param conditionCB: function*(filesize, filename, filemimeType):string.\r\n  *                      - filesize: 将要存储的文件大小.\r\n  *                      - filename: 上传的文件名.\r\n  *                      - filemimeType: 文件类型, 例如: \'image/jpeg\'.\r\n  *                      - return: 存储的文件路径, 返回null表示不存储.\r\n  * @return boolean.\r\n  *\r\n  * function *accept(app, conditionCB)\r\n  */\r\n```\r\n完整例子\r\n后台:\r\n```js\r\nexports.upload = function*(next)\r\n{\r\n  var r = yield require(\'citong\').controls.upload.accept(this, function*(filesize, filename, filemimeType){\r\n    console.log(filesize);\r\n    console.log(filename);\r\n    console.log(filemimeType);\r\n\r\n    return \'tempPath/temp.filename\';\r\n  });\r\n};\r\n\r\n```\r\n前台:\r\n```js\r\n<script type="text/javascript" charset="utf-8" src="/jquery/jquery.min.js"></script>\r\n<script type="text/javascript" charset="utf-8" src="/jquery/jquery.form.min.js"></script>\r\n\r\n<script type="text/javascript">\r\nfunction upload() {\r\n  control_upload({\r\n    formObj:  $(\'#fileForm\'),\r\n    fileObj:  $("#filec"),\r\n    uploadUrl:  \'/uploadFile\',\r\n    finishCB: function(err, fileObj, serverData){\r\n      console.log(serverData);\r\n    },\r\n    progressCB: function(fileObj, percent){\r\n      console.log(percent);\r\n    })\r\n  });\r\n\r\n}\r\n</script>\r\n\r\n<form method="post" role="form" enctype="multipart/form-data" id="fileForm">\r\n  <input id="filec" type="file" name="file" onchange="javascript:upload()" multiple>\r\n</form>\r\n```\r\n',
+21 silly publish   version: '1.5.5',
+21 silly publish   readme: 'citong 库是一些常用的工具的合集;\n\ncitong web库分为客户端与服务器端;\n- [客户端](#client)\n- [服务端](#server)\n\n##### 1. 网页模板在前端库中:\n  citong/client/partials\n##### 2. 各个控件使用说明请参看后台库\n  citong/server/controls\n##### 3. 服务端库分为\n  exception,\n  utils,\n  controls,\n  file,\n  string,\n  crypt\n\n\n# client\n***\n浏览器前端库在位置citong/client中, 可以在浏览器中如下使用; 在使用前需引入jquery的两个库\n```js\n<script src="jquery.min.js"></script>\n<script src="jquery.form.min.js"></script>\n<script src="citong/client/citong.js"></script>\n```\n提供如下功能:\n  - [utils](#utils)\n  - [crypt](#crypt)\n  - [ajax](#ajax)\n  - [controls](#controls)\n\n***\n### utils\n```js\n/**\n* @return 生成一个uuid字符串.\n*/\nuuid()\n/**\n* @desc: 判断是否是手机号码.\n* @return: boolean.\n*/\nisPhoneMobile(str)\n/**\n * @desc: the browser is mobile.\n */\nbrowserIsMobile()\n/**\n * @desc: the browser is ios.\n */\nbrowserIsIOS()\n/**\n * @desc: the browser is phone.\n */\nbrowserIsPhone()\n/**\n * @desc: the browser is weixin.\n */\nbrowserIsWeixin()\n/**\n * @desc: the browser is support html5.\n */\nbrowserIsSupportHtml5()\n\n/**\n * @desc: 获取时间的string.\n * @param time: 秒数.\n * @return: string. xxxx-xx-xx / xx:xx:xx\n */\ngetTimeString(time)\n/**\n * @desc: 获取日期的string.\n * @param time: 秒数.\n * @return: string. xxxx-xx-xx\n */\ngetDateString(time)\n/**\n * @desc: getDate(\'2012-05-09\')\n * @return: Date.\n */\ngetDate(strDate)\n/**\n * @desc: 合并多个map.\n * @return: {}\n */\nmergeMap()\n/**\n* @desc: 判断参数是否是null,undefined,NaN\n* @return: boolean\n*/\nisEmpty(e)\n```\n\n### crypt\n```js\n/**\n * @desc: 计算字符串的crc32值\n * @param crc 可以在这个值得基础上继续计算\n * @return: number.\n */\ncrc32( /* String */ str, /* Number */ crc )\n/**\n * @desc:\n * @param cb: cb(crc32)\n * @return:\n */\ncrc32_file(file, cb)\n```\n### ajax\n```js\n/**\n * @desc: 使用跳转函数初始化.\n * @param navCallback: function(object); 触发页面切换时的回调.\n * @param urlObjEquelCallback: function(obj1, obj2) : bool; 判断两个页面是否相等.\n * @param options: {\n                     defaultTimeout: 10000,\n                   }\n * @return:\n */\nnav_init(navCallback, urlObjEquelCallback, options)\n/**\n * @desc: 跳转至指定位置.\n * @param urlObject: null则当前页面刷新.\n * @return:\n */\nnav_go(urlObject)\n/**\n * @desc: 刷新页面.\n */\nnav_refresh()\n/**\n * @desc 刷新指定元素.\n */\nnav_refresh_elem(elem, url);\n/**\n * @desc: ajax 跳转.\n * @param ctx:例如: (详见jquery.ajax)\n    {\n     type: "GET",\n     url: url,\n     data: null,\n     success: cb\n   }\n * @return:\n */\nnav_ajax( ctx )\n```\n\n# server\n***\n  - [exception](#exception)\n  - [utils](#utils-1)\n  - [string](#string)\n  - [crypt](#crypt-1)\n  - [file](#file-1)\n  - [controls](#controls)\n\n定义了一些全局变量\n\n| name           | description |\n|----------------|-------------|\n| global.__line  | 当前所在行, 可以配合 global.__filename 定位错误日志   |\n| console.debug  | development 环境下输出日志  |\n\n### file\n\n# 服务端exception\n定义了常用的错误类型.\n```js\n\n// @desc: 一般错误.\nERROR\n// @desc: 参数错误.\nPARAM\n// @desc: 越界\nOUT_OF_RANGE\n```\n\n#  服务端utils库\n```js\n/**\n * @desc: the browser is mobile.\n * @param userAgent: the browser user agent string.\n */\nbrowserIsMobile(userAgent)\n/**\n * @desc: the browser is ios.\n * @param userAgent: the browser user agent string.\n */\nbrowserIsIOS(userAgent)\n/**\n * @desc: the browser is phone.\n * @param userAgent: the browser user agent string.\n */\nbrowserIsPhone(userAgent)\n/**\n * @desc: the browser is weixin.\n * @param userAgent: the browser user agent string.\n */\nbrowserIsWeixin(userAgent)\n/**\n* @desc 无符big整型.\n*/\nisBigint_u()\n/**\n* @desc 比较两个unsign-big整型的大小(假设两个都是合法的unsign-big整型).\n* @return a>b(>0); a==b(=0); a<b(<0).\n*/\nbigint_u_cmp(a,b)\n/**\n * @desc: 获取时间的string.\n * @param time: 秒数.\n * @return: string. xxxx-xx-xx / xx:xx:xx\n */\ngetTimeString(time)\n/**\n * @desc: 获取日期的string.\n * @param time: 秒数.\n * @return: string. xxxx-xx-xx\n */\ngetDateString(time)\n/**\n * @desc: getDate(\'2012-05-09\')\n * @return: Date.\n */\ngetDate(strDate)\n/**\n * @desc: 合并多个map.\n * @return: {}\n */\nmergeMap()\n/**\n* @return 生成一个uuid字符串.\n*/\nuuid()\n/**\n* @desc: 判断参数是否是null,undefined,NaN\n* @return: boolean\n*/\nisEmpty(e)\n/**\n* @desc: 创建promise，但函数中的this可以为指定值.\n*         例如: yield denodeify(fs.exists)(path);\n* @param self: 指定的对象.s\n* @return: promise.\n*/\ndenodeify(fn, self, argumentCount)\n```\n\n#  服务端string库\n```js\n/**\n* @desc: 判断是否是手机号码.\n* @return: boolean.\n*/\nisPhoneMobile(str)\n/**\n * @desc: 是否为空串.\n * @return: boolean.\n */\nisEmpty(s)\n/**\n * @desc: 获得字符串utf8编码后的字节长度.\n * @return: u32.\n */\ngetByteSize(s)\n/**\n * @desc: 替换字符串中所有的strSrc->strDest.\n * @return: string.\n */\nreplace(str, strSrc, strDest)\n```\n\n#  服务端crypt库\n```js\n/**\n * @desc: 计算crc32值.\n * @param str: string, buffer.\n * @return: crc32.\n */\ncrc32( str, crc )\n/**\n * @desc: 计算文件的crc32\n * @return:u32. crc32\n */\ncrc32_file( filename )\n```\n\n#  服务端file库\n```js\n/**\n * @desc: 判断文件夹是否存在.\n * @return: boolean.\n */\ndirIsExist(dir)\n/**\n * @desc: 保证文件夹存在.\n * @return: bool. 若不存在新建; 文件夹存在返回true.\n */\ndirAssure(dir)\n/**\n * @desc: 删除文件夹.\n * @return:bool.指明是否删除.\n */\ndirRemoveRecursive(dir)\n/**\n * @desc: 获得文件的字节大小.\n * @return: number.-1表示错误.\n */\nfileSize(file)\n/**\n * @desc: 判断文件是否存在.\n * @return: boolean.\n */\nfileIsExist(file)\n/**\n * @desc: 复制文件.\n * @return: bool.\n */\nfileCopy(src, dest)\n/**\n * @desc: 移除文件.\n * @return: bool.指明是否删除.\n */\nfileRemove(file)\n```\n\n\n# 服务端controls库\n\n### loading\n```js\n/**\n * Example:\n *      前台引入:\n *          1. control_loading.hbs页面\n *          2. 使用脚本\n *              // 使用延时显示加载框.\n *              control_loading_show(text, timeout);\n *\n *              // 通过文本改变方式显示加载框.\n *              // changeTextCB: 设置文本的函数. elemFunc(text)\n *              // textArray: 变化的文本数组.\n *              // hideCB:  隐藏加载框时的设置文本的函数. hideCB().\n *              control_loading_show_text(textArray, changeTextCB, hideCB);\n *            \n *              // 隐藏加载框.\n *              control_loading_hide();\n */\n ```\n\n### page\n```js\n/**\n* Example:\n*      前台引入:\n*          1. 在需要page的页面上引入 control_page.hbs页面\n*          2. 实现脚本: control_page_to(page); 当分页按钮被点击时将执行此函数.\n*      后台:\n*          1. var ctx = require(\'citong\').controls.page.renderCtx(curPage, pageCount, totalCount);\n*          2. 将ctx加入到render ctx中即可.\n*/\n```\n\n### upload\n```js\n/**\n * Desc:\n *      upload控件使用一个接口来上传文件, 使用multpart/form-data方式传输:\n *          1. uploadUrl: 上传文件.\n * Example:\n *      前台引入:\n *          1. 在需要upload的页面上引入 control_upload.hbs页面; 或者使用如下语句:\n *                <form method="post" role="form" enctype="multipart/form-data" id="fileForm">\n *                  <input type="file" class="form-control" name="file" onchange="control_upload(cfg)" multiple>\n *                </form>\n *          2. 调用脚本进行初始化设置: control_upload_init(uploadUrl, finishCB, progressCB);\n *                        其中 uploadUrl为上传地址, 不能带参数.\n *      后台:\n *          1. 在uploadUrl中调用  yield require(\'citong\').controls.upload.accept(app, conditionCB); 当满足条件时将存储, 并返回true表示成功.\n *\n *\n *\n * 客户端.\n ** 需要 jquery,jquery.form 库支持.\n  * 并且 <input type="file" name="file"... 中, 必须存在name属性.\n  * 使用post方式上传文件.\n  * @param cfg:  object, 其中\n  *              {\n  *                formObj:    , // 含有enctype="multipart/form-data"的form\n  *                fileObj:    , // form中的file对象\n  *                uploadUrl:  , // 上传文件内容的url. 系统将自动使用 uploadUrl?crc32=&size=的方式来上传.\n  *                maxFileSize:    , // 允许上传的最大文件.0表示无限制.默认为0\n  *                fileType:     , // 允许的文件类型.  如: image/gif,image/jpeg,image/x-png\n  *                finishCB:    , // 上传完成后的回调. function(err, fileObj, serverData)\n  *                               //                   err:  - \'no file\'      未选择文件.\n  *                               //                         - \'size too big\' 文件太大.\n  *                               //                         - \'check crc32 err\' 计算本地文件hash值时错误.\n  *                               //                         - \'ajax err\'     ajax上传时出错.\n  *                               //                   serverData: 服务器返回的数据.\n  *                progressCB:  , // 上传进度的回调. function(fileObj, percent)\n  *              }\n  * function control_upload(cfg)\n  *\n * 服务端.\n  ***\n  * 接收上传文件内容.\n  * @param conditionCB: function*(filesize, filename, filemimeType):string.\n  *                      - filesize: 将要存储的文件大小.\n  *                      - filename: 上传的文件名.\n  *                      - filemimeType: 文件类型, 例如: \'image/jpeg\'.\n  *                      - return: 存储的文件路径, 返回null表示不存储.\n  * @return boolean.\n  *\n  * function *accept(app, conditionCB)\n  */\n```\n完整例子\n后台:\n```js\nexports.upload = function*(next)\n{\n  var r = yield require(\'citong\').controls.upload.accept(this, function*(filesize, filename, filemimeType){\n    console.log(filesize);\n    console.log(filename);\n    console.log(filemimeType);\n\n    return \'tempPath/temp.filename\';\n  });\n};\n\n```\n前台:\n```js\n<script type="text/javascript" charset="utf-8" src="/jquery/jquery.min.js"></script>\n<script type="text/javascript" charset="utf-8" src="/jquery/jquery.form.min.js"></script>\n\n<script type="text/javascript">\nfunction upload() {\n  control_upload({\n    formObj:  $(\'#fileForm\'),\n    fileObj:  $("#filec"),\n    uploadUrl:  \'/uploadFile\',\n    finishCB: function(err, fileObj, serverData){\n      console.log(serverData);\n    },\n    progressCB: function(fileObj, percent){\n      console.log(percent);\n    })\n  });\n\n}\n</script>\n\n<form method="post" role="form" enctype="multipart/form-data" id="fileForm">\n  <input id="filec" type="file" name="file" onchange="javascript:upload()" multiple>\n</form>\n```\n',
 21 silly publish   readmeFilename: 'README.md',
-21 silly publish   gitHead: '57db5684b072c70ced5eaab8fb555e28a514abd6',
+21 silly publish   gitHead: '9a20201e124d6f5bf42f9dafcadc50e39c060a1b',
 21 silly publish   bugs: { url: 'https://github.com/brainpoint/citong/issues' },
-21 silly publish   _id: 'citong@1.5.3',
-21 silly publish   _shasum: 'e0687fc0f09e08bf94eddcfa1f6e972e0e149793',
+21 silly publish   _id: 'citong@1.5.5',
+21 silly publish   _shasum: '47bb5ab126773b14a1c468304f8154553946fc5c',
 21 silly publish   _from: '.' }
 22 verbose getPublishConfig undefined
 23 silly mapToRegistry name citong
@@ -64,55 +61,45 @@
 26 silly mapToRegistry data Result {
 26 silly mapToRegistry   raw: 'citong',
 26 silly mapToRegistry   scope: null,
-26 silly mapToRegistry   escapedName: 'citong',
 26 silly mapToRegistry   name: 'citong',
 26 silly mapToRegistry   rawSpec: '',
 26 silly mapToRegistry   spec: 'latest',
 26 silly mapToRegistry   type: 'tag' }
 27 silly mapToRegistry uri https://registry.npmjs.org/citong
 28 verbose publish registryBase https://registry.npmjs.org/
-29 silly publish uploading D:\nodejs\cache\citong\1.5.3\package.tgz
+29 silly publish uploading /Users/brainpoint/.npm/citong/1.5.5/package.tgz
 30 verbose request uri https://registry.npmjs.org/citong
 31 verbose request sending authorization for write operation
-32 info attempt registry request try #1 at 12:47:44
+32 info attempt registry request try #1 at 12:03:44 AM
 33 verbose request using bearer token for auth
-34 verbose request id dee86b3cb1bafc45
+34 verbose request id c25a24e1ef12f99b
 35 http request PUT https://registry.npmjs.org/citong
-36 http 403 https://registry.npmjs.org/citong
-37 verbose headers { 'content-type': 'application/json',
-37 verbose headers   'cache-control': 'max-age=300',
-37 verbose headers   'content-length': '95',
-37 verbose headers   'accept-ranges': 'bytes',
-37 verbose headers   date: 'Fri, 18 Nov 2016 04:48:31 GMT',
-37 verbose headers   via: '1.1 varnish',
-37 verbose headers   connection: 'keep-alive',
-37 verbose headers   'x-served-by': 'cache-lcy1130-LCY',
-37 verbose headers   'x-cache': 'MISS',
-37 verbose headers   'x-cache-hits': '0',
-37 verbose headers   'x-timer': 'S1479444483.227437,VS0,VE28347',
-37 verbose headers   vary: 'Accept-Encoding' }
-38 verbose request invalidating D:\nodejs\cache\registry.npmjs.org\citong on PUT
-39 error publish Failed PUT 403
-40 verbose stack Error: "You cannot publish over the previously published version 1.5.3." : citong
-40 verbose stack     at makeError (D:\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:302:12)
-40 verbose stack     at CachingRegistryClient.<anonymous> (D:\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:290:14)
-40 verbose stack     at Request._callback (D:\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:210:14)
-40 verbose stack     at Request.self.callback (D:\nodejs\node_modules\npm\node_modules\request\request.js:187:22)
-40 verbose stack     at emitTwo (events.js:100:13)
-40 verbose stack     at Request.emit (events.js:185:7)
-40 verbose stack     at Request.<anonymous> (D:\nodejs\node_modules\npm\node_modules\request\request.js:1044:10)
-40 verbose stack     at emitOne (events.js:90:13)
-40 verbose stack     at Request.emit (events.js:182:7)
-40 verbose stack     at IncomingMessage.<anonymous> (D:\nodejs\node_modules\npm\node_modules\request\request.js:965:12)
-41 verbose statusCode 403
-42 verbose pkgid citong
-43 verbose cwd E:\git\citong
-44 error Windows_NT 6.1.7601
-45 error argv "D:\\nodejs\\node.exe" "D:\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "publish"
-46 error node v5.12.0
-47 error npm  v3.10.8
-48 error code E403
-49 error "You cannot publish over the previously published version 1.5.3." : citong
-50 error If you need help, you may report this error at:
-50 error     <https://github.com/npm/npm/issues>
-51 verbose exit [ 1, true ]
+36 info retry will retry, error on last attempt: Error: read ECONNRESET
+37 info attempt registry request try #2 at 12:05:34 AM
+38 verbose request using bearer token for auth
+39 http request PUT https://registry.npmjs.org/citong
+40 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+41 info attempt registry request try #3 at 12:06:46 AM
+42 verbose request using bearer token for auth
+43 http request PUT https://registry.npmjs.org/citong
+44 verbose request invalidating /Users/brainpoint/.npm/registry.npmjs.org/citong on PUT
+45 error publish Failed PUT undefined
+46 verbose stack Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+46 verbose stack     at errnoException (dns.js:26:10)
+46 verbose stack     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+47 verbose cwd /Users/brainpoint/Project/git/citong
+48 error Darwin 16.1.0
+49 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish"
+50 error node v5.12.0
+51 error npm  v3.8.6
+52 error code ENOTFOUND
+53 error errno ENOTFOUND
+54 error syscall getaddrinfo
+55 error network getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+56 error network This is most likely not a problem with npm itself
+56 error network and is related to network connectivity.
+56 error network In most cases you are behind a proxy or have bad network settings.
+56 error network
+56 error network If you are behind a proxy, please make sure that the
+56 error network 'proxy' config is set properly.  See: 'npm help config'
+57 verbose exit [ 1, true ]
