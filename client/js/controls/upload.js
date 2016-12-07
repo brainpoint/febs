@@ -39,13 +39,20 @@ function control_upload(cfg) {
     return;
   }
 
+  var urlQueryIndex = control_upload_url.indexOf('?');
+  if (urlQueryIndex < 0) {
+    control_upload_url += '?';
+  } else if (urlQueryIndex < control_upload_url.length-1) {
+    control_upload_url += '&';
+  }
+
   var formObj = cfg.formObj;
   var fileObj = cfg.fileObj;
   crc32_file(fileObj[0].files[0], function(crc){
     if (crc) {
       formObj.ajaxSubmit({
         method:       'POST',
-        url:          control_upload_url + '?crc32=' + crc + '&size=' + fileObj[0].files[0].size,
+        url:          control_upload_url + 'crc32=' + crc + '&size=' + fileObj[0].files[0].size,
         dataType:     'json',
         contentType:  "application/json; charset=utf-8",
         uploadProgress: function(ev, pos, total, percentComplete){ if (control_upload_progress_cb) control_upload_progress_cb(fileObj, percentComplete/100.0); },
