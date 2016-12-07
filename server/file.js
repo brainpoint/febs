@@ -172,14 +172,20 @@ exports.fileSize = function(file) {
  * @return: bool.
  */
 exports.fileCopy = function(src, dest, callback) {
-  if (!src || !dest)
+  if (!src || !dest) {
+    callback && callback('params err');
     return false;
+  }
 
-  if (!fs.existsSync(src) || (fs.existsSync(dest) && fs.statSync(dest).isFile()) )
+  if (!fs.existsSync(src) || (fs.existsSync(dest) && fs.statSync(dest).isFile()) ) {
+    callback && callback('params err');
     return false;
+  }
 
-  if (fs.statSync(src).isDirectory())
+  if (fs.statSync(src).isDirectory()) {
+    callback && callback('src is directory');
     return false;
+  }
 
   dirAssure(path.dirname(dest));
 
@@ -189,16 +195,17 @@ exports.fileCopy = function(src, dest, callback) {
   var writable = fs.createWriteStream( dest );
   // 通过管道来传输流
   readable.pipe( writable );
-  if (callback)
+  if (callback) {
     readable.on('end', function() {
       callback(null);
     });
 
-  readable.on('error', function(err) {
-    writable.end();
-    readable.end();
-    if (callback) callback(err);
-  });
+    readable.on('error', function(err) {
+      writable.end();
+      readable.end();
+      callback(err);
+    });
+  }
   return true;
 }
 

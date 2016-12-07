@@ -55,3 +55,7 @@
   - add client.str_getByteSize
   - add client.str_replace
 
+2.0.4 / 2016-12-7
+==================
+  - fix fileCopy bug
+
