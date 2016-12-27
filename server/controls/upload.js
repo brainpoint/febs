@@ -33,7 +33,7 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
   if (state && state.encoding != null) {
     if (typeof stream.pause === 'function')
       stream.pause();
-
+      
     process.nextTick(function () {
       console.debug('citong upload.accpet stream encoding should not be set');
       done(null, false)
@@ -175,8 +175,10 @@ exports.accept = function*(app, conditionCB)
     if (!fn)
     {
       if (typeof srcStream.pause === 'function')
-        srcStream.pause();
-
+       srcStream.pause();
+      
+      let req = app.request.req || app.request;
+      req.destroy();
       return false;
     }
 
@@ -188,10 +190,15 @@ exports.accept = function*(app, conditionCB)
 
       if (typeof srcStream.pause === 'function')
         srcStream.pause();
+
+      let req = app.request.req || app.request;
+      req.destroy();
+    
       return false;
     }
 
     var ret = yield save_to(srcStream, destStream, fn, Number(query.size), Number(query.crc32));
+    
     return ret;
   }
 
