@@ -9,7 +9,7 @@
  *  3. nav_refresh() 刷新.
  */
 
-document.write("<script src='./uuid.js'></script>");
+document.write("<script src='/citong/client/js/uuid.js'></script>");
 
 var nav_map = {};
 var nav_arr = [];
