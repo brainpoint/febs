@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Copyright (c) 2015 Copyright citongs All Rights Reserved.
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
  * Author: lipengxiang
  * Desc:
  *      upload控件使用一个接口来上传文件, 使用multpart/form-data方式传输:
@@ -16,7 +16,7 @@
  *          2. 调用脚本进行初始化设置: control_upload_init(uploadUrl, finishCB, progressCB);
  *                        其中 uploadUrl为上传地址, 不能带参数.
  *      后台:
- *          1. 在uploadUrl中调用  yield require('citong').controls.upload.accept(app, conditionCB); 当满足条件时将存储, 并返回true表示成功.
+ *          1. 在uploadUrl中调用  yield require('febs').controls.upload.accept(app, conditionCB); 当满足条件时将存储, 并返回true表示成功.
  */
 
 var URL      = require('url');
@@ -24,7 +24,7 @@ var path     = require('path');
 var fs       = require('fs');
 var parse    = require('co-busboy');
 var assert   = require('assert');
-var citong   = require('..');
+var febs   = require('..');
 
 function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
 
@@ -35,7 +35,7 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
       stream.pause();
       
     process.nextTick(function () {
-      console.debug('citong upload.accpet stream encoding should not be set');
+      console.debug('febs upload.accpet stream encoding should not be set');
       done(null, false)
     })
     return defer;
@@ -61,12 +61,12 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
   }
 
   function onData(chunk) {
-    crc32_check = citong.crypt.crc32(chunk, crc32_check);
+    crc32_check = febs.crypt.crc32(chunk, crc32_check);
     received += chunk.length
 
     if (size !== null && received > size) {
       var err;
-      err = 'citong upload.accpet request entity too large';
+      err = 'febs upload.accpet request entity too large';
       onFinish(err)
     }
   }
@@ -83,14 +83,14 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
   function onEnd() {
     if (received != size) {
       var err;
-      err = 'citong upload.accpet request size did not match content length: ' + received + ',' + size;
+      err = 'febs upload.accpet request size did not match content length: ' + received + ',' + size;
       onFinish(err)
     }
     else
     {
       if (crc32_check != crc32)
       {
-        onFinish('citong upload.accpet request crc32 is wrong');
+        onFinish('febs upload.accpet request crc32 is wrong');
       }
       else
       {
@@ -186,7 +186,7 @@ exports.accept = function*(app, conditionCB)
     var destStream = fs.createWriteStream(fn);
     if (!destStream)
     {
-      console.debug('citong upload.accpet createWriteStream err:' + fn);
+      console.debug('febs upload.accpet createWriteStream err:' + fn);
 
       if (typeof srcStream.pause === 'function')
         srcStream.pause();

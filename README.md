@@ -1,134 +1,195 @@
-citong 库是一些常用的工具的合集;
+febs 库是一些常用的工具的合集;
 
-citong web库分为客户端与服务器端;
-- [客户端](#client)
+`febs是在citong@2.0.8基础上进行开发, citong库已停止更新`
+
+# Install
+
+Use npm to install:
+
+```js
+npm install febs --save
+```
+  copy directory `node_modules/febs/dist/febs` to client
+
+![](doc/framework.jpg)
+
+febs web库分为客户端与服务器端;
+
+- 通用于客户端与服务端的库如下
   - [utils](#utils)
+  - [string](#string)
   - [crypt](#crypt)
-  - [ajax](#ajax)
-  - [controls](#controls)
-- [服务端](#server)
-  - [exception](#server-side-exception)
-  - [utils](#server-side-utils)
-  - [string](#server-side-string)
-  - [crypt](#server-side-crypt)
-  - [file](#server-side-file)
   - [controls](#controls)
 
-##### 1. 网页模板在前端库中:
-  citong/client/partials
-##### 2. 各个控件使用说明请参看后台库
-  citong/server/controls
-##### 3. 服务端库分为
-  exception,
-  utils,
-  controls,
-  file,
-  string,
-  crypt
+- 客户端独有库
+  - [nav](#nav)
 
+- 服务端独有库
+  - [exception](#exception)
+  - [file](#file)
 
-# client
-***
-浏览器前端库在位置citong/client中, 可以在浏览器中如下使用; 在使用前需引入jquery的两个库
+# 说明
+
+> 客户端
+
+使用时需依赖 `jquery`, `jquery.form` 这个两个库.
 ```js
 <script src="jquery.min.js"></script>
 <script src="jquery.form.min.js"></script>
-<script src="citong/client/citong.js"></script>
+<script src="febs.min.js" charset="UTF-8"></script>
 ```
 
-***
-### utils
+> 服务端
+
+服务端定义了如下一些全局变量
+| name           | description |
+|----------------|-------------|
+| __line  | 当前所在行, 可以配合 __filename 定位错误日志   |
+| console.debug  | development 环境下输出日志  |
+
+> 其他
+* 函数调用使用 `类名.xxx` 的方式调用, 例如: `febs.utils.browserIsMobile()` 
+* 实现了部分控件, 网页模板在 `febs/client/partials` 路径下, 使用`handlebar`实现
+
+# utils
+
+utils库包含了一些常用的函数, 如判断浏览器是否是手机/时间字符串格式化等.
+
+```js
+/**
+ * @desc: the browser is mobile.
+ * @param userAgent: 在服务器调用时需传入客户端的userAgent
+ */
+browserIsMobile()
+/**
+ * @desc: the browser is ios.
+ * @param userAgent: 在服务器调用时需传入客户端的userAgent
+ */
+browserIsIOS()
+/**
+ * @desc: the browser is phone.
+ * @param userAgent: 在服务器调用时需传入客户端的userAgent
+ */
+browserIsPhone()
+/**
+ * @desc: the browser is weixin.
+ * @param userAgent: 在服务器调用时需传入客户端的userAgent
+ */
+browserIsWeixin()
+/**
+ * @desc: the browser is support html5.
+ */
+browserIsSupportHtml5()  `服务端不支持`
+```
+```js
+/**
+ * @desc: 获取时间的string.
+ * @param time: ms.
+ * @param fmt: 格式化, 默认为 'HH:mm:ss'
+ *             年(y)、月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
+ *              'yyyy-MM-dd hh:mm:ss.S' ==> 2006-07-02 08:09:04.423
+ *              'yyyy-MM-dd E HH:mm:ss' ==> 2009-03-10 星期二 20:09:04
+ *              'yyyy-M-d h:m:s.S'      ==> 2006-7-2 8:9:4.18
+ * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
+ * @return: string.
+ */
+getTimeString(time)
+/**
+ * @desc: getDate('2012-05-09')
+ * @return: Date.
+ */
+getDate(strDate)
+```
+```js
+/**
+ * @desc: 合并多个map.
+ * @return: {}
+ */
+mergeMap(...)
+```
+```js
+/**
+* @desc: 判断参数是否是null,undefined,NaN
+* @return: boolean
+*/
+isNull(e)
+/**
+* @desc: 将异步回调方式的方法转换成promise, 函数中的this可以为指定值.
+*         例如: yield denodeify(fs.exists)(path);
+* @param self: 指定的调用对象
+* @return: promise.
+*/
+denodeify(fn, self, argumentCount)   `仅服务端`
+```
+
+# string
+string 提供了一些js string对象缺少且较常使用的函数.
+```js
+/**
+* @desc: 判断是否是手机号码.
+* @return: boolean.
+*/
+isPhoneMobile(str)
+/**
+ * @desc: 是否为空串.
+ * @return: boolean.
+ */
+isEmpty(s)
+/**
+ * @desc: 获得字符串utf8编码后的字节长度.
+ * @return: u32.
+ */
+getByteSize(s)
+/**
+ * @desc: 替换字符串中所有的strSrc->strDest.
+ * @return: string.
+ */
+replace(str, strSrc, strDest)
+```
+
+# crypt
+目前提供了uuid,crc32,base64.
 ```js
 /**
 * @return 生成一个uuid字符串.
 */
 uuid()
 /**
- * @desc: the browser is mobile.
- */
-browserIsMobile()
-/**
- * @desc: the browser is ios.
- */
-browserIsIOS()
-/**
- * @desc: the browser is phone.
- */
-browserIsPhone()
-/**
- * @desc: the browser is weixin.
- */
-browserIsWeixin()
-/**
- * @desc: the browser is support html5.
- */
-browserIsSupportHtml5()
-
-/**
- * @desc: 获取时间的string.
- * @param time: 秒数.
- * @return: string. xxxx-xx-xx / xx:xx:xx
- */
-getTimeString(time)
-/**
- * @desc: 获取日期的string.
- * @param time: 秒数.
- * @return: string. xxxx-xx-xx
- */
-getDateString(time)
-/**
- * @desc: getDate('2012-05-09')
- * @return: Date.
- */
-getDate(strDate)
-/**
- * @desc: 合并多个map.
- * @return: {}
- */
-mergeMap()
-/**
-* @desc: 判断参数是否是null,undefined,NaN
-* @return: boolean
-*/
-isEmpty(e)
-/**
-* @desc: 判断是否是手机号码.
-* @return: boolean.
-*/
-str_isPhoneMobile(str)
-/**
- * @desc: 是否为空串.
- * @return: boolean.
- */
-str_isEmpty(s) 
-/**
- * @desc: 获得字符串utf8编码后的字节长度.
- * @return: u32.
- */
-str_getByteSize(s)
-/**
- * @desc: 替换字符串中所有的strSrc->strDest.
- * @return: string.
- */
-str_replace(str, strSrc, strDest)
-```
-
-### crypt
-```js
-/**
  * @desc: 计算字符串的crc32值
  * @param crc 可以在这个值得基础上继续计算
  * @return: number.
  */
-crc32( /* String */ str, /* Number */ crc )
+crc32( str, crc )
 /**
- * @desc:
- * @param cb: cb(crc32)
- * @return:
+ * @desc: 通过文件表单控件进行文件的crc32计算.
+ * @param fileObj: 表单文件对象, 例如表单为:
+ *                  <form enctype="multipart/form-data">
+ *                    <input id="file" type="file" name="file" multiple>
+ *                  </form>
+ *             $('#file')[0].files[0] 即为第一个文件对象.
+ * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
  */
-crc32_file(file, cb)
+crc32_file(fileObj, cb)    `客户端`
+/**
+ * @desc: 直接对文件进行计算.
+ * @param filename: 文件路径
+ * @return: number
+ */
+crc32_file(filename)    `服务端`
+/**
+* @desc: base64编码.
+* @param arrByte: 字节数组.
+* @return: string.
+*/
+base64_encode(arrByte)
+/**
+* @desc: base64解码.
+* @return: 字节数组.
+*/
+base64_decode(strBase64)
 ```
-### ajax
+# nav
+导航是以ajax的方式进行页面切换
 ```js
 /**
  * @desc: 使用跳转函数初始化.
@@ -168,139 +229,36 @@ nav_refresh_elem(elem, url);
 nav_ajax( ctx )
 ```
 
-# server
-***
 
-定义了一些全局变量
+# exception
+定义了服务端常用的错误类型.
 
-| name           | description |
-|----------------|-------------|
-| global.__line  | 当前所在行, 可以配合 global.__filename 定位错误日志   |
-| console.debug  | development 环境下输出日志  |
-
-# server-side-exception
-定义了常用的错误类型.
+    this.code = code;
+    this.msg = msg;
+    this.filename = filename;
+    this.line = line;
 ```js
-
 // @desc: 一般错误.
-ERROR
+exception.ERROR
 // @desc: 参数错误.
-PARAM
+exception.PARAM
 // @desc: 越界
-OUT_OF_RANGE
+exception.OUT_OF_RANGE
 ```
-
-#  server-side-utils
+异常类如下
 ```js
 /**
- * @desc: the browser is mobile.
- * @param userAgent: the browser user agent string.
- */
-browserIsMobile(userAgent)
-/**
- * @desc: the browser is ios.
- * @param userAgent: the browser user agent string.
- */
-browserIsIOS(userAgent)
-/**
- * @desc: the browser is phone.
- * @param userAgent: the browser user agent string.
- */
-browserIsPhone(userAgent)
-/**
- * @desc: the browser is weixin.
- * @param userAgent: the browser user agent string.
- */
-browserIsWeixin(userAgent)
-/**
-* @desc 无符big整型.
+* @desc: 构造异常对象.
+* @param msg: 异常消息
+* @param code: 异常代码
+* @param filename: 异常文件名
+* @param line: 异常文件所在行
+* @return: 
 */
-isBigint_u()
-/**
-* @desc 比较两个unsign-big整型的大小(假设两个都是合法的unsign-big整型).
-* @return a>b(>0); a==b(=0); a<b(<0).
-*/
-bigint_u_cmp(a,b)
-/**
- * @desc: 获取时间的string.
- * @param time: 秒数.
- * @return: string. xxxx-xx-xx / xx:xx:xx
- */
-getTimeString(time)
-/**
- * @desc: 获取日期的string.
- * @param time: 秒数.
- * @return: string. xxxx-xx-xx
- */
-getDateString(time)
-/**
- * @desc: getDate('2012-05-09')
- * @return: Date.
- */
-getDate(strDate)
-/**
- * @desc: 合并多个map.
- * @return: {}
- */
-mergeMap()
-/**
-* @return 生成一个uuid字符串.
-*/
-uuid()
-/**
-* @desc: 判断参数是否是null,undefined,NaN
-* @return: boolean
-*/
-isEmpty(e)
-/**
-* @desc: 创建promise，但函数中的this可以为指定值.
-*         例如: yield denodeify(fs.exists)(path);
-* @param self: 指定的对象.s
-* @return: promise.
-*/
-denodeify(fn, self, argumentCount)
+exception(msg, code, filename, line)
 ```
 
-#  server-side-string
-```js
-/**
-* @desc: 判断是否是手机号码.
-* @return: boolean.
-*/
-isPhoneMobile(str)
-/**
- * @desc: 是否为空串.
- * @return: boolean.
- */
-isEmpty(s)
-/**
- * @desc: 获得字符串utf8编码后的字节长度.
- * @return: u32.
- */
-getByteSize(s)
-/**
- * @desc: 替换字符串中所有的strSrc->strDest.
- * @return: string.
- */
-replace(str, strSrc, strDest)
-```
-
-#  server-side-crypt
-```js
-/**
- * @desc: 计算crc32值.
- * @param str: string, buffer.
- * @return: crc32.
- */
-crc32( str, crc )
-/**
- * @desc: 计算文件的crc32
- * @return:u32. crc32
- */
-crc32_file( filename )
-```
-
-#  server-side-file
+# file
 ```js
 /**
  * @desc: 判断文件夹是否存在.
@@ -344,6 +302,8 @@ fileRemove(file)
 # controls
 
 ### loading
+
+![](doc/ui/control-loadding.jpg)
 ```js
 /**
  * Example:
@@ -365,6 +325,7 @@ fileRemove(file)
  ```
 
 ### page
+![](doc/ui/control-page.jpg)
 ```js
 /**
 * Example:
@@ -372,7 +333,7 @@ fileRemove(file)
 *          1. 在需要page的页面上引入 control_page.hbs页面
 *          2. 实现脚本: control_page_to(page); 当分页按钮被点击时将执行此函数.
 *      后台:
-*          1. var ctx = require('citong').controls.page.renderCtx(curPage, pageCount, totalCount);
+*          1. var ctx = require('febs').controls.page.renderCtx(curPage, pageCount, totalCount);
 *          2. 将ctx加入到render ctx中即可.
 */
 ```
@@ -392,7 +353,7 @@ fileRemove(file)
  *          2. 调用脚本进行初始化设置: control_upload_init(uploadUrl, finishCB, progressCB);
  *                        其中 uploadUrl为上传地址, 不能带参数.
  *      后台:
- *          1. 在uploadUrl中调用  yield require('citong').controls.upload.accept(app, conditionCB); 当满足条件时将存储, 并返回true表示成功.
+ *          1. 在uploadUrl中调用  yield require('febs').controls.upload.accept(app, conditionCB); 当满足条件时将存储, 并返回true表示成功.
  *
  *
  *
@@ -435,7 +396,7 @@ fileRemove(file)
 ```js
 exports.upload = function*(next)
 {
-  var r = yield require('citong').controls.upload.accept(this, function*(filesize, filename, filemimeType){
+  var r = yield require('febs').controls.upload.accept(this, function*(filesize, filename, filemimeType){
     console.log(filesize);
     console.log(filename);
     console.log(filemimeType);

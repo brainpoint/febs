@@ -1,19 +1,13 @@
-'use strict';
 
-/**
- * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
- * Author: lipengxiang
- * Desc:
- */
-
-var path  = require('path');
+febs.string = function(){}
 
 
 /**
 * @desc: 判断是否是手机号码.
 * @return: boolean.
 */
-exports.isPhoneMobile = function(str) {
+febs.string.isPhoneMobile=
+function(str) {
   if (!str) return false;
   if(/^0?1[2|3|4|5|6|7|8][0-9]\d{8}$/.test(str))
   {
@@ -26,7 +20,8 @@ exports.isPhoneMobile = function(str) {
  * @desc: 是否为空串.
  * @return: boolean.
  */
-exports.isEmpty = function(s) {
+febs.string.isEmpty=
+function(s) {
 
   if (!s)
   {
@@ -48,7 +43,8 @@ exports.isEmpty = function(s) {
  * @desc: 获得字符串utf8编码后的字节长度.
  * @return: u32.
  */
-exports.getByteSize = function(s) {
+febs.string.getByteSize=
+function(s) {
   if (!s)
     return 0;
 
@@ -77,7 +73,8 @@ exports.getByteSize = function(s) {
  * @desc: 替换字符串中所有的strSrc->strDest.
  * @return: string.
  */
-exports.replace = function(str, strSrc, strDest) {
+febs.string.replace=
+function(str, strSrc, strDest) {
   if (!str || !strSrc)
     return str;
 

@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Copyright (c) 2015 Copyright citongs All Rights Reserved.
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
  * Author: lipengxiang
  * Desc:
  */
@@ -73,79 +73,55 @@ exports.browserIsWeixin = function(userAgent) {
 }
 
 /**
-* @desc 无符big整型.
-*/
-exports.isBigint_u = isBigint_u;
-function isBigint_u(v) {
-  if (Number.isInteger(v))
-    return true;
-  if (!v)
-    return false;
-
-  if (typeof v === 'string')
-  {
-    if (v.length > 22)
-      return false;
-    for (var j = 0; j < v.length; j++) {
-      if (v[j] < '0' || v[j] > '9')
-        return false;
-    }
-    if (v.length > 1 && v[0] == '0')
-      return false;
-    else {
-      return true;
-    }
-  }
-  else {
-    return false;
-  }
-};
-
-/**
-* @desc 比较两个unsign-big整型的大小(假设两个都是合法的unsign-big整型).
-* @return a>b(>0); a==b(=0); a<b(<0).
-*/
-exports.bigint_u_cmp = function(a,b) {
-  assert(isBigint_u(a) && isBigint_u(b));
-
-  if (Number.isInteger(a))
-  {
-    if (Number.isInteger(b))  return a-b;
-    else  return -1;
-  }
-  else {
-    if (Number.isInteger(b))  return 1;
-    else {
-      if (a.length != b.length) return a.length - b.length;
-      for (var i = 0; i < a.length; i++) {
-        if (a[i] > b[i])
-          return 1;
-        else if (a[i] < b[i])
-          return -1;
-      }
-      return 0;
-    }
-  }
-};
-
-
-/**
  * @desc: 获取时间的string.
  * @param time: ms.
+ * @param fmt: 格式化, 默认为 'HH:mm:ss'
+ *             年(y)、月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
+ *              'yyyy-MM-dd hh:mm:ss.S' ==> 2006-07-02 08:09:04.423
+ *              'yyyy-MM-dd E HH:mm:ss' ==> 2009-03-10 星期二 20:09:04
+ *              'yyyy-M-d h:m:s.S'      ==> 2006-7-2 8:9:4.18
+ * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
  * @return: string.
  */
-exports.getTimeString = function(time)
+exports.getTimeString = function(time, fmt, weekFmt)
 {
   if (typeof time !== "number")
     return "";
 
+  fmt = fmt || 'HH:mm:ss';
+
   var t = new Date(time);
-  var ts = t.getFullYear() + '-' + ((t.getMonth()+1) < 10 ? '0'+(t.getMonth()+1) : (t.getMonth()+1))
-                           + '-' + (t.getDate() < 10 ? '0'+t.getDate() : t.getDate())
-                           + ' / ' + (t.getHours() < 10 ? '0'+t.getHours() : t.getHours())
-                           + ':' + (t.getMinutes() < 10 ? '0'+t.getMinutes() : t.getMinutes())
-                           + ':' + (t.getSeconds() < 10 ? '0'+t.getSeconds() : t.getSeconds());
-  return ts;
+    var o = {         
+    "M+" : t.getMonth()+1, //月份         
+    "d+" : t.getDate(), //日         
+    "h+" : t.getHours()%12 == 0 ? 12 : t.getHours()%12, //小时         
+    "H+" : t.getHours(), //小时         
+    "m+" : t.getMinutes(), //分         
+    "s+" : t.getSeconds(), //秒         
+    "q+" : Math.floor((t.getMonth()+3)/3), //季度         
+    "S" : t.getMilliseconds() //毫秒         
+    };         
+    var week = weekFmt || {         
+    "0" : "星期天",
+    "1" : "星期一",
+    "2" : "星期二",
+    "3" : "星期三", 
+    "4" : "星期四",
+    "5" : "星期五",
+    "6" : "星期六",
+    };         
+    if(/(y+)/.test(fmt)){         
+        fmt=fmt.replace(RegExp.$1, (t.getFullYear()+"").substr(4 - RegExp.$1.length));         
+    }         
+    if(/(E+)/.test(fmt)){         
+        fmt=fmt.replace(RegExp.$1, week[t.getDay()+""]);         
+    }         
+    for(var k in o){         
+        if(new RegExp("("+ k +")").test(fmt)){         
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));         
+        }         
+    }         
+    return fmt;
 };
 
 /**
@@ -158,21 +134,6 @@ exports.getDate = function(strDate) {
   return date;
 }
 
-/**
- * @desc: 获取日期的string.
- * @param time: ms.
- * @return: string.
- */
-exports.getDateString = function(time)
-{
-  if (typeof time !== "number")
-    return "";
-
-  var t = new Date(time);
-  var ts = t.getFullYear() + '-' + ((t.getMonth()+1) < 10 ? '0'+(t.getMonth()+1) : (t.getMonth()+1))
-                           + '-' + (t.getDate() < 10 ? '0'+t.getDate() : t.getDate());
-  return ts;
-};
 
 /**
  * @desc: 合并多个map.
@@ -193,24 +154,6 @@ exports.mergeMap = function()
   }
 
   return map0;
-};
-
-/**
- * @desc: make a uuid string.
- * @return: string
- */
-exports.uuid = function() {
-    var s = [];
-    var hexDigits = "0123456789abcdef";
-    for (var i = 0; i < 36; i++) {
-        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
-    }
-    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
-    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
-    s[8] = s[13] = s[18] = s[23] = "-";
-
-    var uuid = s.join("");
-    return uuid;
 };
 
 /**
@@ -243,11 +186,10 @@ exports.denodeify = function (fn, self, argumentCount) {
   }
 }
 
-
 /**
 * @desc: 判断参数是否是null,undefined,NaN
 * @return: boolean
 */
-exports.isEmpty = function(e) {
+exports.isNull = function(e) {
   return e === null || e === undefined || Number.isNaN(e);
 }

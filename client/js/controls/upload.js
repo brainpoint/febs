@@ -1,4 +1,6 @@
 
+febs.control = function() {}
+
 /**
  * 将使用post方式上传文件.
  * @param cfg:  object, 其中
@@ -17,7 +19,8 @@
  *                progressCB:  , // 上传进度的回调. function(fileObj, percent)
  *              }
  */
-function control_upload(cfg) {
+febs.control.upload = 
+function(cfg) {
   var control_upload_cb = cfg.finishCB;
   var control_upload_progress_cb = cfg.progressCB;
   var control_upload_url = cfg.uploadUrl;
@@ -48,7 +51,7 @@ function control_upload(cfg) {
 
   var formObj = cfg.formObj;
   var fileObj = cfg.fileObj;
-  crc32_file(fileObj[0].files[0], function(crc){
+  febs.crypt.crc32_file(fileObj[0].files[0], function(crc){
     if (crc) {
       formObj.ajaxSubmit({
         method:       'POST',

@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Copyright (c) 2015 Copyright citongs All Rights Reserved.
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
  * Author: lipengxiang
  * Desc:
  * Example:
@@ -9,7 +9,7 @@
  *          1. 在需要page的页面上引入 control_page.hbs页面
  *          2. 实现脚本: control_page_to(page);
  *      后台:
- *          1. var ctx = require('citong').controls.page.renderCtx(curPage, pageCount, totalCount);
+ *          1. var ctx = require('febs').controls.page.renderCtx(curPage, pageCount, totalCount);
  *          2. 将ctx加入到render ctx中即可.
  */
 

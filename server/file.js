@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Copyright (c) 2015 Copyright citongs All Rights Reserved.
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
  * Author: lipengxiang
  * Desc:
  */

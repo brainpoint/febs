@@ -1,7 +1,6 @@
-'use strict';
 
 /**
- * Copyright (c) 2015 Copyright citongs All Rights Reserved.
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
  * Author: lipengxiang
  * Desc:
  *  1. nav_init() 初始化.
@@ -9,23 +8,24 @@
  *  3. nav_refresh() 刷新.
  */
 
-document.write("<script src='/citong/client/js/uuid.js'></script>");
+febs.nav = function() {}
 
-var nav_map = {};
-var nav_arr = [];
-var nav_max_length = 20;
-var nav_callback = null;
-var nav_url_equal_callback = null;
-var nav_ajax_count = 0;
-var nav_cur_url = null;
-var nav_options = {defaultTimeout:10000};
+febs.nav.nav_map = {};
+febs.nav.nav_arr = [];
+febs.nav.nav_max_length = 20;
+febs.nav.nav_callback = null;
+febs.nav.nav_url_equal_callback = null;
+febs.nav.nav_ajax_count = 0;
+febs.nav.nav_cur_url = null;
+febs.nav.nav_options = {defaultTimeout:10000};
 
 
 /**
  * @desc: ajax 跳转.
  * @return:
  */
-function nav_ajax( ctx )
+febs.nav.nav_ajax=
+function( ctx )
 {
   //if (!!window.ActiveXObject || "ActiveXObject" in window) // ie11.
   {
@@ -33,22 +33,22 @@ function nav_ajax( ctx )
     {
       var i = ctx.url.indexOf('?');
       if (i < 0) {
-        ctx.url += "?ajaxmark="+nav_ajax_count;
-        nav_ajax_count++;
+        ctx.url += "?ajaxmark="+febs.nav.nav_ajax_count;
+        febs.nav.nav_ajax_count++;
       } else {
         if (i == ctx.url.length-1) {
-          ctx.url += "ajaxmark="+nav_ajax_count;
-          nav_ajax_count++;
+          ctx.url += "ajaxmark="+febs.nav.nav_ajax_count;
+          febs.nav.nav_ajax_count++;
         } else {
-          ctx.url += "&ajaxmark="+nav_ajax_count;
-          nav_ajax_count++;
+          ctx.url += "&ajaxmark="+febs.nav.nav_ajax_count;
+          febs.nav.nav_ajax_count++;
         }
       }
     }
   } // if.
 
   if (!ctx.timeout)
-    ctx.timeout = nav_options.defaultTimeout;
+    ctx.timeout = febs.nav.nav_options.defaultTimeout;
 
   jQuery.ajax(ctx);
 }
@@ -62,7 +62,8 @@ function nav_ajax( ctx )
                    }
  * @return:
  */
-function nav_init(navCallback, urlObjEquelCallback, options)
+febs.nav.nav_init=
+function (navCallback, urlObjEquelCallback, options)
 {
   document.onkeydown = function(e){
     e = window.event || e;
@@ -81,39 +82,41 @@ function nav_init(navCallback, urlObjEquelCallback, options)
   options = options||{};
   options.defaultTimeout = options.defaultTimeout||10000;
 
-  nav_options = options;
-  nav_callback = navCallback;
-  nav_url_equal_callback = urlObjEquelCallback;
+  febs.nav.nav_options = options;
+  febs.nav.nav_callback = navCallback;
+  febs.nav.nav_url_equal_callback = urlObjEquelCallback;
 }
 
 /**
  * @desc: 寻找指定的url
  * @return: url.
  */
-function nav_url(anchor)
+febs.nav.nav_url=
+function (anchor)
 {
   var url = null;
   if (anchor)
   {
-    url = nav_map[anchor];
+    url = febs.nav.nav_map[anchor];
     url = url ? url : null;
   }
   return url;
 }
 
-function nav_hash_change()
+febs.nav.nav_hash_change=
+function ()
 {
-  if (nav_cur_url != null)
+  if (febs.nav.nav_cur_url != null)
   {
-    nav_cur_url = null;
+    febs.nav.nav_cur_url = null;
     return;
   }
 
   var hashStr = location.hash;
   if (hashStr != null && hashStr != "") {
     var url = nav_url(hashStr);
-    if (url && nav_callback) {
-      nav_callback(url);
+    if (url && febs.nav.nav_callback) {
+      febs.nav.nav_callback(url);
     }
   }
 }
@@ -124,38 +127,39 @@ function nav_hash_change()
  * @param urlObject: 包含参数等链接的信息.
  * @return: 浏览器锚点url.
  */
-function nav_push(urlObject)
+febs.nav.nav_push=
+function (urlObject)
 {
-  if (!nav_url_equal_callback)
+  if (!febs.nav.nav_url_equal_callback)
     return;
 
-  for (var i = 0; i < nav_arr.length; i++)
+  for (var i = 0; i < febs.nav.nav_arr.length; i++)
   {
-    var obj = nav_map[nav_arr[i]];
-    if (nav_url_equal_callback(obj, urlObject))
+    var obj = febs.nav.nav_map[febs.nav.nav_arr[i]];
+    if (febs.nav.nav_url_equal_callback(obj, urlObject))
     {
       window.onhashchange = null;
-      window.location.href = nav_arr[i];
-      nav_cur_url = true;
+      window.location.href = febs.nav.nav_arr[i];
+      febs.nav.nav_cur_url = true;
       window.onhashchange = nav_hash_change;
       return;
     }
   }
 
-  var anchor = '#' + uuid();
-  if (nav_arr.length >= nav_max_length)
+  var anchor = '#' + febs.crypt.uuid();
+  if (febs.nav.nav_arr.length >= febs.nav.nav_max_length)
   {
-    delete nav_map[nav_arr[0]];
-    nav_arr.splice(0, 1);
+    delete febs.nav.nav_map[febs.nav.nav_arr[0]];
+    febs.nav.nav_arr.splice(0, 1);
   }
 
   window.onhashchange = null;
   window.location.href = anchor;
-  nav_cur_url = true;
+  febs.nav.nav_cur_url = true;
   window.onhashchange = nav_hash_change;
 
-  nav_map[anchor] = urlObject;
-  nav_arr.push(anchor);
+  febs.nav.nav_map[anchor] = urlObject;
+  febs.nav.nav_arr.push(anchor);
 
   return anchor;
 }
@@ -165,9 +169,10 @@ function nav_push(urlObject)
  * @param urlObject: null则当前页面刷新.
  * @return:
  */
-function nav_go(urlObject)
+febs.nav.nav_go=
+function (urlObject)
 {
-  if (!nav_callback)
+  if (!febs.nav.nav_callback)
     return;
 
   if (urlObject)
@@ -178,7 +183,8 @@ function nav_go(urlObject)
 /**
 * @desc 刷新页面.
 */
-function nav_refresh()
+febs.nav.nav_refresh=
+function ()
 {
   nav_go(null);
 }
@@ -186,7 +192,8 @@ function nav_refresh()
 /**
 * @desc 刷新指定元素.
 */
-function nav_refresh_elem( elem, url )
+febs.nav.nav_refresh_elem=
+function ( elem, url )
 {
   nav_ajax({
     type: "GET",
@@ -197,4 +204,4 @@ function nav_refresh_elem( elem, url )
   });
 }
 
-window.onhashchange = nav_hash_change;
+window.onhashchange = febs.nav.nav_hash_change;

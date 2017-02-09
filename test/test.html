@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <script charset='UTF-8' type="text/javascript" src="../dist/febs/febs.min.js"></script>
+  </head>
+  <body>
+    <script>
+    
+    var assert = console.assert;
+    var trace  = console.log;
+
+    //
+    // utils.
+    trace( '[utils test start]' );
+    trace( 'brower is mobile: ' + febs.utils.browserIsMobile() );
+    trace( 'brower is ios: '    + febs.utils.browserIsIOS() );
+    trace( 'brower is weixin: ' + febs.utils.browserIsWeixin() );
+    trace( 'brower is phone: '  + febs.utils.browserIsPhone() );
+    trace( 'brower is html5: '  + febs.utils.browserIsSupportHtml5() );
+    assert( febs.utils.getTimeString(new Date('08 23,2015 10:55:33').getTime(), 'yyyy-MM-dd hh:mm:ss') === '2015-08-23 10:55:33', 'getTimeString err1');
+    assert( febs.utils.getTimeString(new Date('08 23,2015 13:55:33').getTime(), 'yyyy-MM-dd HH:mm:ss') === '2015-08-23 13:55:33', 'getTimeString err2');
+    assert( febs.utils.getTimeString(new Date('08 23,2015 13:55:33').getTime(), 'yyyy-MM-dd h:mm:ss') === '2015-08-23 1:55:33', 'getTimeString err3');
+    assert( febs.utils.getDate('2015-05-09').getTime() === new Date(2015,4,09).getTime(), 'getDate err');
+    var map = febs.utils.mergeMap( {_1:'111'}, {_1:'222', _2:12} );
+    assert( map._1 === '222' && map._2 === 12, 'mergeMap err' );
+    assert( febs.utils.isNull(null),     'isNull err1' );
+    assert( febs.utils.isNull(undefined),'isNull err2' );
+    assert( febs.utils.isNull(NaN),      'isNull err3' );
+    assert( !febs.utils.isNull(0),       'isNull err4' );
+    assert( !febs.utils.isNull(12312),   'isNull err5' );
+    assert( !febs.utils.isNull('sdgeg'), 'isNull err6' );
+    trace( '[utils test pass]' );
+
+    //
+    // string.
+    trace( '[string test start]' );
+    assert( febs.string.isPhoneMobile('15800000000'),  'isPhoneMobile err1' );
+    assert( !febs.string.isPhoneMobile('158000000001'),'isPhoneMobile err2' );
+    assert( !febs.string.isPhoneMobile('g3'),          'isPhoneMobile err3' );
+    assert( !febs.string.isPhoneMobile(154),           'isPhoneMobile err4' );
+    assert( febs.string.isEmpty(''),       'isEmpty err1' );
+    assert( febs.string.isEmpty(null),     'isEmpty err2' );
+    assert( febs.string.isEmpty(undefined),'isEmpty err3' );
+    assert( febs.string.isEmpty(NaN),      'isEmpty err4' );
+    assert( !febs.string.isEmpty('sdgsg'), 'isEmpty err5' );
+    assert( febs.string.getByteSize('123456') === 6, 'getByteSize err1' );
+    assert( febs.string.getByteSize('严')     === 3, 'getByteSize err2' );
+    assert( febs.string.replace('1234 1234 1234 12', '123', '#') === '#4 #4 #4 12', 'replace err1' );
+    trace( '[string test pass]' );
+
+    //
+    // crypt.
+    trace( '[crypt test start]' );
+    assert( febs.crypt.base64_encode([12,121,253]) === 'DHn9', 'base64_encode err1' );
+    assert( febs.crypt.base64_encode(febs.crypt.base64_decode('DHn9')) === 'DHn9', 'base64_decode err1' );
+    assert( febs.crypt.uuid().length === 36, 'uuid err1' );
+    assert( febs.crypt.uuid() != febs.crypt.uuid(), 'uuid err2' );
+    assert( febs.crypt.uuid() != febs.crypt.uuid(), 'uuid err2' );
+    trace( '[crypt test pass]' );   
+    
+    </script>
+  </body>
+</html>

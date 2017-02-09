@@ -1,12 +1,21 @@
 'use strict';
 
 /**
- * Copyright (c) 2015 Copyright citongs All Rights Reserved.
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
  * Author: lipengxiang
  * Desc:
  */
 
 module.exports = class extends Error {
+
+  /**
+  * @desc: 构造异常对象.
+  * @param msg: 异常消息
+  * @param code: 异常代码
+  * @param filename: 异常文件名
+  * @param line: 异常文件所在行
+  * @return: 
+  */
   constructor(msg, code, filename, line) {
     super(code + " " + msg);
     this.code = code;

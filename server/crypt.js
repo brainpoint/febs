@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Copyright (c) 2015 Copyright citongs All Rights Reserved.
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
  * Author: lipengxiang
  * Desc:
  */
@@ -79,3 +79,127 @@ exports.crc32_file = function( filename ) {
     return 0;
   }
 };
+
+/**
+* @desc: 生成一个uuid字符串
+* @return: 
+*/
+exports.uuid =
+function () {
+    var s = [];
+    var hexDigits = "0123456789abcdef";
+    for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    }
+    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+    s[8] = s[13] = s[18] = s[23] = "-";
+
+    var uuid = s.join("");
+    return uuid;
+}
+
+/**
+* @desc: base64编码.
+* @param arrByte: 字节数组.
+* @return: string.
+*/
+exports.base64_encode=
+function (arrByte){
+  var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  var out, i, len;
+  var c1, c2, c3;
+  len = arrByte.length;
+  i = 0;
+  out = "";
+  while (i < len) {
+    c1 = arrByte[i++] & 0xff;
+    if (i == len) {
+        out += base64EncodeChars.charAt(c1 >> 2);
+        out += base64EncodeChars.charAt((c1 & 0x3) << 4);
+        out += "==";
+        break;
+    }
+    c2 = arrByte[i++];
+    if (i == len) {
+        out += base64EncodeChars.charAt(c1 >> 2);
+        out += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
+        out += base64EncodeChars.charAt((c2 & 0xF) << 2);
+        out += "=";
+        break;
+    }
+    c3 = arrByte[i++];
+    out += base64EncodeChars.charAt(c1 >> 2);
+    out += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
+    out += base64EncodeChars.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));
+    out += base64EncodeChars.charAt(c3 & 0x3F);
+  }
+  return out;
+}
+
+/**
+* @desc: base64解码.
+* @return: 字节数组.
+*/
+exports.base64_decode =
+function (strBase64){
+  var c1, c2, c3, c4;
+  var base64DecodeChars = new Array(
+      -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+      -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+      -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57,
+      58, 59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6,
+      7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+      25, -1, -1, -1, -1, -1, -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
+      37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1,
+      -1, -1
+  );
+  var i=0, len = strBase64.length, out = [];
+
+  while (i < len){
+      do{
+          c1 = base64DecodeChars[strBase64.charCodeAt(i++) & 0xff]
+      } while (
+          i < len && c1 == -1
+      );
+
+      if (c1 == -1) break;
+
+      do{
+          c2 = base64DecodeChars[strBase64.charCodeAt(i++) & 0xff]
+      } while (
+          i < len && c2 == -1
+      );
+
+      if (c2 == -1) break;
+
+      out.push((c1 << 2) | ((c2 & 0x30) >> 4));
+
+      do{
+          c3 = strBase64.charCodeAt(i++) & 0xff;
+          if (c3 == 61)
+              return out;
+
+          c3 = base64DecodeChars[c3]
+      } while (
+          i < len && c3 == -1
+      );
+
+      if (c3 == -1) break;
+
+      out.push(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));
+
+      do{
+          c4 = strBase64.charCodeAt(i++) & 0xff;
+          if (c4 == 61) return out;
+          c4 = base64DecodeChars[c4]
+      } while (
+          i < len && c4 == -1
+      );
+
+      if (c4 == -1) break;
+
+      out.push(((c3 & 0x03) << 6) | c4)
+  }
+  return out;
+}

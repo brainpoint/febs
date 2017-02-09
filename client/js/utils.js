@@ -1,10 +1,11 @@
 
-
+febs.utils = function(){}
 
 /**
  * @desc: the browser is mobile.
  */
-function browserIsMobile() {
+febs.utils.browserIsMobile=
+function() {
 
   var agent = window.navigator.userAgent;
   var platforms = [
@@ -19,7 +20,8 @@ function browserIsMobile() {
 /**
  * @desc: the browser is ios.
  */
-function browserIsIOS() {
+febs.utils.browserIsIOS=
+function () {
 
   var agent = window.navigator.userAgent;
   var platforms = [
@@ -34,7 +36,8 @@ function browserIsIOS() {
 /**
  * @desc: the browser is weixin.
  */
-function browserIsWeixin(){
+febs.utils.browserIsWeixin=
+function (){
   var agent = window.navigator.userAgent;
   if(agent.match(/MicroMessenger/i)=="MicroMessenger") {
       return true;
@@ -43,11 +46,11 @@ function browserIsWeixin(){
   }
 }
 
-
 /**
  * @desc: the browser is phone.
  */
-function browserIsPhone() {
+febs.utils.browserIsPhone=
+function () {
 
   var agent = window.navigator.userAgent;
   var platforms = [
@@ -62,7 +65,8 @@ function browserIsPhone() {
 /**
  * @desc: the browser is support html5.
  */
-function browserIsSupportHtml5() {
+febs.utils.browserIsSupportHtml5=
+function () {
   if (typeof(Worker) !== "undefined")
   {
       return true;
@@ -73,57 +77,76 @@ function browserIsSupportHtml5() {
   }
 }
 
-
 /**
  * @desc: 获取时间的string.
  * @param time: ms.
- * @return: string. xxxx-xx-xx / xx:xx:xx
+ * @param fmt: 格式化, 默认为 'HH:mm:ss'
+ *             年(y)、月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
+ *              'yyyy-MM-dd hh:mm:ss.S' ==> 2006-07-02 08:09:04.423
+ *              'yyyy-MM-dd E HH:mm:ss' ==> 2009-03-10 星期二 20:09:04
+ *              'yyyy-M-d h:m:s.S'      ==> 2006-7-2 8:9:4.18
+ * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
+ * @return: string.
  */
-function getTimeString(time)
+febs.utils.getTimeString=
+function(time, fmt, weekFmt)
 {
   if (typeof time !== "number")
     return "";
 
+  fmt = fmt || 'HH:mm:ss';
+
   var t = new Date(time);
-  var ts = t.getFullYear() + '-' + ((t.getMonth()+1) < 10 ? '0'+(t.getMonth()+1) : (t.getMonth()+1))
-                           + '-' + (t.getDate() < 10 ? '0'+t.getDate() : t.getDate())
-                           + ' / ' + (t.getHours() < 10 ? '0'+t.getHours() : t.getHours())
-                           + ':' + (t.getMinutes() < 10 ? '0'+t.getMinutes() : t.getMinutes())
-                           + ':' + (t.getSeconds() < 10 ? '0'+t.getSeconds() : t.getSeconds());
-  return ts;
+    var o = {         
+    "M+" : t.getMonth()+1, // 月份         
+    "d+" : t.getDate(), //日         
+    "h+" : t.getHours()%12 == 0 ? 12 : t.getHours()%12, //小时         
+    "H+" : t.getHours(), //小时         
+    "m+" : t.getMinutes(), //分         
+    "s+" : t.getSeconds(), //秒         
+    "q+" : Math.floor((t.getMonth()+3)/3), //季度         
+    "S" : t.getMilliseconds() //毫秒         
+    };         
+    var week = weekFmt || {         
+    "0" : "星期天",
+    "1" : "星期一",
+    "2" : "星期二",
+    "3" : "星期三", 
+    "4" : "星期四",
+    "5" : "星期五",
+    "6" : "星期六", 
+    };         
+    if(/(y+)/.test(fmt)){         
+        fmt=fmt.replace(RegExp.$1, (t.getFullYear()+"").substr(4 - RegExp.$1.length));         
+    }         
+    if(/(E+)/.test(fmt)){         
+        fmt=fmt.replace(RegExp.$1, week[t.getDay()+""]);         
+    }         
+    for(var k in o){         
+        if(new RegExp("("+ k +")").test(fmt)){         
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));         
+        }         
+    }         
+    return fmt;
 };
 
 /**
  * @desc: getDate('2012-05-09')
  * @return: Date.
  */
-function getDate(strDate) {
+febs.utils.getDate=
+function (strDate) {
   var date = eval('new Date(' + strDate.replace(/\d+(?=-[^-]+$)/,
   function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
   return date;
 }
 
 /**
- * @desc: 获取日期的string.
- * @param time: ms.
- * @return: string. xxxx-xx-xx
- */
-function getDateString(time)
-{
-  if (typeof time !== "number")
-    return "";
-
-  var t = new Date(time);
-  var ts = t.getFullYear() + '-' + ((t.getMonth()+1) < 10 ? '0'+(t.getMonth()+1) : (t.getMonth()+1))
-                           + '-' + (t.getDate() < 10 ? '0'+t.getDate() : t.getDate());
-  return ts;
-};
-
-/**
  * @desc: 合并多个map.
  * @return: {}
  */
-function mergeMap()
+febs.utils.mergeMap=
+function ()
 {
   var map0 = {};
   var map2;
@@ -140,114 +163,11 @@ function mergeMap()
   return map0;
 };
 
-
 /**
 * @desc: 判断参数是否是null,undefined,NaN
 * @return: boolean
 */
-function isEmpty(e) {
+febs.utils.isNull=
+function (e) {
   return e === null || e === undefined || Number.isNaN(e);
 }
-
-
-/**
-* @desc: 判断是否是手机号码.
-* @return: boolean.
-*/
-function str_isPhoneMobile(str) {
-  if (!str) return false;
-  if(/^0?1[2|3|4|5|6|7|8][0-9]\d{8}$/.test(str))
-  {
-    return true;
-  }
-  return false;
-};
-
-
-/**
- * @desc: 是否为空串.
- * @return: boolean.
- */
-function str_isEmpty(s) {
-
-  if (!s)
-  {
-    return true;
-  }
-
-  if (typeof s !== 'string')
-  {
-    return true;
-  }
-
-  if (s.length == 0)
-    return true;
-
-  return false;
-}
-
-/**
- * @desc: 获得字符串utf8编码后的字节长度.
- * @return: u32.
- */
-function str_getByteSize(s) {
-  if (!s)
-    return 0;
-
-  var totalLength = 0;
-  var i;
-  var charCode;
-  for (i = 0; i < s.length; i++) {
-    charCode = s.charCodeAt(i);
-    if (charCode < 0x007f) {
-      totalLength = totalLength + 1;
-    }
-    else if ((0x0080 <= charCode) && (charCode <= 0x07ff)) {
-      totalLength += 2;
-    } else if ((0x0800 <= charCode) && (charCode <= 0xffff)) {
-      totalLength += 3;
-    } else if ((0x10000 <= charCode)) {
-      totalLength += 4;
-    }
-  }
-  //alert(totalLength);
-  return totalLength;
-};
-
-
-/**
- * @desc: 替换字符串中所有的strSrc->strDest.
- * @return: string.
- */
-function str_replace(str, strSrc, strDest) {
-  if (!str || !strSrc)
-    return str;
-
-  if (str.length == 0)
-      return str;
-
-  var s = '';
-
-  var endPos = str.length;
-  var i = 0;
-  var j = 0;
-  do
-  {
-      i = str.indexOf(strSrc, j);
-      if (-1 != i && i < endPos)
-      {
-        if (i != j)
-          s += str.slice(j, i);
-
-        s += strDest;
-        j = i + strSrc.length;
-      }
-      else
-      {
-        s += str.slice(j);
-        break;
-      }
-  } while (i < endPos);   // while
-
-  return s;
-};

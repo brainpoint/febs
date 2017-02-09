@@ -1,23 +1,28 @@
 {
+  "description": "febs is a useful utilities set",
   "dependencies": {
     "assert": "^1.3.0",
     "co-busboy": "^1.3.1",
     "fs": "0.0.2",
     "path": "^0.11.14",
-    "promise": "^7.0.4",
+    "promise": "^7.1.1",
     "url": "0.10.3"
   },
-  "description": "citong is a useful utilities set",
-  "devDependencies": {},
+  "devDependencies": {
+    "tap": "^10.1.0",
+    "uglifyjs": "^2.4.10"
+  },
   "directories": {},
-  "homepage": "https://github.com/brainpoint/citong#readme",
+  "homepage": "https://github.com/brainpoint/febs#readme",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/brainpoint/citong.git"
+    "url": "git+ssh://git@github.com/brainpoint/febs.git"
   },
   "files": [
-    "client",
-    "server"
+    "doc",
+    "dist",
+    "server",
+    "test"
   ],
   "license": "MIT",
   "main": "server/index.js",
@@ -27,7 +32,10 @@
       "email": "bpoint.lee@gmail.com"
     }
   ],
-  "name": "citong",
-  "scripts": {},
-  "version": "2.0.8"
+  "scripts": {
+    "test": "tap test/*.js",
+    "prepublish": "node scripts/prepublish.js"
+  },
+  "name": "febs",
+  "version": "0.0.3"
 }
