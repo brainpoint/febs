@@ -271,6 +271,12 @@ dirIsExist(dir)
  */
 dirAssure(dir)
 /**
+ * @desc: 复制文件夹.
+ * @param callback: (err) => {}, 执行此函数时表示复制完成.
+ * @return: bool.
+ */
+dirCopy(src, dest, callback)
+/**
  * @desc: 删除文件夹.
  * @return:bool.指明是否删除.
  */
