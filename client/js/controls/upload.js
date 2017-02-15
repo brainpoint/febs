@@ -20,7 +20,7 @@ febs.controls = febs.controls || function() {}
  *                progressCB:  , // 上传进度的回调. function(fileObj, percent)
  *              }
  */
-febs.control.upload = 
+febs.controls.upload = 
 function(cfg) {
   var control_upload_cb = cfg.finishCB;
   var control_upload_progress_cb = cfg.progressCB;
