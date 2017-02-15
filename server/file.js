@@ -14,7 +14,7 @@ var path  = require('path');
  * @desc: 判断文件夹是否存在.
  * @return: boolean.
  */
-exports.dirIsExist = function(dir) {
+function dirIsExist(dir) {
   if (!dir || dir == "")
     return false;
 
@@ -31,6 +31,7 @@ exports.dirIsExist = function(dir) {
 
   return false;
 }
+exports.dirIsExist = dirIsExist;
 
 /**
  * @desc: 保证文件夹存在.
@@ -88,6 +89,73 @@ function dirAssure(dir) {
 };
 exports.dirAssure = dirAssure;
 
+/**
+* @desc: copy dir.
+* @param callback: (err) => {}, 执行此函数时表示复制完成.
+* @return: bool.
+*/
+exports.dirCopy = function(src, dest, callback) {
+  if (!src || !dest || !dirIsExist(src)) {
+    callback && callback('params err');
+    return false;
+  }
+
+  var arrFiles = [];
+  var arrEmptyDirs = [];
+
+  function dirCopy1(dirSrc, dirDest, arrF) {
+    dirAssure(dirDest);
+    var src1;
+    var dest1;
+    var stat;
+
+    for (var i = 0; i < arr.length; i++) {
+      src1 = path.join(dirSrc, arr[i]);
+      dest1 = path.join(dirDest, arr[i]);
+      stat = fs.statSync(src1);
+      if (stat.isDirectory()) {
+        var arrF = fs.readdirSync(src1);
+        if (!arrF || arrF.length == 0) {
+          arrEmptyDirs.push(dest1);
+        } else {
+          dirCopy1(src1, dest1, arrF);
+        }
+      } else {
+        arrFiles.push(src1);
+        arrFiles.push(dest1);
+      }
+    }
+  } // function.
+
+
+  var arrF = fs.readdirSync(src);
+  if (!arrF || arrF.length == 0) {
+    arrEmptyDirs.push(dest);
+  } else {
+    dirCopy1(src, dest, arrF);
+  }
+
+  // copy.
+  for (let i = 0; i < arrEmptyDirs.length; i++) {
+    dirAssure(arrEmptyDirs[i]);
+  }
+
+  var index = 0;
+  function copy1(err) {
+    if (err) {
+      callback && callback(err);
+      return;
+    }
+
+    if (index < arrFiles.length) {
+      var i1 = index++;
+      var i2 = index++;
+      fileCopy(arrFiles[i1], arrFiles[i2], copy1);
+    }
+  }
+
+  copy1();
+}
 
 /**
  * @desc: 删除文件夹.
@@ -171,7 +239,7 @@ exports.fileSize = function(file) {
  * @param callback: (err) => {}, 执行此函数时表示复制完成.
  * @return: bool.
  */
-exports.fileCopy = function(src, dest, callback) {
+function fileCopy(src, dest, callback) {
   if (!src || !dest) {
     callback && callback('params err');
     return false;
@@ -208,6 +276,7 @@ exports.fileCopy = function(src, dest, callback) {
   }
   return true;
 }
+exports.fileCopy = fileCopy;
 
 /**
  * @desc: 移除文件.

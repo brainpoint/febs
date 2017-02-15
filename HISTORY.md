@@ -3,6 +3,10 @@
 ==================
   - initial version.
 
+0.0.4
+==================
+  - add file.dirCopy
+  
 
 
 
