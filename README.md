@@ -354,7 +354,7 @@ fileRemove(file)
  *      前台引入:
  *          1. 在需要upload的页面上引入 control_upload.hbs页面; 或者使用如下语句:
  *                <form method="post" role="form" enctype="multipart/form-data" id="fileForm">
- *                  <input type="file" class="form-control" name="file" onchange="febs.control.ccontrol_upload(cfg)" multiple>
+ *                  <input type="file" class="form-control" name="file" onchange="febs.controls.upload(cfg)" multiple>
  *                </form>
  *      后台:
  *          1. 在uploadUrl中调用  yield require('febs').controls.upload.accept(app, conditionCB); 当满足条件时将存储, 并返回true表示成功.
@@ -419,7 +419,7 @@ exports.upload = function*(next)
 
 <script type="text/javascript">
 function upload() {
-  febs.control.control_upload({
+  febs.controls.upload({
     formObj:  $('#fileForm'),
     fileObj:  $("#filec"),
     uploadUrl:  '/uploadFile',
