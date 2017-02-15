@@ -109,9 +109,9 @@ exports.dirCopy = function(src, dest, callback) {
     var dest1;
     var stat;
 
-    for (var i = 0; i < arr.length; i++) {
-      src1 = path.join(dirSrc, arr[i]);
-      dest1 = path.join(dirDest, arr[i]);
+    for (var i = 0; i < arrF.length; i++) {
+      src1 = path.join(dirSrc, arrF[i]);
+      dest1 = path.join(dirDest, arrF[i]);
       stat = fs.statSync(src1);
       if (stat.isDirectory()) {
         var arrF = fs.readdirSync(src1);
@@ -151,6 +151,8 @@ exports.dirCopy = function(src, dest, callback) {
       var i1 = index++;
       var i2 = index++;
       fileCopy(arrFiles[i1], arrFiles[i2], copy1);
+    } else {
+      callback && callback();
     }
   }
 
