@@ -114,11 +114,11 @@ exports.dirCopy = function(src, dest, callback) {
       dest1 = path.join(dirDest, arrF[i]);
       stat = fs.statSync(src1);
       if (stat.isDirectory()) {
-        var arrF = fs.readdirSync(src1);
-        if (!arrF || arrF.length == 0) {
+        var arrF1 = fs.readdirSync(src1);
+        if (!arrF1 || arrF1.length == 0) {
           arrEmptyDirs.push(dest1);
         } else {
-          dirCopy1(src1, dest1, arrF);
+          dirCopy1(src1, dest1, arrF1);
         }
       } else {
         arrFiles.push(src1);
