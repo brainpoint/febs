@@ -5,6 +5,7 @@ febs.control = function() {}
  * 将使用post方式上传文件.
  * @param cfg:  object, 其中
  *              {
+ *                data:       , // 上传到服务器的任意字符串数据.
  *                formObj:    , // 含有enctype="multipart/form-data"的form
  *                fileObj:    , // form中的file对象
  *                uploadUrl:  , // 上传文件内容的url. 系统将自动使用 uploadUrl?crc32=&size=的方式来上传.
@@ -55,7 +56,7 @@ function(cfg) {
     if (crc) {
       formObj.ajaxSubmit({
         method:       'POST',
-        url:          control_upload_url + 'crc32=' + crc + '&size=' + fileObj[0].files[0].size,
+        url:          control_upload_url + 'crc32=' + crc + '&size=' + fileObj[0].files[0].size + (cfg.data ? '&data='+cfg.data : ''),
         dataType:     'json',
         contentType:  "application/json; charset=utf-8",
         uploadProgress: function(ev, pos, total, percentComplete){ if (control_upload_progress_cb) control_upload_progress_cb(fileObj, percentComplete/100.0); },

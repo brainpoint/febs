@@ -354,10 +354,8 @@ fileRemove(file)
  *      前台引入:
  *          1. 在需要upload的页面上引入 control_upload.hbs页面; 或者使用如下语句:
  *                <form method="post" role="form" enctype="multipart/form-data" id="fileForm">
- *                  <input type="file" class="form-control" name="file" onchange="control_upload(cfg)" multiple>
+ *                  <input type="file" class="form-control" name="file" onchange="febs.control.ccontrol_upload(cfg)" multiple>
  *                </form>
- *          2. 调用脚本进行初始化设置: control_upload_init(uploadUrl, finishCB, progressCB);
- *                        其中 uploadUrl为上传地址, 不能带参数.
  *      后台:
  *          1. 在uploadUrl中调用  yield require('febs').controls.upload.accept(app, conditionCB); 当满足条件时将存储, 并返回true表示成功.
  *
@@ -369,6 +367,7 @@ fileRemove(file)
   * 使用post方式上传文件.
   * @param cfg:  object, 其中
   *              {
+  *                data:       , // 上传到服务器的任意字符串数据.
   *                formObj:    , // 含有enctype="multipart/form-data"的form
   *                fileObj:    , // form中的file对象
   *                uploadUrl:  , // 上传文件内容的url. 系统将自动使用 uploadUrl?crc32=&size=的方式来上传.
@@ -387,7 +386,8 @@ fileRemove(file)
  * 服务端.
   ***
   * 接收上传文件内容.
-  * @param conditionCB: function*(filesize, filename, filemimeType):string.
+  * @param conditionCB: function*(data, filesize, filename, filemimeType):string.
+  *                      - data: 上传的附加数据.
   *                      - filesize: 将要存储的文件大小.
   *                      - filename: 上传的文件名.
   *                      - filemimeType: 文件类型, 例如: 'image/jpeg'.
@@ -402,7 +402,7 @@ fileRemove(file)
 ```js
 exports.upload = function*(next)
 {
-  var r = yield require('febs').controls.upload.accept(this, function*(filesize, filename, filemimeType){
+  var r = yield require('febs').controls.upload.accept(this, function*(data, filesize, filename, filemimeType){
     console.log(filesize);
     console.log(filename);
     console.log(filemimeType);
@@ -419,7 +419,7 @@ exports.upload = function*(next)
 
 <script type="text/javascript">
 function upload() {
-  control_upload({
+  febs.control.control_upload({
     formObj:  $('#fileForm'),
     fileObj:  $("#filec"),
     uploadUrl:  '/uploadFile',

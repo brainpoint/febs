@@ -171,7 +171,7 @@ exports.accept = function*(app, conditionCB)
   while (part = yield parts) {
     var srcStream = part;
 
-    var fn = yield conditionCB(Number(query.size), part.filename, part.mimeType);
+    var fn = yield conditionCB(query.data, Number(query.size), part.filename, part.mimeType);
     if (!fn)
     {
       if (typeof srcStream.pause === 'function')
