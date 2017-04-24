@@ -122,6 +122,39 @@ isNull(e)
 denodeify(fn, self, argumentCount)   `仅服务端`
 ```
 
+```js
+// 大数运算.
+
+/**
+ * @desc: 判断是否是bigint.
+ */
+febs.utils.bigint_check(v)
+
+/**
+* @desc: calc bigint
+* @return: bignumber.
+*/
+febs.utils.bigint_add(a, b)
+febs.utils.bigint_minus(a, b)
+febs.utils.bigint_dividedBy(a, b)
+febs.utils.bigint_mul(a, b)
+/**
+* @desc: compare with bigint.
+* @return: boolean.
+*/
+febs.utils.bigint_equal(a, b)
+febs.utils.bigint_more_than(a, b)
+febs.utils.bigint_more_than_e(a, b)   // more than or equal.
+febs.utils.bigint_less_than(a, b)
+febs.utils.bigint_less_than_e(a, b)   // less than or equal.
+/**
+* @desc: 转换bigint->string.
+* @param fixed: 小数位个数, 默认为0.
+* @return: string.
+*/
+febs.utils.bigint_toFixed(a, fixed)
+```
+
 # string
 string 提供了一些js string对象缺少且较常使用的函数.
 ```js

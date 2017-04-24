@@ -48,6 +48,7 @@ copyDir(path.join(root, 'client/partials'), path.join(root, 'dist/febs/partials'
 //
 // make febs.min.js
 var cmdStr = 'uglifyjs\
+  third-party/bignumber.min.js\
   client/febsformin.js\
   client/js/crypt.js\
   client/js/utils.js\
