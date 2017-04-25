@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
+ * Author: lipengxiang
+ * Desc:
+ */
 
 febs.controls = febs.controls || function() {}
 

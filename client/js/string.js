@@ -1,5 +1,5 @@
 
-febs.string = function(){}
+febs.string = febs.string||function(){}
 
 
 /**

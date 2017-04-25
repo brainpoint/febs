@@ -60,26 +60,26 @@ utils库包含了一些常用的函数, 如判断浏览器是否是手机/时间
  * @desc: the browser is mobile.
  * @param userAgent: 在服务器调用时需传入客户端的userAgent
  */
-browserIsMobile()
+febs.utils.browserIsMobile()
 /**
  * @desc: the browser is ios.
  * @param userAgent: 在服务器调用时需传入客户端的userAgent
  */
-browserIsIOS()
+febs.utils.browserIsIOS()
 /**
  * @desc: the browser is phone.
  * @param userAgent: 在服务器调用时需传入客户端的userAgent
  */
-browserIsPhone()
+febs.utils.browserIsPhone()
 /**
  * @desc: the browser is weixin.
  * @param userAgent: 在服务器调用时需传入客户端的userAgent
  */
-browserIsWeixin()
+febs.utils.browserIsWeixin()
 /**
  * @desc: the browser is support html5.
  */
-browserIsSupportHtml5()  `服务端不支持`
+febs.utils.browserIsSupportHtml5()  `服务端不支持`
 ```
 ```js
 /**
@@ -93,33 +93,33 @@ browserIsSupportHtml5()  `服务端不支持`
  * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
  * @return: string.
  */
-getTimeString(time)
+febs.utils.getTimeString(time)
 /**
  * @desc: getDate('2012-05-09')
  * @return: Date.
  */
-getDate(strDate)
+febs.utils.getDate(strDate)
 ```
 ```js
 /**
  * @desc: 合并多个map.
  * @return: {}
  */
-mergeMap(...)
+febs.utils.mergeMap(...)
 ```
 ```js
 /**
 * @desc: 判断参数是否是null,undefined,NaN
 * @return: boolean
 */
-isNull(e)
+febs.utils.isNull(e)
 /**
 * @desc: 将异步回调方式的方法转换成promise, 函数中的this可以为指定值.
 *         例如: yield denodeify(fs.exists)(path);
 * @param self: 指定的调用对象
 * @return: promise.
 */
-denodeify(fn, self, argumentCount)   `仅服务端`
+febs.utils.denodeify(fn, self, argumentCount)   `仅服务端`
 ```
 
 ```js
@@ -162,22 +162,22 @@ string 提供了一些js string对象缺少且较常使用的函数.
 * @desc: 判断是否是手机号码.
 * @return: boolean.
 */
-isPhoneMobile(str)
+febs.string.isPhoneMobile(str)
 /**
  * @desc: 是否为空串.
  * @return: boolean.
  */
-isEmpty(s)
+febs.string.isEmpty(s)
 /**
  * @desc: 获得字符串utf8编码后的字节长度.
  * @return: u32.
  */
-getByteSize(s)
+febs.string.getByteSize(s)
 /**
  * @desc: 替换字符串中所有的strSrc->strDest.
  * @return: string.
  */
-replace(str, strSrc, strDest)
+febs.string.replace(str, strSrc, strDest)
 ```
 
 # crypt
@@ -186,13 +186,13 @@ replace(str, strSrc, strDest)
 /**
 * @return 生成一个uuid字符串.
 */
-uuid()
+febs.crypt.uuid()
 /**
  * @desc: 计算字符串的crc32值
  * @param crc 可以在这个值得基础上继续计算
  * @return: number.
  */
-crc32( str, crc )
+febs.crypt.crc32( str, crc )
 /**
  * @desc: 通过文件表单控件进行文件的crc32计算.
  * @param fileObj: 表单文件对象, 例如表单为:
@@ -202,24 +202,24 @@ crc32( str, crc )
  *             $('#file')[0].files[0] 即为第一个文件对象.
  * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
  */
-crc32_file(fileObj, cb)    `客户端`
+febs.crypt.crc32_file(fileObj, cb)    `客户端`
 /**
  * @desc: 直接对文件进行计算.
  * @param filename: 文件路径
  * @return: number
  */
-crc32_file(filename)    `服务端`
+febs.crypt.crc32_file(filename)    `服务端`
 /**
 * @desc: base64编码.
 * @param arrByte: 字节数组.
 * @return: string.
 */
-base64_encode(arrByte)
+febs.crypt.base64_encode(arrByte)
 /**
 * @desc: base64解码.
 * @return: 字节数组.
 */
-base64_decode(strBase64)
+febs.crypt.base64_decode(strBase64)
 ```
 # nav
 导航是以ajax的方式进行页面切换
@@ -233,21 +233,28 @@ base64_decode(strBase64)
                    }
  * @return:
  */
-nav_init(navCallback, urlObjEquelCallback, options)
+febs.nav.init(navCallback, urlObjEquelCallback, options)
 /**
  * @desc: 跳转至指定位置.
  * @param urlObject: null则当前页面刷新.
  * @return:
  */
-nav_go(urlObject)
+febs.nav.go(urlObject)
+/**
+ * @desc: 记录一个新页面.
+ * @param urlObject: 包含参数等链接的信息.
+ * @return: 浏览器锚点url.
+ */
+febs.nav.push(urlObject)
 /**
  * @desc: 刷新页面.
  */
-nav_refresh()
+febs.nav.refresh()
 /**
  * @desc 刷新指定元素.
+ * @param elem: jquery对象.
  */
-nav_refresh_elem(elem, url);
+febs.nav.refresh_elem(elem, url);
 /**
  * @desc: ajax 跳转.
  * @param ctx:例如: (详见jquery.ajax)
@@ -259,24 +266,29 @@ nav_refresh_elem(elem, url);
    }
  * @return:
  */
-nav_ajax( ctx )
+febs.nav.ajax( ctx )
+/**
+ * @desc: 寻找指定的url
+ * @return: url.
+ */
+febs.nav.url(anchor)
 ```
 
 
 # exception
 定义了服务端常用的错误类型.
 
-    this.code = code;
-    this.msg = msg;
-    this.filename = filename;
-    this.line = line;
+    febs.code = code;
+    febs.msg = msg;
+    febs.filename = filename;
+    febs.line = line;
 ```js
 // @desc: 一般错误.
-exception.ERROR
+febs.exception.ERROR
 // @desc: 参数错误.
-exception.PARAM
+febs.exception.PARAM
 // @desc: 越界
-exception.OUT_OF_RANGE
+febs.exception.OUT_OF_RANGE
 ```
 异常类如下
 ```js
@@ -288,7 +300,7 @@ exception.OUT_OF_RANGE
 * @param line: 异常文件所在行
 * @return: 
 */
-exception(msg, code, filename, line)
+febs.exception(msg, code, filename, line)
 ```
 
 # file
@@ -297,44 +309,44 @@ exception(msg, code, filename, line)
  * @desc: 判断文件夹是否存在.
  * @return: boolean.
  */
-dirIsExist(dir)
+febs.file.dirIsExist(dir)
 /**
  * @desc: 保证文件夹存在.
  * @return: bool. 若不存在新建; 文件夹存在返回true.
  */
-dirAssure(dir)
+febs.file.dirAssure(dir)
 /**
  * @desc: 复制文件夹.
  * @param callback: (err) => {}, 执行此函数时表示复制完成.
  * @return: bool.
  */
-dirCopy(src, dest, callback)
+febs.file.dirCopy(src, dest, callback)
 /**
  * @desc: 删除文件夹.
  * @return:bool.指明是否删除.
  */
-dirRemoveRecursive(dir)
+febs.file.dirRemoveRecursive(dir)
 /**
  * @desc: 获得文件的字节大小.
  * @return: number.-1表示错误.
  */
-fileSize(file)
+febs.file.fileSize(file)
 /**
  * @desc: 判断文件是否存在.
  * @return: boolean.
  */
-fileIsExist(file)
+febs.file.fileIsExist(file)
 /**
  * @desc: 复制文件.
  * @param callback: (err) => {}, 执行此函数时表示复制完成.
  * @return: bool.
  */
-fileCopy(src, dest, callback)
+febs.file.fileCopy(src, dest, callback)
 /**
  * @desc: 移除文件.
  * @return: bool.指明是否删除.
  */
-fileRemove(file)
+febs.file.fileRemove(file)
 ```
 
 
@@ -345,36 +357,43 @@ fileRemove(file)
 ![](doc/ui/control-loadding.jpg)
 ```js
 /**
- * Example:
- *      前台引入:
- *          1. control_loading.hbs页面
- *          2. 使用脚本
- *              // 使用延时显示加载框.
- *              control_loading_show(text, timeout);
- *
- *              // 通过文本改变方式显示加载框.
- *              // changeTextCB: 设置文本的函数. elemFunc(text)
- *              // textArray: 变化的文本数组.
- *              // hideCB:  隐藏加载框时的设置文本的函数. hideCB().
- *              control_loading_show_text(textArray, changeTextCB, hideCB);
- *            
- *              // 隐藏加载框.
- *              control_loading_hide();
- */
- ```
+* @desc: 使用延时显示加载框.
+* @param text: 提示文本.
+* @param timeout: 延时显示, 默认为0.
+* @return: 
+*/
+febs.controls.loading_show(text, timeout)
+
+/**
+* @desc: 通过每500ms改变文本的方式显示加载框; 例如显示 3,2,1,3,2,1循环显示.
+* @param textArray: 变化的文本数组.
+* @param changeTextCB: 当前显示文本的回调. function(text).
+* @param hideCB:  隐藏加载框时的设置文本的函数. function().
+* @return: 
+*/
+febs.controls.loading_show_text(textArray, changeTextCB, hideCB) 
+
+/**
+* @desc: 隐藏加载对话框
+* @return: 
+*/
+febs.controls.loading_hide()
+```
 
 ### page
 ![](doc/ui/control-page.jpg)
 ```js
 /**
-* Example:
-*      前台引入:
-*          1. 在需要page的页面上引入 control_page.hbs页面
-*          2. 实现脚本: control_page_to(page); 当分页按钮被点击时将执行此函数.
-*      后台:
-*          1. var ctx = require('febs').controls.page.renderCtx(curPage, pageCount, totalCount);
-*          2. 将ctx加入到render ctx中即可.
+* @desc: 初始化page控件.
+* @param elem: 将控件插入到elem中, elem是一个jquery的对象.
+* @param curPage: 当前页
+* @param pageCount: 总页数
+* @param totalCount: 总条数
+* @param pageCallback: 页面跳转函数, function(page) {}
+* @return: 
 */
+febs.controls.page_init(elem, curPage, pageCount, totalCount, pageCallback)
+
 ```
 
 ### upload
@@ -430,7 +449,7 @@ fileRemove(file)
   * function *accept(app, conditionCB)
   */
 ```
-完整例子
+例子
 后台:
 ```js
 exports.upload = function*(next)

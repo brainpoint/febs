@@ -1,5 +1,5 @@
 
-febs.utils = function(){}
+febs.utils = febs.utils||function(){}
 
 /**
  * @desc: the browser is mobile.
