@@ -8,7 +8,7 @@
 
 var promise = require('promise');
 var assert  = require('assert');
-
+var BigNumber = require('bignumber.js');
 
 /**
  * @desc: the browser is mobile.

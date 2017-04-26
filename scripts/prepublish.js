@@ -42,8 +42,10 @@ var root = path.resolve(__dirname, '../');
 
 //
 // copy client/controls,partials -> dist
-copyDir(path.join(root, 'client/controls'), path.join(root, 'dist/febs/controls'));
-copyDir(path.join(root, 'client/partials'), path.join(root, 'dist/febs/partials'));
+//copyDir(path.join(root, 'client/controls'), path.join(root, 'dist/febs/controls'));
+//copyDir(path.join(root, 'client/partials'), path.join(root, 'dist/febs/partials'));
+
+febs.file.fileCopy(path.join(root, 'client/febs.css'), path.join(root, 'dist/febs/febs.css'));
 
 //
 // make febs.min.js
@@ -54,7 +56,9 @@ var cmdStr = 'uglifyjs\
   client/js/utils.js\
   client/js/string.js\
   client/js/nav.js\
+  client/js/controls/loading.js\
   client/js/controls/upload.js\
+  client/js/controls/page.js\
   -o dist/febs/febs.min.js -c -m';
 exec(cmdStr, function(err,stdout,stderr){
   if(err) {

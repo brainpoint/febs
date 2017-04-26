@@ -3,12 +3,12 @@
  * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
  * Author: lipengxiang
  * Desc:
- *  1. nav_init() 初始化.
- *  2. nav_go() 跳转.
- *  3. nav_refresh() 刷新.
+ *  1. init() 初始化.
+ *  2. go() 跳转.
+ *  3. refresh() 刷新.
  */
 
-febs.nav = function() {}
+febs.nav = febs.nav||function() {}
 
 febs.nav.nav_map = {};
 febs.nav.nav_arr = [];
@@ -24,7 +24,7 @@ febs.nav.nav_options = {defaultTimeout:10000};
  * @desc: ajax 跳转.
  * @return:
  */
-febs.nav.nav_ajax=
+febs.nav.ajax=
 function( ctx )
 {
   //if (!!window.ActiveXObject || "ActiveXObject" in window) // ie11.
@@ -62,7 +62,7 @@ function( ctx )
                    }
  * @return:
  */
-febs.nav.nav_init=
+febs.nav.init=
 function (navCallback, urlObjEquelCallback, options)
 {
   document.onkeydown = function(e){
@@ -91,7 +91,7 @@ function (navCallback, urlObjEquelCallback, options)
  * @desc: 寻找指定的url
  * @return: url.
  */
-febs.nav.nav_url=
+febs.nav.url=
 function (anchor)
 {
   var url = null;
@@ -103,7 +103,7 @@ function (anchor)
   return url;
 }
 
-febs.nav.nav_hash_change=
+febs.nav.hash_change=
 function ()
 {
   if (febs.nav.nav_cur_url != null)
@@ -114,7 +114,7 @@ function ()
 
   var hashStr = location.hash;
   if (hashStr != null && hashStr != "") {
-    var url = nav_url(hashStr);
+    var url = febs.nav.url(hashStr);
     if (url && febs.nav.nav_callback) {
       febs.nav.nav_callback(url);
     }
@@ -127,7 +127,7 @@ function ()
  * @param urlObject: 包含参数等链接的信息.
  * @return: 浏览器锚点url.
  */
-febs.nav.nav_push=
+febs.nav.push=
 function (urlObject)
 {
   if (!febs.nav.nav_url_equal_callback)
@@ -141,7 +141,7 @@ function (urlObject)
       window.onhashchange = null;
       window.location.href = febs.nav.nav_arr[i];
       febs.nav.nav_cur_url = true;
-      window.onhashchange = nav_hash_change;
+      window.onhashchange = febs.nav.hash_change;
       return;
     }
   }
@@ -156,7 +156,7 @@ function (urlObject)
   window.onhashchange = null;
   window.location.href = anchor;
   febs.nav.nav_cur_url = true;
-  window.onhashchange = nav_hash_change;
+  window.onhashchange = febs.nav.hash_change;
 
   febs.nav.nav_map[anchor] = urlObject;
   febs.nav.nav_arr.push(anchor);
@@ -169,33 +169,33 @@ function (urlObject)
  * @param urlObject: null则当前页面刷新.
  * @return:
  */
-febs.nav.nav_go=
+febs.nav.go=
 function (urlObject)
 {
   if (!febs.nav.nav_callback)
     return;
 
   if (urlObject)
-    nav_push(urlObject);
-  nav_hash_change();
+    febs.nav.push(urlObject);
+  febs.nav.hash_change();
 }
 
 /**
 * @desc 刷新页面.
 */
-febs.nav.nav_refresh=
+febs.nav.refresh=
 function ()
 {
-  nav_go(null);
+  febs.nav.go(null);
 }
 
 /**
 * @desc 刷新指定元素.
 */
-febs.nav.nav_refresh_elem=
+febs.nav.refresh_elem=
 function ( elem, url )
 {
-  nav_ajax({
+  febs.nav.ajax({
     type: "GET",
     url: url,
     success: function(r) {
@@ -204,4 +204,4 @@ function ( elem, url )
   });
 }
 
-window.onhashchange = febs.nav.nav_hash_change;
+window.onhashchange = febs.nav.hash_change;
