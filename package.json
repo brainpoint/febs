@@ -37,5 +37,5 @@
     "prepublish": "node scripts/prepublish.js"
   },
   "name": "febs",
-  "version": "0.1.12"
+  "version": "0.2.0"
 }

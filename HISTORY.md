@@ -8,5 +8,10 @@
   - add file.dirCopy
   
 
+0.2.0
+==================
+  - add bigint supported.
+  - add febs.controls in front.
+
 
 
