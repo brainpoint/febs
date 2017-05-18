@@ -13,5 +13,7 @@
   - add bigint supported.
   - add febs.controls in front.
 
-
+0.2.1
+==================
+  - [bugfix] febs.crypt.crc32
 

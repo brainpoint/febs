@@ -55,7 +55,7 @@ function (file, cb) {
 
   //每块文件读取完毕之后的处理.
   fileReader.onload = function(e) {
-    crc = crc32(e.target.result, crc);
+    crc = febs.crypt.crc32(e.target.result, crc);
     // append binary string
     currentChunk++;
 
