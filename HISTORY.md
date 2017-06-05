@@ -17,3 +17,7 @@
 ==================
   - [bugfix] febs.crypt.crc32
 
+0.2.2
+==================
+  - [feature] 添加global.__debug
+

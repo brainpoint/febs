@@ -30,10 +30,26 @@ if (!global.__line) {
 }
 
 //
+// define the __debug.
+if (!global.hasOwnProperty('__debug')) {
+  Object.defineProperty(global, '__debug', {
+   get: function() {
+     if (global.hasOwnProperty('__debugValue'))
+       return global.__debugValue;
+     else
+       return ((process.env.NODE_ENV || 'development') == 'development');
+   },
+   set: function(isDebug) {
+     global.__debugValue = isDebug;
+   }
+  });
+}
+
+//
 // debug.
 //
 if (!console.debug) {
-  if ((process.env.NODE_ENV || 'development') == 'development') {
+  if (global.__debug) {
     console.debug = console.warn;
   } else {
     console.debug = ()=>{}

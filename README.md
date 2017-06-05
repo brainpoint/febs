@@ -45,6 +45,7 @@ febs web库分为客户端与服务器端;
 | name           | description |
 |----------------|-------------|
 | __line  | 当前所在行, 可以配合 __filename 定位错误日志   |
+| __debug  |  判断当前的环境process.env.NODE_ENV是否为development, 如对此值设置后, 使用设置后的值.  |
 | console.debug  | development 环境下输出日志  |
 
 > 其他
