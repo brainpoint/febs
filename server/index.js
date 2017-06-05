@@ -48,10 +48,10 @@ if (!global.hasOwnProperty('__debug')) {
 //
 // debug.
 //
-if (!console.debug) {
-  if (global.__debug) {
-    console.debug = console.warn;
-  } else {
-    console.debug = ()=>{}
+// if (!console.debug) {
+  console.debug = function() {
+    if (__debug) {
+      console.warn(...arguments);
+    }
   }
-}
+// }

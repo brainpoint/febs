@@ -19,6 +19,9 @@
     "type": "git",
     "url": "git+ssh://git@github.com/brainpoint/febs.git"
   },
+  "engines": {
+    "node": ">=6"
+  },
   "files": [
     "doc",
     "dist",
@@ -38,5 +41,5 @@
     "prepublish": "node scripts/prepublish.js"
   },
   "name": "febs",
-  "version": "0.2.2"
+  "version": "0.2.3"
 }
