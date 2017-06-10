@@ -328,6 +328,30 @@ febs.file.dirCopy(src, dest, callback)
  */
 febs.file.dirRemoveRecursive(dir)
 /**
+* @desc: 获取当前目录下的子文件与子目录.
+* @param dir: 要搜索的目录路径.
+* @param pattern: 子文件或子目录名称,匹配的正则表达式
+*                 仅从名称的第一个字符开始匹配, 例如: / a.* /, 匹配 a开头的文件名.
+* @return: {files:[], dirs:[]}; 发生错误返回null.
+*/
+febs.file.dirExplorer(dir)
+/**
+* @desc: 递归获取当前目录下的所有子文件.
+* @param dir: 要搜索的目录路径.
+* @param pattern: 子文件或子目录名称,匹配的正则表达式
+*                 仅从名称的第一个字符开始匹配, 例如: / a.* /, 匹配 a开头的文件名.
+* @return: Array; 发生错误返回null.
+*/
+febs.file.dirExplorerFilesRecursive(dir, pattern)
+/**
+* @desc: 递归获取当前目录下的所有子目录.
+* @param dir: 要搜索的目录路径.
+* @param pattern: 子文件或子目录名称,匹配的正则表达式
+*                 仅从名称的第一个字符开始匹配, 例如: / a.* /, 匹配 a开头的文件名.
+* @return: Array; 发生错误返回null.
+*/
+febs.file.dirExplorerDirsRecursive(dir, pattern)
+/**
  * @desc: 获得文件的字节大小.
  * @return: number.-1表示错误.
  */

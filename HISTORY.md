@@ -21,3 +21,8 @@
 ==================
   - [feature] 添加global.__debug
 
+0.2.5
+==================
+  - [feature] 添加 febs.file.dirExplorer
+  - [feature] 添加 febs.file.dirExplorerFilesRecursive
+  - [feature] 添加 febs.file.dirExplorerDirsRecursive

@@ -190,6 +190,158 @@ function dirRemoveRecursive(dir) {
 };
 exports.dirRemoveRecursive = dirRemoveRecursive;
 
+
+/**
+* @desc: 获取当前目录下的子文件与子目录.
+* @param dir: 要搜索的目录路径.
+* @param pattern: 子文件或子目录名称,匹配的正则表达式
+*                 仅从名称的第一个字符开始匹配, 例如: / a.* /, 匹配 a开头的文件名.
+* @return: {files:[], dirs:[]}; 发生错误返回null.
+*/
+exports.dirExplorer = function(dir, pattern) {
+  let ret = {files:[], dirs:[]};
+  let fspath;
+  let stat;
+
+  try {
+    let dirList = fs.readdirSync(dir);
+    for (let i = 0; i < dirList.length; i++) {
+
+      if (pattern) {
+        let pr = pattern.exec(dirList[i]);
+        if (!pr || pr.index != 0)
+          continue;
+      }
+
+      fspath = path.join(dir, dirList[i]);
+      stat = fs.statSync(fspath);
+      if (stat.isDirectory()) {
+        ret.dirs.push(dirList[i]);
+      } else if (stat.isFile()) {
+        ret.files.push(dirList[i]);
+      }
+    }
+  } catch(e) {
+    return null;
+  }
+
+  return ret;
+}
+
+
+/**
+* @desc: 递归获取当前目录下的所有子文件.
+* @param dir: 要搜索的目录路径.
+* @param pattern: 子文件或子目录名称,匹配的正则表达式
+*                 仅从名称的第一个字符开始匹配, 例如: / a.* /, 匹配 a开头的文件名.
+* @return: Array; 发生错误返回null.
+*/
+exports.dirExplorerFilesRecursive = function(dir, pattern) {
+  let ret = [];
+  let fspath;
+  let stat;
+
+  let dirs = [];
+
+  try {
+    let dirList = fs.readdirSync(dir);
+    for (let i = 0; i < dirList.length; i++) {
+      fspath = path.join(dir, dirList[i]);
+      stat = fs.statSync(fspath);
+      if (stat.isDirectory()) {
+        dirs.push(dirList[i]);
+      } else if (stat.isFile()) {
+        if (pattern) {
+          let pr = pattern.exec(dirList[i]);
+          if (!pr || pr.index != 0)
+            continue;
+        }
+        ret.push(dirList[i]);
+      }
+    }
+
+    for (let j = 0; j < dirs.length; j++) {
+      let dirList = fs.readdirSync(path.join(dir, dirs[j]));
+      for (let i = 0; i < dirList.length; i++) {
+        fspath = path.join(dir, dirs[j], dirList[i]);
+        stat = fs.statSync(fspath);
+        if (stat.isDirectory()) {
+          dirs.push(path.join(dirs[j], dirList[i]));
+        } else if (stat.isFile()) {
+          if (pattern) {
+            let pr = pattern.exec(dirList[i]);
+            if (!pr || pr.index != 0)
+              continue;
+          }
+          ret.push(path.join(dirs[j], dirList[i]));
+        }
+      } // for.
+    } // for.
+
+  } catch(e) {
+    return null;
+  }
+
+  return ret;
+}
+
+
+/**
+* @desc: 递归获取当前目录下的所有子目录.
+* @param dir: 要搜索的目录路径.
+* @param pattern: 子文件或子目录名称,匹配的正则表达式
+*                 仅从名称的第一个字符开始匹配, 例如: / a.* /, 匹配 a开头的文件名.
+* @return: Array; 发生错误返回null.
+*/
+exports.dirExplorerDirsRecursive = function(dir, pattern) {
+  let ret = [];
+  let fspath;
+  let stat;
+
+  let dirs = [];
+
+  try {
+    let dirList = fs.readdirSync(dir);
+    for (let i = 0; i < dirList.length; i++) {
+      fspath = path.join(dir, dirList[i]);
+      stat = fs.statSync(fspath);
+      if (stat.isDirectory()) {
+        dirs.push(dirList[i]);
+        if (pattern) {
+          let pr = pattern.exec(dirList[i]);
+          if (!pr || pr.index != 0)
+            continue;
+        }
+        ret.push(dirList[i]);
+      }
+    }
+
+    for (let j = 0; j < dirs.length; j++) {
+      let dirList = fs.readdirSync(path.join(dir, dirs[j]));
+      for (let i = 0; i < dirList.length; i++) {
+        fspath = path.join(dir, dirs[j], dirList[i]);
+        stat = fs.statSync(fspath);
+        if (stat.isDirectory()) {
+          dirs.push(path.join(dirs[j], dirList[i]));
+          if (pattern) {
+            let pr = pattern.exec(dirList[i]);
+            if (!pr || pr.index != 0)
+              continue;
+          }
+          ret.push(path.join(dirs[j], dirList[i]));
+        }
+      } // for.
+    } // for.
+
+  } catch(e) {
+    return null;
+  }
+
+  return ret;
+}
+
+
+
 /**
  * @desc: 判断文件是否存在.
  * @return: boolean.
