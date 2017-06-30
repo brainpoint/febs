@@ -26,3 +26,8 @@
   - [feature] 添加 febs.file.dirExplorer
   - [feature] 添加 febs.file.dirExplorerFilesRecursive
   - [feature] 添加 febs.file.dirExplorerDirsRecursive
+
+0.2.6
+==================
+  - [feature] 添加 febs.net 支持 fetch, jsonp
+  - [feature] 添加 requestAnimationFrame / cancelAnimationFrame

@@ -50,12 +50,15 @@ febs.file.fileCopy(path.join(root, 'client/febs.css'), path.join(root, 'dist/feb
 //
 // make febs.min.js
 var cmdStr = 'uglifyjs\
+  third-party/bluebird.min.js\
   third-party/bignumber.min.js\
   client/febsformin.js\
+  client/js/animationFrame.js\
   client/js/crypt.js\
   client/js/utils.js\
   client/js/string.js\
   client/js/nav.js\
+  client/js/net.js\
   client/js/controls/loading.js\
   client/js/controls/upload.js\
   client/js/controls/page.js\

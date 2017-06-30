@@ -23,6 +23,7 @@ febs web库分为客户端与服务器端;
 
 - 客户端独有库
   - [nav](#nav)
+  - [net](#net)
 
 - 服务端独有库
   - [exception](#exception)
@@ -38,6 +39,8 @@ febs web库分为客户端与服务器端;
 <script src="jquery.form.min.js"></script>
 <script src="febs.min.js" charset="UTF-8"></script>
 ```
+* 定义了`window.requestAnimationFrame`和`window.cancelAnimationFrame`方法,可进行动画帧操作.
+* 对浏览器添加了`Promise`支持.
 
 > 服务端
 
@@ -258,7 +261,7 @@ febs.nav.refresh()
 febs.nav.refresh_elem(elem, url);
 /**
  * @desc: ajax 跳转.
- * @param ctx:例如: (详见jquery.ajax)
+ * @param option:例如: (详见jquery.ajax)
     {
      type: "GET",
      url: url,
@@ -267,12 +270,64 @@ febs.nav.refresh_elem(elem, url);
    }
  * @return:
  */
-febs.nav.ajax( ctx )
+febs.nav.ajax( option )
 /**
  * @desc: 寻找指定的url
  * @return: url.
  */
 febs.nav.url(anchor)
+```
+
+# net
+net封装了浏览器通信方法: ajax, fetch, jsonp
+```js
+/**
+ * @desc: 进行ajax请求, 同 febs.nav.ajax.
+ */
+febs.net.ajax(option)
+/**
+ * @desc: 使用fetch方式进行数据请求.
+ *        如果超時, 可以catch到 'timeout'
+ * @param option: 请求选项.
+ *          {
+              method, // 请求方法 get, post, delete 等.
+              mode,   // 'no-cors', 'same-origin'等; (可忽略)
+              headers, // 请求header, 例如:
+                            {
+                              "Content-Type": "application/json",
+                              "Accept": 'application/json',
+                            }
+              body,    // 请求内容.
+              timeout, // 超时 (ms), 默认为5000
+            }
+ * @return: 返回 Promise;
+ * @e.g.
+      febs.net.fetch(url, {})
+      .then(response=>response.json())
+      .then(data=>{})
+      .catch(err=>{
+        if (err === 'timeout)  // 超时.
+      });
+ */
+febs.net.fetch(url, option)
+/**
+ * @desc: jsonp方式获取数据.
+ *        如果超時, 可以catch到 'timeout'
+ * @param option: 请求选项同fetch. 可以附带如下的更多属性. jsonp只能使用`get`方式.
+ *          {
+              jsonpCallback, // jsonp请求时附带到地址中的callback参数, 默认为 'callback';
+                             // 服务端需将查询字符串中的此参数作为返回数据中 `callback`([data])的 callback值
+            }
+ * @return: 返回 Promise;
+ * @e.g.
+      febs.net.jsonp(url, {})
+      .then(response=>response.json())
+      .then(data=>{})
+      .catch(err=>{
+        if (err === 'timeout)  // 超时.
+      });
+ */
+febs.net.jsonp(url, option)
 ```
 
 

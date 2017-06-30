@@ -53,6 +53,7 @@ function( ctx )
   jQuery.ajax(ctx);
 }
 
+
 /**
  * @desc: 使用跳转函数初始化.
  * @param navCallback: function(object); 触发页面切换时的回调.
