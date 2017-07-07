@@ -1,6 +1,29 @@
 
 febs.utils = febs.utils||function(){}
 
+
+/**
+ * @desc: 模拟sleep.
+ * @return: Promise.
+ *     在ms时间后执行.
+ * @e.g.
+ *     febs.utils.sleep(1000).then(()=>{
+          //1000ms之后resolve.
+       });
+ */
+febs.utils.sleep=
+function(ms) {
+  return new Promise(function (resolve, reject) {
+    try {
+      setTimeout(function(){
+        resolve();
+      }, ms);
+    } catch(err) {
+      reject(err);
+    }
+  });
+}
+
 /**
  * @desc: the browser is mobile.
  */

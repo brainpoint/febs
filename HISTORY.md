@@ -31,3 +31,7 @@
 ==================
   - [feature] 添加 febs.net 支持 fetch, jsonp
   - [feature] 添加 requestAnimationFrame / cancelAnimationFrame
+
+0.2.7
+==================
+  - [feature] 添加 febs.utils.sleep

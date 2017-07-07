@@ -6,9 +6,30 @@
  * Desc:
  */
 
-var promise = require('promise');
+var PromiseLib   = Promise;
 var assert  = require('assert');
 var BigNumber = require('bignumber.js');
+
+/**
+ * @desc: 模拟sleep.
+ * @return: Promise.
+ *     在ms时间后执行.
+ * @e.g.
+ *     febs.utils.sleep(1000).then(()=>{
+          //1000ms之后resolve.
+       });
+ */
+exports.sleep = function(ms) {
+  return new PromiseLib(function (resolve, reject) {
+    try {
+      setTimeout(function(){
+        resolve();
+      }, ms);
+    } catch(err) {
+      reject(err);
+    }
+  });
+}
 
 /**
  * @desc: the browser is mobile.
@@ -167,7 +188,7 @@ exports.denodeify = function (fn, self, argumentCount) {
   return function () {
     var args = Array.prototype.slice.call(arguments, 0,
         argumentCount > 0 ? argumentCount : 0);
-    return new Promise(function (resolve, reject) {
+    return new PromiseLib(function (resolve, reject) {
       args.push(function (err, res) {
         if (err) reject(err);
         else resolve(res);

@@ -58,6 +58,18 @@ febs web库分为客户端与服务器端;
 # utils
 
 utils库包含了一些常用的函数, 如判断浏览器是否是手机/时间字符串格式化等.
+```js
+/**
+ * @desc: 模拟sleep.
+ * @return: Promise.
+ *     在ms时间后执行.
+ * @e.g.
+ *     febs.utils.sleep(1000).then(()=>{
+          //1000ms之后resolve.
+       });
+ */
+febs.utils.sleep(ms)
+```
 
 ```js
 /**
