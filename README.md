@@ -501,12 +501,11 @@ febs.controls.page_init(elem, curPage, pageCount, totalCount, pageCallback)
  *                  <input type="file" class="form-control" name="file" onchange="febs.controls.upload(cfg)" multiple>
  *                </form>
  *      后台:
- *          1. 在uploadUrl中调用  yield require('febs').controls.upload.accept(app, conditionCB); 当满足条件时将存储, 并返回true表示成功.
- *
- *
- *
- * 客户端.
- ** 需要 jquery,jquery.form 库支持.
+ *          1. 在uploadUrl中调用  await require('febs').controls.upload.accept(app, conditionCB); 当满足条件时将存储, 并返回true表示成功.
+ */
+
+ 客户端调用如下接口上传文件.
+ /** 需要 jquery,jquery.form 库支持.
   * 并且 <input type="file" name="file"... 中, 必须存在name属性.
   * 使用post方式上传文件.
   * @param cfg:  object, 其中
@@ -526,27 +525,27 @@ febs.controls.page_init(elem, curPage, pageCount, totalCount, pageCallback)
   *                progressCB:  , // 上传进度的回调. function(fileObj, percent)
   *              }
   * function control_upload(cfg)
-  *
- * 服务端.
-  ***
-  * 接收上传文件内容.
-  * @param conditionCB: function*(data, filesize, filename, filemimeType):string.
-  *                      - data: 上传的附加数据.
-  *                      - filesize: 将要存储的文件大小.
-  *                      - filename: 上传的文件名.
-  *                      - filemimeType: 文件类型, 例如: 'image/jpeg'.
-  *                      - return: 存储的文件路径, 返回null表示不存储.
-  * @return boolean.
-  *
-  * function *accept(app, conditionCB)
   */
+服务端调用如下接口接收文件.
+/**
+ * 接收上传文件内容.
+ * @param conditionCB: async function(filesize, filename, filemimeType):string.
+ *                      - filesize: 将要存储的文件大小.
+ *                      - filename: 上传的文件名.
+ *                      - filemimeType: 文件类型, 例如: 'image/jpeg'.
+ *                      - return: 存储的文件路径, 返回null表示不存储.
+ * @return Promise.
+ * @resolve
+ *     - bool. 指明是否存储成功.
+ */
+async function accept(ctx, conditionCB)
 ```
 例子
 后台:
 ```js
-exports.upload = function*(next)
+exports.upload = async function(ctx, next)
 {
-  var r = yield require('febs').controls.upload.accept(this, function*(data, filesize, filename, filemimeType){
+  var r = await require('febs').controls.upload.accept(ctx, async function(data, filesize, filename, filemimeType){
     console.log(filesize);
     console.log(filename);
     console.log(filemimeType);

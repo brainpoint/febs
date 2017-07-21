@@ -16,7 +16,7 @@
  *          2. 调用脚本进行初始化设置: control_upload_init(uploadUrl, finishCB, progressCB);
  *                        其中 uploadUrl为上传地址, 不能带参数.
  *      后台:
- *          1. 在uploadUrl中调用  yield require('febs').controls.upload.accept(app, conditionCB); 当满足条件时将存储, 并返回true表示成功.
+ *          1. 在uploadUrl中调用  await require('febs').controls.upload.accept(app, conditionCB); 当满足条件时将存储, 并返回true表示成功.
  */
 
 var URL      = require('url');
@@ -24,7 +24,9 @@ var path     = require('path');
 var fs       = require('fs');
 var parse    = require('co-busboy');
 var assert   = require('assert');
+var co       = require('co');
 var febs   = require('..');
+var PromiseLib = Promise;
 
 function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
 
@@ -134,73 +136,109 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
 
 /**
  * 接收上传文件内容.
- * @param conditionCB: function*(filesize, filename, filemimeType):string.
+ * @param conditionCB: async function(filesize, filename, filemimeType):string.
  *                      - filesize: 将要存储的文件大小.
  *                      - filename: 上传的文件名.
  *                      - filemimeType: 文件类型, 例如: 'image/jpeg'.
  *                      - return: 存储的文件路径, 返回null表示不存储.
- * @return boolean.
+ * @return Promise.
+ * @resolve
+ *     - bool. 指明是否存储成功.
  */
-exports.accept = function*(app, conditionCB)
+exports.accept = async function(app, conditionCB)
 {
   assert(conditionCB);
 
-  if ('POST' != app.method)
-    return false;
+  return PromiseLib((resolve, reject)=>{
+    try {
+      if ('POST' != app.method) {
+        resolve(false);
+        return;
+      }
 
-  var query = URL.parse(app.request.url, true).query;
-  if (!query.crc32)
-    return false;
+      var query = URL.parse(app.request.url, true).query;
+      if (!query.crc32) {
+        resolve(false);
+        return;
+      }
 
-  if (!query.size)
-    return false;
+      if (!query.size) {
+        resolve(false);
+        return;
+      }
 
-  if (!app.request.is('multipart/*'))
-    return false;
+      if (!app.request.is('multipart/*')) {
+        resolve(false);
+        return;
+      }
 
-  // parse the multipart body
-  var parts = parse(app, {
-    autoFields: true // saves the fields to parts.field(s)
+      // parse the multipart body
+      var parts = parse(app, {
+        autoFields: true // saves the fields to parts.field(s)
+      });
+
+      if (!parts) {
+        resolve(false);
+        return;
+      }
+    } catch(err) {
+      reject(err);
+      return;
+    }
+
+    co(function* () {
+      // yield each part as a stream
+      var part;
+      while (part = yield parts) {
+        var srcStream = part;
+
+        conditionCB(query.data, Number(query.size), part.filename, part.mimeType)
+        .then(fn=>{
+          if (!fn)
+          {
+            if (typeof srcStream.pause === 'function')
+            srcStream.pause();
+            
+            let req = app.request.req || app.request;
+            req.destroy();
+            resolve(false);
+            return;
+          }
+
+          // create stream.
+          var destStream = fs.createWriteStream(fn);
+          if (!destStream)
+          {
+            console.debug('febs upload.accpet createWriteStream err:' + fn);
+
+            if (typeof srcStream.pause === 'function')
+              srcStream.pause();
+
+            let req = app.request.req || app.request;
+            req.destroy();
+            resolve(false);
+            return;
+          }
+
+          co(function* () {
+            var ret = yield save_to(srcStream, destStream, fn, Number(query.size), Number(query.crc32));
+            return ret;
+          }).then(function (value) {
+            resolve(value);
+          }, function (err) {
+            reject(err);
+          });
+
+        })
+        .catch(err=>{
+          reject(err);
+        });
+
+        return;
+      }
+    }).then(function (value) {
+    }, function (err) {
+      reject(err);
+    });
   });
-
-  if (!parts)
-    return false;
-
-  // yield each part as a stream
-  var part;
-  while (part = yield parts) {
-    var srcStream = part;
-
-    var fn = yield conditionCB(query.data, Number(query.size), part.filename, part.mimeType);
-    if (!fn)
-    {
-      if (typeof srcStream.pause === 'function')
-       srcStream.pause();
-      
-      let req = app.request.req || app.request;
-      req.destroy();
-      return false;
-    }
-
-    // create stream.
-    var destStream = fs.createWriteStream(fn);
-    if (!destStream)
-    {
-      console.debug('febs upload.accpet createWriteStream err:' + fn);
-
-      if (typeof srcStream.pause === 'function')
-        srcStream.pause();
-
-      let req = app.request.req || app.request;
-      req.destroy();
-    
-      return false;
-    }
-
-    var ret = yield save_to(srcStream, destStream, fn, Number(query.size), Number(query.crc32));
-    
-    return ret;
-  }
-
-  return false;
 };

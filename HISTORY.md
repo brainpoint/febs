@@ -35,3 +35,7 @@
 0.2.7
 ==================
   - [feature] 添加 febs.utils.sleep
+
+0.2.8
+==================
+  - [feature] febs.controls.upload为es7方式
