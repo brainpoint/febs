@@ -149,7 +149,7 @@ exports.accept = async function(app, conditionCB)
 {
   assert(conditionCB);
 
-  return PromiseLib((resolve, reject)=>{
+  return new PromiseLib((resolve, reject)=>{
     try {
       if ('POST' != app.method) {
         resolve(false);
