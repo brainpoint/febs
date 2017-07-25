@@ -109,7 +109,25 @@ febs.utils.browserIsSupportHtml5()  `服务端不支持`
  * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
  * @return: string.
  */
-febs.utils.getTimeString(time)
+febs.utils.getTimeString(time, fmt, weekFmt)
+/**
+ * @desc: 获取指定时间距离现在的时间描述.
+ *        例如, 昨天, 1小时前等.
+ * @param time: ms. 小于当前时间, 大于当前时间将显示为 '刚刚';
+ * @param strFmt: 需要显示的文字. 
+ *                默认为 {
+ *                        now:    '刚刚',           // 3秒钟以内将显示此信息.
+ *                        second: '秒前',
+ *                        minute: '分钟前',
+ *                        hour:   '小时前',
+ *                        day_yesterday: '昨天',
+ *                        day:    '天前',
+ *                        month:  '个月前',          // 6个月内将显示此信息.
+ *                        time:   'yyyy-M-d h:m:s'  // 超过6个月将使用此格式格式化时间
+ *                       }
+ * @return: string.
+ */
+febs.utils.getTimeStringFromNow(time, strFmt);
 /**
  * @desc: getDate('2012-05-09')
  * @return: Date.

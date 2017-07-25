@@ -153,6 +153,80 @@ function(time, fmt, weekFmt)
     return fmt;
 };
 
+
+/**
+ * @desc: 获取指定时间距离现在的时间描述.
+ *        例如, 昨天, 1小时前等.
+ * @param time: ms. 小于当前时间, 大于当前时间将显示为 '刚刚';
+ * @param strFmt: 需要显示的文字. 
+ *                默认为 {
+ *                        now:    '刚刚',           // 3秒钟以内将显示此信息.
+ *                        second: '秒前',
+ *                        minute: '分钟前',
+ *                        hour:   '小时前',
+ *                        day_yesterday: '昨天',
+ *                        day:    '天前',
+ *                        month:  '个月前',          // 6个月内将显示此信息.
+ *                        time:   'yyyy-M-d h:m:s'  // 超过6个月将使用此格式格式化时间
+ *                       }
+ * @return: string.
+ */
+febs.utils.getTimeStringFromNow=
+function(time, strFmt)
+{
+  strFmt = strFmt || {};
+  strFmt.now      = strFmt.now      || '刚刚';
+  strFmt.second   = strFmt.second   || '秒前';
+  strFmt.minute   = strFmt.minute   || '分钟前';
+  strFmt.hour     = strFmt.hour     || '小时前';
+  strFmt.day_yesterday = strFmt.day_yesterday || '昨天';
+  strFmt.day       = strFmt.day      || '天前';
+  strFmt.month    = strFmt.month     || '个月前';
+  strFmt.time     = strFmt.time      || 'yyyy-M-d h:m:s';
+
+  var now = Math.ceil(Date.now()/1000);
+  time = Math.ceil(time/1000);
+
+  if (now > time)
+  {
+    var s = now - time;
+    if (s < 3) {
+      return strFmt.now;
+    }
+
+    if (s < 60) {
+      return s.toString()+strFmt.second;
+    }
+
+    if (s < 60*60) {
+      return Math.ceil(s/60).toString()+strFmt.minute;
+    }
+
+    if (s < 60*60*24) {
+      return Math.ceil(s/60/60).toString()+strFmt.hour;
+    }
+
+    if (s < 60*60*24*30) {
+      var dNow = new Date(now*1000);
+
+      dNow.setHours(0, 0, 1);
+      if (dNow.getTime()-time <= 60*60*24) {
+        return strFmt.day_yesterday;
+      }
+
+      return Math.ceil(s/60/60/24).toString()+strFmt.day;
+    }
+
+    if (s < 60*60*24*30*6) {
+      return Math.ceil(s/60/60/24/30).toString()+strFmt.month;
+    }
+
+    return febs.utils.getTimeString(time, strFmt.time);
+  }
+
+  return strFmt.now;
+}
+
 /**
  * @desc: getDate('2012-05-09')
  * @return: Date.

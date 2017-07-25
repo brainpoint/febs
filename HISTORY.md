@@ -39,3 +39,7 @@
 0.2.8
 ==================
   - [feature] febs.controls.upload为es7方式
+
+0.2.10
+==================
+  - [feature] febs.utils.getTimeStringFromNow
