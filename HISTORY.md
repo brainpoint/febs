@@ -43,3 +43,7 @@
 0.2.10
 ==================
   - [feature] febs.utils.getTimeStringFromNow
+
+0.2.11
+==================
+  - [bugfix] control upload.

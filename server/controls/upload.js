@@ -29,7 +29,6 @@ var febs   = require('..');
 var PromiseLib = Promise;
 
 function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
-
   // streams2+: assert the stream encoding is buffer.
   var state = stream._readableState;
   if (state && state.encoding != null) {
@@ -129,6 +128,8 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
     stream.removeListener('error', onFinish)
     writeStream.removeListener('error', onFinish)
     writeStream.removeListener('close', onFinish)
+    
+    writeStream.end()
 
     stream = writeStream = null
   }
@@ -145,7 +146,7 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
  * @resolve
  *     - bool. 指明是否存储成功.
  */
-exports.accept = async function(app, conditionCB)
+exports.accept = function(app, conditionCB)
 {
   assert(conditionCB);
 
@@ -186,16 +187,19 @@ exports.accept = async function(app, conditionCB)
       return;
     }
 
-    co(function* () {
-      // yield each part as a stream
-      var part;
-      while (part = yield parts) {
-        var srcStream = part;
+    parts(function(err, part){
+      if (err) {
+        reject(err);
+        return;
+      }
 
-        conditionCB(query.data, Number(query.size), part.filename, part.mimeType)
+      var srcStream = part;
+      conditionCB(query.data, Number(query.size), part.filename, part.mimeType)
         .then(fn=>{
           if (!fn)
           {
+            console.debug('febs upload.accpet un return a filename');
+
             if (typeof srcStream.pause === 'function')
             srcStream.pause();
             
@@ -220,25 +224,19 @@ exports.accept = async function(app, conditionCB)
             return;
           }
 
-          co(function* () {
-            var ret = yield save_to(srcStream, destStream, fn, Number(query.size), Number(query.crc32));
-            return ret;
-          }).then(function (value) {
-            resolve(value);
-          }, function (err) {
-            reject(err);
+          save_to(srcStream, destStream, fn, Number(query.size), Number(query.crc32), (err, ret)=>{
+            if (err)
+              reject(err);
+            else
+              resolve(ret);
           });
-
+        })
+        .then(ret=>{
         })
         .catch(err=>{
           reject(err);
         });
-
-        return;
-      }
-    }).then(function (value) {
-    }, function (err) {
-      reject(err);
     });
+      
   });
 };
