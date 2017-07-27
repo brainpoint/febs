@@ -112,11 +112,11 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
       console.debug(err);
       done(null, false);
     }
-    else
-      done(null, true);
+    // else
+    //   done(null, true);
   }
 
-  function cleanup(err) {
+  function cleanup(err, cb) {
     if (err) {
       writeStream.destroy()
       fs.unlink(writeStreamPath, function(){})
@@ -128,8 +128,24 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
     stream.removeListener('error', onFinish)
     writeStream.removeListener('error', onFinish)
     writeStream.removeListener('close', onFinish)
-    
-    writeStream.end()
+
+    if (!err) {
+      var tempStream = writeStream;
+      function _onError() {
+        tempStream.removeListener('finish', _onFlush)
+        tempStream = null;
+        done(null, false);
+      }
+      function _onFlush() {
+        tempStream.removeListener('error', _onError)
+        tempStream = null;
+        done(null, true);
+      }
+
+      writeStream.once('finish', _onFlush)
+      writeStream.once('error', _onError)
+      writeStream.end()
+    }
 
     stream = writeStream = null
   }
@@ -194,6 +210,8 @@ exports.accept = function(app, conditionCB)
       }
 
       var srcStream = part;
+      var destStream;
+      var fn1;
       conditionCB(query.data, Number(query.size), part.filename, part.mimeType)
         .then(fn=>{
           if (!fn)
@@ -205,12 +223,12 @@ exports.accept = function(app, conditionCB)
             
             let req = app.request.req || app.request;
             req.destroy();
-            resolve(false);
-            return;
+            return false;
           }
+          fn1 = fn;
 
           // create stream.
-          var destStream = fs.createWriteStream(fn);
+          destStream = fs.createWriteStream(fn);
           if (!destStream)
           {
             console.debug('febs upload.accpet createWriteStream err:' + fn);
@@ -220,18 +238,23 @@ exports.accept = function(app, conditionCB)
 
             let req = app.request.req || app.request;
             req.destroy();
-            resolve(false);
-            return;
+            return false;
           }
 
-          save_to(srcStream, destStream, fn, Number(query.size), Number(query.crc32), (err, ret)=>{
-            if (err)
-              reject(err);
-            else
-              resolve(ret);
-          });
+          return true;
         })
         .then(ret=>{
+          if (!ret) {
+            resolve(false);
+          }
+          else {
+            save_to(srcStream, destStream, fn1, Number(query.size), Number(query.crc32), (err, ret)=>{
+              if (err)
+                reject(err);
+              else
+                resolve(ret);
+            });
+          }
         })
         .catch(err=>{
           reject(err);
