@@ -61,11 +61,17 @@ var cmdStr = 'uglifyjs\
   client/js/net.js\
   client/js/controls/loading.js\
   client/js/controls/upload.js\
-  client/js/controls/page.js\
-  -o dist/febs/febs.min.js -c -m';
-exec(cmdStr, function(err,stdout,stderr){
+  client/js/controls/page.js';
+  
+exec(cmdStr+' -o dist/febs/febs.min.js -c -m', function(err,stdout,stderr){
   if(err) {
       console.log('make febs.min.js error:'+stderr);
   } else {
+    exec(cmdStr+' -o dist/febs/febs.js -b', function(err,stdout,stderr){
+      if(err) {
+          console.log('make febs.js error:'+stderr);
+      } else {
+      }
+    });
   }
 });
