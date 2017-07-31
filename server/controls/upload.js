@@ -209,6 +209,11 @@ exports.accept = function(app, conditionCB)
         return;
       }
 
+      if (!part) {
+        reject('no stream');
+        return;
+      }
+
       var srcStream = part;
       var destStream;
       var fn1;
