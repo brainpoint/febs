@@ -3849,6 +3849,157 @@ febs.nav.refresh_elem = function(elem, url) {
 
 window.onhashchange = febs.nav.hash_change;
 
+febs.controls = febs.controls || function() {};
+
+febs.controls.loading_tag_name = "control_loading_span_s23153dd12ax1";
+
+febs.controls.control_loading_index = 0;
+
+febs.controls.loading_show = function(text, timeout) {
+    var e = $("body").children("#" + febs.controls.loading_tag_name);
+    if (!e || e.length == 0) {
+        $("body").prepend('<span id="' + febs.controls.loading_tag_name + '"></span>');
+    }
+    if (febs.controls.control_loading_timer) window.clearInterval(febs.controls.control_loading_timer);
+    if (timeout) {
+        febs.controls.control_loading_timer = window.setInterval(function() {
+            febs.controls.loading_show(text);
+        }, timeout);
+    } else {
+        $("#" + febs.controls.loading_tag_name).html('<div class="control_loading_c"><div class="control_loading"><p style="margin-left:auto;margin-right:auto;text-align:center;max-width:200px;">' + (text ? text : "") + "</p></div></div>");
+    }
+};
+
+febs.controls.loading_show_text = function(textArray, changeTextCB, hideCB) {
+    var e = $("body").children("#" + febs.controls.loading_tag_name);
+    if (!e || e.length == 0) {
+        $("body").prepend('<span id="' + febs.controls.loading_tag_name + '"></span>');
+    }
+    if (febs.controls.control_loading_text_elemFunc) {
+        if (febs.controls.control_loading_text_hideFunc) febs.controls.control_loading_text_hideFunc();
+        febs.controls.control_loading_text_hideFunc = null;
+        febs.controls.control_loading_text_elemFunc = null;
+        febs.controls.control_loading_text_array = null;
+        if (febs.controls.control_loading_timer) {
+            window.clearInterval(control_loading_timer);
+            febs.controls.control_loading_timer = null;
+        }
+    }
+    febs.controls.control_loading_text_array = textArray;
+    febs.controls.control_loading_text_hideFunc = hideCB;
+    febs.controls.control_loading_text_elemFunc = changeTextCB;
+    febs.controls.control_loading_timer = window.setInterval(function() {
+        febs.controls.control_loading_text_elemFunc(febs.controls.control_loading_text_array[febs.controls.control_loading_index++ % febs.controls.control_loading_text_array.length]);
+    }, 500);
+};
+
+febs.controls.loading_hide = function() {
+    var e = $("body").children("#" + febs.controls.loading_tag_name);
+    if (!e || e.length == 0) {
+        $("body").prepend('<span id="' + febs.controls.loading_tag_name + '"></span>');
+    }
+    if (febs.controls.control_loading_timer) {
+        window.clearInterval(febs.controls.control_loading_timer);
+        febs.controls.control_loading_timer = null;
+    }
+    if (febs.controls.control_loading_text_elemFunc) {
+        if (febs.controls.control_loading_text_hideFunc) febs.controls.control_loading_text_hideFunc();
+        febs.controls.control_loading_text_hideFunc = null;
+        febs.controls.control_loading_text_elemFunc = null;
+        febs.controls.control_loading_text_array = null;
+        if (febs.controls.control_loading_timer) {
+            window.clearInterval(febs.controls.control_loading_timer);
+            febs.controls.control_loading_timer = null;
+        }
+    }
+    $("#" + febs.controls.loading_tag_name).html("");
+};
+
+febs.controls = febs.controls || function() {};
+
+febs.controls.upload = function(cfg) {
+    var control_upload_cb = cfg.finishCB;
+    var control_upload_progress_cb = cfg.progressCB;
+    var control_upload_url = cfg.uploadUrl;
+    var control_upload_maxFileSize = !cfg.maxFileSize ? Infinity : cfg.maxFileSize;
+    if (cfg.fileType) {
+        cfg.fileObj.attr("accept", cfg.fileType);
+    }
+    if (!cfg.fileObj[0].files[0]) {
+        if (control_upload_cb) control_upload_cb("no file", cfg.fileObj, null);
+        return;
+    }
+    if (cfg.fileObj[0].files[0].size > control_upload_maxFileSize) {
+        if (control_upload_cb) control_upload_cb("size too big", cfg.fileObj, null);
+        return;
+    }
+    var urlQueryIndex = control_upload_url.indexOf("?");
+    if (urlQueryIndex < 0) {
+        control_upload_url += "?";
+    } else if (urlQueryIndex < control_upload_url.length - 1) {
+        control_upload_url += "&";
+    }
+    var formObj = cfg.formObj;
+    var fileObj = cfg.fileObj;
+    febs.crypt.crc32_file(fileObj[0].files[0], function(crc) {
+        if (crc) {
+            formObj.ajaxSubmit({
+                method: "POST",
+                url: control_upload_url + "crc32=" + crc + "&size=" + fileObj[0].files[0].size + (cfg.data ? "&data=" + cfg.data : ""),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                uploadProgress: function(ev, pos, total, percentComplete) {
+                    if (control_upload_progress_cb) control_upload_progress_cb(fileObj, percentComplete / 100);
+                },
+                error: function() {
+                    if (control_upload_cb) control_upload_cb("ajax err", fileObj, null);
+                },
+                success: function(r) {
+                    if (control_upload_cb) control_upload_cb(null, fileObj, r);
+                }
+            });
+        } else {
+            if (control_upload_cb) control_upload_cb("check crc32 err", fileObj, null);
+        }
+    });
+};
+
+febs.controls = febs.controls || function() {};
+
+febs.controls.page_map = febs.controls.page_map || {};
+
+febs.controls.page_init = function(elem, curPage, pageCount, totalCount, pageCallback) {
+    var foo = "page" + febs.crypt.uuid();
+    febs.controls.page_map[foo] = pageCallback;
+    foo = "javascript:febs.controls.page_map['" + foo + "']";
+    var pagePre = "";
+    if (curPage > 0) {
+        var stp = Math.min(curPage, 5);
+        for (var i = 1; i < 5 && curPage > i; i++) {
+            pagePre += '<li class="control_paginItem"><a href="' + foo + "(" + (i + curPage - stp) + ')">' + (i + curPage - stp) + "</a></li>";
+        }
+    }
+    var pageNext = "";
+    if (pageCount > curPage) {
+        var i = 1 + curPage;
+        for (;i < 5 + curPage && i <= pageCount; i++) {
+            pageNext += '<li class="control_paginItem"><a href="' + foo + "(" + i + ')">' + i + "</a></li>";
+        }
+        if (i < pageCount) {
+            pageNext += '<li class="control_paginItem"><a href="' + foo + "(" + i + ')">...</a></li>';
+        }
+    }
+    var urlPrePage = curPage > 1 ? foo + "(" + (curPage - 1) + ")" : "javascript:;";
+    var urlPrePageClass = curPage > 1 ? "control_pagepre" : "control_pagepre_no";
+    var urlNextPage = curPage < pageCount ? foo + "(" + (curPage + 1) + ")" : "javascript:;";
+    var urlNextPageClass = curPage < pageCount ? "control_pagenxt" : "control_pagenxt_no";
+    var e = elem.children(".control_pagin");
+    if (e && e.length > 0) {
+        e[0].remove();
+    }
+    elem.append('<div class="control_pagin">  <div class="message">    共<i class="blue">' + totalCount + '</i>条记录，当前显示第&nbsp;<i class="blue">' + curPage + '&nbsp;</i>页  </div>  <ul class="control_paginList">    <li class="control_paginItem">      <a href="' + urlPrePage + '">        <span style="display: block" class=' + urlPrePageClass + "></span>      </a>    </li>" + pagePre + '<li class="control_paginItem control_current">      <a href="javascript:;">' + curPage + "</a>    </li>" + pageNext + '<li class="control_paginItem">      <a href="' + urlNextPage + '">        <span style="display: block" class=' + urlNextPageClass + "></span>      </a>    </li>  </ul></div>");
+};
+
 febs.net = febs.net || function() {};
 
 febs.net.ajax = febs.nav.ajax;
@@ -4237,155 +4388,4 @@ febs.net.jsonp = function(url, options) {
             febs.net.jsonp_removeScript(jsonpCallback + "_" + callbackFunction);
         }, timeout);
     });
-};
-
-febs.controls = febs.controls || function() {};
-
-febs.controls.loading_tag_name = "control_loading_span_s23153dd12ax1";
-
-febs.controls.control_loading_index = 0;
-
-febs.controls.loading_show = function(text, timeout) {
-    var e = $("body").children("#" + febs.controls.loading_tag_name);
-    if (!e || e.length == 0) {
-        $("body").prepend('<span id="' + febs.controls.loading_tag_name + '"></span>');
-    }
-    if (febs.controls.control_loading_timer) window.clearInterval(febs.controls.control_loading_timer);
-    if (timeout) {
-        febs.controls.control_loading_timer = window.setInterval(function() {
-            febs.controls.loading_show(text);
-        }, timeout);
-    } else {
-        $("#" + febs.controls.loading_tag_name).html('<div class="control_loading_c"><div class="control_loading"><p style="margin-left:auto;margin-right:auto;text-align:center;max-width:200px;">' + (text ? text : "") + "</p></div></div>");
-    }
-};
-
-febs.controls.loading_show_text = function(textArray, changeTextCB, hideCB) {
-    var e = $("body").children("#" + febs.controls.loading_tag_name);
-    if (!e || e.length == 0) {
-        $("body").prepend('<span id="' + febs.controls.loading_tag_name + '"></span>');
-    }
-    if (febs.controls.control_loading_text_elemFunc) {
-        if (febs.controls.control_loading_text_hideFunc) febs.controls.control_loading_text_hideFunc();
-        febs.controls.control_loading_text_hideFunc = null;
-        febs.controls.control_loading_text_elemFunc = null;
-        febs.controls.control_loading_text_array = null;
-        if (febs.controls.control_loading_timer) {
-            window.clearInterval(control_loading_timer);
-            febs.controls.control_loading_timer = null;
-        }
-    }
-    febs.controls.control_loading_text_array = textArray;
-    febs.controls.control_loading_text_hideFunc = hideCB;
-    febs.controls.control_loading_text_elemFunc = changeTextCB;
-    febs.controls.control_loading_timer = window.setInterval(function() {
-        febs.controls.control_loading_text_elemFunc(febs.controls.control_loading_text_array[febs.controls.control_loading_index++ % febs.controls.control_loading_text_array.length]);
-    }, 500);
-};
-
-febs.controls.loading_hide = function() {
-    var e = $("body").children("#" + febs.controls.loading_tag_name);
-    if (!e || e.length == 0) {
-        $("body").prepend('<span id="' + febs.controls.loading_tag_name + '"></span>');
-    }
-    if (febs.controls.control_loading_timer) {
-        window.clearInterval(febs.controls.control_loading_timer);
-        febs.controls.control_loading_timer = null;
-    }
-    if (febs.controls.control_loading_text_elemFunc) {
-        if (febs.controls.control_loading_text_hideFunc) febs.controls.control_loading_text_hideFunc();
-        febs.controls.control_loading_text_hideFunc = null;
-        febs.controls.control_loading_text_elemFunc = null;
-        febs.controls.control_loading_text_array = null;
-        if (febs.controls.control_loading_timer) {
-            window.clearInterval(febs.controls.control_loading_timer);
-            febs.controls.control_loading_timer = null;
-        }
-    }
-    $("#" + febs.controls.loading_tag_name).html("");
-};
-
-febs.controls = febs.controls || function() {};
-
-febs.controls.upload = function(cfg) {
-    var control_upload_cb = cfg.finishCB;
-    var control_upload_progress_cb = cfg.progressCB;
-    var control_upload_url = cfg.uploadUrl;
-    var control_upload_maxFileSize = !cfg.maxFileSize ? Infinity : cfg.maxFileSize;
-    if (cfg.fileType) {
-        cfg.fileObj.attr("accept", cfg.fileType);
-    }
-    if (!cfg.fileObj[0].files[0]) {
-        if (control_upload_cb) control_upload_cb("no file", cfg.fileObj, null);
-        return;
-    }
-    if (cfg.fileObj[0].files[0].size > control_upload_maxFileSize) {
-        if (control_upload_cb) control_upload_cb("size too big", cfg.fileObj, null);
-        return;
-    }
-    var urlQueryIndex = control_upload_url.indexOf("?");
-    if (urlQueryIndex < 0) {
-        control_upload_url += "?";
-    } else if (urlQueryIndex < control_upload_url.length - 1) {
-        control_upload_url += "&";
-    }
-    var formObj = cfg.formObj;
-    var fileObj = cfg.fileObj;
-    febs.crypt.crc32_file(fileObj[0].files[0], function(crc) {
-        if (crc) {
-            formObj.ajaxSubmit({
-                method: "POST",
-                url: control_upload_url + "crc32=" + crc + "&size=" + fileObj[0].files[0].size + (cfg.data ? "&data=" + cfg.data : ""),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                uploadProgress: function(ev, pos, total, percentComplete) {
-                    if (control_upload_progress_cb) control_upload_progress_cb(fileObj, percentComplete / 100);
-                },
-                error: function() {
-                    if (control_upload_cb) control_upload_cb("ajax err", fileObj, null);
-                },
-                success: function(r) {
-                    if (control_upload_cb) control_upload_cb(null, fileObj, r);
-                }
-            });
-        } else {
-            if (control_upload_cb) control_upload_cb("check crc32 err", fileObj, null);
-        }
-    });
-};
-
-febs.controls = febs.controls || function() {};
-
-febs.controls.page_map = febs.controls.page_map || {};
-
-febs.controls.page_init = function(elem, curPage, pageCount, totalCount, pageCallback) {
-    var foo = "page" + febs.crypt.uuid();
-    febs.controls.page_map[foo] = pageCallback;
-    foo = "javascript:febs.controls.page_map['" + foo + "']";
-    var pagePre = "";
-    if (curPage > 0) {
-        var stp = Math.min(curPage, 5);
-        for (var i = 1; i < 5 && curPage > i; i++) {
-            pagePre += '<li class="control_paginItem"><a href="' + foo + "(" + (i + curPage - stp) + ')">' + (i + curPage - stp) + "</a></li>";
-        }
-    }
-    var pageNext = "";
-    if (pageCount > curPage) {
-        var i = 1 + curPage;
-        for (;i < 5 + curPage && i <= pageCount; i++) {
-            pageNext += '<li class="control_paginItem"><a href="' + foo + "(" + i + ')">' + i + "</a></li>";
-        }
-        if (i < pageCount) {
-            pageNext += '<li class="control_paginItem"><a href="' + foo + "(" + i + ')">...</a></li>';
-        }
-    }
-    var urlPrePage = curPage > 1 ? foo + "(" + (curPage - 1) + ")" : "javascript:;";
-    var urlPrePageClass = curPage > 1 ? "control_pagepre" : "control_pagepre_no";
-    var urlNextPage = curPage < pageCount ? foo + "(" + (curPage + 1) + ")" : "javascript:;";
-    var urlNextPageClass = curPage < pageCount ? "control_pagenxt" : "control_pagenxt_no";
-    var e = elem.children(".control_pagin");
-    if (e && e.length > 0) {
-        e[0].remove();
-    }
-    elem.append('<div class="control_pagin">\r\n  <div class="message">\r\n    共<i class="blue">' + totalCount + '</i>条记录，当前显示第&nbsp;<i class="blue">' + curPage + '&nbsp;</i>页\r\n  </div>\r\n  <ul class="control_paginList">\r\n    <li class="control_paginItem">\r\n      <a href="' + urlPrePage + '">\r\n        <span style="display: block" class=' + urlPrePageClass + "></span>\r\n      </a>\r\n    </li>" + pagePre + '<li class="control_paginItem control_current">\r\n      <a href="javascript:;">' + curPage + "</a>\r\n    </li>" + pageNext + '<li class="control_paginItem">\r\n      <a href="' + urlNextPage + '">\r\n        <span style="display: block" class=' + urlNextPageClass + "></span>\r\n      </a>\r\n    </li>\r\n  </ul>\r\n</div>");
 };

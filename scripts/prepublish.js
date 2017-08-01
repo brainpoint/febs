@@ -58,10 +58,10 @@ var cmdStr = 'uglifyjs\
   client/js/utils.js\
   client/js/string.js\
   client/js/nav.js\
-  client/js/net.js\
   client/js/controls/loading.js\
   client/js/controls/upload.js\
-  client/js/controls/page.js';
+  client/js/controls/page.js\
+  client/js/net.js';
   
 exec(cmdStr+' -o dist/febs/febs.min.js -c -m', function(err,stdout,stderr){
   if(err) {
