@@ -4,10 +4,7 @@
  * Desc:
  */
 
-febs.controls = febs.controls || function () { }
-
-febs.controls.page_map = febs.controls.page_map||{};
-  
+febs.controls.page_map = {};
 
 /**
 * @desc: 初始化page控件.

@@ -4,8 +4,6 @@
  * Desc:
  */
 
-febs.controls = febs.controls || function() {}
-
 /**
  * 将使用post方式上传文件.
  * @param cfg:  object, 其中

@@ -5,7 +5,7 @@
  * Desc:
  */
 
-febs.net = febs.net||function() {}
+febs.net = function() {}
 
 //--------------------------------------------------------
 // ajax
@@ -15,8 +15,8 @@ febs.net.ajax = febs.nav.ajax;
 //--------------------------------------------------------
 // fetch.
 //--------------------------------------------------------
-if (fetch) {
-  febs.net.fetch=fetch;
+if (window.fetch) {
+  febs.net.fetch=window.fetch;
 }
 else {
   if (!Promise) {

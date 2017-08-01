@@ -8,7 +8,7 @@
  *  3. refresh() 刷新.
  */
 
-febs.nav = febs.nav||function() {}
+febs.nav = function() {}
 
 febs.nav.nav_map = {};
 febs.nav.nav_arr = [];

@@ -1,5 +1,5 @@
 
-febs.utils = febs.utils||function(){}
+febs.utils = function(){}
 
 
 /**

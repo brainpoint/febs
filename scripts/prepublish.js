@@ -52,16 +52,17 @@ febs.file.fileCopy(path.join(root, 'client/febs.css'), path.join(root, 'dist/feb
 var cmdStr = 'uglifyjs\
   third-party/bluebird.min.js\
   third-party/bignumber.min.js\
-  client/febsformin.js\
   client/js/animationFrame.js\
+  client/febsformin.js\
   client/js/crypt.js\
   client/js/utils.js\
   client/js/string.js\
   client/js/nav.js\
+  client/js/net.js\
+  client/js/controls/index.js\
   client/js/controls/loading.js\
   client/js/controls/upload.js\
-  client/js/controls/page.js\
-  client/js/net.js';
+  client/js/controls/page.js';
   
 exec(cmdStr+' -o dist/febs/febs.min.js -c -m', function(err,stdout,stderr){
   if(err) {

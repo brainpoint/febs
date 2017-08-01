@@ -4,8 +4,6 @@
  * Desc:
  */
 
-febs.controls = febs.controls || function () { }
-
 febs.controls.loading_tag_name = 'control_loading_span_s23153dd12ax1';
 febs.controls.control_loading_index = 0;
 
