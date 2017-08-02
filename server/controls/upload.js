@@ -153,7 +153,8 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
 
 /**
  * 接收上传文件内容.
- * @param conditionCB: async function(filesize, filename, filemimeType):string.
+ * @param conditionCB: async function(data, filesize, filename, filemimeType):string.
+ *                      - data: 用户上传的数据.
  *                      - filesize: 将要存储的文件大小.
  *                      - filename: 上传的文件名.
  *                      - filemimeType: 文件类型, 例如: 'image/jpeg'.

@@ -248,12 +248,25 @@ febs.crypt.crc32_file(filename)    `服务端`
 * @param arrByte: 字节数组.
 * @return: string.
 */
-febs.crypt.base64_encode(arrByte)
+febs.crypt.base64_encode(arrByte)   `客户端`
 /**
 * @desc: base64解码.
 * @return: 字节数组.
 */
-febs.crypt.base64_decode(strBase64)
+febs.crypt.base64_decode(strBase64) `客户端`
+
+/**
+* @desc: 使用上次的解码的数据继续进行base64解码.
+* @return: 
+        {
+            c1,
+            c2,
+            c3,
+            c4,
+            data, // 字节数组
+        }.
+*/
+febs.crypt.base64_decode(strBase64, c2 = 0, c3 = 0, c4 = 0) `服务端`
 ```
 # nav
 导航是以ajax的方式进行页面切换
@@ -508,6 +521,9 @@ febs.controls.page_init(elem, curPage, pageCount, totalCount, pageCallback)
 ```
 
 ### upload
+
+#### multipart/form-data方式上传.
+
 ```js
 /**
  * Desc:
@@ -578,6 +594,7 @@ exports.upload = async function(ctx, next)
 ```js
 <script type="text/javascript" charset="utf-8" src="/jquery/jquery.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="/jquery/jquery.form.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="/febs/febs.min.js"></script>
 
 <script type="text/javascript">
 function upload() {
@@ -599,4 +616,130 @@ function upload() {
 <form method="post" role="form" enctype="multipart/form-data" id="fileForm">
   <input id="filec" type="file" name="file" onchange="javascript:upload()" multiple>
 </form>
+```
+
+#### base64方式上传.
+
+客户端调用如下接口上传文件.
+```js
+/**
+ * post方式上传文件.
+ * 使用文件流片段的方式. 每个片段进行验证.速度稍慢
+ * @param cfg:  object, 其中
+ *              {
+ *                data:       , // 上传到服务器的任意字符串数据,将在发送请求时发送.
+ *                fileBase64Str:  , // 文件的base64格式字符串
+ *                headerUrl:  , // 上传开始前的header请求地址.
+ *                uploadUrl:  , // 上传文件内容的url.
+ *                chunkSize:  1024*20,  // 每次上传的块大小.默认20kb
+ *                finishCB:    , // 上传完成后的回调. function(err, serverData)
+ *                               //                   err:  - 'no file'      未选择文件.
+ *                               //                         - 'size too big' 文件太大.
+ *                               //                         - 'check crc32 err' 计算本地文件hash值时错误.
+ *                               //                         - 'ajax err'     ajax上传时出错.
+ *                               //                   serverData: 服务器返回的数据. 至少包含一个filename
+ *                progressCB:  , // 上传进度的回调. function(percent)
+ *              }
+ */
+febs.controls.uploadBase64(cfg);
+```
+
+服务端调用如下接口接收文件.
+```js
+/**
+ * 准备接收上传文件.
+ * @param conditionCB: async function(filesize, data):string.
+ *                      - filesize: 将要存储的文件大小.
+ *                      - data: 用户上传的数据.
+ *                      - return: 本地存储的文件路径, 返回null表示不存储. 存储的文件必须不存在.
+ * @param session:  用于存储临时文件信息的session. 默认存储在'__uploadSegInfo'中. (在上传内容后验证使用)
+ * @param sessionKey: 用于存储上传信息的session中的key, 默认为 '__uploadSegInfo'
+ * @return Promise.
+ * @resolve
+ *     - bool. 指明是否开始接收文件流.
+ */
+febs.controls.uploadBase64.acceptHeader
+```
+```js
+/**
+ * 上传文件内容.
+ *  发生错误会自动调用 cleanup
+ * @param finishCB: async function(filename):string.
+ *                      - filename: 本地存储的文件名.
+ *                      - return: 返回给客户端的数据. 不能包含err数据.
+ *                                图片完成上传后, 请转存至其他路径, 稍后系统将清理临时文件.
+ * @param session:  用于存储临时文件信息的session. 默认存储在'__uploadSegInfo'中. (在上传内容后验证使用)
+ * @param sessionKey: 用于存储上传信息的session中的key, 默认为 '__uploadSegInfo'
+ * @return Promise
+ * @resolve
+ */
+febs.controls.uploadBase64.accept
+```
+```js
+/**
+* @desc: 在用户登出或其他中断传输中清除上传的数据.
+         !!!清理完成后, 将使用 session[sessionKey] = undefined; 清理session.
+* @param session:  用于存储临时文件信息的session. 默认存储在'__uploadSegInfo'中. (在上传内容后验证使用)
+* @param sessionKey: 用于存储上传信息的session中的key, 默认为 '__uploadSegInfo'
+* @return: 
+*/
+febs.controls.uploadBase64.cleanup
+```
+
+例子
+后台:
+```js
+// 处理上传请求.
+exports.uploadByBase64Header = async function (ctx) {
+    await febs.controls.uploadBase64.acceptHeader(ctx, 
+      async function(data, filesize){
+          return "/tmp/filename.jpg";
+      }, function(data){ // set upload sessoin info.
+          ctx.session.uploadSegInfo = data;
+      });
+}
+
+// 处理上传片段.
+exports.uploadByBase64 = async function (ctx) {
+    await febs.controls.uploadBase64.accept(ctx, 
+      async function(filename){
+          let img = sharp(filename);
+          let info = await img.metadata();
+          return febs.utils.mergeMap(errCode.OK, { width: info.width, height: info.height });
+      }, function(){  // get upload session info.
+          return ctx.session.uploadSegInfo;
+      }, function(data){ // set upload sessoin info.
+          ctx.session.uploadSegInfo = data;
+      }, function() {  // clear upload session info.
+          ctx.session.uploadSegInfo = undefined;
+      });
+}
+```
+前台:
+```js
+<script type="text/javascript" charset="utf-8" src="/jquery/jquery.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="/febs/febs.min.js"></script>
+
+<script type="text/javascript">
+  febs.controls.uploadBase64({
+      data: {msg :'这是一个用户数据'},
+      fileBase64Str: base64Imagestr,
+      headerUrl: '/api/mgr/uploadimgByBase64Header',
+      uploadUrl: '/api/mgr/uploadimgByBase64',
+      finishCB: function(err, serverData) {
+        if (err) {
+          console.log('err: ');
+          console.log(err);
+          console.log(serverData);
+        }
+        else {
+          console.log('finish: ');
+          console.log(serverData);
+        }
+      },
+      progressCB: function(percent) {
+        console.log(Math.ceil(percent*100)+'%');
+      }
+    });
+</script>
 ```

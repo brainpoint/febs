@@ -5,7 +5,8 @@
  */
 
 /**
- * 将使用post方式上传文件.
+ * post方式上传文件 
+ * 使用 multipart/form-data 方式, 适合大文件. 速度快.
  * @param cfg:  object, 其中
  *              {
  *                data:       , // 上传到服务器的任意字符串数据.

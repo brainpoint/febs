@@ -137,69 +137,87 @@ function (arrByte){
   return out;
 }
 
+var base64DecodeChars = new Array(
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57,
+    58, 59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6,
+    7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+    25, -1, -1, -1, -1, -1, -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
+    37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1,
+    -1, -1
+);
+
 /**
-* @desc: base64解码.
-* @return: 字节数组.
+* @desc: 使用上次的解码的数据继续进行base64解码.
+* @return: 
+        {
+            c1,
+            c2,
+            c3,
+            c4,
+            data, // 字节数组
+        }.
 */
 exports.base64_decode =
-function (strBase64){
-  var c1, c2, c3, c4;
-  var base64DecodeChars = new Array(
-      -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-      -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-      -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57,
-      58, 59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6,
-      7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-      25, -1, -1, -1, -1, -1, -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
-      37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1,
-      -1, -1
-  );
+function (strBase64, c1 = 0, c2 = 0, c3 = 0, c4 = 0){
   var i=0, len = strBase64.length, out = [];
-
   while (i < len){
-      do{
-          c1 = base64DecodeChars[strBase64.charCodeAt(i++) & 0xff]
-      } while (
-          i < len && c1 == -1
-      );
 
-      if (c1 == -1) break;
+    // c1_loop:
+    if (c2 != -1 && c3 != -1 && c4 != -1) {
+        do{
+            c1 = base64DecodeChars[strBase64.charCodeAt(i++) & 0xff]
+        } while (
+            i < len && c1 == -1
+        );
 
-      do{
-          c2 = base64DecodeChars[strBase64.charCodeAt(i++) & 0xff]
-      } while (
-          i < len && c2 == -1
-      );
+        if (c1 == -1) break;
+    }
 
-      if (c2 == -1) break;
+    // c2_loop:
+    if (c3 != -1 && c4 != -1) {
+        do{
+            c2 = base64DecodeChars[strBase64.charCodeAt(i++) & 0xff]
+        } while (
+            i < len && c2 == -1
+        );
 
-      out.push((c1 << 2) | ((c2 & 0x30) >> 4));
+        if (c2 == -1) break;
 
-      do{
-          c3 = strBase64.charCodeAt(i++) & 0xff;
-          if (c3 == 61)
-              return out;
+        out.push((c1 << 2) | ((c2 & 0x30) >> 4));
+    }
 
-          c3 = base64DecodeChars[c3]
-      } while (
-          i < len && c3 == -1
-      );
+    // c3_loop:
+    if (c4 != -1) {
+        do{
+            c3 = strBase64.charCodeAt(i++) & 0xff;
+            if (c3 == 61) 
+                return {data:out};
 
-      if (c3 == -1) break;
+            c3 = base64DecodeChars[c3]
+        } while (
+            i < len && c3 == -1
+        );
 
-      out.push(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));
+        if (c3 == -1) break;
 
-      do{
-          c4 = strBase64.charCodeAt(i++) & 0xff;
-          if (c4 == 61) return out;
-          c4 = base64DecodeChars[c4]
-      } while (
-          i < len && c4 == -1
-      );
+        out.push(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));
+    }
 
-      if (c4 == -1) break;
+    // c4_loop:
+    do{
+        c4 = strBase64.charCodeAt(i++) & 0xff;
+        if (c4 == 61) return {data:out};
+        c4 = base64DecodeChars[c4]
+    } while (
+        i < len && c4 == -1
+    );
 
-      out.push(((c3 & 0x03) << 6) | c4)
+    if (c4 == -1) break;
+
+    out.push(((c3 & 0x03) << 6) | c4)
+    c1 = c2 = c3 = c4 = 0;
   }
-  return out;
+  return {data:out,c1,c2,c3,c4};
 }
