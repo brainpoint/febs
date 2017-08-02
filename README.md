@@ -328,7 +328,8 @@ febs.net.ajax(option)
                               "Accept": 'application/json',
                             }
               body,    // 请求内容.
-              timeout, // 超时 (ms), 默认为5000
+              timeout, // 超时 (ms), 默认为5000,
+              credentials,  // 携带了credentials='include'则服务器需设置Access-Control-Allow-Credentials
             }
  * @return: 返回 Promise;
  * @e.g.

@@ -15,8 +15,8 @@ febs.net.ajax = febs.nav.ajax;
 //--------------------------------------------------------
 // fetch.
 //--------------------------------------------------------
-if (window.fetch) {
-  febs.net.fetch=window.fetch;
+if (false) {
+  //febs.net.fetch=window.fetch;
 }
 else {
   if (!Promise) {

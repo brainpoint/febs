@@ -3853,9 +3853,7 @@ febs.net = function() {};
 
 febs.net.ajax = febs.nav.ajax;
 
-if (window.fetch) {
-    febs.net.fetch = window.fetch;
-} else {
+if (false) {} else {
     if (!Promise) {
         throw new Error("unsupported Promise");
     }
