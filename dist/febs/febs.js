@@ -4379,6 +4379,10 @@ febs.controls.uploadBase64 = function(cfg) {
             chunks: control_uploadSeg_chunks,
             data: cfg.data
         },
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true,
         success: function(r) {
             if (r && r.err == 0) {
                 var control_uploadSeg_errorCount = 0;
@@ -4391,6 +4395,10 @@ febs.controls.uploadBase64 = function(cfg) {
                         url: control_uploadSeg_url + control_uploadSeg_crc,
                         data: control_uploadSeg_data,
                         contentType: "application/octet-stream",
+                        xhrFields: {
+                            withCredentials: true
+                        },
+                        crossDomain: true,
                         success: function(r) {
                             if (r && r.err == 0) {
                                 if (++control_uploadSeg_currentChunk == control_uploadSeg_chunks) {

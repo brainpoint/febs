@@ -58,6 +58,10 @@ function(cfg) {
     type: 'POST',
     url: control_uploadSeg_header_url,
     data: {filesize:control_uploadSeg_file.length, chunks:control_uploadSeg_chunks, data:cfg.data},
+    xhrFields:{
+      withCredentials:true
+    },
+    crossDomain:true,
     success: function(r) {
       if (r && r.err == 0)
       {
@@ -73,7 +77,11 @@ function(cfg) {
               control_uploadSeg_progress_cb(control_uploadSeg_currentChunk/control_uploadSeg_chunks);
 
             febs.net.ajax({type:'POST', url:control_uploadSeg_url+control_uploadSeg_crc, data:control_uploadSeg_data, contentType:'application/octet-stream',
-                success:function(r){
+              xhrFields:{
+                withCredentials:true
+              },
+              crossDomain:true,    
+              success:function(r){
                   if (r && r.err == 0)
                   {
                     if (++control_uploadSeg_currentChunk == control_uploadSeg_chunks)

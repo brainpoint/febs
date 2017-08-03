@@ -40,8 +40,8 @@
   ],
   "scripts": {
     "test": "tap test/*.js",
-    "prepublish": "node scripts/prepublish.js"
+    "prepare": "node scripts/prepublish.js"
   },
   "name": "febs",
-  "version": "0.3.1"
+  "version": "0.3.3"
 }

@@ -47,3 +47,7 @@
 0.2.11
 ==================
   - [bugfix] control upload.
+
+0.3.2
+==================
+  - [bugfix] client control upload base64. cross domain
