@@ -4350,6 +4350,79 @@ febs.controls.upload = function(cfg) {
     });
 };
 
+febs.controls.uploadBase64 = function(cfg) {
+    var control_uploadSeg_cb = cfg.finishCB;
+    var control_uploadSeg_progress_cb = cfg.progressCB;
+    var control_uploadSeg_header_url = cfg.headerUrl;
+    var control_uploadSeg_url = cfg.uploadUrl;
+    var control_uploadSeg_chunkSize = cfg.chunkSize || 1024 * 20;
+    if (!cfg.fileBase64Str) {
+        if (control_uploadSeg_cb) control_uploadSeg_cb("no file", null);
+        return;
+    }
+    var urlQueryIndex = control_uploadSeg_url.indexOf("?");
+    if (urlQueryIndex < 0) {
+        control_uploadSeg_url += "?";
+    } else if (urlQueryIndex < control_uploadSeg_url.length - 1) {
+        control_uploadSeg_url += "&";
+    }
+    control_uploadSeg_url += "crc32=";
+    if (control_uploadSeg_progress_cb) control_uploadSeg_progress_cb(0);
+    var control_uploadSeg_file = cfg.fileBase64Str;
+    var control_uploadSeg_chunks = Math.ceil(control_uploadSeg_file.length / control_uploadSeg_chunkSize);
+    var control_uploadSeg_currentChunk = 0;
+    febs.net.ajax({
+        type: "POST",
+        url: control_uploadSeg_header_url,
+        data: {
+            filesize: control_uploadSeg_file.length,
+            chunks: control_uploadSeg_chunks,
+            data: cfg.data
+        },
+        success: function(r) {
+            if (r && r.err == 0) {
+                var control_uploadSeg_errorCount = 0;
+                function control_uploadSegs_begin() {
+                    var control_uploadSeg_data = control_uploadSeg_file.substr(control_uploadSeg_currentChunk * control_uploadSeg_chunkSize, control_uploadSeg_currentChunk * control_uploadSeg_chunkSize + control_uploadSeg_chunkSize > control_uploadSeg_file.length ? control_uploadSeg_file.length - control_uploadSeg_currentChunk * control_uploadSeg_chunkSize : control_uploadSeg_chunkSize);
+                    var control_uploadSeg_crc = febs.crypt.crc32(control_uploadSeg_data);
+                    if (control_uploadSeg_progress_cb) control_uploadSeg_progress_cb(control_uploadSeg_currentChunk / control_uploadSeg_chunks);
+                    febs.net.ajax({
+                        type: "POST",
+                        url: control_uploadSeg_url + control_uploadSeg_crc,
+                        data: control_uploadSeg_data,
+                        contentType: "application/octet-stream",
+                        success: function(r) {
+                            if (r && r.err == 0) {
+                                if (++control_uploadSeg_currentChunk == control_uploadSeg_chunks) {
+                                    if (control_uploadSeg_cb) control_uploadSeg_cb(null, r);
+                                } else {
+                                    control_uploadSeg_errorCount = 0;
+                                    control_uploadSegs_begin();
+                                }
+                            } else {
+                                if (control_uploadSeg_cb) control_uploadSeg_cb("ajax err", r);
+                            }
+                        },
+                        error: function(xhr, textStatus) {
+                            if (textStatus == "timeout") {
+                                if (control_uploadSeg_errorCount++ < 10) {
+                                    control_uploadSegs_begin();
+                                }
+                            } else if (control_uploadSeg_cb) control_uploadSeg_cb("ajax err", null);
+                        }
+                    });
+                }
+                control_uploadSegs_begin();
+            } else {
+                if (control_uploadSeg_cb) control_uploadSeg_cb("ajax err", null);
+            }
+        },
+        error: function() {
+            if (control_uploadSeg_cb) control_uploadSeg_cb("ajax err", null);
+        }
+    });
+};
+
 febs.controls.page_map = {};
 
 febs.controls.page_init = function(elem, curPage, pageCount, totalCount, pageCallback) {
@@ -4381,5 +4454,5 @@ febs.controls.page_init = function(elem, curPage, pageCount, totalCount, pageCal
     if (e && e.length > 0) {
         e[0].remove();
     }
-    elem.append('<div class="control_pagin">\r\n  <div class="message">\r\n    共<i class="blue">' + totalCount + '</i>条记录，当前显示第&nbsp;<i class="blue">' + curPage + '&nbsp;</i>页\r\n  </div>\r\n  <ul class="control_paginList">\r\n    <li class="control_paginItem">\r\n      <a href="' + urlPrePage + '">\r\n        <span style="display: block" class=' + urlPrePageClass + "></span>\r\n      </a>\r\n    </li>" + pagePre + '<li class="control_paginItem control_current">\r\n      <a href="javascript:;">' + curPage + "</a>\r\n    </li>" + pageNext + '<li class="control_paginItem">\r\n      <a href="' + urlNextPage + '">\r\n        <span style="display: block" class=' + urlNextPageClass + "></span>\r\n      </a>\r\n    </li>\r\n  </ul>\r\n</div>");
+    elem.append('<div class="control_pagin">  <div class="message">    共<i class="blue">' + totalCount + '</i>条记录，当前显示第&nbsp;<i class="blue">' + curPage + '&nbsp;</i>页  </div>  <ul class="control_paginList">    <li class="control_paginItem">      <a href="' + urlPrePage + '">        <span style="display: block" class=' + urlPrePageClass + "></span>      </a>    </li>" + pagePre + '<li class="control_paginItem control_current">      <a href="javascript:;">' + curPage + "</a>    </li>" + pageNext + '<li class="control_paginItem">      <a href="' + urlNextPage + '">        <span style="display: block" class=' + urlNextPageClass + "></span>      </a>    </li>  </ul></div>");
 };
