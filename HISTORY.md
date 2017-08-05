@@ -51,3 +51,7 @@
 0.3.2
 ==================
   - [bugfix] client control upload base64. cross domain
+
+0.3.4
+==================
+  - [enhancement] client control upload base64. set headers

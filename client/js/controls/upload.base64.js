@@ -20,7 +20,12 @@
  *                               //                         - 'check crc32 err' 计算本地文件hash值时错误.
  *                               //                         - 'ajax err'     ajax上传时出错.
  *                               //                   serverData: 服务器返回的数据. 至少包含一个filename
- *                progressCB:  , // 上传进度的回调. function(percent)
+ *                progressCB:  , // 上传进度的回调. function(percent),
+ *                headers: {     // 设置request headers
+ *                  'customHeader': 'value'
+ *                },
+ *                crossDomain: true,     // 跨域, 默认为true
+ *                withCredentials: true, // 是否附带cookie, 默认为true
  *              }
  */
 febs.controls.uploadBase64 = 
@@ -58,10 +63,10 @@ function(cfg) {
     type: 'POST',
     url: control_uploadSeg_header_url,
     data: {filesize:control_uploadSeg_file.length, chunks:control_uploadSeg_chunks, data:cfg.data},
-    xhrFields:{
+    xhrFields: cfg.withCredentials ? {
       withCredentials:true
-    },
-    crossDomain:true,
+    } : null,
+    crossDomain: cfg.crossDomain,
     success: function(r) {
       if (r && r.err == 0)
       {
@@ -77,43 +82,57 @@ function(cfg) {
               control_uploadSeg_progress_cb(control_uploadSeg_currentChunk/control_uploadSeg_chunks);
 
             febs.net.ajax({type:'POST', url:control_uploadSeg_url+control_uploadSeg_crc, data:control_uploadSeg_data, contentType:'application/octet-stream',
-              xhrFields:{
+              xhrFields:cfg.withCredentials ? {
                 withCredentials:true
-              },
-              crossDomain:true,    
+              } : null,
+              crossDomain:cfg.crossDomain,    
               success:function(r){
-                  if (r && r.err == 0)
+                if (r && r.err == 0)
+                {
+                  if (++control_uploadSeg_currentChunk == control_uploadSeg_chunks)
                   {
-                    if (++control_uploadSeg_currentChunk == control_uploadSeg_chunks)
-                    {
-                      if (control_uploadSeg_cb)  control_uploadSeg_cb(null, r);
-                    }
-                    else
-                    {
-                      control_uploadSeg_errorCount = 0;
-                      control_uploadSegs_begin();
-                    }
+                    if (control_uploadSeg_cb)  control_uploadSeg_cb(null, r);
                   }
                   else
                   {
-                    if (control_uploadSeg_cb)  control_uploadSeg_cb('ajax err', r);
+                    control_uploadSeg_errorCount = 0;
+                    control_uploadSegs_begin();
                   }
-                },
-                error:function(xhr,textStatus){
-                  if(textStatus=='timeout'){
-                    if (control_uploadSeg_errorCount++ < 10)
-                    {
-                      control_uploadSegs_begin();
-                    }
+                }
+                else
+                {
+                  if (control_uploadSeg_cb)  control_uploadSeg_cb('ajax err', r);
+                }
+              },
+              beforeSend: function(xhr){
+                if (cfg.headers) {
+                  for (var control_uploadSeg_key in cfg.headers) {
+                    xhr.setRequestHeader(control_uploadSeg_key, cfg.headers[control_uploadSeg_key]);
                   }
-                  else if (control_uploadSeg_cb)  control_uploadSeg_cb('ajax err', null);
-                }});
+                }
+              },
+              error:function(xhr,textStatus){
+                if(textStatus=='timeout'){
+                  if (control_uploadSeg_errorCount++ < 10)
+                  {
+                    control_uploadSegs_begin();
+                  }
+                }
+                else if (control_uploadSeg_cb)  control_uploadSeg_cb('ajax err', null);
+              }});
           }
           control_uploadSegs_begin();
       }
       else
       {
-        if (control_uploadSeg_cb)  control_uploadSeg_cb('ajax err', null);
+        if (control_uploadSeg_cb)  control_uploadSeg_cb('ajax err', r);
+      }
+    },
+    beforeSend: function(xhr){
+      if (cfg.headers) {
+        for (var control_uploadSeg_key in cfg.headers) {
+          xhr.setRequestHeader(control_uploadSeg_key, cfg.headers[control_uploadSeg_key]);
+        }
       }
     },
     error: function(){

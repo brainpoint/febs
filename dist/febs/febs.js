@@ -4379,10 +4379,10 @@ febs.controls.uploadBase64 = function(cfg) {
             chunks: control_uploadSeg_chunks,
             data: cfg.data
         },
-        xhrFields: {
+        xhrFields: cfg.withCredentials ? {
             withCredentials: true
-        },
-        crossDomain: true,
+        } : null,
+        crossDomain: cfg.crossDomain,
         success: function(r) {
             if (r && r.err == 0) {
                 var control_uploadSeg_errorCount = 0;
@@ -4395,10 +4395,10 @@ febs.controls.uploadBase64 = function(cfg) {
                         url: control_uploadSeg_url + control_uploadSeg_crc,
                         data: control_uploadSeg_data,
                         contentType: "application/octet-stream",
-                        xhrFields: {
+                        xhrFields: cfg.withCredentials ? {
                             withCredentials: true
-                        },
-                        crossDomain: true,
+                        } : null,
+                        crossDomain: cfg.crossDomain,
                         success: function(r) {
                             if (r && r.err == 0) {
                                 if (++control_uploadSeg_currentChunk == control_uploadSeg_chunks) {
@@ -4409,6 +4409,13 @@ febs.controls.uploadBase64 = function(cfg) {
                                 }
                             } else {
                                 if (control_uploadSeg_cb) control_uploadSeg_cb("ajax err", r);
+                            }
+                        },
+                        beforeSend: function(xhr) {
+                            if (cfg.headers) {
+                                for (var control_uploadSeg_key in cfg.headers) {
+                                    xhr.setRequestHeader(control_uploadSeg_key, cfg.headers[control_uploadSeg_key]);
+                                }
                             }
                         },
                         error: function(xhr, textStatus) {
@@ -4422,7 +4429,14 @@ febs.controls.uploadBase64 = function(cfg) {
                 }
                 control_uploadSegs_begin();
             } else {
-                if (control_uploadSeg_cb) control_uploadSeg_cb("ajax err", null);
+                if (control_uploadSeg_cb) control_uploadSeg_cb("ajax err", r);
+            }
+        },
+        beforeSend: function(xhr) {
+            if (cfg.headers) {
+                for (var control_uploadSeg_key in cfg.headers) {
+                    xhr.setRequestHeader(control_uploadSeg_key, cfg.headers[control_uploadSeg_key]);
+                }
             }
         },
         error: function() {
