@@ -45,7 +45,10 @@ var root = path.resolve(__dirname, '../');
 //copyDir(path.join(root, 'client/controls'), path.join(root, 'dist/febs/controls'));
 //copyDir(path.join(root, 'client/partials'), path.join(root, 'dist/febs/partials'));
 
+febs.file.fileRemove(path.join(root, 'dist/febs/febs.css'));
+febs.file.fileRemove(path.join(root, 'dist/febs/febs.mobile.css'));
 febs.file.fileCopy(path.join(root, 'client/febs.css'), path.join(root, 'dist/febs/febs.css'));
+febs.file.fileCopy(path.join(root, 'client/febs.mobile.css'), path.join(root, 'dist/febs/febs.mobile.css'));
 
 //
 // make febs.min.js

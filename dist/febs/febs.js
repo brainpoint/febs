@@ -4254,7 +4254,7 @@ febs.controls.loading_show = function(text, timeout) {
             febs.controls.loading_show(text);
         }, timeout);
     } else {
-        $("#" + febs.controls.loading_tag_name).html('<div class="control_loading_c"><div class="control_loading"><p style="margin-left:auto;margin-right:auto;text-align:center;max-width:200px;">' + (text ? text : "") + "</p></div></div>");
+        $("#" + febs.controls.loading_tag_name).html('<div class="control_loading_c"><div class="control_loading"><div class="control_loading_spin"></div><p style="margin-left:auto;margin-right:auto;text-align:center;max-width:200px;">' + (text ? text : "") + "</p></div></div>");
     }
 };
 

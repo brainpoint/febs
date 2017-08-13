@@ -1,5 +1,7 @@
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="../dist/febs/febs.css" />
+    <script charset='UTF-8' type="text/javascript" src="./jquery-1.11.3.min.js"></script>
     <script charset='UTF-8' type="text/javascript" src="../dist/febs/febs.min.js"></script>
   </head>
   <body>
@@ -56,7 +58,9 @@
     assert( febs.crypt.uuid() != febs.crypt.uuid(), 'uuid err2' );
     assert( febs.crypt.uuid() != febs.crypt.uuid(), 'uuid err2' );
     trace( '[crypt test pass]' );   
-    
+
+    febs.controls.loading_show();
+
     </script>
   </body>
 </html>
