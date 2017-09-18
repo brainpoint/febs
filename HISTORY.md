@@ -55,3 +55,7 @@
 0.3.4
 ==================
   - [enhancement] client control upload base64. set headers
+
+0.3.6
+==================
+  - [enhancement] client jquery -> $

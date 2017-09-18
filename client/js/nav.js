@@ -50,7 +50,7 @@ function( ctx )
   if (!ctx.timeout)
     ctx.timeout = febs.nav.nav_options.defaultTimeout;
 
-  jQuery.ajax(ctx);
+  $.ajax(ctx);
 }
 
 
