@@ -391,6 +391,8 @@ else {
 
       if (request.credentials === 'include') {
         xhr.withCredentials = true
+      } else {
+        xhr.withCredentials = false  
       }
 
       if ('responseType' in xhr && febs.net.fetch_support.blob) {

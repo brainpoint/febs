@@ -4173,6 +4173,8 @@ if (false) {} else {
             xhr.open(request.method, request.url, true);
             if (request.credentials === "include") {
                 xhr.withCredentials = true;
+            } else {
+                xhr.withCredentials = false;
             }
             if ("responseType" in xhr && febs.net.fetch_support.blob) {
                 xhr.responseType = "blob";
