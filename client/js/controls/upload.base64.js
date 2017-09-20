@@ -65,6 +65,7 @@ function(cfg) {
     type: 'POST',
     url: control_uploadSeg_header_url,
     data: {filesize:control_uploadSeg_file.length, chunks:control_uploadSeg_chunks, data:cfg.data},
+    contentType: 'application/x-www-form-urlencoded',
     xhrFields: cfg.withCredentials ? {
       withCredentials:true
     } : null,

@@ -4386,6 +4386,7 @@ febs.controls.uploadBase64 = function(cfg) {
             chunks: control_uploadSeg_chunks,
             data: cfg.data
         },
+        contentType: "application/x-www-form-urlencoded",
         xhrFields: cfg.withCredentials ? {
             withCredentials: true
         } : null,
