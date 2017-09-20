@@ -4416,9 +4416,10 @@ febs.controls.uploadBase64 = function(cfg) {
                         beforeSend: function(xhr) {
                             if (cfg.headers) {
                                 for (var control_uploadSeg_key in cfg.headers) {
-                                    xhr.setRequestHeader(control_uploadSeg_key, cfg.headers[control_uploadSeg_key]);
+                                    if (control_uploadSeg_key != "Content-Type") xhr.setRequestHeader(control_uploadSeg_key, cfg.headers[control_uploadSeg_key]);
                                 }
                             }
+                            xhr.setRequestHeader("Content-Type", "application/octet-stream");
                         },
                         error: function(xhr, textStatus) {
                             if (textStatus == "timeout") {
@@ -4437,9 +4438,10 @@ febs.controls.uploadBase64 = function(cfg) {
         beforeSend: function(xhr) {
             if (cfg.headers) {
                 for (var control_uploadSeg_key in cfg.headers) {
-                    xhr.setRequestHeader(control_uploadSeg_key, cfg.headers[control_uploadSeg_key]);
+                    if (control_uploadSeg_key != "Content-Type") xhr.setRequestHeader(control_uploadSeg_key, cfg.headers[control_uploadSeg_key]);
                 }
             }
+            xhr.setRequestHeader("Content-Type", "application/json");
         },
         error: function() {
             if (control_uploadSeg_cb) control_uploadSeg_cb("ajax err", null);

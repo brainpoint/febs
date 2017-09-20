@@ -59,3 +59,4 @@
 0.3.6
 ==================
   - [enhancement] client jquery -> $
+  - [bugfix] client uploadBase64
