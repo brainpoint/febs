@@ -58,6 +58,8 @@ function(cfg) {
   var control_uploadSeg_chunks = Math.ceil(control_uploadSeg_file.length / control_uploadSeg_chunkSize);
   var control_uploadSeg_currentChunk = 0;
 
+  console.log({filesize:control_uploadSeg_file.length, chunks:control_uploadSeg_chunks, data:cfg.data});
+
   // 上传文件头.
   febs.net.ajax({
     type: 'POST',
@@ -137,7 +139,7 @@ function(cfg) {
             xhr.setRequestHeader(control_uploadSeg_key, cfg.headers[control_uploadSeg_key]);
         }
       }
-      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     },
     error: function(){
                   if (control_uploadSeg_cb)  control_uploadSeg_cb('ajax err', null);
