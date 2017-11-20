@@ -20,11 +20,9 @@
  */
 
 var URL      = require('url');
-var path     = require('path');
 var fs       = require('fs');
 var parse    = require('co-busboy');
 var assert   = require('assert');
-var co       = require('co');
 var febs   = require('..');
 var PromiseLib = Promise;
 

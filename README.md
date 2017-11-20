@@ -648,42 +648,41 @@ febs.controls.uploadBase64(cfg);
 ```js
 /**
  * 准备接收上传文件.
- * @param conditionCB: async function(filesize, data):string.
- *                      - filesize: 将要存储的文件大小.
+ * @param conditionCB: async function(data, filesize):string.
+ *                      - filesize: 将要存储的文件大小(base64大小)
  *                      - data: 用户上传的数据.
  *                      - return: 本地存储的文件路径, 返回null表示不存储. 存储的文件必须不存在.
- * @param session:  用于存储临时文件信息的session. 默认存储在'__uploadSegInfo'中. (在上传内容后验证使用)
- * @param sessionKey: 用于存储上传信息的session中的key, 默认为 '__uploadSegInfo'
+ * @param sessionSet:  function(data){} 用于设置存储在session中的临时文件信息;
  * @return Promise.
  * @resolve
  *     - bool. 指明是否开始接收文件流.
  */
-febs.controls.uploadBase64.acceptHeader
+febs.controls.uploadBase64.acceptHeader(app, conditionCB, sessionSet)
 ```
 ```js
 /**
  * 上传文件内容.
  *  发生错误会自动调用 cleanup
- * @param finishCB: async function(filename):string.
+ * @param finishCB: async function(filename):object.
  *                      - filename: 本地存储的文件名.
  *                      - return: 返回给客户端的数据. 不能包含err数据.
- *                                图片完成上传后, 请转存至其他路径, 稍后系统将清理临时文件.
- * @param session:  用于存储临时文件信息的session. 默认存储在'__uploadSegInfo'中. (在上传内容后验证使用)
- * @param sessionKey: 用于存储上传信息的session中的key, 默认为 '__uploadSegInfo'
+ *
+ * @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
+ * @param sessionSet:  function(data){} 用于设置存储在session中的临时文件信息;
+ * @param sessionClear: function() {} 用于清除存储在session中的临时信息
  * @return Promise
  * @resolve
  */
-febs.controls.uploadBase64.accept
+febs.controls.uploadBase64.accept(app, finishCB, sessionGet, sessionSet, sessionClear)
 ```
 ```js
 /**
 * @desc: 在用户登出或其他中断传输中清除上传的数据.
-         !!!清理完成后, 将使用 session[sessionKey] = undefined; 清理session.
-* @param session:  用于存储临时文件信息的session. 默认存储在'__uploadSegInfo'中. (在上传内容后验证使用)
-* @param sessionKey: 用于存储上传信息的session中的key, 默认为 '__uploadSegInfo'
+* @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
+* @param sessionClear: function() {} 用于清除存储在session中的临时信息
 * @return: 
 */
-febs.controls.uploadBase64.cleanup
+febs.controls.uploadBase64.cleanup(sessionGet, sessionClear, cleanFile = true)
 ```
 
 例子

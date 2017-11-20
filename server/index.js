@@ -37,7 +37,7 @@ if (!global.hasOwnProperty('__debug')) {
      return ((process.env.NODE_ENV || 'development') == 'development');
    },
    set: function(isDebug) {
-     process.env.NODE_ENV = isDebug ? 'development' : 'production';
+     process.env.NODE_ENV = (isDebug ? 'development' : 'production');
    }
   });
 }
