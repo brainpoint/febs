@@ -86,6 +86,11 @@ export namespace utils {
    */
   function getDate(strDate: string): Date;
   /**
+   * @desc: getDate2('20120509')
+   * @return: Date.
+   */
+  function getDate2(strDate: string): Date;
+  /**
    * @desc: 合并多个map.
    * @return: {}
    */
