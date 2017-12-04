@@ -133,6 +133,11 @@ febs.utils.getTimeStringFromNow(time, strFmt);
  * @return: Date.
  */
 febs.utils.getDate(strDate)
+/**
+ * @desc: getDate2('20120509')
+ * @return: Date.
+ */
+febs.utils.getDate2(strDate)
 ```
 ```js
 /**

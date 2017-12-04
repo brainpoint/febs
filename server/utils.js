@@ -104,7 +104,7 @@ exports.browserIsWeixin = function(userAgent) {
  * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
  * @return: string.
  */
-exports.getTimeString = function getTimeString(time, fmt, weekFmt)
+function getTimeString(time, fmt, weekFmt)
 {
   if (typeof time !== "number")
     return "";
@@ -144,6 +144,7 @@ exports.getTimeString = function getTimeString(time, fmt, weekFmt)
     }         
     return fmt;
 };
+exports.getTimeString = getTimeString;
 
 
 /**
@@ -225,6 +226,19 @@ exports.getTimeStringFromNow = function(time, strFmt)
 exports.getDate = function(strDate) {
   var date = eval('new Date(' + strDate.replace(/\d+(?=-[^-]+$)/,
   function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
+  return date;
+}
+
+
+/**
+ * @desc: getDate2('20120509')
+ * @return: Date.
+ */
+exports.getDate2 = function(strDate) {
+  var date = eval('new Date(' 
+        + strDate.substr(0, 4) + ',' 
+        + parseInt(strDate.substr(4, 2), 10)-1 + ',' 
+        + strDate.substr(6, 2) + ')');
   return date;
 }
 

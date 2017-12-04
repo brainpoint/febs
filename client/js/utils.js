@@ -238,6 +238,20 @@ function (strDate) {
   return date;
 }
 
+
+/**
+ * @desc: getDate2('20120509')
+ * @return: Date.
+ */
+febs.utils.getDate2=
+function(strDate) {
+  var date = eval('new Date(' 
+        + strDate.substr(0, 4) + ',' 
+        + parseInt(strDate.substr(4, 2), 10)-1 + ',' 
+        + strDate.substr(6, 2) + ')');
+  return date;
+}
+
 /**
  * @desc: 合并多个map.
  * @return: {}

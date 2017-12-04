@@ -60,3 +60,7 @@
 ==================
   - [enhancement] client jquery -> $
   - [bugfix] client uploadBase64
+
+0.3.12
+==================
+  - [feature] add febs.utils.getDate2
