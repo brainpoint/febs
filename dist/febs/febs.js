@@ -3563,6 +3563,11 @@ febs.utils.getDate = function(strDate) {
     return date;
 };
 
+febs.utils.getDate2 = function(strDate) {
+    var date = eval("new Date(" + strDate.substr(0, 4) + "," + parseInt(strDate.substr(4, 2), 10) - 1 + "," + strDate.substr(6, 2) + ")");
+    return date;
+};
+
 febs.utils.mergeMap = function() {
     var map0 = {};
     var map2;
@@ -4204,17 +4209,17 @@ febs.net.jsonp_clearFunction = function(functionName) {
 };
 
 febs.net.jsonp_removeScript = function(scriptId) {
-    const script = document.getElementById(scriptId);
+    var script = document.getElementById(scriptId);
     document.getElementsByTagName("head")[0].removeChild(script);
 };
 
 febs.net.jsonp = function(url, options) {
     options = options || {};
-    const timeout = options.timeout != null ? options.timeout : febs.net.jsonp_defaultOptions.timeout;
-    const jsonpCallback = !!options.jsonpCallback ? options.jsonpCallback : febs.net.jsonp_defaultOptions.jsonpCallback;
+    var timeout = options.timeout != null ? options.timeout : febs.net.jsonp_defaultOptions.timeout;
+    var jsonpCallback = !!options.jsonpCallback ? options.jsonpCallback : febs.net.jsonp_defaultOptions.jsonpCallback;
     var timeoutId;
     return new Promise(function(resolve, reject) {
-        const callbackFunction = febs.net.jsonp_generateCallbackFunction();
+        var callbackFunction = febs.net.jsonp_generateCallbackFunction();
         window[callbackFunction] = function(response) {
             resolve({
                 ok: true,
@@ -4227,7 +4232,7 @@ febs.net.jsonp = function(url, options) {
             febs.net.jsonp_clearFunction(callbackFunction);
         };
         url += url.indexOf("?") === -1 ? "?" : "&";
-        const jsonpScript = document.createElement("script");
+        var jsonpScript = document.createElement("script");
         jsonpScript.setAttribute("src", url + jsonpCallback + "=" + callbackFunction);
         jsonpScript.id = jsonpCallback + "_" + callbackFunction;
         document.getElementsByTagName("head")[0].appendChild(jsonpScript);

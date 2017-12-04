@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "tap": "^10.1.0",
-    "uglifyjs": "^2.4.11"
+    "uglify-js": "^3.2.1"
   },
   "directories": {},
   "homepage": "https://github.com/brainpoint/febs#readme",
@@ -44,5 +44,5 @@
     "prepare": "node scripts/prepublish.js"
   },
   "name": "febs",
-  "version": "0.3.13"
+  "version": "0.3.15"
 }

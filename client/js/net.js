@@ -436,19 +436,19 @@ febs.net.jsonp_clearFunction = function (functionName) {
 }
 
 febs.net.jsonp_removeScript = function (scriptId) {
-  const script = document.getElementById(scriptId);
+  var script = document.getElementById(scriptId);
   document.getElementsByTagName("head")[0].removeChild(script);
 }
 
 febs.net.jsonp = function(url, options) {
   options = options || {};
-  const timeout = options.timeout != null ? options.timeout : febs.net.jsonp_defaultOptions.timeout;
-  const jsonpCallback = (!!options.jsonpCallback) ? options.jsonpCallback : febs.net.jsonp_defaultOptions.jsonpCallback;
+  var timeout = options.timeout != null ? options.timeout : febs.net.jsonp_defaultOptions.timeout;
+  var jsonpCallback = (!!options.jsonpCallback) ? options.jsonpCallback : febs.net.jsonp_defaultOptions.jsonpCallback;
 
   var timeoutId;
 
   return new Promise(function(resolve, reject) {
-    const callbackFunction = febs.net.jsonp_generateCallbackFunction();
+    var callbackFunction = febs.net.jsonp_generateCallbackFunction();
 
     window[callbackFunction] = function(response) {
       resolve({
@@ -469,7 +469,7 @@ febs.net.jsonp = function(url, options) {
     // Check if the user set their own params, and if not add a ? to start a list of params
     url += (url.indexOf('?') === -1) ? '?' : '&';
 
-    const jsonpScript = document.createElement('script');
+    var jsonpScript = document.createElement('script');
     jsonpScript.setAttribute("src", url + jsonpCallback + '=' + callbackFunction);
     jsonpScript.id = jsonpCallback + '_' + callbackFunction;
     document.getElementsByTagName("head")[0].appendChild(jsonpScript);
