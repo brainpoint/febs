@@ -537,7 +537,7 @@ export namespace controls {
      * @resolve
      *     - bool. 指明是否存储成功.
      */
-    function accept(app: any, conditionCB: (data: any, filesize: number, filename: string, filemimeType: string) => string | null): Promise<boolean>;
+    function accept(app: any, conditionCB: (data: any, filesize: number, filename: string, filemimeType: string) => Promise<string>): Promise<boolean>;
   }
 
   namespace uploadBase64 {
@@ -552,7 +552,7 @@ export namespace controls {
      * @resolve
      *     - bool. 指明是否开始接收文件流.
      */
-    function acceptHeader(app: any, conditionCB: (filesize: number, data: any) => string | null, sessionSet: (data: any) => void): Promise<boolean>;
+    function acceptHeader(app: any, conditionCB: (filesize: number, data: any) => Promise<string>, sessionSet: (data: any) => void): Promise<boolean>;
     /**
      * 上传文件内容.
      *  发生错误会自动调用 cleanup
@@ -566,7 +566,7 @@ export namespace controls {
      * @return Promise
      * @resolve
      */
-    function accept(app: any, finishCB: (filename: string) => any, sessionGet: () => any, sessionSet: (data: any) => void, sessionClear: () => void): Promise<void>;
+    function accept(app: any, finishCB: (filename: string) => Promise<any>, sessionGet: () => any, sessionSet: (data: any) => void, sessionClear: () => void): Promise<void>;
     /**
     * @desc: 在用户登出或其他中断传输中清除上传的数据.
     * @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
