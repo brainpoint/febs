@@ -552,7 +552,7 @@ export namespace controls {
      * @resolve
      *     - bool. 指明是否开始接收文件流.
      */
-    function acceptHeader(app: any, conditionCB: (filesize: number, data: any) => Promise<string>, sessionSet: (data: any) => void): Promise<boolean>;
+    function acceptHeader(app: any, conditionCB: (data: any, filesize: number) => Promise<string>, sessionSet: (data: any) => void): Promise<boolean>;
     /**
      * 上传文件内容.
      *  发生错误会自动调用 cleanup
