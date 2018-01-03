@@ -108,6 +108,7 @@ exports.acceptHeader = function(app, conditionCB, sessionSet)
  * @param sessionClear: function() {} 用于清除存储在session中的临时信息
  * @return Promise
  * @resolve
+ *    - data: 返回给客户端的数据.
  */
 exports.accept = function(app, finishCB, sessionGet, sessionSet, sessionClear)
 {
@@ -117,7 +118,7 @@ exports.accept = function(app, finishCB, sessionGet, sessionSet, sessionClear)
       if ('POST' != app.method) {
         cleanup(sessionGet, sessionClear, true);
         app.response.body = {err:'method is not post'};
-        resolve();
+        resolve(app.response.body);
         return;
       }
 
@@ -125,7 +126,7 @@ exports.accept = function(app, finishCB, sessionGet, sessionSet, sessionClear)
       if (!url.query.crc32) {
         cleanup(sessionGet, sessionClear, true);
         app.response.body = {err:'leak param crc32'};
-        resolve();
+        resolve(app.response.body);
         return;
       }
 
@@ -134,7 +135,7 @@ exports.accept = function(app, finishCB, sessionGet, sessionSet, sessionClear)
       {
         cleanup(sessionGet, sessionClear, true);
         app.response.body = {err:'上传请求已经过期'};
-        resolve();
+        resolve(app.response.body);
         return;
       }
 
@@ -143,7 +144,7 @@ exports.accept = function(app, finishCB, sessionGet, sessionSet, sessionClear)
           if (febs.crypt.crc32(bufstr) != url.query.crc32)
           {
             app.response.body = {err:'crc32错误'};
-            resolve();
+            resolve(app.response.body);
             return;
           }
           
@@ -173,7 +174,7 @@ exports.accept = function(app, finishCB, sessionGet, sessionSet, sessionClear)
               if (fn.err !== 0)
                 fn.err = 0;
               app.response.body = fn;
-              resolve();
+              resolve(app.response.body);
             })
             .catch(err=>{
               cleanup(sessionGet, sessionClear, true);
@@ -184,7 +185,7 @@ exports.accept = function(app, finishCB, sessionGet, sessionSet, sessionClear)
           }
 
           app.response.body = {err:0};
-          resolve();
+          resolve(app.response.body);
         })
         .catch(err=>{
           cleanup(sessionGet, sessionClear, true);

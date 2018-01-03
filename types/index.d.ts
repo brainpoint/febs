@@ -566,7 +566,7 @@ export namespace controls {
      * @return Promise
      * @resolve
      */
-    function accept(app: any, finishCB: (filename: string) => Promise<any>, sessionGet: () => any, sessionSet: (data: any) => void, sessionClear: () => void): Promise<void>;
+    function accept(app: any, finishCB: (filename: string) => Promise<any>, sessionGet: () => any, sessionSet: (data: any) => void, sessionClear: () => void): Promise<any>;
     /**
     * @desc: 在用户登出或其他中断传输中清除上传的数据.
     * @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
