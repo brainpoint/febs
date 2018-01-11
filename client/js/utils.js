@@ -245,10 +245,10 @@ function (strDate) {
  */
 febs.utils.getDate2=
 function(strDate) {
-  var date = eval('new Date(' 
-        + strDate.substr(0, 4) + ',' 
-        + parseInt(strDate.substr(4, 2), 10)-1 + ',' 
-        + strDate.substr(6, 2) + ')');
+  var date = new Date(
+    parseInt(strDate.substr(0, 4)), 
+    parseInt(strDate.substr(4, 2), 10)-1,
+    parseInt(strDate.substr(6, 2)));
   return date;
 }
 
