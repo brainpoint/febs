@@ -562,7 +562,12 @@ febs.controls.page_init(elem, curPage, pageCount, totalCount, pageCallback)
   *                               //                         - 'check crc32 err' 计算本地文件hash值时错误.
   *                               //                         - 'ajax err'     ajax上传时出错.
   *                               //                   serverData: 服务器返回的数据.
-  *                progressCB:  , // 上传进度的回调. function(fileObj, percent)
+  *                progressCB:  , // 上传进度的回调. function(fileObj, percent),
+  *                headers: {     // 设置request headers
+  *                  'customHeader': 'value'
+  *                },
+  *                crossDomain: true,     // 跨域, 默认为true
+  *                withCredentials: true, // 是否附带cookie, 默认为true
   *              }
   * function control_upload(cfg)
   */

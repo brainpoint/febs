@@ -4349,7 +4349,18 @@ febs.controls.upload = function(cfg) {
                 },
                 success: function(r) {
                     if (control_upload_cb) control_upload_cb(null, fileObj, r);
-                }
+                },
+                crossDomain: cfg.crossDomain,
+                beforeSend: function(xhr) {
+                    if (cfg.headers) {
+                        for (var control_uploadSeg_key in cfg.headers) {
+                            if (control_uploadSeg_key != "Content-Type") xhr.setRequestHeader(control_uploadSeg_key, cfg.headers[control_uploadSeg_key]);
+                        }
+                    }
+                },
+                xhrFields: cfg.withCredentials ? {
+                    withCredentials: true
+                } : null
             });
         } else {
             if (control_upload_cb) control_upload_cb("check crc32 err", fileObj, null);
