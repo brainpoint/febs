@@ -44,5 +44,5 @@
     "prepare": "node scripts/prepublish.js"
   },
   "name": "febs",
-  "version": "0.3.20"
+  "version": "0.3.22"
 }

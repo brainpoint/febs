@@ -7,6 +7,17 @@
 febs.controls.loading_tag_name = 'control_loading_span_s23153dd12ax1';
 febs.controls.control_loading_index = 0;
 
+/**
+* @desc: 当前是否显示.
+*/
+febs.controls.loading_isVisiable = function() {
+  if (febs.controls.control_loading_timer)
+    return true;
+    
+  var ee = $('#' + febs.controls.loading_tag_name).html();
+  return ee && ee.length>0;
+}
+
 
 /**
 * @desc: 使用延时显示加载框.

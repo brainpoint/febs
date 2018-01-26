@@ -49,6 +49,7 @@ febs.file.fileRemove(path.join(root, 'dist/febs/febs.css'));
 febs.file.fileRemove(path.join(root, 'dist/febs/febs.mobile.css'));
 febs.file.fileCopy(path.join(root, 'client/febs.css'), path.join(root, 'dist/febs/febs.css'));
 febs.file.fileCopy(path.join(root, 'client/febs.mobile.css'), path.join(root, 'dist/febs/febs.mobile.css'));
+febs.file.fileCopy(path.join(root, 'README.md'), path.join(root, 'dist/febs/README.md'));
 
 //
 // make febs.min.js
