@@ -3469,6 +3469,25 @@ febs.utils.browserIsPhone = function() {
     return agent.match(expression) != null;
 };
 
+febs.utils.browserIsIE = function() {
+    if (!!window.ActiveXObject || "ActiveXObject" in window) return true; else return false;
+};
+
+febs.utils.browserIEVer = function() {
+    if (!febs.utils.browserIsIE()) return Number.MAX_SAFE_INTEGER;
+    var b_version = navigator.appVersion;
+    var version = b_version.split(";");
+    var trim_Version = version[1].replace(/[ ]/g, "");
+    if (!trim_Version || trim_Version.length < 5) {
+        var userAgent = navigator.userAgent;
+        userAgent = userAgent.toLowerCase();
+        if (userAgent.indexOf("rv:11.") > 0) return 11;
+        if (userAgent.indexOf("rv:12.") > 0) return 12;
+        return Number.MAX_SAFE_INTEGER;
+    }
+    return parseInt(trim_Version[4]);
+};
+
 febs.utils.browserIsSupportHtml5 = function() {
     if (typeof Worker !== "undefined") {
         return true;
@@ -4132,6 +4151,65 @@ if (false) {} else {
     window.Request = febs.net.fetch_Request;
     window.Response = febs.net.fetch_Response;
     window.fetch = febs.net.fetch = function(input, init) {
+        if (febs.utils.browserIEVer() <= 9) {
+            var url;
+            var option;
+            if (febs.net.fetch_Request.prototype.isPrototypeOf(input) && !init) {
+                url = input.url;
+                option = input;
+            } else {
+                url = input;
+                option = init;
+            }
+            return new Promise(function(resolve, reject) {
+                febs.net.ajax({
+                    url: url,
+                    beforeSend: function(xhr) {
+                        var header = option.headers || {};
+                        for (var key in header) {
+                            var element = header[key];
+                            xhr.setRequestHeader(key, element);
+                        }
+                    },
+                    withCredentials: true,
+                    mode: "cors",
+                    timeout: 5e3,
+                    type: option.method && option.method.toLowerCase() == "post" ? "POST" : "GET",
+                    data: option.body,
+                    complete: function(xhr, ts) {
+                        var status = xhr.status === 1223 ? 204 : xhr.status;
+                        if (status < 100 || status > 599) {
+                            reject(new TypeError("Network request failed"));
+                            return;
+                        }
+                        function responseURL() {
+                            if ("responseURL" in xhr) {
+                                return xhr.responseURL;
+                            }
+                            if (/^X-febs.net.fetch_Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+                                return xhr.getResponseHeader("X-febs.net.fetch_Request-URL");
+                            }
+                            return;
+                        }
+                        var options = {
+                            status: status,
+                            statusText: xhr.statusText,
+                            headers: febs.net.fetch_headers(xhr),
+                            url: responseURL()
+                        };
+                        var body = "response" in xhr ? xhr.response : xhr.responseText;
+                        resolve(new febs.net.fetch_Response(body, options));
+                    },
+                    error: function(xhr, msg) {
+                        if (msg == "timeout") {
+                            reject("timeout");
+                        } else {
+                            reject(new TypeError("Network request failed"));
+                        }
+                    }
+                });
+            });
+        }
         return new Promise(function(resolve, reject) {
             var request;
             if (febs.net.fetch_Request.prototype.isPrototypeOf(input) && !init) {
@@ -4139,7 +4217,8 @@ if (false) {} else {
             } else {
                 request = new febs.net.fetch_Request(input, init);
             }
-            var xhr = new XMLHttpRequest();
+            var xhr;
+            if (window.XDomainRequest) xhr = new XDomainRequest(); else if (window.XMLHttpRequest) xhr = new XMLHttpRequest(); else xhr = new ActiveXObject("Microsoft.XMLHTTP");
             if (init && init.timeout) {
                 xhr.timeout = init.timeout;
             } else {
@@ -4154,20 +4233,22 @@ if (false) {} else {
                 }
                 return;
             }
-            xhr.onload = function() {
-                var status = xhr.status === 1223 ? 204 : xhr.status;
-                if (status < 100 || status > 599) {
-                    reject(new TypeError("Network request failed"));
-                    return;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    var status = xhr.status === 1223 ? 204 : xhr.status;
+                    if (status < 100 || status > 599) {
+                        reject(new TypeError("Network request failed"));
+                        return;
+                    }
+                    var options = {
+                        status: status,
+                        statusText: xhr.statusText,
+                        headers: febs.net.fetch_headers(xhr),
+                        url: responseURL()
+                    };
+                    var body = "response" in xhr ? xhr.response : xhr.responseText;
+                    resolve(new febs.net.fetch_Response(body, options));
                 }
-                var options = {
-                    status: status,
-                    statusText: xhr.statusText,
-                    headers: febs.net.fetch_headers(xhr),
-                    url: responseURL()
-                };
-                var body = "response" in xhr ? xhr.response : xhr.responseText;
-                resolve(new febs.net.fetch_Response(body, options));
             };
             xhr.ontimeout = function() {
                 reject("timeout");

@@ -335,6 +335,74 @@ else {
   window.Response = febs.net.fetch_Response;
 
   window.fetch = febs.net.fetch = function(input, init) {
+
+    // < IE9.
+    if (febs.utils.browserIEVer() <= 9) {
+      var url;
+      var option;
+      if (febs.net.fetch_Request.prototype.isPrototypeOf(input) && !init) {
+        url = input.url;
+        option = input;
+      } else {
+        url = input;
+        option = init;
+      }
+      
+      return new Promise(function(resolve, reject) {
+        febs.net.ajax({
+          url: url,
+          beforeSend: function(xhr) {
+            var header = option.headers||{};
+            for (var key in header) {
+              var element = header[key];
+              xhr.setRequestHeader(key, element);
+            }
+          },
+          withCredentials: true,
+          mode: 'cors',
+          timeout: 5000,
+          type: (option.method&&option.method.toLowerCase()=='post') ? 'POST' : 'GET',
+          data: option.body,
+          complete: function(xhr, ts) {
+            var status = (xhr.status === 1223) ? 204 : xhr.status
+            if (status < 100 || status > 599) {
+              reject(new TypeError('Network request failed'))
+              return
+            }
+            function responseURL() {
+              if ('responseURL' in xhr) {
+                return xhr.responseURL
+              }
+
+              // Avoid security warnings on getResponseHeader when not allowed by CORS
+              if (/^X-febs.net.fetch_Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+                return xhr.getResponseHeader('X-febs.net.fetch_Request-URL')
+              }
+
+              return;
+            }
+            var options = {
+              status: status,
+              statusText: xhr.statusText,
+              headers: febs.net.fetch_headers(xhr),
+              url: responseURL()
+            }
+            var body = 'response' in xhr ? xhr.response : xhr.responseText;
+            resolve(new febs.net.fetch_Response(body, options))
+          },
+          error: function(xhr, msg) {
+            if (msg == 'timeout') {
+              reject('timeout');
+            }
+            else {
+              reject(new TypeError('Network request failed'));
+            }
+          }
+        });
+      });
+    } // if.
+
+    // other.
     return new Promise(function(resolve, reject) {
       var request
       if (febs.net.fetch_Request.prototype.isPrototypeOf(input) && !init) {
@@ -343,7 +411,10 @@ else {
         request = new febs.net.fetch_Request(input, init)
       }
 
-      var xhr = new XMLHttpRequest()
+      var xhr;
+      if (window.XDomainRequest) xhr = new XDomainRequest();
+      else if (window.XMLHttpRequest) xhr = new XMLHttpRequest();
+      else xhr = new ActiveXObject("Microsoft.XMLHTTP");
 
       if (init && init.timeout) {
         xhr.timeout = init.timeout;
@@ -364,20 +435,38 @@ else {
         return;
       }
 
-      xhr.onload = function() {
-        var status = (xhr.status === 1223) ? 204 : xhr.status
-        if (status < 100 || status > 599) {
-          reject(new TypeError('Network request failed'))
-          return
+      // xhr.onload = function() {
+      //   var status = (xhr.status === 1223) ? 204 : xhr.status
+      //   if (status < 100 || status > 599) {
+      //     reject(new TypeError('Network request failed'))
+      //     return
+      //   }
+      //   var options = {
+      //     status: status,
+      //     statusText: xhr.statusText,
+      //     headers: febs.net.fetch_headers(xhr),
+      //     url: responseURL()
+      //   }
+      //   var body = 'response' in xhr ? xhr.response : xhr.responseText;
+      //   resolve(new febs.net.fetch_Response(body, options))
+      // }
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+          var status = (xhr.status === 1223) ? 204 : xhr.status
+          if (status < 100 || status > 599) {
+            reject(new TypeError('Network request failed'))
+            return
+          }
+          var options = {
+            status: status,
+            statusText: xhr.statusText,
+            headers: febs.net.fetch_headers(xhr),
+            url: responseURL()
+          }
+          var body = 'response' in xhr ? xhr.response : xhr.responseText;
+          resolve(new febs.net.fetch_Response(body, options))
         }
-        var options = {
-          status: status,
-          statusText: xhr.statusText,
-          headers: febs.net.fetch_headers(xhr),
-          url: responseURL()
-        }
-        var body = 'response' in xhr ? xhr.response : xhr.responseText;
-        resolve(new febs.net.fetch_Response(body, options))
       }
 
       xhr.ontimeout = function() {

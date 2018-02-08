@@ -86,6 +86,39 @@ function () {
 }
 
 /**
+* @desc: 判断是否是ie.
+*/
+febs.utils.browserIsIE=
+function() {
+  if (!!window.ActiveXObject || "ActiveXObject" in window)
+    return true;
+  else
+    return false;
+}
+
+/**
+* @desc: 判断ie版本号.
+* @return number. 非ie返回Number.MAX_SAFE_INTEGER.
+*/
+febs.utils.browserIEVer=
+function() {
+  if (!febs.utils.browserIsIE()) return Number.MAX_SAFE_INTEGER;
+  
+  var b_version = navigator.appVersion
+  var version = b_version.split(";");
+  var trim_Version = version[1].replace(/[ ]/g, "");
+  if (!trim_Version || trim_Version.length < 5) {
+    var userAgent = navigator.userAgent;
+    userAgent = userAgent.toLowerCase();
+    if (userAgent.indexOf('rv:11.') > 0) return 11;
+    if (userAgent.indexOf('rv:12.') > 0) return 12;
+    return Number.MAX_SAFE_INTEGER;
+  }
+
+  return parseInt(trim_Version[4]);
+}
+
+/**
  * @desc: the browser is support html5.
  */
 febs.utils.browserIsSupportHtml5=

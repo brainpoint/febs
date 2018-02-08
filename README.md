@@ -93,6 +93,15 @@ febs.utils.browserIsPhone()
  */
 febs.utils.browserIsWeixin()
 /**
+* @desc: 判断是否是ie.
+*/
+febs.utils.browserIsIE()
+/**
+* @desc: 判断ie版本号.
+* @return number. 非ie返回Number.MAX_SAFE_INTEGER.
+*/
+febs.utils.browserIEVer()
+/**
  * @desc: the browser is support html5.
  */
 febs.utils.browserIsSupportHtml5()  `服务端不支持`
