@@ -360,7 +360,7 @@ else {
           },
           withCredentials: true,
           mode: 'cors',
-          timeout: 5000,
+          timeout: option.timeout||5000,
           type: (option.method&&option.method.toLowerCase()=='post') ? 'POST' : 'GET',
           data: option.body,
           complete: function(xhr, ts) {

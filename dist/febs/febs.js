@@ -4173,7 +4173,7 @@ if (false) {} else {
                     },
                     withCredentials: true,
                     mode: "cors",
-                    timeout: 5e3,
+                    timeout: option.timeout || 5e3,
                     type: option.method && option.method.toLowerCase() == "post" ? "POST" : "GET",
                     data: option.body,
                     complete: function(xhr, ts) {
