@@ -1,22 +1,84 @@
-
 /**
  * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
  * Author: lipengxiang
  * Desc:
  */
 
-febs.net = function() {}
+var febsUtils = require('./utils');
+
+( function( global, factory ) {
+
+	"use strict";
+
+	if ( typeof module === "object" && typeof module.exports === "object" ) {
+
+		// For CommonJS and CommonJS-like environments where a proper `window`
+		// For environments that do not have a `window` with a `document`
+		// (such as Node.js), expose a factory as module.exports.
+		// This accentuates the need for the creation of a real `window`.
+		module.exports = global.document ?
+			factory( global, true ) :
+			function( w ) {
+				if ( !w.document ) {
+					throw new Error( "febs requires a window with a document" );
+				}
+				return factory( w );
+			};
+	} else {
+		factory( global );
+	}
+
+// Pass this if window is not defined yet
+} )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
+
+'use strict';
+
+const Ajaxmark = Symbol('ajaxmark');
+const DefaultTimeout = 10000;
+var febsnet = {};
+var net = {};
 
 //--------------------------------------------------------
 // ajax
 //--------------------------------------------------------
-febs.net.ajax = febs.nav.ajax;
+
+/**
+ * @desc: ajax 跳转.
+ * @return:
+ */
+net.ajax=
+function( ctx )
+{
+  //if (!!window.ActiveXObject || "ActiveXObject" in window) // ie11.
+  {
+    if (ctx.url)
+    {
+      if (!global[Ajaxmark]) global[Ajaxmark] = 1;
+      var i = ctx.url.indexOf('?');
+      if (i < 0) {
+        ctx.url += "?ajaxmark="+global[Ajaxmark];
+      } else {
+        if (i == ctx.url.length-1) {
+          ctx.url += "ajaxmark="+global[Ajaxmark];
+        } else {
+          ctx.url += "&ajaxmark="+global[Ajaxmark];
+        }
+      }
+    }
+    global[Ajaxmark]++;
+  } // if.
+
+  if (!ctx.timeout)
+    ctx.timeout = DefaultTimeout;
+
+  $.ajax(ctx);
+}
 
 //--------------------------------------------------------
 // fetch.
 //--------------------------------------------------------
 if (false) {
-  //febs.net.fetch=window.fetch;
+  //febsnet.fetch=window.fetch;
 }
 else {
   if (!Promise) {
@@ -24,7 +86,7 @@ else {
   }
 
   // https://github.com/github/fetch
-  febs.net.fetch_normalizeName = function(name) {
+  febsnet.fetch_normalizeName = function(name) {
     if (typeof name !== 'string') {
       name = String(name)
     }
@@ -34,17 +96,17 @@ else {
     return name.toLowerCase()
   }
 
-  febs.net.fetch_normalizeValue = function(value) {
+  febsnet.fetch_normalizeValue = function(value) {
     if (typeof value !== 'string') {
       value = String(value)
     }
     return value
   }
 
-  febs.net.fetch_Headers = function(headers) {
+  febsnet.fetch_Headers = function(headers) {
     this.map = {}
 
-    if (headers instanceof febs.net.fetch_Headers) {
+    if (headers instanceof febsnet.fetch_Headers) {
       headers.forEach(function(value, name) {
         this.append(name, value)
       }, this)
@@ -56,9 +118,9 @@ else {
     }
   }
 
-  febs.net.fetch_Headers.prototype.append = function(name, value) {
-    name = febs.net.fetch_normalizeName(name)
-    value = febs.net.fetch_normalizeValue(value)
+  febsnet.fetch_Headers.prototype.append = function(name, value) {
+    name = febsnet.fetch_normalizeName(name)
+    value = febsnet.fetch_normalizeValue(value)
     var list = this.map[name]
     if (!list) {
       list = []
@@ -67,28 +129,28 @@ else {
     list.push(value)
   }
 
-  febs.net.fetch_Headers.prototype['delete'] = function(name) {
-    delete this.map[febs.net.fetch_normalizeName(name)]
+  febsnet.fetch_Headers.prototype['delete'] = function(name) {
+    delete this.map[febsnet.fetch_normalizeName(name)]
   }
 
-  febs.net.fetch_Headers.prototype.get = function(name) {
-    var values = this.map[febs.net.fetch_normalizeName(name)]
+  febsnet.fetch_Headers.prototype.get = function(name) {
+    var values = this.map[febsnet.fetch_normalizeName(name)]
     return values ? values[0] : null
   }
 
-  febs.net.fetch_Headers.prototype.getAll = function(name) {
-    return this.map[febs.net.fetch_normalizeName(name)] || []
+  febsnet.fetch_Headers.prototype.getAll = function(name) {
+    return this.map[febsnet.fetch_normalizeName(name)] || []
   }
 
-  febs.net.fetch_Headers.prototype.has = function(name) {
-    return this.map.hasOwnProperty(febs.net.fetch_normalizeName(name))
+  febsnet.fetch_Headers.prototype.has = function(name) {
+    return this.map.hasOwnProperty(febsnet.fetch_normalizeName(name))
   }
 
-  febs.net.fetch_Headers.prototype.set = function(name, value) {
-    this.map[febs.net.fetch_normalizeName(name)] = [febs.net.fetch_normalizeValue(value)]
+  febsnet.fetch_Headers.prototype.set = function(name, value) {
+    this.map[febsnet.fetch_normalizeName(name)] = [febsnet.fetch_normalizeValue(value)]
   }
 
-  febs.net.fetch_Headers.prototype.forEach = function(callback, thisArg) {
+  febsnet.fetch_Headers.prototype.forEach = function(callback, thisArg) {
     Object.getOwnPropertyNames(this.map).forEach(function(name) {
       this.map[name].forEach(function(value) {
         callback.call(thisArg, value, name, this)
@@ -96,14 +158,14 @@ else {
     }, this)
   }
 
-  febs.net.fetch_consumed = function(body) {
+  febsnet.fetch_consumed = function(body) {
     if (body.bodyUsed) {
       return Promise.reject(new TypeError('Already read'))
     }
     body.bodyUsed = true
   }
 
-  febs.net.fetch_fileReaderReady = function (reader) {
+  febsnet.fetch_fileReaderReady = function (reader) {
     return new Promise(function(resolve, reject) {
       reader.onload = function() {
         resolve(reader.result)
@@ -114,20 +176,20 @@ else {
     })
   }
 
-  febs.net.fetch_readBlobAsArrayBuffer = function (blob) {
+  febsnet.fetch_readBlobAsArrayBuffer = function (blob) {
     var reader = new FileReader()
     reader.readAsArrayBuffer(blob)
-    return febs.net.fetch_fileReaderReady(reader)
+    return febsnet.fetch_fileReaderReady(reader)
   }
 
-  febs.net.fetch_readBlobAsText = function (blob) {
+  febsnet.fetch_readBlobAsText = function (blob) {
     var reader = new FileReader()
     reader.readAsText(blob)
-    return febs.net.fetch_fileReaderReady(reader)
+    return febsnet.fetch_fileReaderReady(reader)
   }
 
-  febs.net.fetch_support = {
-    blob: 'FileReader' in self && 'Blob' in self && (function() {
+  febsnet.fetch_support = {
+    blob: 'FileReader' in window.self && 'Blob' in window.self && (function() {
       try {
         new Blob();
         return true
@@ -135,11 +197,11 @@ else {
         return false
       }
     })(),
-    formData: 'FormData' in self,
-    arrayBuffer: 'ArrayBuffer' in self
+    formData: 'FormData' in window.self,
+    arrayBuffer: 'ArrayBuffer' in window.self
   }
 
-  febs.net.fetch_Body = function () {
+  febsnet.fetch_Body = function () {
     this.bodyUsed = false
 
 
@@ -147,23 +209,23 @@ else {
       this._bodyInit = body
       if (typeof body === 'string') {
         this._bodyText = body
-      } else if (febs.net.fetch_support.blob && Blob.prototype.isPrototypeOf(body)) {
+      } else if (febsnet.fetch_support.blob && Blob.prototype.isPrototypeOf(body)) {
         this._bodyBlob = body
-      } else if (febs.net.fetch_support.formData && FormData.prototype.isPrototypeOf(body)) {
+      } else if (febsnet.fetch_support.formData && FormData.prototype.isPrototypeOf(body)) {
         this._bodyFormData = body
       } else if (!body) {
         this._bodyText = ''
-      } else if (febs.net.fetch_support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
-        // Only febs.net.fetch_support ArrayBuffers for POST method.
+      } else if (febsnet.fetch_support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
+        // Only febsnet.fetch_support ArrayBuffers for POST method.
         // Receiving ArrayBuffers happens via Blobs, instead.
       } else {
         throw new Error('unsupported BodyInit type')
       }
     }
 
-    if (febs.net.fetch_support.blob) {
+    if (febsnet.fetch_support.blob) {
       this.blob = function() {
-        var rejected = febs.net.fetch_consumed(this)
+        var rejected = febsnet.fetch_consumed(this)
         if (rejected) {
           return rejected
         }
@@ -178,17 +240,17 @@ else {
       }
 
       this.arrayBuffer = function() {
-        return this.blob().then(febs.net.fetch_readBlobAsArrayBuffer)
+        return this.blob().then(febsnet.fetch_readBlobAsArrayBuffer)
       }
 
       this.text = function() {
-        var rejected = febs.net.fetch_consumed(this)
+        var rejected = febsnet.fetch_consumed(this)
         if (rejected) {
           return rejected
         }
 
         if (this._bodyBlob) {
-          return febs.net.fetch_readBlobAsText(this._bodyBlob)
+          return febsnet.fetch_readBlobAsText(this._bodyBlob)
         } else if (this._bodyFormData) {
           throw new Error('could not read FormData body as text')
         } else {
@@ -197,14 +259,14 @@ else {
       }
     } else {
       this.text = function() {
-        var rejected = febs.net.fetch_consumed(this)
+        var rejected = febsnet.fetch_consumed(this)
         return rejected ? rejected : Promise.resolve(this._bodyText)
       }
     }
 
-    if (febs.net.fetch_support.formData) {
+    if (febsnet.fetch_support.formData) {
       this.formData = function() {
-        return this.text().then(febs.net.fetch_decode)
+        return this.text().then(febsnet.fetch_decode)
       }
     }
 
@@ -216,23 +278,23 @@ else {
   }
 
   // HTTP methods whose capitalization should be normalized
-  febs.net.fetch_normalizeMethod = function (method) {
+  febsnet.fetch_normalizeMethod = function (method) {
     var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
     var upcased = method.toUpperCase()
     return (methods.indexOf(upcased) > -1) ? upcased : method
   }
 
-  febs.net.fetch_Request = function (input, options) {
+  febsnet.fetch_Request = function (input, options) {
     options = options || {}
     var body = options.body
-    if (febs.net.fetch_Request.prototype.isPrototypeOf(input)) {
+    if (febsnet.fetch_Request.prototype.isPrototypeOf(input)) {
       if (input.bodyUsed) {
         throw new TypeError('Already read')
       }
       this.url = input.url
       this.credentials = input.credentials
       if (!options.headers) {
-        this.headers = new febs.net.fetch_Headers(input.headers)
+        this.headers = new febsnet.fetch_Headers(input.headers)
       }
       this.method = input.method
       this.mode = input.mode
@@ -246,23 +308,23 @@ else {
 
     this.credentials = options.credentials || this.credentials || 'omit'
     if (options.headers || !this.headers) {
-      this.headers = new febs.net.fetch_Headers(options.headers)
+      this.headers = new febsnet.fetch_Headers(options.headers)
     }
-    this.method = febs.net.fetch_normalizeMethod(options.method || this.method || 'GET')
+    this.method = febsnet.fetch_normalizeMethod(options.method || this.method || 'GET')
     this.mode = options.mode || this.mode || null
     this.referrer = null
 
     if ((this.method === 'GET' || this.method === 'HEAD') && body) {
-      throw new TypeError('febs.net.fetch_Body not allowed for GET or HEAD requests')
+      throw new TypeError('febsnet.fetch_Body not allowed for GET or HEAD requests')
     }
     this._initBody(body)
   }
 
-  febs.net.fetch_Request.prototype.clone = function() {
-    return new febs.net.fetch_Request(this)
+  febsnet.fetch_Request.prototype.clone = function() {
+    return new febsnet.fetch_Request(this)
   }
 
-  febs.net.fetch_decode = function (body) {
+  febsnet.fetch_decode = function (body) {
     var form = new FormData()
     body.trim().split('&').forEach(function(bytes) {
       if (bytes) {
@@ -275,8 +337,8 @@ else {
     return form
   }
 
-  febs.net.fetch_headers = function (xhr) {
-    var head = new febs.net.fetch_Headers()
+  febsnet.fetch_headers = function (xhr) {
+    var head = new febsnet.fetch_Headers()
     var pairs = xhr.getAllResponseHeaders().trim().split('\n')
     pairs.forEach(function(header) {
       var split = header.trim().split(':')
@@ -287,9 +349,9 @@ else {
     return head
   }
 
-  febs.net.fetch_Body.call(febs.net.fetch_Request.prototype)
+  febsnet.fetch_Body.call(febsnet.fetch_Request.prototype)
 
-  febs.net.fetch_Response = function (bodyInit, options) {
+  febsnet.fetch_Response = function (bodyInit, options) {
     if (!options) {
       options = {}
     }
@@ -299,48 +361,48 @@ else {
     this.status = options.status
     this.ok = this.status >= 200 && this.status < 300
     this.statusText = options.statusText
-    this.headers = options.headers instanceof febs.net.fetch_Headers ? options.headers : new febs.net.fetch_Headers(options.headers)
+    this.headers = options.headers instanceof febsnet.fetch_Headers ? options.headers : new febsnet.fetch_Headers(options.headers)
     this.url = options.url || ''
   }
 
-  febs.net.fetch_Body.call(febs.net.fetch_Response.prototype)
+  febsnet.fetch_Body.call(febsnet.fetch_Response.prototype)
 
-  febs.net.fetch_Response.prototype.clone = function() {
-    return new febs.net.fetch_Response(this._bodyInit, {
+  febsnet.fetch_Response.prototype.clone = function() {
+    return new febsnet.fetch_Response(this._bodyInit, {
       status: this.status,
       statusText: this.statusText,
-      headers: new febs.net.fetch_Headers(this.headers),
+      headers: new febsnet.fetch_Headers(this.headers),
       url: this.url
     })
   }
 
-  febs.net.fetch_Response.error = function() {
-    var response = new febs.net.fetch_Response(null, {status: 0, statusText: ''})
+  febsnet.fetch_Response.error = function() {
+    var response = new febsnet.fetch_Response(null, {status: 0, statusText: ''})
     response.type = 'error'
     return response
   }
 
   var redirectStatuses = [301, 302, 303, 307, 308]
 
-  febs.net.fetch_Response.redirect = function(url, status) {
+  febsnet.fetch_Response.redirect = function(url, status) {
     if (redirectStatuses.indexOf(status) === -1) {
       throw new RangeError('Invalid status code')
     }
 
-    return new febs.net.fetch_Response(null, {status: status, headers: {location: url}})
+    return new febsnet.fetch_Response(null, {status: status, headers: {location: url}})
   }
 
-  window.Headers = febs.net.fetch_Headers;
-  window.Request = febs.net.fetch_Request;
-  window.Response = febs.net.fetch_Response;
+  window.Headers = febsnet.fetch_Headers;
+  window.Request = febsnet.fetch_Request;
+  window.Response = febsnet.fetch_Response;
 
-  window.fetch = febs.net.fetch = function(input, init) {
+  window.fetch = febsnet.fetch = function(input, init) {
 
     // < IE9.
-    if (febs.utils.browserIEVer() <= 9) {
+    if (febsUtils.browserIEVer() <= 9) {
       var url;
       var option;
-      if (febs.net.fetch_Request.prototype.isPrototypeOf(input) && !init) {
+      if (febsnet.fetch_Request.prototype.isPrototypeOf(input) && !init) {
         url = input.url;
         option = input;
       } else {
@@ -349,7 +411,7 @@ else {
       }
       
       return new Promise(function(resolve, reject) {
-        febs.net.ajax({
+        net.ajax({
           url: url,
           beforeSend: function(xhr) {
             var header = option.headers||{};
@@ -358,8 +420,8 @@ else {
               xhr.setRequestHeader(key, element);
             }
           },
-          withCredentials: true,
-          mode: 'cors',
+          withCredentials: option.credentials === 'include' ? true : false,
+          mode: option.mode,
           timeout: option.timeout||5000,
           type: (option.method&&option.method.toLowerCase()=='post') ? 'POST' : 'GET',
           data: option.body,
@@ -375,8 +437,8 @@ else {
               }
 
               // Avoid security warnings on getResponseHeader when not allowed by CORS
-              if (/^X-febs.net.fetch_Request-URL:/m.test(xhr.getAllResponseHeaders())) {
-                return xhr.getResponseHeader('X-febs.net.fetch_Request-URL')
+              if (/^X-febsnet.fetch_Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+                return xhr.getResponseHeader('X-febsnet.fetch_Request-URL')
               }
 
               return;
@@ -384,11 +446,11 @@ else {
             var options = {
               status: status,
               statusText: xhr.statusText,
-              headers: febs.net.fetch_headers(xhr),
+              headers: febsnet.fetch_headers(xhr),
               url: responseURL()
             }
             var body = 'response' in xhr ? xhr.response : xhr.responseText;
-            resolve(new febs.net.fetch_Response(body, options))
+            resolve(new febsnet.fetch_Response(body, options))
           },
           error: function(xhr, msg) {
             if (msg == 'timeout') {
@@ -405,10 +467,10 @@ else {
     // other.
     return new Promise(function(resolve, reject) {
       var request
-      if (febs.net.fetch_Request.prototype.isPrototypeOf(input) && !init) {
+      if (febsnet.fetch_Request.prototype.isPrototypeOf(input) && !init) {
         request = input
       } else {
-        request = new febs.net.fetch_Request(input, init)
+        request = new febsnet.fetch_Request(input, init)
       }
 
       var xhr;
@@ -428,8 +490,8 @@ else {
         }
 
         // Avoid security warnings on getResponseHeader when not allowed by CORS
-        if (/^X-febs.net.fetch_Request-URL:/m.test(xhr.getAllResponseHeaders())) {
-          return xhr.getResponseHeader('X-febs.net.fetch_Request-URL')
+        if (/^X-febsnet.fetch_Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+          return xhr.getResponseHeader('X-febsnet.fetch_Request-URL')
         }
 
         return;
@@ -444,11 +506,11 @@ else {
       //   var options = {
       //     status: status,
       //     statusText: xhr.statusText,
-      //     headers: febs.net.fetch_headers(xhr),
+      //     headers: febsnet.fetch_headers(xhr),
       //     url: responseURL()
       //   }
       //   var body = 'response' in xhr ? xhr.response : xhr.responseText;
-      //   resolve(new febs.net.fetch_Response(body, options))
+      //   resolve(new febsnet.fetch_Response(body, options))
       // }
 
       xhr.onreadystatechange = function() {
@@ -461,11 +523,11 @@ else {
           var options = {
             status: status,
             statusText: xhr.statusText,
-            headers: febs.net.fetch_headers(xhr),
+            headers: febsnet.fetch_headers(xhr),
             url: responseURL()
           }
           var body = 'response' in xhr ? xhr.response : xhr.responseText;
-          resolve(new febs.net.fetch_Response(body, options))
+          resolve(new febsnet.fetch_Response(body, options))
         }
       }
 
@@ -484,7 +546,7 @@ else {
         xhr.withCredentials = false  
       }
 
-      if ('responseType' in xhr && febs.net.fetch_support.blob) {
+      if ('responseType' in xhr && febsnet.fetch_support.blob) {
         xhr.responseType = 'blob'
       }
 
@@ -496,7 +558,9 @@ else {
     })
   }
 
-  febs.net.fetch.polyfill = true;
+  febsnet.fetch.polyfill = true;
+
+  net.fetch = febsnet.fetch;
 } // if..else.
  
 
@@ -505,17 +569,17 @@ else {
 //--------------------------------------------------------
 
 // From https://github.com/camsong/fetch-jsonp
-febs.net.jsonp_defaultOptions = {
+febsnet.jsonp_defaultOptions = {
   timeout: 5000,
   jsonpCallback: 'callback'
 };
 
-febs.net.jsonp_generateCallbackFunction = function () {
+febsnet.jsonp_generateCallbackFunction = function () {
   return 'jsonp_' + Date.now().toString() + '_' + Math.ceil(Math.random() * 100000);
 }
 
 // Known issue: Will throw 'Uncaught ReferenceError: callback_*** is not defined' error if request timeout
-febs.net.jsonp_clearFunction = function (functionName) {
+febsnet.jsonp_clearFunction = function (functionName) {
   // IE8 throws an exception when you try to delete a property on window
   // http://stackoverflow.com/a/1824228/751089
   try {
@@ -524,20 +588,20 @@ febs.net.jsonp_clearFunction = function (functionName) {
   }
 }
 
-febs.net.jsonp_removeScript = function (scriptId) {
+febsnet.jsonp_removeScript = function (scriptId) {
   var script = document.getElementById(scriptId);
   document.getElementsByTagName("head")[0].removeChild(script);
 }
 
-febs.net.jsonp = function(url, options) {
+febsnet.jsonp = function(url, options) {
   options = options || {};
-  var timeout = options.timeout != null ? options.timeout : febs.net.jsonp_defaultOptions.timeout;
-  var jsonpCallback = (!!options.jsonpCallback) ? options.jsonpCallback : febs.net.jsonp_defaultOptions.jsonpCallback;
+  var timeout = options.timeout != null ? options.timeout : febsnet.jsonp_defaultOptions.timeout;
+  var jsonpCallback = (!!options.jsonpCallback) ? options.jsonpCallback : febsnet.jsonp_defaultOptions.jsonpCallback;
 
   var timeoutId;
 
   return new Promise(function(resolve, reject) {
-    var callbackFunction = febs.net.jsonp_generateCallbackFunction();
+    var callbackFunction = febsnet.jsonp_generateCallbackFunction();
 
     window[callbackFunction] = function(response) {
       resolve({
@@ -550,9 +614,9 @@ febs.net.jsonp = function(url, options) {
 
       if (timeoutId) clearTimeout(timeoutId);
 
-      febs.net.jsonp_removeScript(jsonpCallback + '_' + callbackFunction);
+      febsnet.jsonp_removeScript(jsonpCallback + '_' + callbackFunction);
 
-      febs.net.jsonp_clearFunction(callbackFunction);
+      febsnet.jsonp_clearFunction(callbackFunction);
     };
 
     // Check if the user set their own params, and if not add a ? to start a list of params
@@ -566,8 +630,13 @@ febs.net.jsonp = function(url, options) {
     timeoutId = setTimeout(function() {
       reject('timeout');
 
-      febs.net.jsonp_clearFunction(callbackFunction);
-      febs.net.jsonp_removeScript(jsonpCallback + '_' + callbackFunction);
+      febsnet.jsonp_clearFunction(callbackFunction);
+      febsnet.jsonp_removeScript(jsonpCallback + '_' + callbackFunction);
     }, timeout);
   });
 };
+
+net.jsonp = febsnet.jsonp;
+
+return net;
+} );

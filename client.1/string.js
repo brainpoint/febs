@@ -1,13 +1,17 @@
+'use strict';
 
-febs.string = function(){}
+/**
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
+ * Author: lipengxiang
+ * Desc:
+ */
 
 
 /**
 * @desc: 判断是否是手机号码.
 * @return: boolean.
 */
-febs.string.isPhoneMobile=
-function(str) {
+exports.isPhoneMobile = function(str) {
   if (!str) return false;
   if(/^0?1[2|3|4|5|6|7|8][0-9]\d{8}$/.test(str))
   {
@@ -20,8 +24,7 @@ function(str) {
  * @desc: 是否为空串.
  * @return: boolean.
  */
-febs.string.isEmpty=
-function(s) {
+exports.isEmpty = function(s) {
 
   if (!s)
   {
@@ -43,8 +46,7 @@ function(s) {
  * @desc: 获得字符串utf8编码后的字节长度.
  * @return: u32.
  */
-febs.string.getByteSize=
-function(s) {
+exports.getByteSize = function(s) {
   if (!s)
     return 0;
 
@@ -73,8 +75,7 @@ function(s) {
  * @desc: 替换字符串中所有的strSrc->strDest.
  * @return: string.
  */
-febs.string.replace=
-function(str, strSrc, strDest) {
+exports.replace = function(str, strSrc, strDest) {
   if (!str || !strSrc)
     return str;
 

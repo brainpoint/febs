@@ -4,6 +4,9 @@
  * Desc:
  */
 
+var net = require('../net');
+var crypt = require('../crypt');
+
 /**
  * post方式上传文件.
  * 使用文件流片段的方式. 每个片段进行验证.速度稍慢
@@ -28,8 +31,8 @@
  *                withCredentials: true, // 是否附带cookie, 默认为true
  *              }
  */
-febs.controls.uploadBase64 = 
-function(cfg) {
+exports.uploadBase64 = uploadBase64;
+function uploadBase64(cfg) {
   var control_uploadSeg_cb = cfg.finishCB;
   var control_uploadSeg_progress_cb = cfg.progressCB;
   var control_uploadSeg_header_url = cfg.headerUrl;
@@ -61,7 +64,7 @@ function(cfg) {
   console.log({filesize:control_uploadSeg_file.length, chunks:control_uploadSeg_chunks, data:cfg.data});
 
   // 上传文件头.
-  febs.net.ajax({
+  net.ajax({
     type: 'POST',
     url: control_uploadSeg_header_url,
     data: {filesize:control_uploadSeg_file.length, chunks:control_uploadSeg_chunks, data:cfg.data},
@@ -79,12 +82,12 @@ function(cfg) {
             var control_uploadSeg_data = control_uploadSeg_file.substr(control_uploadSeg_currentChunk*control_uploadSeg_chunkSize, 
             (control_uploadSeg_currentChunk*control_uploadSeg_chunkSize+control_uploadSeg_chunkSize > control_uploadSeg_file.length ? control_uploadSeg_file.length-control_uploadSeg_currentChunk*control_uploadSeg_chunkSize : control_uploadSeg_chunkSize));
 
-            var control_uploadSeg_crc = febs.crypt.crc32(control_uploadSeg_data);
+            var control_uploadSeg_crc = crypt.crc32(control_uploadSeg_data);
 
             if (control_uploadSeg_progress_cb)
               control_uploadSeg_progress_cb(control_uploadSeg_currentChunk/control_uploadSeg_chunks);
 
-            febs.net.ajax({type:'POST', url:control_uploadSeg_url+control_uploadSeg_crc, data:control_uploadSeg_data, contentType:'application/octet-stream',
+            net.ajax({type:'POST', url:control_uploadSeg_url+control_uploadSeg_crc, data:control_uploadSeg_data, contentType:'application/octet-stream',
               xhrFields:cfg.withCredentials ? {
                 withCredentials:true
               } : null,

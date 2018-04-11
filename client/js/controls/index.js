@@ -1,1 +1,0 @@
-febs.controls = function () { }

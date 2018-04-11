@@ -4,6 +4,8 @@
  * Desc:
  */
 
+var crypt = require('../crypt');
+
 /**
  * post方式上传文件 
  * 使用 multipart/form-data 方式, 适合大文件. 速度快.
@@ -29,8 +31,8 @@
  *                withCredentials: true, // 是否附带cookie, 默认为true
  *              }
  */
-febs.controls.upload = 
-function(cfg) {
+exports.upload = upload;
+function upload(cfg) {
   var control_upload_cb = cfg.finishCB;
   var control_upload_progress_cb = cfg.progressCB;
   var control_upload_url = cfg.uploadUrl;
@@ -61,7 +63,7 @@ function(cfg) {
 
   var formObj = cfg.formObj;
   var fileObj = cfg.fileObj;
-  febs.crypt.crc32_file(fileObj[0].files[0], function(crc){
+  crypt.crc32_file(fileObj[0].files[0], function(crc){
     if (crc) {
       formObj.ajaxSubmit({
         method:       'POST',

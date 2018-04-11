@@ -1,6 +1,13 @@
+'use strict';
 
-febs.utils = function(){}
+/**
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
+ * Author: lipengxiang
+ * Desc:
+ */
 
+var PromiseLib   = Promise;
+var BigNumber = require('../third-party/bignumber.min.js');
 
 /**
  * @desc: 模拟sleep.
@@ -11,9 +18,8 @@ febs.utils = function(){}
           //1000ms之后resolve.
        });
  */
-febs.utils.sleep=
-function(ms) {
-  return new Promise(function (resolve, reject) {
+exports.sleep = function(ms) {
+  return new PromiseLib(function (resolve, reject) {
     try {
       setTimeout(function(){
         resolve();
@@ -26,10 +32,9 @@ function(ms) {
 
 /**
  * @desc: the browser is mobile.
+ * @param userAgent: the browser user agent string.
  */
-febs.utils.browserIsMobile=
-function() {
-
+exports.browserIsMobile = function() {
   var agent = window.navigator.userAgent;
   var platforms = [
     'Android', 'webOS', 'iPhone', 'iPad',
@@ -42,10 +47,9 @@ function() {
 
 /**
  * @desc: the browser is ios.
+ * @param userAgent: the browser user agent string.
  */
-febs.utils.browserIsIOS=
-function () {
-
+exports.browserIsIOS = function() {
   var agent = window.navigator.userAgent;
   var platforms = [
     'iPhone', 'iPad',
@@ -56,25 +60,12 @@ function () {
   return agent.match(expression) != null;
 }
 
-/**
- * @desc: the browser is weixin.
- */
-febs.utils.browserIsWeixin=
-function (){
-  var agent = window.navigator.userAgent;
-  if(agent.match(/MicroMessenger/i)=="MicroMessenger") {
-      return true;
-  } else {
-      return false;
-  }
-}
 
 /**
  * @desc: the browser is phone.
+ * @param userAgent: the browser user agent string.
  */
-febs.utils.browserIsPhone=
-function () {
-
+exports.browserIsPhone = function() {
   var agent = window.navigator.userAgent;
   var platforms = [
     'Android', 'iPhone',
@@ -85,10 +76,23 @@ function () {
   return agent.match(expression) != null;
 }
 
+
+/**
+ * @desc: the browser is weixin.
+ */
+exports.browserIsWeixin = function() {
+  var agent = window.navigator.userAgent;
+  if(agent.match(/MicroMessenger/i)=="MicroMessenger") {
+      return true;
+  } else {
+      return false;
+  }
+}
+
 /**
 * @desc: 判断是否是ie.
 */
-febs.utils.browserIsIE=
+exports.browserIsIE=
 function() {
   if (!!window.ActiveXObject || "ActiveXObject" in window)
     return true;
@@ -100,9 +104,9 @@ function() {
 * @desc: 判断ie版本号.
 * @return number. 非ie返回Number.MAX_SAFE_INTEGER.
 */
-febs.utils.browserIEVer=
+exports.browserIEVer=
 function() {
-  if (!febs.utils.browserIsIE()) return Number.MAX_SAFE_INTEGER;
+  if (!exports.browserIsIE()) return Number.MAX_SAFE_INTEGER;
   
   var b_version = navigator.appVersion
   var version = b_version.split(";");
@@ -121,7 +125,7 @@ function() {
 /**
  * @desc: the browser is support html5.
  */
-febs.utils.browserIsSupportHtml5=
+exports.browserIsSupportHtml5=
 function () {
   if (typeof(Worker) !== "undefined")
   {
@@ -144,8 +148,7 @@ function () {
  * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
  * @return: string.
  */
-febs.utils.getTimeString=
-function(time, fmt, weekFmt)
+function getTimeString(time, fmt, weekFmt)
 {
   if (typeof time !== "number")
     return "";
@@ -154,7 +157,7 @@ function(time, fmt, weekFmt)
 
   var t = new Date(time);
     var o = {         
-    "M+" : t.getMonth()+1, // 月份         
+    "M+" : t.getMonth()+1, //月份         
     "d+" : t.getDate(), //日         
     "h+" : t.getHours()%12 == 0 ? 12 : t.getHours()%12, //小时         
     "H+" : t.getHours(), //小时         
@@ -170,7 +173,7 @@ function(time, fmt, weekFmt)
     "3" : "星期三", 
     "4" : "星期四",
     "5" : "星期五",
-    "6" : "星期六", 
+    "6" : "星期六",
     };         
     if(/(y+)/.test(fmt)){         
         fmt=fmt.replace(RegExp.$1, (t.getFullYear()+"").substr(4 - RegExp.$1.length));         
@@ -185,6 +188,7 @@ function(time, fmt, weekFmt)
     }         
     return fmt;
 };
+exports.getTimeString = getTimeString;
 
 
 /**
@@ -204,8 +208,7 @@ function(time, fmt, weekFmt)
  *                       }
  * @return: string.
  */
-febs.utils.getTimeStringFromNow=
-function(time, strFmt)
+exports.getTimeStringFromNow = function(time, strFmt)
 {
   strFmt = strFmt || {};
   strFmt.now      = strFmt.now      || '刚刚';
@@ -254,7 +257,7 @@ function(time, strFmt)
       return Math.ceil(s/60/60/24/30).toString()+strFmt.month;
     }
 
-    return febs.utils.getTimeString(time, strFmt.time);
+    return getTimeString(time, strFmt.time);
   }
 
   return strFmt.now;
@@ -264,10 +267,11 @@ function(time, strFmt)
  * @desc: getDate('2012-05-09')
  * @return: Date.
  */
-febs.utils.getDate=
-function (strDate) {
-  var date = eval('new Date(' + strDate.replace(/\d+(?=-[^-]+$)/,
-  function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
+exports.getDate = function(strDate) {
+  var date = new Date(
+    parseInt(strDate.substr(0, 4)), 
+    parseInt(strDate.substr(5, 2), 10)-1,
+    parseInt(strDate.substr(8, 2)));
   return date;
 }
 
@@ -276,8 +280,7 @@ function (strDate) {
  * @desc: getDate2('20120509')
  * @return: Date.
  */
-febs.utils.getDate2=
-function(strDate) {
+exports.getDate2 = function(strDate) {
   var date = new Date(
     parseInt(strDate.substr(0, 4)), 
     parseInt(strDate.substr(4, 2), 10)-1,
@@ -285,12 +288,12 @@ function(strDate) {
   return date;
 }
 
+
 /**
  * @desc: 合并多个map.
  * @return: {}
  */
-febs.utils.mergeMap=
-function ()
+exports.mergeMap = function()
 {
   var map0 = {};
   var map2;
@@ -311,8 +314,7 @@ function ()
 * @desc: 判断参数是否是null,undefined,NaN
 * @return: boolean
 */
-febs.utils.isNull=
-function (e) {
+exports.isNull = function(e) {
   return e === null || e === undefined || Number.isNaN(e);
 }
 
@@ -320,7 +322,7 @@ function (e) {
 /**
  * @desc: 判断是否是bigint.
  */
-febs.utils.bigint_check = 
+exports.bigint_check = 
 function(v) {
   if (Number.isInteger(v))
     return true;
@@ -356,41 +358,42 @@ function(v) {
 * @desc: calc bigint
 * @return: bigint.
 */
-febs.utils.bigint_add = 
+exports.bigint_add = 
 function(a, b) {if (!(a instanceof BigNumber)) a = new BigNumber(a); return a.plus(b);}
 
-febs.utils.bigint_minus = 
+exports.bigint_minus = 
 function(a, b) {if (!(a instanceof BigNumber)) a = new BigNumber(a); return a.minus(b);}
 
-febs.utils.bigint_dividedBy = 
+exports.bigint_dividedBy = 
 function(a, b) {if (!(a instanceof BigNumber)) a = new BigNumber(a); return a.dividedBy(b);}
 
-febs.utils.bigint_mul = 
+exports.bigint_mul = 
 function(a, b) {if (!(a instanceof BigNumber)) a = new BigNumber(a); return a.times(b);}
 
 /**
 * @desc: compare with bigint.
 * @return: boolean.
 */
-febs.utils.bigint_equal = 
+exports.bigint_equal = 
 function(a, b) {if (!(a instanceof BigNumber)) a = new BigNumber(a); return a.equals(b);}
 
-febs.utils.bigint_more_than = 
+exports.bigint_more_than = 
 function(a, b) {if (!(a instanceof BigNumber)) a = new BigNumber(a); return a.greaterThan(b);}
 
-febs.utils.bigint_more_than_e = 
+exports.bigint_more_than_e = 
 function(a, b) {if (!(a instanceof BigNumber)) a = new BigNumber(a); return a.greaterThanOrEqualTo(b);}
 
-febs.utils.bigint_less_than = 
+exports.bigint_less_than = 
 function(a, b) {if (!(a instanceof BigNumber)) a = new BigNumber(a); return a.lessThan(b);}
 
-febs.utils.bigint_less_than_e = 
+exports.bigint_less_than_e = 
 function(a, b) {if (!(a instanceof BigNumber)) a = new BigNumber(a); return a.lessThanOrEqualTo(b);}
 
 
 /**
 * @desc: 转换bigint->string.
+* @param fixed: 小数位个数, 默认为0.
 * @return: string.
 */
-febs.utils.bigint_toFixed = 
+exports.bigint_toFixed = 
 function(a, fixed) { fixed = (fixed||0); if (!(a instanceof BigNumber)) a = new BigNumber(a); return a.toFixed(fixed);}

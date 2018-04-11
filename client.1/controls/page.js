@@ -4,7 +4,38 @@
  * Desc:
  */
 
-febs.controls.page_map = {};
+var crypt = require('../crypt');
+
+( function( global, factory ) {
+
+	"use strict";
+
+	if ( typeof module === "object" && typeof module.exports === "object" ) {
+
+		// For CommonJS and CommonJS-like environments where a proper `window`
+		// For environments that do not have a `window` with a `document`
+		// (such as Node.js), expose a factory as module.exports.
+		// This accentuates the need for the creation of a real `window`.
+		module.exports = global.document ?
+			factory( global, true ) :
+			function( w ) {
+				if ( !w.document ) {
+					throw new Error( "febs requires a window with a document" );
+				}
+				return factory( w );
+			};
+	} else {
+		factory( global );
+	}
+
+// Pass this if window is not defined yet
+} )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
+
+'use strict';
+
+window['febscontrolspage_map'] = {};
+
+var controls = {};
 
 /**
 * @desc: 初始化page控件.
@@ -15,12 +46,11 @@ febs.controls.page_map = {};
 * @param pageCallback: 页面跳转函数, function(page) {}
 * @return: 
 */
-febs.controls.page_init = 
-function(elem, curPage, pageCount, totalCount, pageCallback) {
+function page_init(elem, curPage, pageCount, totalCount, pageCallback) {
 
-  var foo = 'page'+febs.crypt.uuid();
-  febs.controls.page_map[foo] = pageCallback;
-  foo = 'javascript:febs.controls.page_map[\''+foo+'\']';
+  var foo = 'page'+crypt.uuid();
+  window['febscontrolspage_map'][foo] = pageCallback;
+  foo = 'javascript:window[\'febscontrolspage_map\'][\''+foo+'\']';
 
   var pagePre = '';
   if (curPage > 0)
@@ -80,5 +110,9 @@ function(elem, curPage, pageCount, totalCount, pageCallback) {
     </li>\
   </ul>\
 </div>'));
-
 }
+controls.page_init  = page_init;
+
+return controls;
+}
+);

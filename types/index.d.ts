@@ -8,6 +8,10 @@ declare global {
   let __debug: boolean;
 }
 
+
+export function requestAnimationFrame(cb:(tm:number)=>void):any;
+export function cancelAnimationFrame(timer:any):void;
+
 export interface WeekFmt {
   '0'?: string;
   '1'?: string;
@@ -249,50 +253,6 @@ export namespace crypt {
   function base64_decode(strBase64: string, c2?: number, c3?: number, c4?: number): Base64Result;
 }
 
-export interface NavOptions {
-  defaultTimeout?: number;
-}
-//
-// nav.
-export namespace nav {
-  /**
-   * @desc: 使用跳转函数初始化.
-   * @param navCallback: function(object); 触发页面切换时的回调.
-   * @param urlObjEquelCallback: function(obj1, obj2) : bool; 判断两个页面是否相等.
-   * @param options: {
-                       defaultTimeout: 10000,
-                    }
-  * @return:
-  */
-  function init(navCallback: (object: any) => void, urlObjEquelCallback: (obj1: any, obj2: any) => boolean, options?: NavOptions): void;
-  /**
-   * @desc: 跳转至指定位置.
-   * @param urlObject: null则当前页面刷新.
-   * @return:
-   */
-  function go(urlObject: any): void;
-  /**
-    * @desc: 记录一个新页面.
-    * @param urlObject: 包含参数等链接的信息.
-    * @return: 浏览器锚点url.
-    */
-  function push(urlObject: any): void;
-  /**
-   * @desc: 刷新页面.
-   */
-  function refresh(): void;
-  /**
-   * @desc 刷新指定元素.
-   * @param elem: jquery对象.
-   */
-  function refresh_elem(elem: object, url: string): void;
-  /**
-   * @desc: 寻找指定的url
-   * @return: url.
-   */
-  function url(anchor: string): string;
-}
-
 //
 // net.
 export namespace net {
@@ -463,7 +423,64 @@ export namespace controls {
   */
   function loading_hide(): void;
 
+
   /**
+  * @desc: 隐藏对话框
+  * @return: 
+  */
+  function dialog_hide(): void;
+
+  /**
+   * @desc: 显示警告对话框.
+   * @param ctx: {
+  * ctx.title:    标题.
+  * ctx.content:	内容文字.
+  * ctx.confirm: function(){}	// 点击确认键的回调.
+  * ctx.okText
+  * }
+  */
+  function dialog_showAlert( ctx: { title?:string, content?:string, confirm?:()=>void, okText?:string } ): void;
+  
+  /**
+   * @desc: 显示提示.
+   * @param ctx: {
+    * ctx.content:  提示内容.
+    * ctx.time:	持续的时间 ms.
+    * ctx.icon: 前置图标.
+    * ctx.callback: function(){}	// 对话框消失后的回调.
+    * }
+    */
+  function dialog_showToast( ctx: { content?:string, time?:number, icon?:'ok'|'error'|'warn', callback?:()=>void } ): void;
+  
+  /**
+   * @desc: 显示确认对话框.
+   * @param ctx: {
+  * ctx.title:    标题.
+  * ctx.content:	内容文字.
+  * ctx.confirm: function(){}	// 点击确认键的回调.
+  * ctx.cancel: function(){}	// 点击取消键的回调.
+  * ctx.okText 确认按钮文字
+  * ctx.cancelText: 取消按钮文字
+  * }
+  */
+ function dialog_showConfirm( ctx: { title?:string, content?:string, confirm?:()=>void, cancel?:()=>void, okText?:string, cancelText?:string } ): void;
+
+
+  /**
+   * @desc: 显示文本输入确认对话框.
+   * @param ctx: {
+  * ctx.title:    标题.
+  * ctx.content:		 内容文字.
+  * ctx.editText:		 输入框文字.
+  * ctx.confirm: function(text){}	// 点击确认键的回调.
+  * ctx.cancel:  function(){} // 点击取消键的回调.
+  * ctx.okText:
+  * ctx.cancelText:
+  * }
+  */
+ function dialog_showConfirmEdit( ctx: { title?:string, content?:string, editText?:string, confirm?:(text:string)=>void, cancel?:()=>void, okText?:string, cancelText?:string } ): void;
+
+ /**
   * @desc: 初始化page控件.
   * @param elem: 将控件插入到elem中, elem是一个jquery的对象.
   * @param curPage: 当前页

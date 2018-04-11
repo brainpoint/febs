@@ -9,7 +9,48 @@ Use npm to install:
 ```js
 npm install febs --save
 ```
-  copy directory `node_modules/febs/dist/febs` to client
+
+# nodejs
+
+以下列方式使用
+
+```js
+var febs = require('febs');
+
+//
+febs.string.replace();
+```
+
+# browser
+
+以下列方式使用
+
+> copy directory `node_modules/febs/dist/febs` to client
+
+```html
+<link rel="stylesheet" type="text/css" href="path/febs/febs.css" />
+<!-- 使用jquery 或 zepto -->
+<script charset='UTF-8' type="text/javascript" src="path/jquery.js"></script>
+<script charset='UTF-8' type="text/javascript" src="path/febs/febs.min.js"></script>
+
+<script>
+febs.string.replace();
+</script>
+```
+
+# babel
+
+以下列方式使用
+
+```js
+import febs from 'febs/client';
+import 'febs/client/febs.css';  // 或是在html头部引用样式.
+
+//
+febs.string.replace();
+```
+
+# framework
 
 ![](doc/framework.jpg)
 
@@ -20,10 +61,18 @@ febs web库分为客户端与服务器端;
   - [string](#string)
   - [crypt](#crypt)
   - [controls](#controls)
+    - upload
 
 - 客户端独有库
-  - [nav](#nav)
+  - [animationFrame](#animationFrame)
   - [net](#net)
+  - [controls](#controls)
+    - loading
+    - alert dialog
+    - confirm dialog
+    - edit dialog
+    - paging
+    - upload
 
 - 服务端独有库
   - [exception](#exception)
@@ -282,40 +331,35 @@ febs.crypt.base64_decode(strBase64) `客户端`
 */
 febs.crypt.base64_decode(strBase64, c2 = 0, c3 = 0, c4 = 0) `服务端`
 ```
-# nav
-导航是以ajax的方式进行页面切换
+
+# animationFrame
+
+各浏览器兼容的 `requestAnimationFrame`, `cancelAnimationFrame` 动画方法.
+
 ```js
-/**
- * @desc: 使用跳转函数初始化.
- * @param navCallback: function(object); 触发页面切换时的回调.
- * @param urlObjEquelCallback: function(obj1, obj2) : bool; 判断两个页面是否相等.
- * @param options: {
-                     defaultTimeout: 10000,
-                   }
- * @return:
- */
-febs.nav.init(navCallback, urlObjEquelCallback, options)
-/**
- * @desc: 跳转至指定位置.
- * @param urlObject: null则当前页面刷新.
- * @return:
- */
-febs.nav.go(urlObject)
-/**
- * @desc: 记录一个新页面.
- * @param urlObject: 包含参数等链接的信息.
- * @return: 浏览器锚点url.
- */
-febs.nav.push(urlObject)
-/**
- * @desc: 刷新页面.
- */
-febs.nav.refresh()
-/**
- * @desc 刷新指定元素.
- * @param elem: jquery对象.
- */
-febs.nav.refresh_elem(elem, url);
+
+var total = 0;
+var timer;
+var now = Date.now();
+
+function foo(tm) {
+  var now2 = Date.now();
+  total += now2-now;
+  now = now2;
+  if (total > 10000) {
+    cancelAnimationFrame(timer);
+  } else {
+    timer = requestAnimationFrame(foo);
+  }
+}
+
+timer = requestAnimationFrame(foo);
+
+```
+
+# net
+net封装了浏览器通信方法: ajax, fetch, jsonp
+```js
 /**
  * @desc: ajax 跳转.
  * @param option:例如: (详见jquery.ajax)
@@ -323,23 +367,10 @@ febs.nav.refresh_elem(elem, url);
      type: "GET",
      url: url,
      data: null,
-     success: cb
+     success: cb,
+     timeout: 
    }
  * @return:
- */
-febs.nav.ajax( option )
-/**
- * @desc: 寻找指定的url
- * @return: url.
- */
-febs.nav.url(anchor)
-```
-
-# net
-net封装了浏览器通信方法: ajax, fetch, jsonp
-```js
-/**
- * @desc: 进行ajax请求, 同 febs.nav.ajax.
  */
 febs.net.ajax(option)
 /**
@@ -492,6 +523,8 @@ febs.file.fileRemove(file)
 
 ### loading
 
+已经对需要显示的信息进行了转义
+
 ![](doc/ui/control-loadding.jpg)
 
 ```js
@@ -525,6 +558,73 @@ febs.controls.loading_show_text(textArray, changeTextCB, hideCB)
 * @return: 
 */
 febs.controls.loading_hide()
+```
+### dialog
+
+已经对需要显示的信息进行了转义
+
+![](doc/ui/control-dialog.png)
+
+![](doc/ui/control-toast.png)
+
+![](doc/ui/control-confirm.png)
+
+
+```js
+/**
+* @desc: 隐藏对话框
+* @return: 
+*/
+febs.controls.dialog_hide();
+
+/**
+ * @desc: 显示警告对话框.
+ * @param ctx: {
+* ctx.title:    标题.
+* ctx.content:	内容文字.
+* ctx.confirm: function(){}	// 点击确认键的回调.
+* ctx.okText
+* }
+*/
+febs.controls.dialog_showAlert( ctx );
+
+/**
+ * @desc: 显示提示.
+ * @param ctx: {
+  * ctx.title:    标题.
+  * ctx.time:	持续的时间 ms.
+  * ctx.icon: 前置图标.
+  * ctx.callback: function(){}	// 对话框消失后的回调.
+  * }
+  */
+febs.controls.dialog_showToast( ctx );
+
+/**
+ * @desc: 显示确认对话框.
+ * @param ctx: {
+* ctx.title:    标题.
+* ctx.content:	内容文字.
+* ctx.confirm: function(){}	// 点击确认键的回调.
+* ctx.cancel: function(){}	// 点击取消键的回调.
+* ctx.okText 确认按钮文字
+* ctx.cancelText: 取消按钮文字
+* }
+*/
+febs.controls.dialog_showConfirm( ctx );
+
+  /**
+   * @desc: 显示文本输入确认对话框.
+   * @param ctx: {
+  * ctx.title:    标题.
+  * ctx.content:		 内容文字.
+  * ctx.editText:		 输入框文字.
+  * ctx.confirm: function(text){}	// 点击确认键的回调.
+  * ctx.cancel:  function(){} // 点击取消键的回调.
+  * ctx.okText:
+  * ctx.cancelText:
+  * }
+  */
+febs.controls.dialog_showConfirmEdit( ctx );
 ```
 
 ### page
