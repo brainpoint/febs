@@ -67,5 +67,5 @@
     "prepublish": "node scripts/webpack.build.js"
   },
   "name": "febs",
-  "version": "0.5.1"
+  "version": "0.5.2"
 }

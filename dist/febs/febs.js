@@ -2439,7 +2439,7 @@ var febsUtils = __webpack_require__(51);
               }
             },
             withCredentials: option.credentials === 'include' ? true : false,
-            mode: option.mode,
+            crossDomain: option.mode == 'cors' ? true : false,
             timeout: option.timeout || DefaultTimeout,
             type: option.method && option.method.toLowerCase() == 'post' ? 'POST' : 'GET',
             data: option.body,
