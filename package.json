@@ -50,6 +50,7 @@
     "doc",
     "dist",
     "client",
+    "third-party",
     "server",
     "test",
     "types"
@@ -69,5 +70,5 @@
     "prepare": "node scripts/webpack.build.js"
   },
   "name": "febs",
-  "version": "0.5.3"
+  "version": "0.5.4"
 }
