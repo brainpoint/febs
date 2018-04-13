@@ -8,7 +8,8 @@
     "path": "^0.11.14",
     "promise": "^7.1.1",
     "raw-body": "^2.2.0",
-    "url": "0.10.3"
+    "url": "0.10.3",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -25,6 +26,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "babel-runtime": "^6.26.0",
     "console-polyfill": "^0.3.0",
     "es3ify-loader": "^0.2.0",
     "es3ify-webpack-plugin": "0.0.1",
@@ -42,7 +44,7 @@
     "url": "git+ssh://git@github.com/brainpoint/febs.git"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=7"
   },
   "files": [
     "doc",
@@ -61,7 +63,8 @@
     }
   ],
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap test/*.js",
+    "prepublish": "node scripts/webpack.build.js"
   },
   "name": "febs",
   "version": "0.5.1"

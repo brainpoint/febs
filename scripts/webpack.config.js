@@ -7,7 +7,7 @@ function resolve (dir) {
 }
 
 module.exports = {
-  entry:  resolve('client.1/index.js'),
+  entry:  resolve('client/index.js'),
   output: {
     path: resolve('dist/febs'),
     filename: 'febs.js'
@@ -17,7 +17,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('client.1'), resolve('client.1/controls'), resolve('third-party'), resolve('dist/febs')],
+        include: [resolve('client'), resolve('third-party'), resolve('dist/febs')],
         query: {
           presets:['es2015', 'stage-0', 'es2015-loose'],
           plugins: [
@@ -30,7 +30,7 @@ module.exports = {
       },
       {
         test: /.js$/,
-        include: [resolve('client.1'), resolve('client.1/controls'), resolve('third-party'), resolve('dist/febs')],
+        include: [resolve('client'), resolve('third-party'), resolve('dist/febs')],
         enforce: 'post', // post-loader处理
         loader: 'es3ify-loader'
       }

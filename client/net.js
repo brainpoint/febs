@@ -34,45 +34,45 @@ var febsUtils = require('./utils');
 'use strict';
 
 const Ajaxmark = Symbol('ajaxmark');
-const DefaultTimeout = 10000;
+const DefaultTimeout = 5000;
 var febsnet = {};
 var net = {};
 
-//--------------------------------------------------------
-// ajax
-//--------------------------------------------------------
+// //--------------------------------------------------------
+// // ajax
+// //--------------------------------------------------------
 
-/**
- * @desc: ajax 跳转.
- * @return:
- */
-net.ajax=
-function( ctx )
-{
-  //if (!!window.ActiveXObject || "ActiveXObject" in window) // ie11.
-  {
-    if (ctx.url)
-    {
-      if (!global[Ajaxmark]) global[Ajaxmark] = 1;
-      var i = ctx.url.indexOf('?');
-      if (i < 0) {
-        ctx.url += "?ajaxmark="+global[Ajaxmark];
-      } else {
-        if (i == ctx.url.length-1) {
-          ctx.url += "ajaxmark="+global[Ajaxmark];
-        } else {
-          ctx.url += "&ajaxmark="+global[Ajaxmark];
-        }
-      }
-    }
-    global[Ajaxmark]++;
-  } // if.
+// /**
+//  * @desc: ajax 跳转.
+//  * @return:
+//  */
+// net.ajax=
+// function( ctx )
+// {
+//   //if (!!window.ActiveXObject || "ActiveXObject" in window) // ie11.
+//   {
+//     if (ctx.url)
+//     {
+//       if (!global[Ajaxmark]) global[Ajaxmark] = 1;
+//       var i = ctx.url.indexOf('?');
+//       if (i < 0) {
+//         ctx.url += "?ajaxmark="+global[Ajaxmark];
+//       } else {
+//         if (i == ctx.url.length-1) {
+//           ctx.url += "ajaxmark="+global[Ajaxmark];
+//         } else {
+//           ctx.url += "&ajaxmark="+global[Ajaxmark];
+//         }
+//       }
+//     }
+//     global[Ajaxmark]++;
+//   } // if.
 
-  if (!ctx.timeout)
-    ctx.timeout = DefaultTimeout;
+//   if (!ctx.timeout)
+//     ctx.timeout = DefaultTimeout;
 
-  $.ajax(ctx);
-}
+//   $.ajax(ctx);
+// }
 
 //--------------------------------------------------------
 // fetch.
@@ -398,7 +398,7 @@ else {
 
   window.fetch = febsnet.fetch = function(input, init) {
 
-    // < IE9.
+    // <= IE9. need jquery.ajax or zepto.ajax 
     if (febsUtils.browserIEVer() <= 9) {
       var url;
       var option;
@@ -411,7 +411,10 @@ else {
       }
       
       return new Promise(function(resolve, reject) {
-        net.ajax({
+        if(!$) {
+          throw 'need jquery.ajax in ie9<= browsers.';
+        }
+        $.ajax({
           url: url,
           beforeSend: function(xhr) {
             var header = option.headers||{};
@@ -422,7 +425,7 @@ else {
           },
           withCredentials: option.credentials === 'include' ? true : false,
           mode: option.mode,
-          timeout: option.timeout||5000,
+          timeout: option.timeout||DefaultTimeout,
           type: (option.method&&option.method.toLowerCase()=='post') ? 'POST' : 'GET',
           data: option.body,
           complete: function(xhr, ts) {
@@ -481,7 +484,7 @@ else {
       if (init && init.timeout) {
         xhr.timeout = init.timeout;
       } else {
-        xhr.timeout = 5000;
+        xhr.timeout = DefaultTimeout;
       }
 
       function responseURL() {
@@ -570,7 +573,7 @@ else {
 
 // From https://github.com/camsong/fetch-jsonp
 febsnet.jsonp_defaultOptions = {
-  timeout: 5000,
+  timeout: DefaultTimeout,
   jsonpCallback: 'callback'
 };
 

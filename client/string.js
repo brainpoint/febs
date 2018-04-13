@@ -6,8 +6,6 @@
  * Desc:
  */
 
-var path  = require('path');
-
 
 /**
 * @desc: 判断是否是手机号码.

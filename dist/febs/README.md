@@ -1,7 +1,5 @@
 febs 库是一些常用的工具的合集;
 
-`febs是在citong@2.0.8基础上进行开发, citong库已停止更新`
-
 # Install
 
 Use npm to install:
@@ -28,9 +26,8 @@ febs.string.replace();
 > copy directory `node_modules/febs/dist/febs` to client
 
 ```html
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />  <!-- 如ie9等早期浏览器提示使用最新渲染器 -->
 <link rel="stylesheet" type="text/css" href="path/febs/febs.css" />
-<!-- 使用jquery 或 zepto -->
-<script charset='UTF-8' type="text/javascript" src="path/jquery.js"></script>
 <script charset='UTF-8' type="text/javascript" src="path/febs/febs.min.js"></script>
 
 <script>
@@ -43,8 +40,7 @@ febs.string.replace();
 以下列方式使用
 
 ```js
-import febs from 'febs/client';
-import 'febs/client/febs.css';  // 或是在html头部引用样式.
+import febs from 'febs/client'; // 使用febs的客户端部分代码.
 
 //
 febs.string.replace();
@@ -52,7 +48,7 @@ febs.string.replace();
 
 # framework
 
-![](doc/framework.jpg)
+![](doc/framework.png)
 
 febs web库分为客户端与服务器端;
 
@@ -60,40 +56,23 @@ febs web库分为客户端与服务器端;
   - [utils](#utils)
   - [string](#string)
   - [crypt](#crypt)
-  - [controls](#controls)
-    - upload
 
 - 客户端独有库
   - [animationFrame](#animationFrame)
   - [net](#net)
-  - [controls](#controls)
-    - loading
-    - alert dialog
-    - confirm dialog
-    - edit dialog
-    - paging
-    - upload
 
 - 服务端独有库
   - [exception](#exception)
   - [file](#file)
+  - [upload](#upload)
 
 # 说明
 
-> 客户端
+客户端中已将旧版本中的jquery依赖的相关内容抽出到 [febs-ui](https://www.npmjs.com/package/febs-ui) 库中, `febs`将不再依赖 `jquery`. (ie9以下浏览器需要jquery/zepto).
 
-使用时需依赖 `jquery`, `jquery.form` 这个两个库.
-```js
-<script src="jquery.min.js"></script>
-<script src="jquery.form.min.js"></script>
-<script src="febs.min.js" charset="UTF-8"></script>
-```
-* 定义了`window.requestAnimationFrame`和`window.cancelAnimationFrame`方法,可进行动画帧操作.
-* 对浏览器添加了`Promise`支持.
 
-> 服务端
+* 定义了如下一些全局变量
 
-服务端定义了如下一些全局变量
 | name           | description |
 |----------------|-------------|
 | __line  | 当前所在行, 可以配合 __filename 定位错误日志   |
@@ -102,7 +81,9 @@ febs web库分为客户端与服务器端;
 
 > 其他
 * 函数调用使用 `类名.xxx` 的方式调用, 例如: `febs.utils.browserIsMobile()` 
-* 实现了部分控件, 网页模板在 `febs/client/partials` 路径下, 使用`handlebar`实现
+* 对早期的浏览器定义了`window.requestAnimationFrame`和`window.cancelAnimationFrame`方法,可进行动画帧操作.
+* 对早期的浏览器添加了`Promise`支持.
+
 
 # utils
 
@@ -279,45 +260,41 @@ febs.string.replace(str, strSrc, strDest)
 
 # crypt
 目前提供了uuid,crc32,base64.
+
+服务端独有.
 ```js
 /**
-* @return 生成一个uuid字符串.
+ * @desc: 计算md5.
+ * @return: string
+ */
+febs.crypt.md5( strOrBuffer )
+/**
+ * @desc: 直接对文件进行计算.
+ * @param filename: 文件路径
+ * @return: string
+ */
+febs.crypt.md5_file(filename)
+/**
+ * @desc: 计算sh1.
+ * @return: string
+ */
+febs.crypt.sha1( strOrBuffer )
+/**
+ * @desc: 直接对文件进行计算.
+ * @param filename: 文件路径
+ * @return: string
+ */
+febs.crypt.sha1_file(filename)
+/**
+* @return 生成一个uuid字符串. (uuid v1)
 */
 febs.crypt.uuid()
-/**
- * @desc: 计算字符串的crc32值
- * @param crc 可以在这个值得基础上继续计算
- * @return: number.
- */
-febs.crypt.crc32( str, crc )
-/**
- * @desc: 通过文件表单控件进行文件的crc32计算.
- * @param fileObj: 表单文件对象, 例如表单为:
- *                  <form enctype="multipart/form-data">
- *                    <input id="file" type="file" name="file" multiple>
- *                  </form>
- *             $('#file')[0].files[0] 即为第一个文件对象.
- * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
- */
-febs.crypt.crc32_file(fileObj, cb)    `客户端`
 /**
  * @desc: 直接对文件进行计算.
  * @param filename: 文件路径
  * @return: number
  */
-febs.crypt.crc32_file(filename)    `服务端`
-/**
-* @desc: base64编码.
-* @param arrByte: 字节数组.
-* @return: string.
-*/
-febs.crypt.base64_encode(arrByte)   `客户端`
-/**
-* @desc: base64解码.
-* @return: 字节数组.
-*/
-febs.crypt.base64_decode(strBase64) `客户端`
-
+febs.crypt.crc32_file(filename)
 /**
 * @desc: 使用上次的解码的数据继续进行base64解码.
 * @return: 
@@ -329,7 +306,42 @@ febs.crypt.base64_decode(strBase64) `客户端`
             data, // 字节数组
         }.
 */
-febs.crypt.base64_decode(strBase64, c2 = 0, c3 = 0, c4 = 0) `服务端`
+febs.crypt.base64_decode(strBase64, c2 = 0, c3 = 0, c4 = 0)
+```
+
+客户端独有.
+```js
+/**
+ * @desc: 通过文件表单控件进行文件的crc32计算.
+ * @param fileObj: 表单文件对象, 例如表单为:
+ *                  <form enctype="multipart/form-data">
+ *                    <input id="file" type="file" name="file" multiple>
+ *                  </form>
+ *             $('#file')[0].files[0] 即为第一个文件对象.
+ * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
+ */
+febs.crypt.crc32_file(fileObj, cb)
+/**
+* @desc: base64解码.
+* @return: 字节数组.
+*/
+febs.crypt.base64_decode(strBase64)
+```
+
+通用.
+```js
+/**
+ * @desc: 计算字符串的crc32值
+ * @param crc 可以在这个值得基础上继续计算
+ * @return: number.
+ */
+febs.crypt.crc32( str, crc )
+/**
+* @desc: base64编码.
+* @param arrByte: 字节数组.
+* @return: string.
+*/
+febs.crypt.base64_encode(arrByte)
 ```
 
 # animationFrame
@@ -358,21 +370,8 @@ timer = requestAnimationFrame(foo);
 ```
 
 # net
-net封装了浏览器通信方法: ajax, fetch, jsonp
+net封装了浏览器通信方法: fetch, jsonp
 ```js
-/**
- * @desc: ajax 跳转.
- * @param option:例如: (详见jquery.ajax)
-    {
-     type: "GET",
-     url: url,
-     data: null,
-     success: cb,
-     timeout: 
-   }
- * @return:
- */
-febs.net.ajax(option)
 /**
  * @desc: 使用fetch方式进行数据请求.
  *        如果超時, 可以catch到 'timeout'
@@ -519,133 +518,70 @@ febs.file.fileRemove(file)
 ```
 
 
-# controls
+# upload
 
-### loading
-
-已经对需要显示的信息进行了转义
-
-![](doc/ui/control-loadding.jpg)
+## multipart/form-data方式上传.
 
 ```js
 /**
-* @desc: 当前是否显示.
-* @return boolean.
-*/
-febs.controls.loading_isVisiable()
+ * 接收上传文件内容. 接收客户端  multipart/form-data方式上传的数据.
+ * @param conditionCB: async function(data, filesize, filename, filemimeType):string.
+ *                      - data: 用户上传的数据.
+ *                      - filesize: 将要存储的文件大小.
+ *                      - filename: 上传的文件名.
+ *                      - filemimeType: 文件类型, 例如: 'image/jpeg'.
+ *                      - return: 存储的文件路径, 返回null表示不存储.
+ * @return Promise.
+ * @resolve
+ *     - bool. 指明是否存储成功.
+ */
+febs.upload.accept(ctx, conditionCB)
 ```
+
+## base64数据流分段方式上传.
 
 ```js
 /**
-* @desc: 使用延时显示加载框.
-* @param text: 提示文本.
-* @param timeout: 延时显示, 默认为0.
-* @return: 
-*/
-febs.controls.loading_show(text, timeout)
-
-/**
-* @desc: 通过每500ms改变文本的方式显示加载框; 例如显示 3,2,1,3,2,1循环显示.
-* @param textArray: 变化的文本数组.
-* @param changeTextCB: 当前显示文本的回调. function(text).
-* @param hideCB:  隐藏加载框时的设置文本的函数. function().
-* @return: 
-*/
-febs.controls.loading_show_text(textArray, changeTextCB, hideCB) 
-
-/**
-* @desc: 隐藏加载对话框
-* @return: 
-*/
-febs.controls.loading_hide()
+ * 准备接收上传文件.
+ * @param conditionCB: async function(data, filesize):string.
+ *                      - filesize: 将要存储的文件大小(base64大小)
+ *                      - data: 用户上传的数据.
+ *                      - return: 本地存储的文件路径, 返回null表示不存储. 存储的文件必须不存在.
+ * @param sessionSet:  function(data){} 用于设置存储在session中的临时文件信息;
+ * @return Promise.
+ * @resolve
+ *     - bool. 指明是否开始接收文件流.
+ */
+febs.upload.base64_acceptHeader(ctx, conditionCB, sessionSet)
 ```
-### dialog
-
-已经对需要显示的信息进行了转义
-
-![](doc/ui/control-dialog.png)
-
-![](doc/ui/control-toast.png)
-
-![](doc/ui/control-confirm.png)
-
-
 ```js
 /**
-* @desc: 隐藏对话框
-* @return: 
-*/
-febs.controls.dialog_hide();
-
-/**
- * @desc: 显示警告对话框.
- * @param ctx: {
-* ctx.title:    标题.
-* ctx.content:	内容文字.
-* ctx.confirm: function(){}	// 点击确认键的回调.
-* ctx.okText
-* }
-*/
-febs.controls.dialog_showAlert( ctx );
-
-/**
- * @desc: 显示提示.
- * @param ctx: {
-  * ctx.title:    标题.
-  * ctx.time:	持续的时间 ms.
-  * ctx.icon: 前置图标.
-  * ctx.callback: function(){}	// 对话框消失后的回调.
-  * }
-  */
-febs.controls.dialog_showToast( ctx );
-
-/**
- * @desc: 显示确认对话框.
- * @param ctx: {
-* ctx.title:    标题.
-* ctx.content:	内容文字.
-* ctx.confirm: function(){}	// 点击确认键的回调.
-* ctx.cancel: function(){}	// 点击取消键的回调.
-* ctx.okText 确认按钮文字
-* ctx.cancelText: 取消按钮文字
-* }
-*/
-febs.controls.dialog_showConfirm( ctx );
-
-  /**
-   * @desc: 显示文本输入确认对话框.
-   * @param ctx: {
-  * ctx.title:    标题.
-  * ctx.content:		 内容文字.
-  * ctx.editText:		 输入框文字.
-  * ctx.confirm: function(text){}	// 点击确认键的回调.
-  * ctx.cancel:  function(){} // 点击取消键的回调.
-  * ctx.okText:
-  * ctx.cancelText:
-  * }
-  */
-febs.controls.dialog_showConfirmEdit( ctx );
+ * 上传文件内容.
+ *  发生错误会自动调用 cleanup
+ * @param finishCB: async function(filename):object.
+ *                      - filename: 本地存储的文件名.
+ *                      - return: 返回给客户端的数据. 不能包含err数据.
+ *
+ * @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
+ * @param sessionSet:  function(data){} 用于设置存储在session中的临时文件信息;
+ * @param sessionClear: function() {} 用于清除存储在session中的临时信息
+ * @return Promise
+ * @resolve
+ */
+febs.upload.base64_accept(ctx, finishCB, sessionGet, sessionSet, sessionClear)
 ```
-
-### page
-![](doc/ui/control-page.jpg)
 ```js
 /**
-* @desc: 初始化page控件.
-* @param elem: 将控件插入到elem中, elem是一个jquery的对象.
-* @param curPage: 当前页
-* @param pageCount: 总页数
-* @param totalCount: 总条数
-* @param pageCallback: 页面跳转函数, function(page) {}
+* @desc: 在用户登出或其他中断传输中清除上传的数据.
+* @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
+* @param sessionClear: function() {} 用于清除存储在session中的临时信息
 * @return: 
 */
-febs.controls.page_init(elem, curPage, pageCount, totalCount, pageCallback)
-
+febs.upload.base64_cleanup(sessionGet, sessionClear, cleanFile = true)
 ```
 
-### upload
 
-#### multipart/form-data方式上传.
+## multipart/form-data方式实例
 
 ```js
 /**
@@ -659,65 +595,37 @@ febs.controls.page_init(elem, curPage, pageCount, totalCount, pageCallback)
  *                  <input type="file" class="form-control" name="file" onchange="febs.controls.upload(cfg)" multiple>
  *                </form>
  *      后台:
- *          1. 在uploadUrl中调用  await require('febs').controls.upload.accept(app, conditionCB); 当满足条件时将存储, 并返回true表示成功.
+ *          1. 在uploadUrl中调用  await require('febs').upload.accept(ctx, conditionCB); 当满足条件时将存储, 并返回true表示成功.
  */
-
- 客户端调用如下接口上传文件.
- /** 需要 jquery,jquery.form 库支持.
-  * 并且 <input type="file" name="file"... 中, 必须存在name属性.
-  * 使用post方式上传文件.
-  * @param cfg:  object, 其中
-  *              {
-  *                data:       , // 上传到服务器的任意字符串数据.
-  *                formObj:    , // 含有enctype="multipart/form-data"的form
-  *                fileObj:    , // form中的file对象
-  *                uploadUrl:  , // 上传文件内容的url. 系统将自动使用 uploadUrl?crc32=&size=的方式来上传.
-  *                maxFileSize:    , // 允许上传的最大文件.0表示无限制.默认为0
-  *                fileType:     , // 允许的文件类型.  如: image/gif,image/jpeg,image/x-png
-  *                finishCB:    , // 上传完成后的回调. function(err, fileObj, serverData)
-  *                               //                   err:  - 'no file'      未选择文件.
-  *                               //                         - 'size too big' 文件太大.
-  *                               //                         - 'check crc32 err' 计算本地文件hash值时错误.
-  *                               //                         - 'ajax err'     ajax上传时出错.
-  *                               //                   serverData: 服务器返回的数据.
-  *                progressCB:  , // 上传进度的回调. function(fileObj, percent),
-  *                headers: {     // 设置request headers
-  *                  'customHeader': 'value'
-  *                },
-  *                crossDomain: true,     // 跨域, 默认为true
-  *                withCredentials: true, // 是否附带cookie, 默认为true
-  *              }
-  * function control_upload(cfg)
-  */
-服务端调用如下接口接收文件.
-/**
- * 接收上传文件内容.
- * @param conditionCB: async function(filesize, filename, filemimeType):string.
- *                      - filesize: 将要存储的文件大小.
- *                      - filename: 上传的文件名.
- *                      - filemimeType: 文件类型, 例如: 'image/jpeg'.
- *                      - return: 存储的文件路径, 返回null表示不存储.
- * @return Promise.
- * @resolve
- *     - bool. 指明是否存储成功.
- */
-async function accept(ctx, conditionCB)
 ```
-例子
-后台:
+
+ 客户端使用multipart/form-data方式上传文件时, 需使用url参数上传如下参数:
+
+| name           | description |
+|----------------|-------------|
+| crc32  | 文件内容的crc32计算值   |
+| size  |  文件字节大小  |
+| data  | (可选) 自定义数据; 自定义数据会在字节流上传完成后, 通过回调传递.  |
+
+> 例如: 上传url为 `/upload?crc32=2134141&size=11231`
+
+也可以在浏览器端直接使用 `febs-ui` 中的上传方法.
+
+服务端调用如下接口接收文件.
+
 ```js
 exports.upload = async function(ctx, next)
 {
-  var r = await require('febs').controls.upload.accept(ctx, async function(data, filesize, filename, filemimeType){
+  var r = await require('febs').upload.accept(ctx, async function(data, filesize, filename, filemimeType){
     console.log(filesize);
     console.log(filename);
     console.log(filemimeType);
 
-    return 'tempPath/temp.filename';
+    return 'tempPath/temp.filename';  // 返回空, 则表明不存在文件.
   });
 };
-
 ```
+
 前台:
 ```js
 <script type="text/javascript" charset="utf-8" src="/jquery/jquery.min.js"></script>
@@ -726,7 +634,7 @@ exports.upload = async function(ctx, next)
 
 <script type="text/javascript">
 function upload() {
-  febs.controls.upload({
+  febs.ui.upload({  // 引入febs-ui库.
     formObj:  $('#fileForm'),
     fileObj:  $("#filec"),
     uploadUrl:  '/uploadFile',
@@ -746,79 +654,17 @@ function upload() {
 </form>
 ```
 
-#### base64方式上传.
+## base64方式上传.
 
-客户端调用如下接口上传文件.
-```js
-/**
- * post方式上传文件.
- * 使用文件流片段的方式. 每个片段进行验证.速度稍慢
- * @param cfg:  object, 其中
- *              {
- *                data:       , // 上传到服务器的任意字符串数据,将在发送请求时发送.
- *                fileBase64Str:  , // 文件的base64格式字符串
- *                headerUrl:  , // 上传开始前的header请求地址.
- *                uploadUrl:  , // 上传文件内容的url.
- *                chunkSize:  1024*20,  // 每次上传的块大小.默认20kb
- *                finishCB:    , // 上传完成后的回调. function(err, serverData)
- *                               //                   err:  - 'no file'      未选择文件.
- *                               //                         - 'size too big' 文件太大.
- *                               //                         - 'check crc32 err' 计算本地文件hash值时错误.
- *                               //                         - 'ajax err'     ajax上传时出错.
- *                               //                   serverData: 服务器返回的数据. 至少包含一个filename
- *                progressCB:  , // 上传进度的回调. function(percent)
- *              }
- */
-febs.controls.uploadBase64(cfg);
-```
+base64方式上传, 浏览器端将数据编码为base64后, 分段上传给服务端; 服务端对数据进行分段解码后存储至文件中.
+
 
 服务端调用如下接口接收文件.
-```js
-/**
- * 准备接收上传文件.
- * @param conditionCB: async function(data, filesize):string.
- *                      - filesize: 将要存储的文件大小(base64大小)
- *                      - data: 用户上传的数据.
- *                      - return: 本地存储的文件路径, 返回null表示不存储. 存储的文件必须不存在.
- * @param sessionSet:  function(data){} 用于设置存储在session中的临时文件信息;
- * @return Promise.
- * @resolve
- *     - bool. 指明是否开始接收文件流.
- */
-febs.controls.uploadBase64.acceptHeader(app, conditionCB, sessionSet)
-```
-```js
-/**
- * 上传文件内容.
- *  发生错误会自动调用 cleanup
- * @param finishCB: async function(filename):object.
- *                      - filename: 本地存储的文件名.
- *                      - return: 返回给客户端的数据. 不能包含err数据.
- *
- * @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
- * @param sessionSet:  function(data){} 用于设置存储在session中的临时文件信息;
- * @param sessionClear: function() {} 用于清除存储在session中的临时信息
- * @return Promise
- * @resolve
- */
-febs.controls.uploadBase64.accept(app, finishCB, sessionGet, sessionSet, sessionClear)
-```
-```js
-/**
-* @desc: 在用户登出或其他中断传输中清除上传的数据.
-* @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
-* @param sessionClear: function() {} 用于清除存储在session中的临时信息
-* @return: 
-*/
-febs.controls.uploadBase64.cleanup(sessionGet, sessionClear, cleanFile = true)
-```
 
-例子
-后台:
 ```js
 // 处理上传请求.
 exports.uploadByBase64Header = async function (ctx) {
-    await febs.controls.uploadBase64.acceptHeader(ctx, 
+    await febs.upload.base64_acceptHeader(ctx, 
       async function(data, filesize){
           return "/tmp/filename.jpg";
       }, function(data){ // set upload sessoin info.
@@ -828,7 +674,7 @@ exports.uploadByBase64Header = async function (ctx) {
 
 // 处理上传片段.
 exports.uploadByBase64 = async function (ctx) {
-    await febs.controls.uploadBase64.accept(ctx, 
+    await febs.upload.base64_accept(ctx, 
       async function(filename){
           let img = sharp(filename);
           let info = await img.metadata();
@@ -842,13 +688,14 @@ exports.uploadByBase64 = async function (ctx) {
       });
 }
 ```
+
 前台:
 ```js
 <script type="text/javascript" charset="utf-8" src="/jquery/jquery.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="/febs/febs.min.js"></script>
 
 <script type="text/javascript">
-  febs.controls.uploadBase64({
+  febs.ui.uploadBase64({    // 引入febs-ui库.
       data: {msg :'这是一个用户数据'},
       fileBase64Str: base64Imagestr,
       headerUrl: '/api/mgr/uploadimgByBase64Header',

@@ -198,7 +198,7 @@ export interface Base64Result {
 // crypt.
 export namespace crypt {
   /**
-  * @return 生成一个uuid字符串.
+  * @return 生成一个uuid字符串. (uuid v1)
   */
   function uuid(): string;
   /**
@@ -223,6 +223,29 @@ export namespace crypt {
    * @return: number
    */
   function crc32_file(filename: string): number;
+
+  /**
+   * @desc: 计算字符串的md5值
+   * @return: string.
+   */
+  function md5(str: string|Buffer): string;
+  /**
+   * @desc: [服务端调用] 直接对文件进行计算.
+   * @param filename: 文件路径
+   * @return: string
+   */
+  function md5_file(filename: string): string;
+  /**
+   * @desc: 计算字符串的sha1值
+   * @return: string.
+   */
+  function sha1(str: string|Buffer): string;
+  /**
+   * @desc: [服务端调用] 直接对文件进行计算.
+   * @param filename: 文件路径
+   * @return: string
+   */
+  function sha1_file(filename: string): string;
   /**
   * @desc: base64编码.
   * @return: string.
@@ -256,10 +279,6 @@ export namespace crypt {
 //
 // net.
 export namespace net {
-  /**
-   * @desc: 进行ajax请求, 同 febs.nav.ajax.
-   */
-  function ajax(option: object): void;
   /**
    * @desc: 使用fetch方式进行数据请求.
    *        如果超時, 可以catch到 'timeout'
@@ -397,201 +416,55 @@ export namespace file {
   function fileRemove(file: string): boolean;
 }
 
-//
-// controls
-export namespace controls {
+
+export namespace upload {
   /**
-  * @desc: 使用延时显示加载框.
-  * @param text: 提示文本.
-  * @param timeout: 延时显示, 默认为0.
-  * @return: 
-  */
-  function loading_show(text: string, timeout?: number): any;
-
-  /**
-  * @desc: 通过每500ms改变文本的方式显示加载框; 例如显示 3,2,1,3,2,1循环显示.
-  * @param textArray: 变化的文本数组.
-  * @param changeTextCB: 当前显示文本的回调. function(text).
-  * @param hideCB:  隐藏加载框时的设置文本的函数. function().
-  * @return: 
-  */
-  function loading_show_text(textArray: Array<string>, changeTextCB: (text: string) => void, hideCB: () => void): void;
-
-  /**
-  * @desc: 隐藏加载对话框
-  * @return: 
-  */
-  function loading_hide(): void;
-
-
-  /**
-  * @desc: 隐藏对话框
-  * @return: 
-  */
-  function dialog_hide(): void;
-
-  /**
-   * @desc: 显示警告对话框.
-   * @param ctx: {
-  * ctx.title:    标题.
-  * ctx.content:	内容文字.
-  * ctx.confirm: function(){}	// 点击确认键的回调.
-  * ctx.okText
-  * }
-  */
-  function dialog_showAlert( ctx: { title?:string, content?:string, confirm?:()=>void, okText?:string } ): void;
-  
-  /**
-   * @desc: 显示提示.
-   * @param ctx: {
-    * ctx.content:  提示内容.
-    * ctx.time:	持续的时间 ms.
-    * ctx.icon: 前置图标.
-    * ctx.callback: function(){}	// 对话框消失后的回调.
-    * }
-    */
-  function dialog_showToast( ctx: { content?:string, time?:number, icon?:'ok'|'error'|'warn', callback?:()=>void } ): void;
-  
-  /**
-   * @desc: 显示确认对话框.
-   * @param ctx: {
-  * ctx.title:    标题.
-  * ctx.content:	内容文字.
-  * ctx.confirm: function(){}	// 点击确认键的回调.
-  * ctx.cancel: function(){}	// 点击取消键的回调.
-  * ctx.okText 确认按钮文字
-  * ctx.cancelText: 取消按钮文字
-  * }
-  */
- function dialog_showConfirm( ctx: { title?:string, content?:string, confirm?:()=>void, cancel?:()=>void, okText?:string, cancelText?:string } ): void;
-
-
-  /**
-   * @desc: 显示文本输入确认对话框.
-   * @param ctx: {
-  * ctx.title:    标题.
-  * ctx.content:		 内容文字.
-  * ctx.editText:		 输入框文字.
-  * ctx.confirm: function(text){}	// 点击确认键的回调.
-  * ctx.cancel:  function(){} // 点击取消键的回调.
-  * ctx.okText:
-  * ctx.cancelText:
-  * }
-  */
- function dialog_showConfirmEdit( ctx: { title?:string, content?:string, editText?:string, confirm?:(text:string)=>void, cancel?:()=>void, okText?:string, cancelText?:string } ): void;
-
- /**
-  * @desc: 初始化page控件.
-  * @param elem: 将控件插入到elem中, elem是一个jquery的对象.
-  * @param curPage: 当前页
-  * @param pageCount: 总页数
-  * @param totalCount: 总条数
-  * @param pageCallback: 页面跳转函数, function(page) {}
-  * @return: 
-  */
-  function page_init(elem: any, curPage: number, pageCount: number, totalCount: number, pageCallback: (page: any) => void): void;
-
-  /** [客户端调用] 需要 jquery,jquery.form 库支持.
-  * 并且 <input type="file" name="file"... 中, 必须存在name属性.
-  * 使用post方式上传文件.
-  * @param cfg:  object, 其中
-  *              {
-  *                data:       , // 上传到服务器的任意字符串数据.
-  *                formObj:    , // 含有enctype="multipart/form-data"的form
-  *                fileObj:    , // form中的file对象
-  *                uploadUrl:  , // 上传文件内容的url. 系统将自动使用 uploadUrl?crc32=&size=的方式来上传.
-  *                maxFileSize:    , // 允许上传的最大文件.0表示无限制.默认为0
-  *                fileType:     , // 允许的文件类型.  如: image/gif,image/jpeg,image/x-png
-  *                finishCB:    , // 上传完成后的回调. function(err, fileObj, serverData)
-  *                               //                   err:  - 'no file'      未选择文件.
-  *                               //                         - 'size too big' 文件太大.
-  *                               //                         - 'check crc32 err' 计算本地文件hash值时错误.
-  *                               //                         - 'ajax err'     ajax上传时出错.
-  *                               //                   serverData: 服务器返回的数据.
-  *                progressCB:  , // 上传进度的回调. function(fileObj, percent)
-  *              }
-  */
-  function upload(cfg: any): void;
-
-  /**
-   * [客户端调用] post方式上传文件.
-   * 使用文件流片段的方式. 每个片段进行验证.速度稍慢
-   * @param cfg:  object, 其中
-   *              {
-   *                data:       , // 上传到服务器的任意字符串数据,将在发送请求时发送.
-   *                fileBase64Str:  , // 文件的base64格式字符串
-   *                headerUrl:  , // 上传开始前的header请求地址.
-   *                uploadUrl:  , // 上传文件内容的url.
-   *                chunkSize:  1024*20,  // 每次上传的块大小.默认20kb
-   *                finishCB:    , // 上传完成后的回调. function(err, serverData)
-   *                               //                   err:  - 'no file'      未选择文件.
-   *                               //                         - 'size too big' 文件太大.
-   *                               //                         - 'check crc32 err' 计算本地文件hash值时错误.
-   *                               //                         - 'ajax err'     ajax上传时出错.
-   *                               //                   serverData: 服务器返回的数据. 至少包含一个filename
-   *                progressCB:  , // 上传进度的回调. function(percent),
-   *                headers: {     // 设置request headers
-   *                  'customHeader': 'value'
-   *                },
-   *                crossDomain: true,     // 跨域, 默认为true
-   *                withCredentials: true, // 是否附带cookie, 默认为true
-   *              }
+   * [服务端调用] 接收上传文件内容.
+   * @param conditionCB: async function(data, filesize, filename, filemimeType):string.
+   *                      - data: 用户上传的数据.
+   *                      - filesize: 将要存储的文件大小.
+   *                      - filename: 上传的文件名.
+   *                      - filemimeType: 文件类型, 例如: 'image/jpeg'.
+   *                      - return: 存储的文件路径, 返回null表示不存储.
+   * @return Promise.
+   * @resolve
+   *     - bool. 指明是否存储成功.
    */
-  function uploadBase64(cfg: any): void;
-}
+  function accept(app: any, conditionCB: (data: any, filesize: number, filename: string, filemimeType: string) => Promise<string>): Promise<boolean>;
 
-export namespace controls {
-  namespace upload {
-    /**
-     * [服务端调用] 接收上传文件内容.
-     * @param conditionCB: async function(data, filesize, filename, filemimeType):string.
-     *                      - data: 用户上传的数据.
-     *                      - filesize: 将要存储的文件大小.
-     *                      - filename: 上传的文件名.
-     *                      - filemimeType: 文件类型, 例如: 'image/jpeg'.
-     *                      - return: 存储的文件路径, 返回null表示不存储.
-     * @return Promise.
-     * @resolve
-     *     - bool. 指明是否存储成功.
-     */
-    function accept(app: any, conditionCB: (data: any, filesize: number, filename: string, filemimeType: string) => Promise<string>): Promise<boolean>;
-  }
-
-  namespace uploadBase64 {
-    /**
-     * 准备接收上传文件.
-     * @param conditionCB: async function(data, filesize):string.
-     *                      - filesize: 将要存储的文件大小(base64大小)
-     *                      - data: 用户上传的数据.
-     *                      - return: 本地存储的文件路径, 返回null表示不存储. 存储的文件必须不存在.
-     * @param sessionSet:  function(data){} 用于设置存储在session中的临时文件信息;
-     * @return Promise.
-     * @resolve
-     *     - bool. 指明是否开始接收文件流.
-     */
-    function acceptHeader(app: any, conditionCB: (data: any, filesize: number) => Promise<string>, sessionSet: (data: any) => void): Promise<boolean>;
-    /**
-     * 上传文件内容.
-     *  发生错误会自动调用 cleanup
-     * @param finishCB: async function(filename):object.
-     *                      - filename: 本地存储的文件名.
-     *                      - return: 返回给客户端的数据. 不能包含err数据.
-     *
-     * @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
-     * @param sessionSet:  function(data){} 用于设置存储在session中的临时文件信息;
-     * @param sessionClear: function() {} 用于清除存储在session中的临时信息
-     * @return Promise
-     * @resolve
-     */
-    function accept(app: any, finishCB: (filename: string) => Promise<any>, sessionGet: () => any, sessionSet: (data: any) => void, sessionClear: () => void): Promise<any>;
-    /**
-    * @desc: 在用户登出或其他中断传输中清除上传的数据.
-    * @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
-    * @param sessionClear: function() {} 用于清除存储在session中的临时信息
-    * @return: 
-    */
-    function cleanup(sessionGet: () => any, sessionClear: () => void, cleanFile?: boolean): void;
-  }
+  /**
+   * 准备接收上传文件.
+   * @param conditionCB: async function(data, filesize):string.
+   *                      - filesize: 将要存储的文件大小(base64大小)
+   *                      - data: 用户上传的数据.
+   *                      - return: 本地存储的文件路径, 返回null表示不存储. 存储的文件必须不存在.
+   * @param sessionSet:  function(data){} 用于设置存储在session中的临时文件信息;
+   * @return Promise.
+   * @resolve
+   *     - bool. 指明是否开始接收文件流.
+   */
+  function base64_acceptHeader(app: any, conditionCB: (data: any, filesize: number) => Promise<string>, sessionSet: (data: any) => void): Promise<boolean>;
+  /**
+   * 上传文件内容.
+   *  发生错误会自动调用 cleanup
+   * @param finishCB: async function(filename):object.
+   *                      - filename: 本地存储的文件名.
+   *                      - return: 返回给客户端的数据. 不能包含err数据.
+   *
+   * @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
+   * @param sessionSet:  function(data){} 用于设置存储在session中的临时文件信息;
+   * @param sessionClear: function() {} 用于清除存储在session中的临时信息
+   * @return Promise
+   * @resolve
+   */
+  function base64_accept(app: any, finishCB: (filename: string) => Promise<any>, sessionGet: () => any, sessionSet: (data: any) => void, sessionClear: () => void): Promise<any>;
+  /**
+  * @desc: 在用户登出或其他中断传输中清除上传的数据.
+  * @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
+  * @param sessionClear: function() {} 用于清除存储在session中的临时信息
+  * @return: 
+  */
+  function base64_cleanup(sessionGet: () => any, sessionClear: () => void, cleanFile?: boolean): void;
 }
 
 export namespace exception {

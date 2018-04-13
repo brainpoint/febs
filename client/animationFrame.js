@@ -36,7 +36,7 @@ window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAni
 
 if (!window.requestAnimationFrame) {
     window.requestAnimationFrame = function(callback){
-        var currTime = new Date().getTime();
+        var currTime = Date.now();
         var timeToCall = Math.max(0, 16 - (currTime - lastTime));
         var id = window.setTimeout(function(){ callback(currTime + timeToCall); },
           timeToCall);

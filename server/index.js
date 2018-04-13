@@ -1,5 +1,5 @@
 
-exports.controls = require('./controls');
+exports.upload = require('./upload');
 exports.exception = require('./exception');
 exports.file   = require('./file');
 exports.string = require('./string');

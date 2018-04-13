@@ -64,3 +64,8 @@
 0.3.12
 ==================
   - [feature] add febs.utils.getDate2
+
+0.4.0
+==================
+  - [feature] remove all controls code in client.
+  - [feature] add sha1, md5 in crypt. use uuid module for crypt.uuid

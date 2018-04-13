@@ -7,7 +7,7 @@
  */
 
 var PromiseLib   = Promise;
-var assert  = require('assert');
+// var BigNumber = require('../third-party/bignumber.min.js');
 var BigNumber = require('bignumber.js');
 
 /**

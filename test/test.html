@@ -1,7 +1,7 @@
 <html>
   <head>
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <link rel="stylesheet" type="text/css" href="../dist/febs/febs.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <script charset='UTF-8' type="text/javascript" src="./jquery-1.11.3.min.js"></script>
     <script charset='UTF-8' type="text/javascript" src="../dist/febs/febs.js"></script>
   </head>
@@ -93,19 +93,12 @@
     febs_assert('febs.string.replace', function(r){return r=='-66-232-24--';}, function(){return febs.string.replace('166123212411', '1', '-')});
 
     // crypt.
-    febs_assert('febs.crypt.uuid', function(r){return r.length==32+4;}, function(){return febs.crypt.uuid()});
+    // febs_assert('febs.crypt.uuid', function(r){return r.length==32+4;}, function(){return febs.crypt.uuid()});
     febs_assert('febs.crypt.crc32', function(r){return r==-130231503;}, function(){return febs.crypt.crc32('12313sdfgwegw')});
     febs_assert('febs.crypt.base64_encode', function(r){return r=='DAT/eg==';}, function(){return febs.crypt.base64_encode([12,4,255,122])});
     febs_assert('febs.crypt.base64_encode', function(r){return [12,4,255,122].toString()==r.toString();}, function(){return febs.crypt.base64_decode('DAT/eg==')});
 
     // net.
-    febs_assert('febs.net.ajax', null, function(){febs.net.ajax({
-      credentials: 'include',
-      mode: 'cors',
-      url: 'http://test2.citongs.com/api/batch',
-      type: 'post',
-      success: function(data){ console.log(data); }
-    })});
     febs_assert('febs.net.fetch', null, function(){febs.net.fetch('http://test2.citongs.com/api/batch', {
       credentials: 'include',
       mode: 'cors',
@@ -122,28 +115,28 @@
     // }).then(response=>{ console.log(response.json()); }));
 
     // controls.
-    febs.controls.dialog_showToast({content:'即将显示 loading', icon:'ok'});
-    febs.utils.sleep(1000)
-    .then(function(){
-      febs.controls.loading_show('123');
-      return febs.utils.sleep(3000);
-    })
-    .then(function(){ 
-      febs.controls.loading_hide(); 
-    })
-    .then(function(){ 
-      febs.controls.dialog_showToast({content:'即将显示 alert', icon:'warn'});
-      return febs.utils.sleep(3000);
-    })
-    .then(function(){ 
-      febs.controls.dialog_showAlert({title:'将要显示confirm对话框', content:'关闭 alert sdfsgeg的 dfdfdfdf', confirm:function(){
-        febs.controls.dialog_showConfirm({title:'要显示输入对话框吗?', content:'sdfd alert', confirm:function(){
-          febs.controls.dialog_showConfirmEdit({title:'提示', content:'输入你的信息', editText:'1212', confirm:function(text){
-            febs.controls.dialog_showToast({content:text, icon:'error'});
-          }});
-        }});
-      }});
-    })
+    // febs.controls.dialog_showToast({content:'即将显示 loading', icon:'ok'});
+    // febs.utils.sleep(1000)
+    // .then(function(){
+    //   febs.controls.loading_show('123');
+    //   return febs.utils.sleep(3000);
+    // })
+    // .then(function(){ 
+    //   febs.controls.loading_hide(); 
+    // })
+    // .then(function(){ 
+    //   febs.controls.dialog_showToast({content:'即将显示 alert', icon:'warn'});
+    //   return febs.utils.sleep(3000);
+    // })
+    // .then(function(){ 
+    //   febs.controls.dialog_showAlert({title:'将要显示confirm对话框', content:'关闭 alert sdfsgeg的 dfdfdfdf', confirm:function(){
+    //     febs.controls.dialog_showConfirm({title:'要显示输入对话框吗?', content:'sdfd alert', confirm:function(){
+    //       febs.controls.dialog_showConfirmEdit({title:'提示', content:'输入你的信息', editText:'1212', confirm:function(text){
+    //         febs.controls.dialog_showToast({content:text, icon:'error'});
+    //       }});
+    //     }});
+    //   }});
+    // })
 
     // requestAnimationFrame.
     var total = 0;
@@ -155,7 +148,7 @@
       total += now2-now;
       now = now2;
       console.log('animation', total);
-      if (total > 1000) {
+      if (total > 2000) {
         cancelAnimationFrame(timer);
       } else {
         timer = requestAnimationFrame(foo);
