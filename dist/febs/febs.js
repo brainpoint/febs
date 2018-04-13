@@ -2451,10 +2451,10 @@ var febsUtils = __webpack_require__(51);
         }
 
         return new _Promise(function (resolve, reject) {
-          if (!$) {
+          if (!window["$"]) {
             throw 'need jquery.ajax in ie9<= browsers.';
           }
-          $.ajax({
+          window["$"].ajax({
             url: url,
             beforeSend: function beforeSend(xhr) {
               var header = option.headers || {};

@@ -411,10 +411,10 @@ else {
       }
       
       return new Promise(function(resolve, reject) {
-        if(!$) {
+        if(!window["$"]) {
           throw 'need jquery.ajax in ie9<= browsers.';
         }
-        $.ajax({
+        window["$"].ajax({
           url: url,
           beforeSend: function(xhr) {
             var header = option.headers||{};
