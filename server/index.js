@@ -5,6 +5,7 @@ exports.file   = require('./file');
 exports.string = require('./string');
 exports.crypt  = require('./crypt');
 exports.utils  = require('./utils');
+exports.net  = require('./net');
 
 
 //

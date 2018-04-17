@@ -277,25 +277,18 @@ export namespace net {
           if (err === 'timeout)  // 超时.
         });
   */
-  function fetch(url: string, option: object): Promise<any>;
-  /**
-   * @desc: jsonp方式获取数据.
-   *        如果超時, 可以catch到 'timeout'
-   * @param option: 请求选项同fetch. 可以附带如下的更多属性. jsonp只能使用`get`方式.
-   *          {
-                jsonpCallback, // jsonp请求时附带到地址中的callback参数, 默认为 'callback';
-                              // 服务端需将查询字符串中的此参数作为返回数据中 `callback`([data])的 callback值
-              }
-  * @return: 返回 Promise;
-  * @e.g.
-        febs.net.jsonp(url, {})
-        .then(response=>response.json())
-        .then(data=>{})
-        .catch(err=>{
-          if (err === 'timeout)  // 超时.
-        });
-  */
-  function jsonp(url: string, option: object): Promise<any>;
+  function fetch(url: string, option?: {
+    method?:string, // 请求方法 get, post, delete 等.
+    mode?:string|'no-cors'|'cors'|'same-origin',   // 'no-cors', 'same-origin'等; (可忽略)
+    headers?:any, // 请求header, 例如:
+                  // {
+                  //   "Content-Type": "application/json",
+                  //   "Accept": 'application/json',
+                  // }
+    body?:string,    // 请求内容.
+    timeout?:number, // 超时 (ms), 默认为5000,
+    credentials?:'include'|null|undefined,  // 携带了credentials='include'则服务器需设置Access-Control-Allow-Credentials
+  }): Promise<any>;
 }
 
 //

@@ -58,10 +58,10 @@ febs web库分为客户端与服务器端;
   - [utils](#utils)
   - [string](#string)
   - [crypt](#crypt)
+  - [net](#net)
 
 - 客户端独有库
   - [animationFrame](#animationFrame)
-  - [net](#net)
 
 - 服务端独有库
   - [exception](#exception)
