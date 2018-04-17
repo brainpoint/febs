@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'production'
 var ora = require('ora')
 var path = require('path')
 var chalk = require('chalk')
-var febs = require('../server');
+var febs = require('../../server');
 var fs = require('fs');
 var webpack = require('webpack')
 var webpackConfig = require('./webpack.config.js')
@@ -14,11 +14,15 @@ var spinner = ora('building for production...')
 spinner.start()
 
 var root = path.resolve(__dirname, '../');
-var febs = require('../server/index');
+var febs = require('../../server/index');
 febs.file.dirRemoveRecursive(path.join(root, 'dist/febs'));
-febs.file.fileCopy(path.join(root, 'client/febs.css'), path.join(root, 'dist/febs/febs.css'));
-febs.file.fileCopy(path.join(root, 'client/febs.mobile.css'), path.join(root, 'dist/febs/febs.mobile.css'));
 febs.file.fileCopy(path.join(root, 'README.md'), path.join(root, 'dist/febs/README.md'));
+
+febs.file.fileRemove(path.join(root, 'dist/test.html'));
+febs.file.fileCopy(path.join(root, 'test/test.html'), path.join(root, 'dist/test.html'));
+
+febs.file.fileRemove(path.join(root, 'dist/jquery-1.11.3.min.js'));
+febs.file.fileCopy(path.join(root, 'test/jquery-1.11.3.min.js'), path.join(root, 'dist/jquery-1.11.3.min.js'));
 
 function buildSrc(cbStop, cbSuccess) {
   webpack(webpackConfig, function (err, stats) {

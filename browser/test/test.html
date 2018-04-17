@@ -1,0 +1,164 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <script charset='UTF-8' type="text/javascript" src="./jquery-1.11.3.min.js"></script>
+    <script charset='UTF-8' type="text/javascript" src="../dist/febs/febs.js"></script>
+  </head>
+  <body>
+    将在console中输出调用日志
+    <script>
+    
+    var assert = console.assert;
+    var trace  = console.log;
+
+    //
+    // __debug, console.debug
+    __debug = true;
+    console.log('__debug', __debug);
+    console.debug(11, {'debug':'is debug log'});
+
+    //
+    // sleep.
+    console.log('febs.utils.sleep', 1);
+    febs.utils.sleep(1000)
+      .then(function(){
+        console.log(2);
+        return febs.utils.sleep(1000);
+      })
+      .then(function(){
+        console.log(3);
+        return febs.utils.sleep(1000);
+      })
+      .then(function(){
+        console.log(4);
+        return febs.utils.sleep(2000);
+      })
+      .then(function(){
+        console.log(6);
+      });
+
+    // assert.
+    function febs_assert(fooName, valueCB, call) {
+      console.log(fooName, call());
+      if (!febs.utils.isNull(valueCB)) {
+        assert(valueCB(call()), fooName);
+      }
+    }
+
+    // browser.
+    febs_assert('febs.utils.browserIsMobile', null, function(){return febs.utils.browserIsMobile()});
+    febs_assert('febs.utils.browserIsIOS', null, function(){return febs.utils.browserIsIOS()});
+    febs_assert('febs.utils.browserIsPhone', null, function(){return febs.utils.browserIsPhone()});
+    febs_assert('febs.utils.browserIsWeixin', null, function(){return febs.utils.browserIsWeixin()});
+    febs_assert('febs.utils.browserIsIE', null, function(){return febs.utils.browserIsIE()});
+    febs_assert('febs.utils.browserIEVer', null, function(){return febs.utils.browserIEVer()});
+    febs_assert('febs.utils.browserIsSupportHtml5', null, function(){return febs.utils.browserIsSupportHtml5()});
+
+    // getTimeString
+    febs_assert('febs.utils.getTimeString', null, function(){return febs.utils.getTimeString(Date.now(), 'yyyy-MM-dd hh:mm:ss.S E 时间')});
+    febs_assert('febs.utils.getTimeStringFromNow', null, function(){return febs.utils.getTimeStringFromNow(Date.now())});
+    febs_assert('febs.utils.getTimeStringFromNow', null, function(){return febs.utils.getTimeStringFromNow(Date.now()-1000*60*5)});
+    febs_assert('febs.utils.getDate', null, function(){return febs.utils.getDate('2012-05-09')});
+    febs_assert('febs.utils.getDate2', null, function(){return febs.utils.getDate2('20120509')});
+
+    // mergeMap
+    febs_assert('febs.utils.mergeMap', null, function(){return febs.utils.mergeMap({_1:11, _2:{_3:3}}, {_2:22})});
+    febs_assert('febs.utils.isNull', function(r){return r==true;}, function(){return febs.utils.isNull(null)});
+    febs_assert('febs.utils.isNull', function(r){return r==true;}, function(){return febs.utils.isNull(undefined)});
+    febs_assert('febs.utils.isNull', function(r){return r==true;}, function(){return febs.utils.isNull(NaN)});
+    febs_assert('febs.utils.isNull', function(r){return r==false;}, function(){return febs.utils.isNull('')});
+    febs_assert('febs.utils.isNull', function(r){return r==false;}, function(){return febs.utils.isNull(0)});
+    febs_assert('febs.utils.isNull', function(r){return r==false;}, function(){return febs.utils.isNull(false)});
+
+    // bigint.
+    febs_assert('febs.utils.bigint_check', function(r){return r==true;}, function(){return febs.utils.bigint_check(0)});
+    febs_assert('febs.utils.bigint_check', function(r){return r==false;}, function(){return febs.utils.bigint_check('123dff')});
+    febs_assert('febs.utils.bigint_add', function(r){return r=='111111234176175000';}, function(){return febs.utils.bigint_toFixed(febs.utils.bigint_add('123', '111111234176174877'))});
+    febs_assert('febs.utils.bigint_minus', function(r){return r=='111111234176174000';}, function(){return febs.utils.bigint_toFixed(febs.utils.bigint_minus('111111234176174877', '877'))});
+    febs_assert('febs.utils.bigint_dividedBy', function(r){return r=='1111111111111111111';}, function(){return febs.utils.bigint_toFixed(febs.utils.bigint_dividedBy('2222222222222222222', '2'))});
+    febs_assert('febs.utils.bigint_equal', function(r){return r==true;}, function(){return febs.utils.bigint_equal('234176174870', 234176174870)});
+    febs_assert('febs.utils.bigint_more_than', function(r){return r==true;}, function(){return febs.utils.bigint_more_than('111111234176174877', '111111234176174870')});
+    febs_assert('febs.utils.bigint_more_than_e', function(r){return r==true;}, function(){return febs.utils.bigint_more_than_e('111111234176174877', '111111234176174877')});
+    febs_assert('febs.utils.bigint_less_than', function(r){return r==true;}, function(){return febs.utils.bigint_less_than('111111234176174877', '111111234176174878')});
+    febs_assert('febs.utils.bigint_less_than_e', function(r){return r==true;}, function(){return febs.utils.bigint_less_than_e('111111234176174877', '111111234176174877')});
+
+    // string.
+    febs_assert('febs.string.isPhoneMobile', function(r){return r==true;}, function(){return febs.string.isPhoneMobile('16612321241')});
+    febs_assert('febs.string.isPhoneMobile', function(r){return r==false;}, function(){return febs.string.isPhoneMobile('166123212411')});
+    febs_assert('febs.string.isEmpty', function(r){return r==false;}, function(){return febs.string.isEmpty('166123212411')});
+    febs_assert('febs.string.isEmpty', function(r){return r==true;}, function(){return febs.string.isEmpty('')});
+    febs_assert('febs.string.isEmpty', function(r){return r==true;}, function(){return febs.string.isEmpty(null)});
+    febs_assert('febs.string.getByteSize', function(r){return r==12;}, function(){return febs.string.getByteSize('166123212411')});
+    febs_assert('febs.string.getByteSize', function(r){return r==3;}, function(){return febs.string.getByteSize('严')});
+    febs_assert('febs.string.replace', function(r){return r=='-66-232-24--';}, function(){return febs.string.replace('166123212411', '1', '-')});
+
+    // crypt.
+    // febs_assert('febs.crypt.uuid', function(r){return r.length==32+4;}, function(){return febs.crypt.uuid()});
+    febs_assert('febs.crypt.crc32', function(r){return r==-130231503;}, function(){return febs.crypt.crc32('12313sdfgwegw')});
+    febs_assert('febs.crypt.base64_encode', function(r){return r=='DAT/eg==';}, function(){return febs.crypt.base64_encode([12,4,255,122])});
+    febs_assert('febs.crypt.base64_encode', function(r){return [12,4,255,122].toString()==r.toString();}, function(){return febs.crypt.base64_decode('DAT/eg==')});
+
+    // net.
+    febs_assert('febs.net.fetch', null, function(){febs.net.fetch('http://test2.citongs.com/api/batch', {
+      credentials: 'include',
+      mode: 'cors',
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: '{}'
+    })
+    .then(function(response){ return response.json(); })
+    .then(function(response){ console.log(response); })});
+    // febs_assert('febs.net.jsonp', null, function(){febs.net.jsonp('http://test2.citongs.com/api/batch', {
+    //   credentials: 'include',
+    //   mode: 'cors',
+    //   method: 'post',
+    //   headers: {'Content-Type': 'application/json',},
+    //   body: '{}'
+    // }).then(response=>{ console.log(response.json()); }));
+
+    // controls.
+    // febs.controls.dialog_showToast({content:'即将显示 loading', icon:'ok'});
+    // febs.utils.sleep(1000)
+    // .then(function(){
+    //   febs.controls.loading_show('123');
+    //   return febs.utils.sleep(3000);
+    // })
+    // .then(function(){ 
+    //   febs.controls.loading_hide(); 
+    // })
+    // .then(function(){ 
+    //   febs.controls.dialog_showToast({content:'即将显示 alert', icon:'warn'});
+    //   return febs.utils.sleep(3000);
+    // })
+    // .then(function(){ 
+    //   febs.controls.dialog_showAlert({title:'将要显示confirm对话框', content:'关闭 alert sdfsgeg的 dfdfdfdf', confirm:function(){
+    //     febs.controls.dialog_showConfirm({title:'要显示输入对话框吗?', content:'sdfd alert', confirm:function(){
+    //       febs.controls.dialog_showConfirmEdit({title:'提示', content:'输入你的信息', editText:'1212', confirm:function(text){
+    //         febs.controls.dialog_showToast({content:text, icon:'error'});
+    //       }});
+    //     }});
+    //   }});
+    // })
+
+    // requestAnimationFrame.
+    var total = 0;
+    var timer;
+    var now = Date.now();
+
+    function foo(tm) {
+      var now2 = Date.now();
+      total += now2-now;
+      now = now2;
+      console.log('animation', total);
+      if (total > 2000) {
+        cancelAnimationFrame(timer);
+      } else {
+        timer = requestAnimationFrame(foo);
+      }
+    }
+    timer = requestAnimationFrame(foo);
+    
+    </script>
+  </body>
+</html>

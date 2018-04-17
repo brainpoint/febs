@@ -9,9 +9,6 @@ declare global {
 }
 
 
-export function requestAnimationFrame(cb:(tm:number)=>void):any;
-export function cancelAnimationFrame(timer:any):void;
-
 export interface WeekFmt {
   '0'?: string;
   '1'?: string;
@@ -50,9 +47,6 @@ export namespace utils {
   function browserIsIOS(agent?: string): boolean;
   function browserIsPhone(agent?: string): boolean;
   function browserIsWeixin(agent?: string): boolean;
-
-  // only in client.
-  function browserIsSupportHtml5(): boolean;
 
   /**
    * @desc: 获取时间的string.
@@ -208,16 +202,6 @@ export namespace crypt {
    */
   function crc32(str: string, crc?: number): number;
   /**
-   * @desc: [客户端调用] 通过文件表单控件进行文件的crc32计算.
-   * @param fileObj: 表单文件对象, 例如表单为:
-   *                  <form enctype="multipart/form-data">
-   *                    <input id="file" type="file" name="file" multiple>
-   *                  </form>
-   *             $('#file')[0].files[0] 即为第一个文件对象.
-   * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
-   */
-  function crc32_file(fileObj: object, cb: (crc32: number) => void): void;
-  /**
    * @desc: [服务端调用] 直接对文件进行计算.
    * @param filename: 文件路径
    * @return: number
@@ -251,17 +235,6 @@ export namespace crypt {
   * @return: string.
   */
   function base64_encode(arrByte: Buffer): string;
-  /**
-  * @desc: base64编码.
-  * @param arrByte: 字节数组.
-  * @return: string.
-  */
-  function base64_encode(arrByte: Array<number>): string;
-  /**
-  * @desc: base64解码.
-  * @return: 字节数组.
-  */
-  function base64_decode(strBase64: string): Array<number>;
   /**
   * @desc: [服务端端调用] 使用上次的解码的数据继续进行base64解码.
   * @return: 

@@ -5,7 +5,7 @@ febs 库是一些常用的工具的合集;
 Use npm to install:
 
 ```js
-npm install febs --save
+npm install febs-browser --save
 ```
 
 # nodejs
@@ -13,7 +13,7 @@ npm install febs --save
 以下列方式使用
 
 ```js
-var febs = require('febs');
+var febs = require('febs-browser');
 
 //
 febs.string.replace();
@@ -40,7 +40,7 @@ febs.string.replace();
 以下列方式使用
 
 ```js
-import febs from 'febs';
+import febs from 'febs-browser'; // 使用febs的客户端部分代码.
 
 //
 febs.string.replace();
@@ -48,11 +48,9 @@ febs.string.replace();
 
 # framework
 
-![](doc/framework.png)
+![](../doc/framework.png)
 
 febs web库分为客户端与服务器端;
-
-客户端在 [febs-browser](https://www.npmjs.com/package/febs-browser) 库中
 
 - 通用于客户端与服务端的库如下
   - [utils](#utils)

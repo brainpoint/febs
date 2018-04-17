@@ -9273,11 +9273,6 @@ __webpack_require__(75);
 __webpack_require__(80);
 // require('../third-party/bignumber.min.js');
 
-//
-// define the __debug.
-if (!global.hasOwnProperty('__debug')) {
-		global.__debug = false;
-}
 
 (function (global, factory) {
 
@@ -9301,6 +9296,18 @@ if (!global.hasOwnProperty('__debug')) {
 
 		// Pass this if window is not defined yet
 })(typeof window !== "undefined" ? window : undefined, function (window, noGlobal) {
+
+		//
+		// define the __debug.
+		if (!global.hasOwnProperty('__debug')) {
+				global.__debug = false;
+		}
+
+		//
+		// define the animationFrame.
+		var animationFrame = __webpack_require__(76);
+		if (!global.requestAnimationFrame) global.requestAnimationFrame = animationFrame.requestAnimationFrame;
+		if (!global.cancelAnimationFrame) global.cancelAnimationFrame = animationFrame.cancelAnimationFrame;
 
 		var febs = {};
 
@@ -9329,10 +9336,6 @@ if (!global.hasOwnProperty('__debug')) {
 
 		return febs;
 });
-
-var animationFrame = __webpack_require__(76);
-if (!global.requestAnimationFrame) global.requestAnimationFrame = animationFrame.requestAnimationFrame;
-if (!global.cancelAnimationFrame) global.cancelAnimationFrame = animationFrame.cancelAnimationFrame;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(52), __webpack_require__(30)(module)))
 
 /***/ }),

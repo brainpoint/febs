@@ -6,12 +6,6 @@ require('console-polyfill');
 require('../third-party/bluebird.min.js');
 // require('../third-party/bignumber.min.js');
 
-//
-// define the __debug.
-if (!global.hasOwnProperty('__debug')) {
-  global.__debug = false;
-}
-
 
 ( function( global, factory ) {
 
@@ -37,6 +31,22 @@ if (!global.hasOwnProperty('__debug')) {
 
 // Pass this if window is not defined yet
 } )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
+
+
+//
+// define the __debug.
+if (!global.hasOwnProperty('__debug')) {
+  global.__debug = false;
+}
+
+//
+// define the animationFrame.
+var animationFrame  = require('./animationFrame');
+if (!global.requestAnimationFrame)
+  global.requestAnimationFrame = animationFrame.requestAnimationFrame;
+if (!global.cancelAnimationFrame)
+  global.cancelAnimationFrame = animationFrame.cancelAnimationFrame;
+
 
 var febs = {};
 
@@ -70,10 +80,3 @@ window['febs'] = febs;
 return febs;
 }
 );
-
-
-var animationFrame  = require('./animationFrame');
-if (!global.requestAnimationFrame)
-  global.requestAnimationFrame = animationFrame.requestAnimationFrame;
-if (!global.cancelAnimationFrame)
-  global.cancelAnimationFrame = animationFrame.cancelAnimationFrame;

@@ -10,7 +10,7 @@
  */
 'use strict';
 
-var febs = require('../server/index');
+var febs = require('../../server/index');
 var path = require('path');
 var fs   = require('fs');
 var exec = require('child_process').exec;
