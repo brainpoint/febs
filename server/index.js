@@ -35,10 +35,17 @@ if (!global.__line) {
 if (!global.hasOwnProperty('__debug')) {
   Object.defineProperty(global, '__debug', {
    get: function() {
-     return ((process.env.NODE_ENV || 'development') == 'development');
+     if (process.browser)
+      return (!!global.___debug);
+     else
+      return ((process.env.NODE_ENV || 'development') == 'development');
    },
    set: function(isDebug) {
-     process.env.NODE_ENV = (isDebug ? 'development' : 'production');
+     if (process.browser)
+      global.___debug = isDebug;
+     else {
+      process.env.NODE_ENV = (isDebug ? 'development' : 'production');
+     }
    }
   });
 }
@@ -49,7 +56,10 @@ if (!global.hasOwnProperty('__debug')) {
 // if (!console.debug) {
   console.debug = function() {
     if (__debug) {
-      console.warn(...arguments);
+      if (console.warn)
+        console.warn(...arguments);
+      else
+        console.log(...arguments);
     }
   }
 // }

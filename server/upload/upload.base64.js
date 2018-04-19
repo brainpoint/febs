@@ -76,15 +76,19 @@ exports.acceptHeader = function(app, conditionCB, sessionSet)
 
       conditionCB(body.data, body.filesize)
       .then(fn=>{
-        if (febs.file.fileIsExist(fn)) {
-          console.debug('acceptHeader file is existed', __filename, __line);
-          reject('acceptHeader file is existed');
-          return;
+        if (fn) {
+          if (febs.file.fileIsExist(fn)) {
+            console.debug('acceptHeader file is existed', __filename, __line);
+            reject('acceptHeader file is existed');
+            return;
+          }
+          
+          sessionSet({ chunks:Number(body.chunks), filesize:Number(body.filesize), filename:fn, curChunk:0 });
+          app.response.body = {err:0};
+          resolve(true);
+        } else {
+          resolve(false);
         }
-        
-        sessionSet({ chunks:Number(body.chunks), filesize:Number(body.filesize), filename:fn, curChunk:0 });
-        app.response.body = {err:0};
-        resolve(true);
       })
       .catch(e=>{
         reject(e);
