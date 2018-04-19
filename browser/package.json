@@ -1,7 +1,6 @@
 {
   "description": "febs is a useful utilities set in browser",
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
     "bignumber.js": "^4.0.1",
     "console-polyfill": "^0.3.0"
   },
@@ -59,5 +58,5 @@
     "prepare": "node scripts/webpack.build.js"
   },
   "name": "febs-browser",
-  "version": "0.6.6"
+  "version": "0.6.7"
 }

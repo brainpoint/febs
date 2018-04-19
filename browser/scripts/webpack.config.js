@@ -17,7 +17,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('libs'), resolve('third-party'), resolve('dist/febs')],
+        include: [resolve('libs'), resolve('third-party'), resolve('dist/febs'), resolve('../common')],
         query: {
           presets:['es2015', 'stage-0', 'es2015-loose'],
           plugins: [
@@ -30,7 +30,7 @@ module.exports = {
       },
       {
         test: /.js$/,
-        include: [resolve('libs'), resolve('third-party'), resolve('dist/febs')],
+        include: [resolve('libs'), resolve('third-party'), resolve('dist/febs'), resolve('../common')],
         enforce: 'post', // post-loader处理
         loader: 'es3ify-loader'
       }
