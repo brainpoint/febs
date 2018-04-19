@@ -49,12 +49,13 @@
   },
   "files": [
     "doc",
+    "browser",
     "server",
     "test",
     "types"
   ],
   "license": "MIT",
-  "main": "server/index.js",
+  "main": "./index.js",
   "types": "./types/index.d.ts",
   "maintainers": [
     {
@@ -66,5 +67,5 @@
     "test": "tap test/*.js"
   },
   "name": "febs",
-  "version": "0.6.3"
+  "version": "0.6.5"
 }

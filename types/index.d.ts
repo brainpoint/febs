@@ -2,12 +2,20 @@
 
 /// <reference types="node" />
 
-
 declare global {
   const __line: number;
   let __debug: boolean;
 }
 
+
+/**
+ * [only in browser]
+ */
+export function requestAnimationFrame(cb:(tm:number)=>void):any;
+/**
+ * [only in browser]
+ */
+export function cancelAnimationFrame(timer:any):void;
 
 export interface WeekFmt {
   '0'?: string;
@@ -47,6 +55,20 @@ export namespace utils {
   function browserIsIOS(agent?: string): boolean;
   function browserIsPhone(agent?: string): boolean;
   function browserIsWeixin(agent?: string): boolean;
+
+  /**
+   * [only in browser]
+   */
+  function browserIsIE(): boolean;
+  /**
+   * [only in browser]
+   */
+  function browserIEVer(): boolean;
+
+  /**
+   * [only in browser]
+   */
+  function browserIsSupportHtml5(): boolean;
 
   /**
    * @desc: 获取时间的string.
@@ -100,7 +122,7 @@ export namespace utils {
   */
   function isNull(e: any): boolean;
   /**
-  * @desc: 将异步回调方式的方法转换成promise, 函数中的this可以为指定值.
+  * @desc: [only in server] 将异步回调方式的方法转换成promise, 函数中的this可以为指定值.
   *         例如: yield denodeify(fs.exists)(path);
   * @param self: 指定的调用对象
   * @return: promise.
@@ -192,6 +214,7 @@ export interface Base64Result {
 // crypt.
 export namespace crypt {
   /**
+   * @desc [only in server] 
   * @return 生成一个uuid字符串. (uuid v1)
   */
   function uuid(): string;
@@ -202,41 +225,52 @@ export namespace crypt {
    */
   function crc32(str: string, crc?: number): number;
   /**
-   * @desc: [服务端调用] 直接对文件进行计算.
+   * @desc: [only in server] 直接对文件进行计算.
    * @param filename: 文件路径
    * @return: number
    */
   function crc32_file(filename: string): number;
 
   /**
-   * @desc: 计算字符串的md5值
+   * @desc: [only in browser] 通过文件表单控件进行文件的crc32计算.
+   * @param fileObj: 表单文件对象, 例如表单为:
+   *                  <form enctype="multipart/form-data">
+   *                    <input id="file" type="file" name="file" multiple>
+   *                  </form>
+   *             $('#file')[0].files[0] 即为第一个文件对象.
+   * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
+   */
+  function crc32_file(fileObj: object, cb: (crc32: number) => void): void;
+
+  /**
+   * @desc: [only in server] 计算字符串的md5值
    * @return: string.
    */
   function md5(str: string|Buffer): string;
   /**
-   * @desc: [服务端调用] 直接对文件进行计算.
+   * @desc: [only in server] 直接对文件进行计算.
    * @param filename: 文件路径
    * @return: string
    */
   function md5_file(filename: string): string;
   /**
-   * @desc: 计算字符串的sha1值
+   * @desc: [only in server] 计算字符串的sha1值
    * @return: string.
    */
   function sha1(str: string|Buffer): string;
   /**
-   * @desc: [服务端调用] 直接对文件进行计算.
+   * @desc: [only in server] 直接对文件进行计算.
    * @param filename: 文件路径
    * @return: string
    */
   function sha1_file(filename: string): string;
   /**
-  * @desc: base64编码.
+  * @desc: [only in server] base64编码.
   * @return: string.
   */
-  function base64_encode(arrByte: Buffer): string;
+  function base64_encode(arrByte:  Array<number>|Buffer): string;
   /**
-  * @desc: [服务端端调用] 使用上次的解码的数据继续进行base64解码.
+  * @desc: [only in server]  使用上次的解码的数据继续进行base64解码.
   * @return: 
           {
               c1,
@@ -247,6 +281,13 @@ export namespace crypt {
           }.
   */
   function base64_decode(strBase64: string, c2?: number, c3?: number, c4?: number): Base64Result;
+
+
+  /**
+  * @desc: [only in browser] base64解码.
+  * @return: 字节数组.
+  */
+  function base64_decode(strBase64: string): Array<number>;
 }
 
 //
@@ -289,6 +330,36 @@ export namespace net {
     timeout?:number, // 超时 (ms), 默认为5000,
     credentials?:'include'|null|undefined,  // 携带了credentials='include'则服务器需设置Access-Control-Allow-Credentials
   }): Promise<any>;
+
+  /**
+   * @desc: [only in browser] jsonp方式获取数据.
+   *        如果超時, 可以catch到 'timeout'
+   * @param option: 请求选项同fetch. 可以附带如下的更多属性. jsonp只能使用`get`方式.
+   *          {
+                jsonpCallback, // jsonp请求时附带到地址中的callback参数, 默认为 'callback';
+                              // 服务端需将查询字符串中的此参数作为返回数据中 `callback`([data])的 callback值
+              }
+  * @return: 返回 Promise;
+  * @e.g.
+        febs.net.jsonp(url, {})
+        .then(response=>response.json())
+        .then(data=>{})
+        .catch(err=>{
+          if (err === 'timeout)  // 超时.
+        });
+  */
+  function jsonp(url: string, option: {
+    method?:string, // 请求方法 get, post, delete 等.
+    mode?:string|'no-cors'|'cors'|'same-origin',   // 'no-cors', 'same-origin'等; (可忽略)
+    headers?:any, // 请求header, 例如:
+                  // {
+                  //   "Content-Type": "application/json",
+                  //   "Accept": 'application/json',
+                  // }
+    body?:string,    // 请求内容.
+    timeout?:number, // 超时 (ms), 默认为5000,
+    credentials?:'include'|null|undefined,  // 携带了credentials='include'则服务器需设置Access-Control-Allow-Credentials
+  }): Promise<any>;
 }
 
 //
@@ -315,28 +386,28 @@ export interface DirExplorerRet {
 // file.
 export namespace file {
   /**
-   * @desc: 判断文件夹是否存在.
+   * @desc: [only in server]  判断文件夹是否存在.
    * @return: boolean.
    */
   function dirIsExist(dir: string): boolean;
   /**
-   * @desc: 保证文件夹存在.
+   * @desc: [only in server]  保证文件夹存在.
    * @return: bool. 若不存在新建; 文件夹存在返回true.
    */
   function dirAssure(dir: string): boolean;
   /**
-   * @desc: 复制文件夹.
+   * @desc: [only in server]  复制文件夹.
    * @param callback: (err) => {}, 执行此函数时表示复制完成.
    * @return: bool.
    */
   function dirCopy(src: string, dest: string, callback: (err: any) => void): void;
   /**
-   * @desc: 删除文件夹.
+   * @desc: [only in server]  删除文件夹.
    * @return:bool.指明是否删除.
    */
   function dirRemoveRecursive(dir: string): boolean;
   /**
-  * @desc: 获取当前目录下的子文件与子目录.
+  * @desc: [only in server]  获取当前目录下的子文件与子目录.
   * @param dir: 要搜索的目录路径.
   * @param pattern: 子文件或子目录名称,匹配的正则表达式
   *                 仅从名称的第一个字符开始匹配, 例如: / a.* /, 匹配 a开头的文件名.
@@ -344,7 +415,7 @@ export namespace file {
   */
   function dirExplorer(dir: string): DirExplorerRet | null;
   /**
-  * @desc: 递归获取当前目录下的所有子文件.
+  * @desc: [only in server]  递归获取当前目录下的所有子文件.
   * @param dir: 要搜索的目录路径.
   * @param pattern: 子文件或子目录名称,匹配的正则表达式
   *                 仅从名称的第一个字符开始匹配, 例如: / a.* /, 匹配 a开头的文件名.
@@ -352,7 +423,7 @@ export namespace file {
   */
   function dirExplorerFilesRecursive(dir: string, pattern: RegExp): Array<string> | null;
   /**
-  * @desc: 递归获取当前目录下的所有子目录.
+  * @desc: [only in server]  递归获取当前目录下的所有子目录.
   * @param dir: 要搜索的目录路径.
   * @param pattern: 子文件或子目录名称,匹配的正则表达式
   *                 仅从名称的第一个字符开始匹配, 例如: / a.* /, 匹配 a开头的文件名.
@@ -360,23 +431,23 @@ export namespace file {
   */
   function dirExplorerDirsRecursive(dir: string, pattern: RegExp): Array<string> | null;
   /**
-   * @desc: 获得文件的字节大小.
+   * @desc: [only in server]  获得文件的字节大小.
    * @return: number.-1表示错误.
    */
   function fileSize(file: string): number;
   /**
-   * @desc: 判断文件是否存在.
+   * @desc: [only in server]  判断文件是否存在.
    * @return: boolean.
    */
   function fileIsExist(file: string): boolean;
   /**
-   * @desc: 复制文件.
+   * @desc: [only in server]  复制文件.
    * @param callback: (err) => {}, 执行此函数时表示复制完成.
    * @return: bool.
    */
   function fileCopy(src: string, dest: string, callback: (err: any) => void): boolean;
   /**
-   * @desc: 移除文件.
+   * @desc: [only in server]  移除文件.
    * @return: bool.指明是否删除.
    */
   function fileRemove(file: string): boolean;
@@ -385,7 +456,7 @@ export namespace file {
 
 export namespace upload {
   /**
-   * [服务端调用] 接收上传文件内容.
+   * @desc: [only in server]  接收上传文件内容.
    * @param conditionCB: async function(data, filesize, filename, filemimeType):string.
    *                      - data: 用户上传的数据.
    *                      - filesize: 将要存储的文件大小.
@@ -399,7 +470,7 @@ export namespace upload {
   function accept(app: any, conditionCB: (data: any, filesize: number, filename: string, filemimeType: string) => Promise<string>): Promise<boolean>;
 
   /**
-   * 准备接收上传文件.
+   * @desc: [only in server]  准备接收上传文件.
    * @param conditionCB: async function(data, filesize):string.
    *                      - filesize: 将要存储的文件大小(base64大小)
    *                      - data: 用户上传的数据.
@@ -411,7 +482,7 @@ export namespace upload {
    */
   function base64_acceptHeader(app: any, conditionCB: (data: any, filesize: number) => Promise<string>, sessionSet: (data: any) => void): Promise<boolean>;
   /**
-   * 上传文件内容.
+   * @desc: [only in server]  上传文件内容.
    *  发生错误会自动调用 cleanup
    * @param finishCB: async function(filename):object.
    *                      - filename: 本地存储的文件名.
@@ -425,7 +496,7 @@ export namespace upload {
    */
   function base64_accept(app: any, finishCB: (filename: string) => Promise<any>, sessionGet: () => any, sessionSet: (data: any) => void, sessionClear: () => void): Promise<any>;
   /**
-  * @desc: 在用户登出或其他中断传输中清除上传的数据.
+  * @desc: [only in server]  在用户登出或其他中断传输中清除上传的数据.
   * @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
   * @param sessionClear: function() {} 用于清除存储在session中的临时信息
   * @return: 

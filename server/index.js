@@ -35,17 +35,10 @@ if (!global.__line) {
 if (!global.hasOwnProperty('__debug')) {
   Object.defineProperty(global, '__debug', {
    get: function() {
-     if (process.browser)
-      return (!!global.___debug);
-     else
       return ((process.env.NODE_ENV || 'development') == 'development');
    },
    set: function(isDebug) {
-     if (process.browser)
-      global.___debug = isDebug;
-     else {
       process.env.NODE_ENV = (isDebug ? 'development' : 'production');
-     }
    }
   });
 }

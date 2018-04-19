@@ -1,5 +1,13 @@
 febs 库是一些常用的工具的合集;
 
+支持browser端与node server端;
+
+browser支持 IE9及以上.
+
+febs 包含browser端与server端代码.
+独立的 browser端代码在 [febs-browser](https://www.npmjs.com/package/febs-browser) 库中
+
+
 # Install
 
 Use npm to install:
@@ -23,7 +31,7 @@ febs.string.replace();
 
 以下列方式使用
 
-> copy directory `node_modules/febs/dist/febs` to client
+> copy directory `node_modules/febs/browser/dist/febs` to client
 
 ```html
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />  <!-- 如ie9等早期浏览器提示使用最新渲染器 -->
@@ -52,7 +60,6 @@ febs.string.replace();
 
 febs web库分为客户端与服务器端;
 
-客户端在 [febs-browser](https://www.npmjs.com/package/febs-browser) 库中
 
 - 通用于客户端与服务端的库如下
   - [utils](#utils)
@@ -108,35 +115,35 @@ febs.utils.sleep(ms)
  * @desc: the browser is mobile.
  * @param userAgent: 在服务器调用时需传入客户端的userAgent
  */
-febs.utils.browserIsMobile()
+febs.utils.browserIsMobile(userAgent?:string)
 /**
  * @desc: the browser is ios.
  * @param userAgent: 在服务器调用时需传入客户端的userAgent
  */
-febs.utils.browserIsIOS()
+febs.utils.browserIsIOS(userAgent?:string)
 /**
  * @desc: the browser is phone.
  * @param userAgent: 在服务器调用时需传入客户端的userAgent
  */
-febs.utils.browserIsPhone()
+febs.utils.browserIsPhone(userAgent?:string)
 /**
  * @desc: the browser is weixin.
  * @param userAgent: 在服务器调用时需传入客户端的userAgent
  */
-febs.utils.browserIsWeixin()
+febs.utils.browserIsWeixin(userAgent?:string)
 /**
-* @desc: 判断是否是ie.
+* @desc: [only in browser] 判断是否是ie.
 */
 febs.utils.browserIsIE()
 /**
-* @desc: 判断ie版本号.
+* @desc: [only in browser] 判断ie版本号.
 * @return number. 非ie返回Number.MAX_SAFE_INTEGER.
 */
 febs.utils.browserIEVer()
 /**
- * @desc: the browser is support html5.
+ * @desc: [only in browser] the browser is support html5.
  */
-febs.utils.browserIsSupportHtml5()  `服务端不支持`
+febs.utils.browserIsSupportHtml5()
 ```
 ```js
 /**
@@ -401,7 +408,7 @@ net封装了浏览器通信方法: fetch, jsonp
  */
 febs.net.fetch(url, option)
 /**
- * @desc: jsonp方式获取数据.
+ * @desc: [only in browser] jsonp方式获取数据.
  *        如果超時, 可以catch到 'timeout'
  * @param option: 请求选项同fetch. 可以附带如下的更多属性. jsonp只能使用`get`方式.
  *          {
