@@ -2,7 +2,10 @@ febs 库是一些常用的工具的合集;
 
 支持browser端与node server端;
 
-browser支持 IE9及以上.
+- browser支持 IE9及以上.
+- browser支持常用的jquery操作, 可以在大多数场景下替代jquery.
+
+browser详见 [reamde](./browser/README.md)
 
 febs 包含browser端与server端代码.
 独立的 browser端代码在 [febs-browser](https://www.npmjs.com/package/febs-browser) 库中
@@ -69,6 +72,7 @@ febs web库分为客户端与服务器端;
 
 - 客户端独有库
   - [animationFrame](#animationFrame)
+  - [jquery模拟](./browser/README.md)
 
 - 服务端独有库
   - [exception](#exception)

@@ -6,7 +6,6 @@ require('console-polyfill');
 require('../third-party/bluebird.min.js');
 // require('../third-party/bignumber.min.js');
 
-
 ( function( global, factory ) {
 
 	"use strict";
@@ -54,9 +53,12 @@ febs.string = require('./string');
 febs.crypt  = require('./crypt');
 febs.utils  = require('./utils');
 febs.net  = require('./net');
+febs.dom  = require('./dom');
+febs['$'] = function(n) { return new febs.dom(n); }
 
 window['febs'] = febs;
-
+if (!window['$'])
+  window['$'] = febs['$'];
 
 //
 // debug.

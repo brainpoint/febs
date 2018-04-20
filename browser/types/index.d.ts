@@ -195,7 +195,7 @@ export namespace crypt {
    *                  <form enctype="multipart/form-data">
    *                    <input id="file" type="file" name="file" multiple>
    *                  </form>
-   *             $('#file')[0].files[0] 即为第一个文件对象.
+   *             dom('#file')[0].files[0] 即为第一个文件对象.
    * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
    */
   function crc32_file(fileObj: object, cb: (crc32: number) => void): void;
@@ -282,3 +282,168 @@ export namespace net {
     credentials?:'include'|null|undefined,  // 携带了credentials='include'则服务器需设置Access-Control-Allow-Credentials
   }): Promise<any>;
 }
+
+
+//
+// like jquery.
+export class dom {
+
+  /**
+   * 支持 
+   *    - .name 使用类名构建.
+   *    - #name 使用id名构建.
+   *    - name  使用tag名构建.
+   *    - <div...>...</div> 使用内容构建.
+   *    - node.
+   * 不支持带空格多层结构的情况.
+   */
+  constructor(name:string);
+
+  /**
+   * @desc: hasClass
+   */
+  hasClass( cName:string ): boolean;
+
+  /**
+   * @desc: addClass
+   */
+  addClass( cName:string ): dom;
+
+  /**
+   * @desc: removeClass
+   */
+  removeClass( cName:string ): dom;
+
+  /**
+   * @desc: toggleClass
+   */
+  toggleClass( cName:string ): dom;
+
+  /**
+   * @desc: remove
+   */
+  remove(): void;
+
+  /**
+   * @desc: append
+   */
+  append(node:any): dom;
+
+  /**
+   * appendTo
+   */
+  appendTo(node:any): dom;
+
+  /**
+   * @desc: prepend
+   */
+  prepend(node:any): dom;
+
+  /**
+   * @desc: prependTo
+   */
+  prependTo(node:any): dom;
+
+  /**
+   * @desc: before
+   */
+  before(node:any): dom;
+
+  /**
+   * insertBefore
+   */
+  insertBefore(node:any): dom;
+
+  /**
+   * @desc: after
+   */
+  after(node:any): dom;
+
+  /**
+   * @desc: insertAfter
+   */
+  insertAfter(node:any): dom;
+
+  /**
+   * @desc: attr.
+   */
+  attr(attrName:any, value:any): string;
+
+  /**
+   * @desc: removeAttr
+   */
+  removeAttr(name:any): dom;
+
+  /**
+  * @desc: empty.
+  */
+  empty(): dom;
+
+  /**
+  * @desc: html.
+  */
+  html(v:string): string;
+
+
+  /**
+  * @desc: text.
+  */
+  text(v:string): string;
+
+  /**
+  * @desc: val.
+  */
+  val(v:string): string;
+
+
+  /**
+  * @desc: css.
+  */
+  css(name:string, value:string): string;
+
+  /**
+  * @desc: on.
+  */
+  on(eventname:string, foo:any): dom;
+
+  /**
+  * @desc: one.
+  */
+  one(event:string, f:any): dom;
+
+  /**
+  * @desc: off.
+  */
+  off(eventname:string, foo?:any): dom;
+
+  /**
+  * @desc: trigger.
+  */
+  trigger(eventname:string): dom;
+
+  ready(f?:any):dom;
+  unload(f?:any):dom;
+  blur(f?:any):dom;
+  change(f?:any):dom;
+  click(f?:any):dom;
+  dblclick(f?:any):dom;
+  error(f?:any):dom;
+  keydown(f?:any):dom;
+  keypress(f?:any):dom;
+  keyup(f?:any):dom;
+  load(f?:any):dom;
+  mousedown(f?:any):dom;
+  mouseenter(f?:any):dom;
+  mouseleave(f?:any):dom;
+  mousemove(f?:any):dom;
+  mouseout(f?:any):dom;
+  mouseover(f?:any):dom;
+  mouseup(f?:any):dom;
+  scroll(f?:any):dom;
+  select(f?:any):dom;
+  submit(f?:any):dom;
+
+  [index:number]: any;
+}
+
+export function $(n:any):dom;

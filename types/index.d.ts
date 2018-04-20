@@ -1,6 +1,7 @@
 // Type definitions for febs
 
 /// <reference types="node" />
+/// <reference path="../browser/types/index.d.ts" />
 
 declare global {
   const __line: number;

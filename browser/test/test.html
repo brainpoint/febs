@@ -2,11 +2,12 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <script charset='UTF-8' type="text/javascript" src="./jquery-1.11.3.min.js"></script>
     <script charset='UTF-8' type="text/javascript" src="../dist/febs/febs.js"></script>
   </head>
   <body>
     将在console中输出调用日志
+    <div id="test_elem"></div>
+    <div class="test_elem"></div>
     <script>
     
     var assert = console.assert;
@@ -40,9 +41,10 @@
 
     // assert.
     function febs_assert(fooName, valueCB, call) {
-      console.log(fooName, call());
+      var tt = call();
+      console.log(fooName, tt);
       if (!febs.utils.isNull(valueCB)) {
-        assert(valueCB(call()), fooName);
+        assert(valueCB(tt), fooName);
       }
     }
 

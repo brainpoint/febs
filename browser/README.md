@@ -1,5 +1,9 @@
 febs 库是一些常用的工具的合集;
 
+febs库模拟了jquery的常用方法(dom操作/事件/css等), 当页面未引入jquery时, 会自动设置全局变量 `$` 为内部实现的jquery相关方法.
+
+大多数场景下可以使用febs库代替jquery, 而解决jquery臃肿的问题.
+
 # Install
 
 Use npm to install:
@@ -50,21 +54,12 @@ febs.string.replace();
 
 ![](../doc/framework.png)
 
-febs web库分为客户端与服务器端;
-
-- 通用于客户端与服务端的库如下
   - [utils](#utils)
   - [string](#string)
   - [crypt](#crypt)
-
-- 客户端独有库
   - [animationFrame](#animationFrame)
   - [net](#net)
-
-- 服务端独有库
-  - [exception](#exception)
-  - [file](#file)
-  - [upload](#upload)
+  - [$](#jquery)
 
 # 说明
 
@@ -191,13 +186,6 @@ febs.utils.mergeMap(...)
 * @return: boolean
 */
 febs.utils.isNull(e)
-/**
-* @desc: 将异步回调方式的方法转换成promise, 函数中的this可以为指定值.
-*         例如: yield denodeify(fs.exists)(path);
-* @param self: 指定的调用对象
-* @return: promise.
-*/
-febs.utils.denodeify(fn, self, argumentCount)   `仅服务端`
 ```
 
 ```js
@@ -260,54 +248,6 @@ febs.string.replace(str, strSrc, strDest)
 
 # crypt
 目前提供了uuid,crc32,base64.
-
-服务端独有.
-```js
-/**
- * @desc: 计算md5.
- * @return: string
- */
-febs.crypt.md5( strOrBuffer )
-/**
- * @desc: 直接对文件进行计算.
- * @param filename: 文件路径
- * @return: string
- */
-febs.crypt.md5_file(filename)
-/**
- * @desc: 计算sh1.
- * @return: string
- */
-febs.crypt.sha1( strOrBuffer )
-/**
- * @desc: 直接对文件进行计算.
- * @param filename: 文件路径
- * @return: string
- */
-febs.crypt.sha1_file(filename)
-/**
-* @return 生成一个uuid字符串. (uuid v1)
-*/
-febs.crypt.uuid()
-/**
- * @desc: 直接对文件进行计算.
- * @param filename: 文件路径
- * @return: number
- */
-febs.crypt.crc32_file(filename)
-/**
-* @desc: 使用上次的解码的数据继续进行base64解码.
-* @return: 
-        {
-            c1,
-            c2,
-            c3,
-            c4,
-            data, // 字节数组
-        }.
-*/
-febs.crypt.base64_decode(strBase64, c2 = 0, c3 = 0, c4 = 0)
-```
 
 客户端独有.
 ```js
@@ -418,302 +358,166 @@ febs.net.fetch(url, option)
 febs.net.jsonp(url, option)
 ```
 
+# jquery
 
-# exception
-定义了服务端常用的错误类型.
+febs库模拟了jquery的常用方法(dom操作/事件/css等), 当页面未引入jquery时, 会自动设置全局变量 `$` 为内部实现的jquery相关方法.
 
-    febs.code = code;
-    febs.msg = msg;
-    febs.filename = filename;
-    febs.line = line;
-```js
-// @desc: 一般错误.
-febs.exception.ERROR
-// @desc: 参数错误.
-febs.exception.PARAM
-// @desc: 越界
-febs.exception.OUT_OF_RANGE
-```
-异常类如下
-```js
-/**
-* @desc: 构造异常对象.
-* @param msg: 异常消息
-* @param code: 异常代码
-* @param filename: 异常文件名
-* @param line: 异常文件所在行
-* @return: 
-*/
-febs.exception(msg, code, filename, line)
-```
-
-# file
-```js
-/**
- * @desc: 判断文件夹是否存在.
- * @return: boolean.
- */
-febs.file.dirIsExist(dir)
-/**
- * @desc: 保证文件夹存在.
- * @return: bool. 若不存在新建; 文件夹存在返回true.
- */
-febs.file.dirAssure(dir)
-/**
- * @desc: 复制文件夹.
- * @param callback: (err) => {}, 执行此函数时表示复制完成.
- * @return: bool.
- */
-febs.file.dirCopy(src, dest, callback)
-/**
- * @desc: 删除文件夹.
- * @return:bool.指明是否删除.
- */
-febs.file.dirRemoveRecursive(dir)
-/**
-* @desc: 获取当前目录下的子文件与子目录.
-* @param dir: 要搜索的目录路径.
-* @param pattern: 子文件或子目录名称,匹配的正则表达式
-*                 仅从名称的第一个字符开始匹配, 例如: / a.* /, 匹配 a开头的文件名.
-* @return: {files:[], dirs:[]}; 发生错误返回null.
-*/
-febs.file.dirExplorer(dir)
-/**
-* @desc: 递归获取当前目录下的所有子文件.
-* @param dir: 要搜索的目录路径.
-* @param pattern: 子文件或子目录名称,匹配的正则表达式
-*                 仅从名称的第一个字符开始匹配, 例如: / a.* /, 匹配 a开头的文件名.
-* @return: Array; 发生错误返回null.
-*/
-febs.file.dirExplorerFilesRecursive(dir, pattern)
-/**
-* @desc: 递归获取当前目录下的所有子目录.
-* @param dir: 要搜索的目录路径.
-* @param pattern: 子文件或子目录名称,匹配的正则表达式
-*                 仅从名称的第一个字符开始匹配, 例如: / a.* /, 匹配 a开头的文件名.
-* @return: Array; 发生错误返回null.
-*/
-febs.file.dirExplorerDirsRecursive(dir, pattern)
-/**
- * @desc: 获得文件的字节大小.
- * @return: number.-1表示错误.
- */
-febs.file.fileSize(file)
-/**
- * @desc: 判断文件是否存在.
- * @return: boolean.
- */
-febs.file.fileIsExist(file)
-/**
- * @desc: 复制文件.
- * @param callback: (err) => {}, 执行此函数时表示复制完成.
- * @return: bool.
- */
-febs.file.fileCopy(src, dest, callback)
-/**
- * @desc: 移除文件.
- * @return: bool.指明是否删除.
- */
-febs.file.fileRemove(file)
-```
-
-
-# upload
-
-## multipart/form-data方式上传.
+目前已经实现的方法如下:
 
 ```js
-/**
- * 接收上传文件内容. 接收客户端  multipart/form-data方式上传的数据.
- * @param conditionCB: async function(data, filesize, filename, filemimeType):string.
- *                      - data: 用户上传的数据.
- *                      - filesize: 将要存储的文件大小.
- *                      - filename: 上传的文件名.
- *                      - filemimeType: 文件类型, 例如: 'image/jpeg'.
- *                      - return: 存储的文件路径, 返回null表示不存储.
- * @return Promise.
- * @resolve
- *     - bool. 指明是否存储成功.
- */
-febs.upload.accept(ctx, conditionCB)
-```
 
-## base64数据流分段方式上传.
+  /**
+   * 支持 
+   *    - .name 使用类名构建.
+   *    - #name 使用id名构建.
+   *    - name  使用tag名构建.
+   *    - <div...>...</div> 使用内容构建.
+   *    - node.
+   * 不支持带空格多层结构的情况.
+   */
+  $();
 
-```js
-/**
- * 准备接收上传文件.
- * @param conditionCB: async function(data, filesize):string.
- *                      - filesize: 将要存储的文件大小(base64大小)
- *                      - data: 用户上传的数据.
- *                      - return: 本地存储的文件路径, 返回null表示不存储. 存储的文件必须不存在.
- * @param sessionSet:  function(data){} 用于设置存储在session中的临时文件信息;
- * @return Promise.
- * @resolve
- *     - bool. 指明是否开始接收文件流.
- */
-febs.upload.base64_acceptHeader(ctx, conditionCB, sessionSet)
-```
-```js
-/**
- * 上传文件内容.
- *  发生错误会自动调用 cleanup
- * @param finishCB: async function(filename):object.
- *                      - filename: 本地存储的文件名.
- *                      - return: 返回给客户端的数据. 不能包含err数据.
- *
- * @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
- * @param sessionSet:  function(data){} 用于设置存储在session中的临时文件信息;
- * @param sessionClear: function() {} 用于清除存储在session中的临时信息
- * @return Promise
- * @resolve
- */
-febs.upload.base64_accept(ctx, finishCB, sessionGet, sessionSet, sessionClear)
-```
-```js
-/**
-* @desc: 在用户登出或其他中断传输中清除上传的数据.
-* @param sessionGet:  function() {} 用于获取存储在session中的临时文件信息;
-* @param sessionClear: function() {} 用于清除存储在session中的临时信息
-* @return: 
-*/
-febs.upload.base64_cleanup(sessionGet, sessionClear, cleanFile = true)
-```
+  /**
+   * @desc: hasClass
+   */
+  hasClass( cName:string ): boolean;
 
+  /**
+   * @desc: addClass
+   */
+  addClass( cName:string ): $;
 
-## multipart/form-data方式实例
+  /**
+   * @desc: removeClass
+   */
+  removeClass( cName:string ): $;
 
-```js
-/**
- * Desc:
- *      upload控件使用一个接口来上传文件, 使用multpart/form-data方式传输:
- *          1. uploadUrl: 上传文件.
- * Example:
- *      前台引入:
- *          1. 在需要upload的页面上引入 control_upload.hbs页面; 或者使用如下语句:
- *                <form method="post" role="form" enctype="multipart/form-data" id="fileForm">
- *                  <input type="file" class="form-control" name="file" onchange="febs.controls.upload(cfg)" multiple>
- *                </form>
- *      后台:
- *          1. 在uploadUrl中调用  await require('febs').upload.accept(ctx, conditionCB); 当满足条件时将存储, 并返回true表示成功.
- */
-```
+  /**
+   * @desc: toggleClass
+   */
+  toggleClass( cName:string ): $;
 
- 客户端使用multipart/form-data方式上传文件时, 需使用url参数上传如下参数:
+  /**
+   * @desc: remove
+   */
+  remove(): void;
 
-| name           | description |
-|----------------|-------------|
-| crc32  | 文件内容的crc32计算值   |
-| size  |  文件字节大小  |
-| data  | (可选) 自定义数据; 自定义数据会在字节流上传完成后, 通过回调传递.  |
+  /**
+   * @desc: append
+   */
+  append(node:any): $;
 
-> 例如: 上传url为 `/upload?crc32=2134141&size=11231`
+  /**
+   * appendTo
+   */
+  appendTo(node:any): $;
 
-也可以在浏览器端直接使用 `febs-ui` 中的上传方法.
+  /**
+   * @desc: prepend
+   */
+  prepend(node:any): $;
 
-服务端调用如下接口接收文件.
+  /**
+   * @desc: prependTo
+   */
+  prependTo(node:any): $;
 
-```js
-exports.upload = async function(ctx, next)
-{
-  var r = await require('febs').upload.accept(ctx, async function(data, filesize, filename, filemimeType){
-    console.log(filesize);
-    console.log(filename);
-    console.log(filemimeType);
+  /**
+   * @desc: before
+   */
+  before(node:any): $;
 
-    return 'tempPath/temp.filename';  // 返回空, 则表明不存在文件.
-  });
-};
-```
+  /**
+   * insertBefore
+   */
+  insertBefore(node:any): $;
 
-前台:
-```js
-<script type="text/javascript" charset="utf-8" src="/jquery/jquery.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="/jquery/jquery.form.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="/febs/febs.min.js"></script>
+  /**
+   * @desc: after
+   */
+  after(node:any): $;
 
-<script type="text/javascript">
-function upload() {
-  febs.ui.upload({  // 引入febs-ui库.
-    formObj:  $('#fileForm'),
-    fileObj:  $("#filec"),
-    uploadUrl:  '/uploadFile',
-    finishCB: function(err, fileObj, serverData){
-      console.log(serverData);
-    },
-    progressCB: function(fileObj, percent){
-      console.log(percent);
-    })
-  });
+  /**
+   * @desc: insertAfter
+   */
+  insertAfter(node:any): $;
 
-}
-</script>
+  /**
+   * @desc: attr.
+   */
+  attr(attrName:any, value:any): string;
 
-<form method="post" role="form" enctype="multipart/form-data" id="fileForm">
-  <input id="filec" type="file" name="file" onchange="javascript:upload()" multiple>
-</form>
-```
+  /**
+   * @desc: removeAttr
+   */
+  removeAttr(name:any): $;
 
-## base64方式上传.
+  /**
+  * @desc: empty.
+  */
+  empty(): $;
 
-base64方式上传, 浏览器端将数据编码为base64后, 分段上传给服务端; 服务端对数据进行分段解码后存储至文件中.
+  /**
+  * @desc: html.
+  */
+  html(v:string): string;
 
 
-服务端调用如下接口接收文件.
+  /**
+  * @desc: text.
+  */
+  text(v:string): string;
 
-```js
-// 处理上传请求.
-exports.uploadByBase64Header = async function (ctx) {
-    await febs.upload.base64_acceptHeader(ctx, 
-      async function(data, filesize){
-          return "/tmp/filename.jpg";
-      }, function(data){ // set upload sessoin info.
-          ctx.session.uploadSegInfo = data;
-      });
-}
+  /**
+  * @desc: val.
+  */
+  val(v:string): string;
 
-// 处理上传片段.
-exports.uploadByBase64 = async function (ctx) {
-    await febs.upload.base64_accept(ctx, 
-      async function(filename){
-          let img = sharp(filename);
-          let info = await img.metadata();
-          return febs.utils.mergeMap(errCode.OK, { width: info.width, height: info.height });
-      }, function(){  // get upload session info.
-          return ctx.session.uploadSegInfo;
-      }, function(data){ // set upload sessoin info.
-          ctx.session.uploadSegInfo = data;
-      }, function() {  // clear upload session info.
-          ctx.session.uploadSegInfo = undefined;
-      });
-}
-```
 
-前台:
-```js
-<script type="text/javascript" charset="utf-8" src="/jquery/jquery.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="/febs/febs.min.js"></script>
+  /**
+  * @desc: css.
+  */
+  css(name:string, value:string): string;
 
-<script type="text/javascript">
-  febs.ui.uploadBase64({    // 引入febs-ui库.
-      data: {msg :'这是一个用户数据'},
-      fileBase64Str: base64Imagestr,
-      headerUrl: '/api/mgr/uploadimgByBase64Header',
-      uploadUrl: '/api/mgr/uploadimgByBase64',
-      finishCB: function(err, serverData) {
-        if (err) {
-          console.log('err: ');
-          console.log(err);
-          console.log(serverData);
-        }
-        else {
-          console.log('finish: ');
-          console.log(serverData);
-        }
-      },
-      progressCB: function(percent) {
-        console.log(Math.ceil(percent*100)+'%');
-      }
-    });
-</script>
+  /**
+  * @desc: on.
+  */
+  on(eventname:string, foo:any): $;
+
+  /**
+  * @desc: one.
+  */
+  one(event:string, f:any): $;
+
+  /**
+  * @desc: off.
+  */
+  off(eventname:string, foo:any): $;
+
+  /**
+  * @desc: trigger.
+  */
+  trigger(eventname:string): $;
+
+  ready(f?:any):$;
+  unload(f?:any):$;
+  blur(f?:any):$;
+  change(f?:any):$;
+  click(f?:any):$;
+  dblclick(f?:any):$;
+  error(f?:any):$;
+  keydown(f?:any):$;
+  keypress(f?:any):$;
+  keyup(f?:any):$;
+  load(f?:any):$;
+  mousedown(f?:any):$;
+  mouseenter(f?:any):$;
+  mouseleave(f?:any):$;
+  mousemove(f?:any):$;
+  mouseout(f?:any):$;
+  mouseover(f?:any):$;
+  mouseup(f?:any):$;
+  scroll(f?:any):$;
+  select(f?:any):$;
+  submit(f?:any):$;
 ```
