@@ -284,6 +284,16 @@ febs.crypt.crc32( str, crc )
 * @return: string.
 */
 febs.crypt.base64_encode(arrByte)
+/**
+ * @desc: 计算md5.
+ * @return: string
+ */
+febs.crypt.md5( strOrBuffer )
+/**
+ * @desc: 计算sh1.
+ * @return: string
+ */
+febs.crypt.sha1( strOrBuffer )
 ```
 
 # animationFrame

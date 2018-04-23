@@ -199,6 +199,17 @@ export namespace crypt {
    * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
    */
   function crc32_file(fileObj: object, cb: (crc32: number) => void): void;
+
+  /**
+   * @desc: 计算字符串的md5值
+   * @return: string.
+   */
+  function md5(str: string|Buffer): string;
+  /**
+   * @desc: 计算字符串的sha1值
+   * @return: string.
+   */
+  function sha1(str: string|Buffer): string;
   /**
   * @desc: base64编码.
   * @param arrByte: 字节数组.

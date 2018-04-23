@@ -244,7 +244,7 @@ export namespace crypt {
   function crc32_file(fileObj: object, cb: (crc32: number) => void): void;
 
   /**
-   * @desc: [only in server] 计算字符串的md5值
+   * @desc: 计算字符串的md5值
    * @return: string.
    */
   function md5(str: string|Buffer): string;
@@ -255,7 +255,7 @@ export namespace crypt {
    */
   function md5_file(filename: string): string;
   /**
-   * @desc: [only in server] 计算字符串的sha1值
+   * @desc: 计算字符串的sha1值
    * @return: string.
    */
   function sha1(str: string|Buffer): string;

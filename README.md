@@ -278,21 +278,11 @@ febs.string.replace(str, strSrc, strDest)
 服务端独有.
 ```js
 /**
- * @desc: 计算md5.
- * @return: string
- */
-febs.crypt.md5( strOrBuffer )
-/**
  * @desc: 直接对文件进行计算.
  * @param filename: 文件路径
  * @return: string
  */
 febs.crypt.md5_file(filename)
-/**
- * @desc: 计算sh1.
- * @return: string
- */
-febs.crypt.sha1( strOrBuffer )
 /**
  * @desc: 直接对文件进行计算.
  * @param filename: 文件路径
@@ -350,6 +340,16 @@ febs.crypt.base64_decode(strBase64)
  * @return: number.
  */
 febs.crypt.crc32( str, crc )
+/**
+ * @desc: 计算md5.
+ * @return: string
+ */
+febs.crypt.md5( strOrBuffer )
+/**
+ * @desc: 计算sh1.
+ * @return: string
+ */
+febs.crypt.sha1( strOrBuffer )
 /**
 * @desc: base64编码.
 * @param arrByte: 字节数组.

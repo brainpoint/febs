@@ -100,6 +100,9 @@
     febs_assert('febs.crypt.crc32', function(r){return r==-130231503;}, function(){return febs.crypt.crc32('12313sdfgwegw')});
     febs_assert('febs.crypt.base64_encode', function(r){return r=='DAT/eg==';}, function(){return febs.crypt.base64_encode([12,4,255,122])});
     febs_assert('febs.crypt.base64_encode', function(r){return [12,4,255,122].toString()==r.toString();}, function(){return febs.crypt.base64_decode('DAT/eg==')});
+    febs_assert('febs.crypt.sha1', function(r){return r=='7c4a8d09ca3762af61e59520943dc26494f8941b';}, function(){return febs.crypt.sha1('123456')});
+    febs_assert('febs.crypt.md5', function(r){return r=='e10adc3949ba59abbe56e057f20f883e';}, function(){return febs.crypt.md5('123456')});
+    
 
     // net.
     febs_assert('febs.net.fetch', null, function(){febs.net.fetch('http://test2.citongs.com/api/batch', {
