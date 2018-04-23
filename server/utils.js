@@ -6,7 +6,7 @@
  * Desc:
  */
 
-var utils = require('../common/utils');
+var utils = require('../browser/common/utils');
 
 /**
  * @desc: 模拟sleep.

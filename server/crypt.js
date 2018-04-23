@@ -9,7 +9,7 @@
 var fs    = require('fs');
 var crypto = require('crypto');
 var uuidv1   = require('uuid/v1');
-var crypt = require('../common/crypt');
+var crypt = require('../browser/common/crypt');
 
 /**
  * @desc: 计算crc32值.

@@ -7,7 +7,7 @@
  */
 
 
-var string = require('../../common/string');
+var string = require('../common/string');
 
 /**
 * @desc: 判断是否是手机号码.

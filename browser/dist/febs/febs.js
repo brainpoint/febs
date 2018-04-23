@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 168);
+/******/ 	return __webpack_require__(__webpack_require__.s = 171);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1137,7 +1137,7 @@ module.exports = __webpack_require__(0).getIteratorMethod = function (it) {
 
 var _Number$MAX_SAFE_INTEGER = __webpack_require__(94)['default'];
 
-var utils = __webpack_require__(171);
+var utils = __webpack_require__(170);
 
 /**
  * @desc: 模拟sleep.
@@ -1835,7 +1835,7 @@ var _typeof = __webpack_require__(12)["default"];
  *  crc32_file(file, function(crc32Value) {})
  */
 
-var crypt = __webpack_require__(169);
+var crypt = __webpack_require__(168);
 var sha1 = __webpack_require__(87);
 var md5 = __webpack_require__(86);
 
@@ -3986,7 +3986,7 @@ var febsUtils = __webpack_require__(53);
  * Desc:
  */
 
-var string = __webpack_require__(170);
+var string = __webpack_require__(169);
 
 /**
 * @desc: 判断是否是手机号码.
@@ -12714,91 +12714,6 @@ $export($export.G + $export.B, {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global, module) {
-
-var _typeof = __webpack_require__(12)['default'];
-
-// require('es5-shim');
-// require('es5-shim/es5-sham');
-__webpack_require__(78);
-// require('babel-polyfill');
-__webpack_require__(84);
-// require('../third-party/bignumber.min.js');
-
-(function (global, factory) {
-
-  "use strict";
-
-  if (( false ? 'undefined' : _typeof(module)) === "object" && _typeof(module.exports) === "object") {
-
-    // For CommonJS and CommonJS-like environments where a proper `window`
-    // For environments that do not have a `window` with a `document`
-    // (such as Node.js), expose a factory as module.exports.
-    // This accentuates the need for the creation of a real `window`.
-    module.exports = global.document ? factory(global, true) : function (w) {
-      if (!w.document) {
-        throw new Error("febs requires a window with a document");
-      }
-      return factory(w);
-    };
-  } else {
-    factory(global);
-  }
-
-  // Pass this if window is not defined yet
-})(typeof window !== "undefined" ? window : undefined, function (window, noGlobal) {
-
-  //
-  // define the __debug.
-  if (!global.hasOwnProperty('__debug')) {
-    global.__debug = false;
-  }
-
-  //
-  // define the animationFrame.
-  var animationFrame = __webpack_require__(79);
-  if (!global.requestAnimationFrame) global.requestAnimationFrame = animationFrame.requestAnimationFrame;
-  if (!global.cancelAnimationFrame) global.cancelAnimationFrame = animationFrame.cancelAnimationFrame;
-
-  var febs = {};
-
-  febs.string = __webpack_require__(83);
-  febs.crypt = __webpack_require__(80);
-  febs.utils = __webpack_require__(53);
-  febs.net = __webpack_require__(82);
-  febs.dom = __webpack_require__(81);
-  febs['$'] = function (n) {
-    return new febs.dom(n);
-  };
-
-  window['febs'] = febs;
-  if (!window['$']) window['$'] = febs['$'];
-
-  //
-  // debug.
-  //
-  // if (!console.debug) {
-  window.console.debug = function () {
-    if (global.__debug) {
-      var logfoo;
-      if (window.console.warn) logfoo = window.console.warn;else logfoo = window.console.log;
-
-      for (var i = 0; i < arguments.length; i++) {
-        logfoo(arguments[i]);
-      }
-    }
-  };
-  // }
-
-  return febs;
-});
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32), __webpack_require__(23)(module)))
-
-/***/ }),
-/* 169 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 
 
 /**
@@ -12848,7 +12763,7 @@ exports.base64_encode = function (arrByte) {
 };
 
 /***/ }),
-/* 170 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12949,7 +12864,7 @@ exports.replace = function (str, strSrc, strDest) {
 };
 
 /***/ }),
-/* 171 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13311,6 +13226,91 @@ exports.bigint_less_than_e = function (a, b) {
 exports.bigint_toFixed = function (a, fixed) {
   fixed = fixed || 0;if (!(a instanceof BigNumber)) a = new BigNumber(a);return a.toFixed(fixed);
 };
+
+/***/ }),
+/* 171 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global, module) {
+
+var _typeof = __webpack_require__(12)['default'];
+
+// require('es5-shim');
+// require('es5-shim/es5-sham');
+__webpack_require__(78);
+// require('babel-polyfill');
+__webpack_require__(84);
+// require('../third-party/bignumber.min.js');
+
+(function (global, factory) {
+
+  "use strict";
+
+  if (( false ? 'undefined' : _typeof(module)) === "object" && _typeof(module.exports) === "object") {
+
+    // For CommonJS and CommonJS-like environments where a proper `window`
+    // For environments that do not have a `window` with a `document`
+    // (such as Node.js), expose a factory as module.exports.
+    // This accentuates the need for the creation of a real `window`.
+    module.exports = global.document ? factory(global, true) : function (w) {
+      if (!w.document) {
+        throw new Error("febs requires a window with a document");
+      }
+      return factory(w);
+    };
+  } else {
+    factory(global);
+  }
+
+  // Pass this if window is not defined yet
+})(typeof window !== "undefined" ? window : undefined, function (window, noGlobal) {
+
+  //
+  // define the __debug.
+  if (!global.hasOwnProperty('__debug')) {
+    global.__debug = false;
+  }
+
+  //
+  // define the animationFrame.
+  var animationFrame = __webpack_require__(79);
+  if (!global.requestAnimationFrame) global.requestAnimationFrame = animationFrame.requestAnimationFrame;
+  if (!global.cancelAnimationFrame) global.cancelAnimationFrame = animationFrame.cancelAnimationFrame;
+
+  var febs = {};
+
+  febs.string = __webpack_require__(83);
+  febs.crypt = __webpack_require__(80);
+  febs.utils = __webpack_require__(53);
+  febs.net = __webpack_require__(82);
+  febs.dom = __webpack_require__(81);
+  febs['$'] = function (n) {
+    return new febs.dom(n);
+  };
+
+  window['febs'] = febs;
+  if (!window['$']) window['$'] = febs['$'];
+
+  //
+  // debug.
+  //
+  // if (!console.debug) {
+  window.console.debug = function () {
+    if (global.__debug) {
+      var logfoo;
+      if (window.console.warn) logfoo = window.console.warn;else logfoo = window.console.log;
+
+      for (var i = 0; i < arguments.length; i++) {
+        logfoo(arguments[i]);
+      }
+    }
+  };
+  // }
+
+  return febs;
+});
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32), __webpack_require__(23)(module)))
 
 /***/ }),
 /* 172 */

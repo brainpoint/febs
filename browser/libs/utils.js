@@ -6,7 +6,7 @@
  * Desc:
  */
 
-var utils = require('../../common/utils');
+var utils = require('../common/utils');
 
 /**
  * @desc: 模拟sleep.

@@ -53,7 +53,8 @@
     "dist",
     "libs",
     "third-party",
-    "types"
+    "types",
+    "common"
   ],
   "license": "MIT",
   "main": "./libs/index.js",
@@ -69,5 +70,5 @@
     "prepare": "node scripts/webpack.build.js"
   },
   "name": "febs-browser",
-  "version": "0.7.3"
+  "version": "0.7.4"
 }

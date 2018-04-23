@@ -6,7 +6,7 @@
  *  crc32_file(file, function(crc32Value) {})
  */
 
-var crypt = require('../../common/crypt');
+var crypt = require('../common/crypt');
 var sha1 = require('sha1');
 var md5 = require('md5');
 

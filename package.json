@@ -63,7 +63,6 @@
   "files": [
     "doc",
     "browser",
-    "common",
     "server",
     "test",
     "types",
@@ -82,5 +81,5 @@
     "test": "tap test/*.js"
   },
   "name": "febs",
-  "version": "0.7.3"
+  "version": "0.7.4"
 }
