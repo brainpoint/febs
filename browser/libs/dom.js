@@ -229,6 +229,8 @@
     } 
   }
 
+  var CreateDom;
+
   /**
    * @desc 类jquery dom操作.
    */
@@ -321,6 +323,14 @@
         this.scroll = function(f) { return ttt('scroll', f); }
         this.select = function(f) { return ttt('select', f); }
         this.submit = function(f) { return ttt('submit', f); }
+      }
+
+      // plugin.
+      for (const key in CreateDom.fn) {
+        if (key == 'extend' || key == 'fn') continue;
+        if (typeof CreateDom.fn[key] === 'function') {
+          this[key] = CreateDom.fn[key].bind(this);
+        }
       }
 
       if (this._elem) {
@@ -1219,6 +1229,14 @@
         }
       }
 
+      // plugin.
+      for (const key in CreateDom.fn) {
+        if (key == 'extend' || key == 'fn') continue;
+        if (typeof CreateDom.fn[key] === 'function') {
+          node[key] = CreateDom.fn[key].bind(node);
+        }
+      }
+
       delete node.length;
       node._isArr = false;
       node._elem = node;
@@ -1253,6 +1271,22 @@
     }
   };
 
-  return Dom;
+  CreateDom = function(n) {
+    return new Dom(n);
+  }
+  // plugin.
+  CreateDom.fn = {};
+  CreateDom.extend = function(plugin) {
+    if (plugin) {
+      for (const key in plugin) {
+        if (key == 'extend' || key == 'fn') continue;
+        if (typeof plugin[key] === 'function') {
+          CreateDom[key] = plugin[key];
+        }
+      }
+    }
+  }
+
+  return {Dom, CreateDom};
 }
 );

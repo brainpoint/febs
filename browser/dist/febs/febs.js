@@ -2186,6 +2186,8 @@ var _typeof = __webpack_require__(12)["default"];
     }
   }
 
+  var CreateDom;
+
   /**
    * @desc 类jquery dom操作.
    */
@@ -2327,6 +2329,14 @@ var _typeof = __webpack_require__(12)["default"];
         this.submit = function (f) {
           return ttt('submit', f);
         };
+      }
+
+      // plugin.
+      for (var key in CreateDom.fn) {
+        if (key == 'extend' || key == 'fn') continue;
+        if (typeof CreateDom.fn[key] === 'function') {
+          this[key] = CreateDom.fn[key].bind(this);
+        }
       }
 
       if (this._elem) {
@@ -3271,6 +3281,14 @@ var _typeof = __webpack_require__(12)["default"];
         }
       }
 
+      // plugin.
+      for (var _key2 in CreateDom.fn) {
+        if (_key2 == 'extend' || _key2 == 'fn') continue;
+        if (typeof CreateDom.fn[_key2] === 'function') {
+          node[_key2] = CreateDom.fn[_key2].bind(node);
+        }
+      }
+
       delete node.length;
       node._isArr = false;
       node._elem = node;
@@ -3312,7 +3330,23 @@ var _typeof = __webpack_require__(12)["default"];
 
   ;
 
-  return Dom;
+  CreateDom = function CreateDom(n) {
+    return new Dom(n);
+  };
+  // plugin.
+  CreateDom.fn = {};
+  CreateDom.extend = function (plugin) {
+    if (plugin) {
+      for (var key in plugin) {
+        if (key == 'extend' || key == 'fn') continue;
+        if (typeof plugin[key] === 'function') {
+          CreateDom[key] = plugin[key];
+        }
+      }
+    }
+  };
+
+  return { Dom: Dom, CreateDom: CreateDom };
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
@@ -13281,9 +13315,7 @@ __webpack_require__(84);
   febs.utils = __webpack_require__(53);
   febs.net = __webpack_require__(82);
   febs.dom = __webpack_require__(81);
-  febs['$'] = function (n) {
-    return new febs.dom(n);
-  };
+  febs['$'] = febs.dom.CreateDom;
 
   window['febs'] = febs;
   if (!window['$']) window['$'] = febs['$'];

@@ -54,7 +54,7 @@ febs.crypt  = require('./crypt');
 febs.utils  = require('./utils');
 febs.net  = require('./net');
 febs.dom  = require('./dom');
-febs['$'] = function(n) { return new febs.dom(n); }
+febs['$'] = febs.dom.CreateDom;
 
 window['febs'] = febs;
 if (!window['$'])
