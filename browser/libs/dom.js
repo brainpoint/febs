@@ -789,9 +789,13 @@
       if (!this._elem) { return this; }
       if (this._isArray()) { 
         for (var i = 0; i < this._elem.length; i++) {
-          if (!this._elem[i].__events) this._elem[i].__events = {};
-          if (!this._elem[i].__events[eventname]) this._elem[i].__events[eventname] = [];
-          var env = this._elem[i].__events[eventname];
+          var ee = this._elem[i];
+          if (ee instanceof Dom) {
+            ee = ee._elem;
+          }
+          if (!ee.__events) ee.__events = {};
+          if (!ee.__events[eventname]) ee.__events[eventname] = [];
+          var env = ee.__events[eventname];
           var j;
           for (j = 0; j < env.length; j++) {
             if (env[j] === foo) {
@@ -801,13 +805,17 @@
           if (j >= env.length) {
             env.push(foo);
           }
-          this._elem[i].addEventListener(eventname, foo);
+          ee.addEventListener(eventname, foo);
         }
       }
       else {
-        if (!this._elem.__events) this._elem.__events = {};
-        if (!this._elem.__events[eventname]) this._elem.__events[eventname] = [];
-        var env = this._elem.__events[eventname];
+        var ee = this._elem;
+        if (ee instanceof Dom) {
+          ee = ee._elem;
+        }
+        if (!ee.__events) ee.__events = {};
+        if (!ee.__events[eventname]) ee.__events[eventname] = [];
+        var env = ee.__events[eventname];
         var j;
         for (j = 0; j < env.length; j++) {
           if (env[j] === foo) {
@@ -846,26 +854,34 @@
       if (!foo) {
         if (this._isArray()) { 
           for (var i = 0; i < this._elem.length; i++) {
-            if (this._elem[i].__events && this._elem[i].__events[eventname])
+            var ee = this._elem[i];
+            if (ee instanceof Dom) {
+              ee = ee._elem;
+            }
+            if (ee.__events && ee.__events[eventname])
             {
-              var env = this._elem[i].__events[eventname];
+              var env = ee.__events[eventname];
               var j;
               for (j = 0; j < env.length; j++) {
-                this._elem[i].removeEventListener(eventname, env[j]);
+                ee.removeEventListener(eventname, env[j]);
               }
-              this._elem[i].__events[eventname] = [];
+              ee.__events[eventname] = [];
             }
           }
         }
         else {
-          if (this._elem.__events && this._elem.__events[eventname])
+          var ee = this._elem;
+          if (ee instanceof Dom) {
+            ee = ee._elem;
+          }
+          if (ee.__events && ee.__events[eventname])
           {
-            var env = this._elem.__events[eventname];
+            var env = ee.__events[eventname];
             var j;
             for (j = 0; j < env.length; j++) {
-              this._elem.removeEventListener(eventname, env[j]);
+              ee.removeEventListener(eventname, env[j]);
             }
-            this._elem.__events[eventname] = [];
+            ee.__events[eventname] = [];
           }
         }
         return this;
@@ -876,9 +892,13 @@
       
       if (this._isArray()) { 
         for (var i = 0; i < this._elem.length; i++) {
-          if (this._elem[i].__events && this._elem[i].__events[eventname])
+          var ee = this._elem[i];
+          if (ee instanceof Dom) {
+            ee = ee._elem;
+          }
+          if (ee.__events && ee.__events[eventname])
           {
-            var env = this._elem[i].__events[eventname];
+            var env = ee.__events[eventname];
             var j;
             for (j = 0; j < env.length; j++) {
               if (env[j] === foo) {
@@ -887,13 +907,17 @@
               }
             }
           }
-          this._elem[i].removeEventListener(eventname, foo);
+          ee.removeEventListener(eventname, foo);
         }
       }
       else {
-        if (this._elem.__events && this._elem.__events[eventname])
+        var ee = this._elem;
+        if (ee instanceof Dom) {
+          ee = ee._elem;
+        }
+        if (ee.__events && ee.__events[eventname])
         {
-          var env = this._elem.__events[eventname];
+          var env = ee.__events[eventname];
           var j;
           for (j = 0; j < env.length; j++) {
             if (env[j] === foo) {
@@ -902,7 +926,7 @@
             }
           }
         }
-        this._elem.removeEventListener(eventname, foo);
+        ee.removeEventListener(eventname, foo);
       }
       return this;
     }
@@ -918,14 +942,22 @@
       
       if (this._isArray()) { 
         for (var i = 0; i < this._elem.length; i++) {
-          if (this._elem[i][eventname] && typeof this._elem[i][eventname] === 'function') {
-            this._elem[i][eventname]();
+          var ee = this._elem[i];
+          if (ee instanceof Dom) {
+            ee = ee._elem;
+          }
+          if (ee[eventname] && typeof ee[eventname] === 'function') {
+            ee[eventname].bind(ee)();
           }
         }
       }
       else {
-        if (this._elem[eventname] && typeof this._elem[eventname] === 'function') {
-          this._elem[eventname]();
+        var ee = this._elem;
+        if (ee instanceof Dom) {
+          ee = ee._elem;
+        }
+        if (ee[eventname] && typeof ee[eventname] === 'function') {
+          ee[eventname].bind(ee)();
         }
       }
       return this;
