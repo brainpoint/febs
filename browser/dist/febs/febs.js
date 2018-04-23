@@ -2442,13 +2442,12 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      node = new Dom(node);
       if (this._isArray()) {
         for (var i = 0; i < this._elem.length; i++) {
-          _appendChild(this._elem[i], node);
+          _appendChild(this._elem[i], new Dom(node));
         }
       } else {
-        _appendChild(this._elem, node);
+        _appendChild(this._elem, new Dom(node));
       }
       return this;
     };
@@ -2478,13 +2477,12 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      node = new Dom(node);
       if (this._isArray()) {
         for (var i = 0; i < this._elem.length; i++) {
-          _prependChild(this._elem[i], node);
+          _prependChild(this._elem[i], new Dom(node));
         }
       } else {
-        _prependChild(this._elem, node);
+        _prependChild(this._elem, new Dom(node));
       }
       return this;
     };
@@ -2514,13 +2512,12 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      node = new Dom(node);
       if (this._isArray()) {
         for (var i = 0; i < this._elem.length; i++) {
-          node.insertBefore(this._elem[i]);
+          new Dom(node).insertBefore(this._elem[i]);
         }
       } else {
-        node.insertBefore(this._elem);
+        new Dom(node).insertBefore(this._elem);
       }
       return this;
     };
@@ -2554,13 +2551,12 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      node = new Dom(node);
       if (this._isArray()) {
         for (var i = 0; i < this._elem.length; i++) {
-          node.insertAfter(this._elem[i]);
+          new Dom(node).insertAfter(this._elem[i]);
         }
       } else {
-        node.insertAfter(this._elem);
+        new Dom(node).insertAfter(this._elem);
       }
       return this;
     };
