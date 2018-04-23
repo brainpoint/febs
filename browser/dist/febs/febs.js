@@ -1897,9 +1897,9 @@ exports.crc32_file = function (file, cb) {
     loadNext();
 };
 
-// exports.sha1 = sha1;
+exports.sha1 = sha1;
 
-// exports.md5 = md5;
+exports.md5 = md5;
 
 /**
 * @desc: base64编码.
