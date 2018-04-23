@@ -44,6 +44,19 @@
     "type": "git",
     "url": "git+ssh://git@github.com/brainpoint/febs.git"
   },
+  "keywords": [
+    "browser",
+    "jquery",
+    "zepto",
+    "crc32",
+    "sha1",
+    "md5",
+    "file",
+    "string",
+    "net",
+    "crypto",
+    "febs"
+  ],
   "engines": {
     "node": ">=7"
   },
@@ -69,5 +82,5 @@
     "test": "tap test/*.js"
   },
   "name": "febs",
-  "version": "0.7.0"
+  "version": "0.7.1"
 }

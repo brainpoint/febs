@@ -297,7 +297,7 @@ export class dom {
    *    - node.
    * 不支持带空格多层结构的情况.
    */
-  constructor(name:string);
+  constructor(selector?:string|dom|HTMLElement);
 
   /**
    * @desc: hasClass
@@ -327,42 +327,42 @@ export class dom {
   /**
    * @desc: append
    */
-  append(node:any): dom;
+  append(selector?:string|dom|HTMLElement): dom;
 
   /**
    * appendTo
    */
-  appendTo(node:any): dom;
+  appendTo(selector?:string|dom|HTMLElement): dom;
 
   /**
    * @desc: prepend
    */
-  prepend(node:any): dom;
+  prepend(selector?:string|dom|HTMLElement): dom;
 
   /**
    * @desc: prependTo
    */
-  prependTo(node:any): dom;
+  prependTo(selector?:string|dom|HTMLElement): dom;
 
   /**
    * @desc: before
    */
-  before(node:any): dom;
+  before(selector?:string|dom|HTMLElement): dom;
 
   /**
    * insertBefore
    */
-  insertBefore(node:any): dom;
+  insertBefore(selector?:string|dom|HTMLElement): dom;
 
   /**
    * @desc: after
    */
-  after(node:any): dom;
+  after(selector?:string|dom|HTMLElement): dom;
 
   /**
    * @desc: insertAfter
    */
-  insertAfter(node:any): dom;
+  insertAfter(selector?:string|dom|HTMLElement): dom;
 
   /**
    * @desc: attr.
@@ -402,19 +402,33 @@ export class dom {
   css(name:string, value:string): string;
 
   /**
+   * html.
+   */
+  parent(selector?:string|dom|HTMLElement) : dom;
+  parents(selector?:string|dom|HTMLElement) : dom;
+  children(selector?:string|dom|HTMLElement) : dom;
+  prev(selector?:string|dom|HTMLElement) : dom;
+  next(selector?:string|dom|HTMLElement) : dom;
+
+
+  /**
   * @desc: on.
   */
   on(eventname:string, foo:any): dom;
-
-  /**
-  * @desc: one.
-  */
-  one(event:string, f:any): dom;
+  bind(eventname:string, foo:any): dom;
+  live(eventname:string, foo:any): dom;
 
   /**
   * @desc: off.
   */
   off(eventname:string, foo?:any): dom;
+  unbind(eventname:string, foo?:any): dom;
+  die(eventname:string, foo?:any): dom;
+
+  /**
+  * @desc: one.
+  */
+  one(event:string, f:any): dom;
 
   /**
   * @desc: trigger.
@@ -443,7 +457,7 @@ export class dom {
   select(f?:any):dom;
   submit(f?:any):dom;
 
-  [index:number]: any;
+  [index:number]: dom;
 }
 
 export function $(n:any):dom;

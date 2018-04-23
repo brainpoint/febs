@@ -7,8 +7,8 @@
   <body>
     将在console中输出调用日志
     <div id="test_elem"></div>
-    <div class="test_elem"></div>
-    <div class="test_elem"></div>
+    <div class="test_elem aa"></div>
+    <div class="test_elem"><div class="aa"></div></div>
     <script>
     
     var assert = console.assert;
@@ -133,8 +133,11 @@
       function(){ 
         return $('.test_elem')[0].css('display');
       });
+
     $('.test_elem')[0].css('display', '');
 
+    //
+    // event.
     $('.test_elem')[0].on('click', function(){
       alert('dd');
     });
@@ -145,6 +148,18 @@
     $('.test_elem')[0].off('click');
     $('.test_elem')[0].trigger('click');
     $('.test_elem')[0].trigger('click');
+
+
+    febs_assert('parent', function(r){return r.length == 3;}, 
+      function(){ 
+        $('#prependok').addClass('test_elem1');
+        $('#prependTook').addClass('test_elem1');
+        return $('.test_elem1').parent();
+      });
+    febs_assert('parent', function(r){return r.length == 1;}, 
+      function(){
+        return $('.test_elem1').parent('#prependok');
+      });
 
     </script>
   </body>

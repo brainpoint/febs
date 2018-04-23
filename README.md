@@ -2,8 +2,9 @@ febs 库是一些常用的工具的合集;
 
 支持browser端与node server端;
 
-- browser支持 IE9及以上.
-- browser支持常用的jquery操作, 可以在大多数场景下替代jquery.
+> browser支持 IE9及以上浏览器.
+
+> browser支持常用的jquery操作, 可以在大多数场景下替代jquery.
 
 browser详见 [reamde](./browser/README.md)
 

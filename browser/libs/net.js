@@ -411,8 +411,8 @@ else {
       }
       
       return new Promise(function(resolve, reject) {
-        if(!window["$"]) {
-          throw 'need jquery.ajax in ie9<= browsers.';
+        if(!window["$"] && !window["$"].ajax) {
+          throw new Error('need jquery.ajax in ie9<= browsers.');
         }
         window["$"].ajax({
           url: url,

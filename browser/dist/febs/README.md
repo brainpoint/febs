@@ -1,8 +1,10 @@
 febs 库是一些常用的工具的合集;
 
-febs库模拟了jquery的常用方法(dom操作/事件/css等), 当页面未引入jquery时, 会自动设置全局变量 `$` 为内部实现的jquery相关方法.
+febs实现了jquery的常用方法(dom操作/事件/css/遍历等), 当页面引入febs前如果未引入jquery, 会自动设置全局变量 `$` 为内部实现的jquery相关方法.
 
 大多数场景下可以使用febs库代替jquery, 而解决jquery臃肿的问题.
+
+> 兼容ie9及以上浏览器
 
 # Install
 
@@ -59,7 +61,7 @@ febs.string.replace();
   - [crypt](#crypt)
   - [animationFrame](#animationFrame)
   - [net](#net)
-  - [$](#jquery)
+  - [jquery $](#jquery)
 
 # 说明
 
@@ -360,9 +362,11 @@ febs.net.jsonp(url, option)
 
 # jquery
 
-febs库模拟了jquery的常用方法(dom操作/事件/css等), 当页面未引入jquery时, 会自动设置全局变量 `$` 为内部实现的jquery相关方法.
+febs库模拟了jquery的常用方法(dom操作/事件/css等), 当页面引入febs前如果未引入jquery, 会自动设置全局变量 `$` 为内部实现的jquery相关方法.
 
 目前已经实现的方法如下:
+
+### 常用
 
 ```js
 
@@ -373,132 +377,42 @@ febs库模拟了jquery的常用方法(dom操作/事件/css等), 当页面未引�
    *    - name  使用tag名构建.
    *    - <div...>...</div> 使用内容构建.
    *    - node.
-   * 不支持带空格多层结构的情况.
    */
-  $();
+  $(selector?:string|dom|HTMLElement);
 
-  /**
-   * @desc: hasClass
-   */
   hasClass( cName:string ): boolean;
-
-  /**
-   * @desc: addClass
-   */
   addClass( cName:string ): $;
-
-  /**
-   * @desc: removeClass
-   */
   removeClass( cName:string ): $;
-
-  /**
-   * @desc: toggleClass
-   */
   toggleClass( cName:string ): $;
 
-  /**
-   * @desc: remove
-   */
   remove(): void;
+  append(selector?:string|dom|HTMLElement): $;
+  appendTo(selector?:string|dom|HTMLElement): $;
+  prepend(selector?:string|dom|HTMLElement): $;
+  prependTo(selector?:string|dom|HTMLElement): $;
+  before(selector?:string|dom|HTMLElement): $;
+  insertBefore(selector?:string|dom|HTMLElement): $;
+  after(selector?:string|dom|HTMLElement): $;
+  insertAfter(selector?:string|dom|HTMLElement): $;
 
-  /**
-   * @desc: append
-   */
-  append(node:any): $;
-
-  /**
-   * appendTo
-   */
-  appendTo(node:any): $;
-
-  /**
-   * @desc: prepend
-   */
-  prepend(node:any): $;
-
-  /**
-   * @desc: prependTo
-   */
-  prependTo(node:any): $;
-
-  /**
-   * @desc: before
-   */
-  before(node:any): $;
-
-  /**
-   * insertBefore
-   */
-  insertBefore(node:any): $;
-
-  /**
-   * @desc: after
-   */
-  after(node:any): $;
-
-  /**
-   * @desc: insertAfter
-   */
-  insertAfter(node:any): $;
-
-  /**
-   * @desc: attr.
-   */
   attr(attrName:any, value:any): string;
-
-  /**
-   * @desc: removeAttr
-   */
   removeAttr(name:any): $;
-
-  /**
-  * @desc: empty.
-  */
+  
   empty(): $;
-
-  /**
-  * @desc: html.
-  */
   html(v:string): string;
-
-
-  /**
-  * @desc: text.
-  */
   text(v:string): string;
-
-  /**
-  * @desc: val.
-  */
   val(v:string): string;
-
-
-  /**
-  * @desc: css.
-  */
   css(name:string, value:string): string;
+```
 
-  /**
-  * @desc: on.
-  */
+### 事件.
+
+```js
+
   on(eventname:string, foo:any): $;
-
-  /**
-  * @desc: one.
-  */
   one(event:string, f:any): $;
-
-  /**
-  * @desc: off.
-  */
-  off(eventname:string, foo:any): $;
-
-  /**
-  * @desc: trigger.
-  */
+  off(eventname:string, foo?:any): $;
   trigger(eventname:string): $;
-
   ready(f?:any):$;
   unload(f?:any):$;
   blur(f?:any):$;
@@ -520,4 +434,14 @@ febs库模拟了jquery的常用方法(dom操作/事件/css等), 当页面未引�
   scroll(f?:any):$;
   select(f?:any):$;
   submit(f?:any):$;
+```
+
+### 遍历
+
+```js
+  parent(selector?:string|dom|HTMLElement) : $;
+  parents(selector?:string|dom|HTMLElement) : $;
+  children(selector?:string|dom|HTMLElement) : $;
+  prev(selector?:string|dom|HTMLElement) : $;
+  next(selector?:string|dom|HTMLElement) : $;
 ```

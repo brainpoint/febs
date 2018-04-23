@@ -1847,23 +1847,87 @@ var _typeof = __webpack_require__(12)["default"];
   // Pass this if window is not defined yet
 })(typeof window !== "undefined" ? window : undefined, function (window, noGlobal) {
 
-  function _getElement(name) {
+  // - parentNodes 父节点 (HTMLNode)
+  // - name 子节点selector.
+  // - notAllChildren 仅查询一层子节点.
+  // 返回匹配到的元素集合.
+  function _matchElement(parentNodes, name, notAllChildren) {
+    var elems;
+    var tag = 0; // 0-tag, 1-id, 2-class.
+
+    if (name[0] == '.') {
+      tag = 2;
+      name = name.substr(1);
+    } else if (name[0] == '#') {
+      tag = 1;
+      name = name.substr(1);
+    } else {
+      name = name.toUpperCase();
+    }
+
+    if (!parentNodes || parentNodes.length == 0) {
+      if (2 == tag) {
+        elems = window.document.getElementsByClassName(name);
+      } else if (1 == tag) {
+        elems = window.document.getElementById(name);
+        if (elems) elems = [elems];else elems = [];
+      } else {
+        elems = window.document.getElementsByTagName(name);
+      }
+    } else {
+      elems = [];
+      for (var i = 0; i < parentNodes.length; i++) {
+        var node1 = parentNodes[i].childNodes;
+        if (!node1) continue;
+        var node = [];
+        for (var j = 0; j < node1.length; j++) {
+          node.push(node1[j]);
+        }
+
+        for (var j = 0; j < node.length; j++) {
+          if (2 == tag) {
+            if (_hasClass(node[j], name)) {
+              elems.push(node[j]);
+              continue;
+            }
+          } else if (1 == tag) {
+            if (node[j].id == name) {
+              elems.push(node[j]);
+              continue;
+            }
+          } else {
+            if (node[j].nodeName.toUpperCase() == name) {
+              elems.push(node[j]);
+              continue;
+            }
+          }
+
+          if (!notAllChildren) {
+            var nn = node[j].childNodes;
+            if (nn && nn.length > 0) {
+              for (var k = 0; k < nn.length; k++) {
+                node.push(nn[k]);
+              }
+              if (j > 20) {
+                node = node.slice(j + 1);
+                j = 0;
+              }
+            }
+          }
+        } // for.
+      } // for.
+    } // if..else.
+
+    return elems;
+  }
+
+  // - parentNode 仅筛选此节点下的节点.
+  function _getElement(name, parentNode) {
+    if (name == '') name = null;
     var _elem;
     var _isarr = false;
     if (typeof name === 'string') {
-      if (name[0] == '.') {
-        if (name.indexOf(' ') >= 0) {
-          throw 'Don\'t allow dom have wordspace';
-        }
-        _elem = window.document.getElementsByClassName(name.substr(1));
-        _isarr = true;
-      } else if (name[0] == '#') {
-        if (name.indexOf(' ') >= 0) {
-          throw 'Don\'t allow dom have wordspace';
-        }
-        _elem = window.document.getElementById(name.substr(1));
-        _isarr = false;
-      } else if (name[0] == '<') {
+      if (name[0] == '<') {
         _elem = window.document.createElement('div');
         _elem.innerHTML = name;
         if (_elem.childNodes.length == 1) {
@@ -1874,11 +1938,20 @@ var _typeof = __webpack_require__(12)["default"];
           _isarr = true;
         }
       } else {
-        if (name.indexOf(' ') >= 0) {
-          throw 'Don\'t allow dom have wordspace';
+        if (name.indexOf('<') > 0 || name.indexOf('>') > 0) throw new Error('Syntax error, unrecognized');
+
+        var names = name.split(' ');
+        var nodes = parentNode ? [parentNode] : null;
+        for (var i = 0; i < names.length; i++) {
+          if (names[i] != '') nodes = _matchElement(nodes, names[i], !!parentNode);
         }
-        _elem = window.document.getElementsByTagName(name);
-        _isarr = true;
+        if (nodes.length <= 1) {
+          _elem = nodes[0];
+          _isarr = false;
+        } else {
+          _elem = nodes;
+          _isarr = true;
+        }
       }
     } else {
       _elem = name;
@@ -1890,6 +1963,7 @@ var _typeof = __webpack_require__(12)["default"];
    * hasClass
    */
   function _hasClass(element, cName) {
+    if (!element || !element.className) return false;
     return !!element.className.match(new RegExp("(\\s|^)" + cName + "(\\s|$)")); // ( \\s|^ ) 判断前面是否有空格 （\\s | $ ）判断后面是否有空格 两个感叹号为转换为布尔值 以方便做判断  
   }
 
@@ -1970,6 +2044,9 @@ var _typeof = __webpack_require__(12)["default"];
    */
 
   var Dom = function () {
+    // _elem;
+    // _isArr;
+
     /**
      * 支持 
      *    - .name 使用类名构建.
@@ -1977,12 +2054,17 @@ var _typeof = __webpack_require__(12)["default"];
      *    - name  使用tag名构建.
      *    - <div...>...</div> 使用内容构建.
      *    - node.
-     * 不支持带空格多层结构的情况.
      */
     function Dom(name) {
       _classCallCheck(this, Dom);
 
-      if (name instanceof Dom) {
+      //
+      // save in '_elem', '_isArr' 
+      //
+      if (name === window.document || name == window) {
+        this._elem = name;
+        this._isArr = false;
+      } else if (name instanceof Dom) {
         this._elem = name._elem;
         this._isArr = name._isArr;
       } else {
@@ -1993,6 +2075,7 @@ var _typeof = __webpack_require__(12)["default"];
 
       if (!this._isArray()) {
         this[0] = this._elem;
+        this.length = this._elem ? 1 : 0;
       } else {
         for (var i = 0; i < this._elem.length; i++) {
           this[i] = this._elem[i];
@@ -2001,7 +2084,11 @@ var _typeof = __webpack_require__(12)["default"];
       }
 
       var _this = this;
+
       this.bind = this.on;
+      this.unbind = this.off;
+      this.live = this.on;
+      this.die = this.off;
 
       if (name === window.document) {
         this.ready = function (f) {
@@ -2014,12 +2101,15 @@ var _typeof = __webpack_require__(12)["default"];
             window.document.addEventListener('unload', f);return _this;
           }
         };
+        this.context = window.document;
       } else if (name === window) {
         this.unload = function (f) {
           if (f) {
             window.addEventListener('unload', f);return _this;
           }
         };
+      } else {
+        this.context = window.document;
       }
 
       if (typeof name === 'function') {
@@ -2092,23 +2182,11 @@ var _typeof = __webpack_require__(12)["default"];
         };
       }
 
-      if (this._isArray()) {
-        var _proto = _Object$getPrototypeOf(this);
-        for (var i = 0; i < this._elem.length; i++) {
-
-          for (var key in _proto) {
-            if (key != '__proto__' && key != 'constructor') {
-              // 不覆盖native方法.
-              if (!this._elem[i][key]) {
-                this._elem[i][key] = _proto[key].bind(this._elem[i]);
-              }
-            }
+      if (this._elem) {
+        if (this._isArray()) {
+          for (var i = 0; i < this._elem.length; i++) {
+            this._domtify(this._elem[i]);
           }
-
-          delete this._elem[i].length;
-          this._elem[i]._isArr = false;
-          this._elem[i]._elem = this._elem[i];
-          this._elem[i][0] = this._elem[i];
         }
       }
     }
@@ -2139,7 +2217,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.addClass = function addClass(cName) {
       if (!this._elem) {
-        return;
+        return this;
       }
       if (this._isArray()) {
         for (var i = 0; i < this._elem.length; i++) {
@@ -2158,7 +2236,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.removeClass = function removeClass(cName) {
       if (!this._elem) {
-        return;
+        return this;
       }
       if (this._isArray()) {
         for (var i = 0; i < this._elem.length; i++) {
@@ -2177,7 +2255,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.toggleClass = function toggleClass(cName) {
       if (!this._elem) {
-        return;
+        return this;
       }
       if (this._isArray()) {
         for (var i = 0; i < this._elem.length; i++) {
@@ -2196,7 +2274,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.remove = function remove() {
       if (!this._elem) {
-        return;
+        return this;
       }
       if (this._isArray()) {
         for (var i = 0; i < this._elem.length; i++) {
@@ -2205,6 +2283,7 @@ var _typeof = __webpack_require__(12)["default"];
       } else {
         _removeElement(this._elem);
       }
+      return this;
     };
 
     /**
@@ -2214,7 +2293,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.append = function append(node) {
       if (!this._elem) {
-        return;
+        return this;
       }
       node = new Dom(node);
       if (this._isArray()) {
@@ -2234,7 +2313,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.appendTo = function appendTo(node) {
       if (!this._elem) {
-        return;
+        return this;
       }
       if (!this._isArray()) {
         var dom = new Dom(node);
@@ -2250,7 +2329,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.prepend = function prepend(node) {
       if (!this._elem) {
-        return;
+        return this;
       }
       node = new Dom(node);
       if (this._isArray()) {
@@ -2270,7 +2349,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.prependTo = function prependTo(node) {
       if (!this._elem) {
-        return;
+        return this;
       }
       if (!this._isArray()) {
         var dom = new Dom(node);
@@ -2286,7 +2365,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.before = function before(node) {
       if (!this._elem) {
-        return;
+        return this;
       }
       node = new Dom(node);
       if (this._isArray()) {
@@ -2306,7 +2385,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.insertBefore = function insertBefore(node) {
       if (!this._elem) {
-        return;
+        return this;
       }
       var dom = new Dom(node);
       if (!dom._isArray()) {
@@ -2326,7 +2405,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.after = function after(node) {
       if (!this._elem) {
-        return;
+        return this;
       }
       node = new Dom(node);
       if (this._isArray()) {
@@ -2346,7 +2425,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.insertAfter = function insertAfter(node) {
       if (!this._elem) {
-        return;
+        return this;
       }
       var dom = new Dom(node);
       if (!dom._isArray()) {
@@ -2366,6 +2445,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.attr = function attr(attrName, value) {
       if (!this._elem) {
+        if (typeof value !== 'undefined') return this;
         return;
       }
       if (typeof value === 'undefined') {
@@ -2380,6 +2460,7 @@ var _typeof = __webpack_require__(12)["default"];
         } else {
           this._elem.setAttribute(attrName, value);
         }
+        return this;
       }
     };
 
@@ -2390,7 +2471,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.removeAttr = function removeAttr(name) {
       if (!this._elem) {
-        return;
+        return this;
       }
       if (this._isArray()) {
         for (var i = 0; i < this._elem.length; i++) {
@@ -2408,7 +2489,7 @@ var _typeof = __webpack_require__(12)["default"];
 
 
     Dom.prototype.detach = function detach() {
-      throw 'unimplement';
+      throw new Error('unimplement');
     };
 
     /**
@@ -2417,7 +2498,7 @@ var _typeof = __webpack_require__(12)["default"];
 
 
     Dom.prototype.clone = function clone() {
-      throw 'unimplement';
+      throw new Error('unimplement');
     };
 
     /**
@@ -2426,7 +2507,7 @@ var _typeof = __webpack_require__(12)["default"];
 
 
     Dom.prototype.replaceAll = function replaceAll() {
-      throw 'unimplement';
+      throw new Error('unimplement');
     };
 
     /**
@@ -2435,7 +2516,7 @@ var _typeof = __webpack_require__(12)["default"];
 
 
     Dom.prototype.unwrap = function unwrap() {
-      throw 'unimplement';
+      throw new Error('unimplement');
     };
     /**
     * @desc: replaceWith.
@@ -2443,7 +2524,7 @@ var _typeof = __webpack_require__(12)["default"];
 
 
     Dom.prototype.wrap = function wrap() {
-      throw 'unimplement';
+      throw new Error('unimplement');
     };
     /**
     * @desc: replaceWith.
@@ -2451,7 +2532,7 @@ var _typeof = __webpack_require__(12)["default"];
 
 
     Dom.prototype.wrapAll = function wrapAll() {
-      throw 'unimplement';
+      throw new Error('unimplement');
     };
     /**
     * @desc: replaceWith.
@@ -2459,7 +2540,7 @@ var _typeof = __webpack_require__(12)["default"];
 
 
     Dom.prototype.wrapinner = function wrapinner() {
-      throw 'unimplement';
+      throw new Error('unimplement');
     };
 
     /**
@@ -2469,7 +2550,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.empty = function empty() {
       if (!this._elem) {
-        return;
+        return this;
       }
       if (this._isArray()) {
         for (var i = 0; i < this._elem.length; i++) {
@@ -2488,6 +2569,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.html = function html(v) {
       if (!this._elem) {
+        if (typeof v !== 'undefined') return this;
         return;
       }
       if (typeof v === 'undefined') {
@@ -2504,6 +2586,7 @@ var _typeof = __webpack_require__(12)["default"];
         } else {
           this._elem.innerHTML = v;
         }
+        return this;
       }
     };
 
@@ -2514,6 +2597,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.text = function text(v) {
       if (!this._elem) {
+        if (typeof v !== 'undefined') return this;
         return;
       }
       if (typeof v === 'undefined') {
@@ -2530,6 +2614,7 @@ var _typeof = __webpack_require__(12)["default"];
         } else {
           this._elem.textContent = v;
         }
+        return this;
       }
     };
 
@@ -2540,6 +2625,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.val = function val(v) {
       if (!this._elem) {
+        if (typeof v !== 'undefined') return this;
         return;
       }
       if (typeof v === 'undefined') {
@@ -2556,6 +2642,7 @@ var _typeof = __webpack_require__(12)["default"];
         } else {
           this._elem.setAttribute('value', v);
         }
+        return this;
       }
     };
 
@@ -2566,6 +2653,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype.css = function css(name, value) {
       if (!this._elem) {
+        if (typeof value !== 'undefined') return this;
         return;
       }
       if (typeof value === 'undefined') {
@@ -2580,6 +2668,7 @@ var _typeof = __webpack_require__(12)["default"];
         } else {
           if (value == '') this._elem.style[name] = '';else this._elem.style[name] = value;
         }
+        return this;
       }
     };
 
@@ -2589,10 +2678,13 @@ var _typeof = __webpack_require__(12)["default"];
 
 
     Dom.prototype.on = function on(eventname, foo) {
-      if (!eventname) throw 'need event name';
+      if (!eventname) throw new Error('need event name');
 
-      if (typeof foo !== 'function') throw 'on need function params';
+      if (typeof foo !== 'function') throw new Error('on need function params');
 
+      if (!this._elem) {
+        return this;
+      }
       if (this._isArray()) {
         for (var i = 0; i < this._elem.length; i++) {
           if (!this._elem[i].__events) this._elem[i].__events = {};
@@ -2633,7 +2725,7 @@ var _typeof = __webpack_require__(12)["default"];
 
 
     Dom.prototype.one = function one(event, f) {
-      if (!event) throw 'need event name';
+      if (!event) throw new Error('need event name');
 
       var _this = this;
       var tt = function tt(e) {
@@ -2649,8 +2741,11 @@ var _typeof = __webpack_require__(12)["default"];
 
 
     Dom.prototype.off = function off(eventname, foo) {
-      if (!eventname) throw 'need event name';
+      if (!eventname) throw new Error('need event name');
 
+      if (!this._elem) {
+        return this;
+      }
       if (!foo) {
         if (this._isArray()) {
           for (var i = 0; i < this._elem.length; i++) {
@@ -2676,7 +2771,7 @@ var _typeof = __webpack_require__(12)["default"];
         return this;
       }
 
-      if (typeof foo !== 'function') throw 'off need function params';
+      if (typeof foo !== 'function') throw new Error('off need function params');
 
       if (this._isArray()) {
         for (var i = 0; i < this._elem.length; i++) {
@@ -2714,7 +2809,11 @@ var _typeof = __webpack_require__(12)["default"];
 
 
     Dom.prototype.trigger = function trigger(eventname) {
-      if (!eventname) throw 'need event name';
+      if (!eventname) throw new Error('need event name');
+
+      if (!this._elem) {
+        return this;
+      }
 
       if (this._isArray()) {
         for (var i = 0; i < this._elem.length; i++) {
@@ -2730,8 +2829,339 @@ var _typeof = __webpack_require__(12)["default"];
       return this;
     };
 
+    /**
+    * @desc: parent
+    * @return: 
+    */
+
+
+    Dom.prototype.parent = function parent(selector) {
+      if (!this._elem) {
+        return new Dom();
+      }
+      var sel;
+      if (selector) sel = new Dom(selector);
+      if (this._isArray()) {
+        var dom = new Dom();
+        dom._elem = [];
+        dom._isArr = true;
+        dom.length = 0;
+        for (var i = 0; i < this._elem.length; i++) {
+          if (this._elem[i].parentNode) {
+            if (!sel || sel._isElementIn(this._elem[i].parentNode)) {
+              this._domtify(this._elem[i].parentNode);
+              dom._elem.push(this._elem[i].parentNode);
+              dom[dom.length] = this._elem[i].parentNode;
+              dom.length++;
+            }
+          }
+        }
+        if (dom._elem.length == 0) dom._elem = null;
+        return dom;
+      } else {
+        if (!this._elem.parentNode) return new Dom();
+        if (!sel || sel._isElementIn(this._elem.parentNode)) {
+          return new Dom(this._elem.parentNode);
+        }
+        return new Dom();
+      } // if.
+    };
+
+    /**
+    * @desc: parents
+    * @return: 
+    */
+
+
+    Dom.prototype.parents = function parents(selector) {
+      if (!this._elem) {
+        return new Dom();
+      }
+      var sel;
+      if (selector) sel = new Dom(selector);
+
+      if (this._isArray()) {
+        var nodes = [];
+        for (var i = 0; i < this._elem.length; i++) {
+          if (!this._elem[i].parentNode) continue;
+          var elem = this._elem[i];
+          while (elem.parentNode) {
+            if (elem.parentNode == window || elem.parentNode == window.document) break;
+
+            if (!sel || sel._isElementIn(elem.parentNode)) {
+              var j;
+              for (j = 0; j < nodes.length; j++) {
+                if (nodes[j].isSameNode(elem.parentNode)) {
+                  break;
+                }
+              }
+              if (j >= nodes.length) nodes.push(elem.parentNode);
+            }
+            elem = elem.parentNode;
+          }
+        } // for.
+
+        var dom = new Dom();
+        if (nodes.length > 0) {
+          dom._elem = nodes;
+          dom._isArr = true;
+          dom.length = nodes.length;
+          for (var i = 0; i < nodes.length; i++) {
+            dom._domtify(nodes[i]);
+            dom[i] = nodes[i];
+          }
+        }
+        return dom;
+      } else {
+        if (!this._elem.parentNode) return new Dom();
+        var nodes = [];
+        var elem = this._elem;
+        while (elem.parentNode) {
+          if (elem.parentNode == window || elem.parentNode == window.document) break;
+
+          if (!sel || sel._isElementIn(elem.parentNode)) {
+            nodes.push(elem.parentNode);
+          }
+          elem = elem.parentNode;
+        }
+
+        var dom = new Dom();
+        if (nodes.length > 0) {
+          dom._elem = nodes;
+          dom._isArr = true;
+          dom.length = nodes.length;
+          for (var i = 0; i < nodes.length; i++) {
+            dom._domtify(nodes[i]);
+            dom[i] = nodes[i];
+          }
+        }
+        return dom;
+      } // if.
+    };
+
+    /**
+     * children
+     * @param {*} selector 
+     */
+
+
+    Dom.prototype.children = function children(selector) {
+      if (!this._elem) {
+        return new Dom();
+      }
+
+      if (this._isArray()) {
+        var nodes = [];
+        for (var i = 0; i < this._elem.length; i++) {
+          var sel;
+          if (selector) sel = _getElement(selector, this._elem[i]);else {
+            sel = { _elem: [], _isarr: true };
+            for (var j = 0; j < this._elem[i].childNodes.length; j++) {
+              sel._elem.push(this._elem[i].childNodes[j]);
+            }
+          }
+
+          if (!sel._elem) continue;
+
+          if (sel._isarr) {
+            nodes = nodes.concat(sel._elem);
+          } else {
+            nodes.push(sel._elem);
+          }
+        }
+
+        var dom = new Dom();
+        dom._elem = nodes;
+        dom._isArr = true;
+        dom.length = nodes.length;
+        for (var i = 0; i < nodes.length; i++) {
+          this._domtify(nodes[i]);
+          dom[i] = nodes[i];
+        }
+        return dom;
+      } else {
+        var sel;
+        if (selector) sel = _getElement(selector, this._elem);else {
+          sel = { _elem: [], _isarr: true };
+          for (var j = 0; j < this._elem.childNodes.length; j++) {
+            sel._elem.push(this._elem.childNodes[j]);
+          }
+        }
+
+        var dom = new Dom();
+        dom._elem = sel._elem;
+        dom[0] = sel._elem;
+        dom._isArr = sel._isarr;
+        dom.length = sel._elem ? 1 : 0;
+
+        if (sel._isarr && sel._elem) {
+          for (var i = 0; i < sel._elem.length; i++) {
+            this._domtify(sel._elem[i]);
+            dom[i] = sel._elem[i];
+          }
+          dom.length = sel._elem.length;
+        }
+        return dom;
+      } // if..else.      
+    };
+
+    /**
+     * next
+     * @param {*} selector 
+     */
+
+
+    Dom.prototype.next = function next(selector) {
+      if (!this._elem) {
+        return new Dom();
+      }
+
+      var dom;
+      if (selector) {
+        dom = this.parent();
+        dom = dom.children(selector);
+      }
+
+      if (this._isArray()) {
+        var nodes = [];
+        for (var i = 0; i < this._elem.length; i++) {
+          if (!dom || dom._isElementIn(this._elem[i].nextSibling)) {
+            if (this._elem[i].nextSibling) nodes.push(this._elem[i].nextSibling);
+          }
+        }
+
+        var dom1 = new Dom();
+        dom1._elem = nodes;
+        dom1._isArr = true;
+        dom1.length = nodes.length;
+        for (var i = 0; i < nodes.length; i++) {
+          this._domtify(nodes[i]);
+          dom1[i] = nodes[i];
+        }
+        return dom1;
+      } else {
+        var nodes;
+        if (!dom || dom._isElementIn(this._elem.nextSibling)) {
+          if (this._elem.nextSibling) nodes = this._elem.nextSibling;
+        }
+
+        var dom1 = new Dom();
+        dom1._elem = nodes;
+        dom1[0] = nodes;
+        dom1._isArr = false;
+        dom1.length = nodes ? 1 : 0;
+        return dom1;
+      } // if..else
+    };
+
+    /**
+     * prev
+     * @param {*} selector 
+     */
+
+
+    Dom.prototype.prev = function prev(selector) {
+      if (!this._elem) {
+        return new Dom();
+      }
+
+      var dom;
+      if (selector) {
+        dom = this.parent();
+        dom = dom.children(selector);
+      }
+
+      if (this._isArray()) {
+        var nodes = [];
+        for (var i = 0; i < this._elem.length; i++) {
+          if (!dom || dom._isElementIn(this._elem[i].previousSibling)) {
+            if (this._elem[i].previousSibling) nodes.push(this._elem[i].previousSibling);
+          }
+        }
+
+        var dom1 = new Dom();
+        dom1._elem = nodes;
+        dom1._isArr = true;
+        dom1.length = nodes.length;
+        for (var i = 0; i < nodes.length; i++) {
+          this._domtify(nodes[i]);
+          dom1[i] = nodes[i];
+        }
+        return dom1;
+      } else {
+        var nodes;
+        if (!dom || dom._isElementIn(this._elem.previousSibling)) {
+          if (this._elem.previousSibling) nodes = this._elem.previousSibling;
+        }
+
+        var dom1 = new Dom();
+        dom1._elem = nodes;
+        dom1[0] = nodes;
+        dom1._isArr = false;
+        dom1.length = nodes ? 1 : 0;
+        return dom1;
+      } // if..else
+    };
+
+    // 将普通节点设置为Dom对象.
+
+
+    Dom.prototype._domtify = function _domtify(node) {
+      if (node instanceof Dom) return;
+      if (node._domtify) return;
+
+      var _proto = _Object$getPrototypeOf(this);
+      for (var key in _proto) {
+        if (key != '__proto__' && key != 'constructor') {
+          // 不覆盖native方法.
+          if (!node[key]) {
+            node[key] = _proto[key].bind(node);
+          }
+        }
+      }
+      for (var _key in this) {
+        if (_key != '__proto__' && _key != 'constructor' && typeof this[_key] === 'function') {
+          // 不覆盖native方法.
+          if (!node[_key]) {
+            node[_key] = this[_key].bind(node);
+          }
+        }
+      }
+
+      delete node.length;
+      node._isArr = false;
+      node._elem = node;
+      // node[0] = node;
+      node.__domtify = true;
+
+      if (node != window) {
+        node.context = window.document;
+      }
+    };
+
+    // 当前是否是数组.
+
+
     Dom.prototype._isArray = function _isArray() {
       return this._isArr;
+    };
+
+    // 指定节点是否存在于本对象中.
+
+
+    Dom.prototype._isElementIn = function _isElementIn(node) {
+      if (!this._elem) return false;
+      if (!this._isArray()) {
+        if (this._elem.isSameNode(node)) {
+          return true;
+        }
+      } else {
+        for (var i = 0; i < this._elem.length; i++) {
+          if (this._elem[i].isSameNode(node)) return true;
+        }
+      }
+
+      return false;
     };
 
     return Dom;
@@ -3166,8 +3596,8 @@ var febsUtils = __webpack_require__(51);
         }
 
         return new _Promise(function (resolve, reject) {
-          if (!window["$"]) {
-            throw 'need jquery.ajax in ie9<= browsers.';
+          if (!window["$"] && !window["$"].ajax) {
+            throw new Error('need jquery.ajax in ie9<= browsers.');
           }
           window["$"].ajax({
             url: url,
