@@ -719,19 +719,19 @@
       if (typeof v === 'undefined') {
         if (this._isArray()) { 
           if (this._elem.length > 0)
-            return this._elem[0].getAttribute('value');
+            return this._elem[0].value;
         }
         else {
-          return this._elem.getAttribute('value');
+          return this._elem.value;
         }
       } else {
         if (this._isArray()) { 
           for (var i = 0; i < this._elem.length; i++) {
-            this._elem[i].setAttribute('value', v);
+            this._elem[i].value = v;
           }
         }
         else {
-          this._elem.setAttribute('value', v);
+          this._elem.value = v;
         }
         return this;
       }
