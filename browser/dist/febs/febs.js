@@ -2998,8 +2998,13 @@ var _typeof = __webpack_require__(12)["default"];
           if (ee instanceof Dom) {
             ee = ee._elem;
           }
-          if (ee[eventname] && typeof ee[eventname] === 'function') {
-            ee[eventname].bind(ee)();
+          if (ee.__events) {
+            var env = ee.__events[eventname];
+            if (env) {
+              for (var j = 0; j < env.length; j++) {
+                env[j].bind(ee)();
+              }
+            }
           }
         }
       } else {
@@ -3007,8 +3012,13 @@ var _typeof = __webpack_require__(12)["default"];
         if (ee instanceof Dom) {
           ee = ee._elem;
         }
-        if (ee[eventname] && typeof ee[eventname] === 'function') {
-          ee[eventname].bind(ee)();
+        if (ee.__events) {
+          var env = ee.__events[eventname];
+          if (env) {
+            for (var j = 0; j < env.length; j++) {
+              env[j].bind(ee)();
+            }
+          }
         }
       }
       return this;

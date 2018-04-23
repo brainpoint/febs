@@ -117,7 +117,7 @@
       function(){ 
         return $('.test_elem')[0].text();
       });   
-    febs_assert('val', function(r){return $('.test_elem')[0].attr('value')=='1212';}, 
+    febs_assert('val', function(r){return $('.test_elem')[0].val()=='1212';}, 
       function(){ 
         $('.test_elem')[0].val('1212');
       });
