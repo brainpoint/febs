@@ -23,6 +23,8 @@
 // Pass this if window is not defined yet
 } )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
 
+  var utils = require('./utils');
+
   // - parentNodes 父节点 (HTMLNode)
   // - name 子节点selector.
   // - notAllChildren 仅查询一层子节点.
@@ -1319,14 +1321,31 @@
   // plugin.
   CreateDom.fn = {};
   CreateDom.extend = function(plugin) {
-    if (plugin) {
-      for (const key in plugin) {
+    if (arguments.length == 0)
+      return {}
+
+    if (arguments.length == 1) {
+      for (const key in arguments[0]) {
         if (key == 'extend' || key == 'fn') continue;
-        if (typeof plugin[key] === 'function') {
-          CreateDom[key] = plugin[key];
+        if (typeof arguments[0][key] === 'function') {
+          CreateDom[key] = arguments[0][key];
         }
       }
+      return this;
     }
+    else {
+      if (arguments[0] === false )
+        throw new Error('can\'t be false');
+
+      var o = {};
+      var i = 0;
+      if (arguments[0] === true )
+        i = 1;
+      for (; i < arguments.length; i++) {
+        o = utils.mergeMap(o, arguments[i]);
+      }
+      return o;
+    } // if..else.
   }
 
   return {Dom, CreateDom};
