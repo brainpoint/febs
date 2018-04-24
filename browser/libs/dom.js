@@ -283,19 +283,37 @@
       this.die = this.off;
 
       if (name === window.document) {
-        this.ready = function(f) { if (f) { window.document.addEventListener('DOMContentLoaded', f); return _this; } }
-        this.unload = function(f) { if (f) { window.document.addEventListener('unload', f); return _this; } }
+        this.ready = function(f) { if (f) { 
+          if (window.addEventListener)
+            window.document.addEventListener('DOMContentLoaded', f); 
+          else
+            window.document.attachEvent('onload', f);
+          return _this; } }
+        this.unload = function(f) { if (f) { 
+          if (window.addEventListener)
+            window.document.addEventListener('unload', f); 
+          else
+            window.document.attachEvent('onunload', f);
+          return _this; } }
         this.context = window.document;
       }
       else if (name === window) {
-        this.unload = function(f) { if (f) { window.addEventListener('unload', f); return _this; } }
+        this.unload = function(f) { if (f) { 
+          if (window.addEventListener)
+            window.addEventListener('unload', f); 
+          else
+            window.attachEvent('onunload', f); 
+          return _this; } }
       }
       else {
         this.context = window.document;
       }
 
       if (typeof name === 'function') {
-        window.document.addEventListener('DOMContentLoaded', name);
+        if (window.addEventListener)
+          window.document.addEventListener('DOMContentLoaded', name);
+        else
+          window.document.attachEvent('onload', name);
       }
       else {
         function ttt(event, f) {
@@ -819,7 +837,10 @@
           if (j >= env.length) {
             env.push(foo);
           }
-          ee.addEventListener(eventname, foo);
+          if (ee.addEventListener)
+            ee.addEventListener(eventname, foo);
+          else
+            ee.attachEvent('on'+eventname, foo);
         }
       }
       else {
@@ -839,7 +860,11 @@
         if (j >= env.length) {
           env.push(foo);
         }
-        this._elem.addEventListener(eventname, foo);
+        
+        if (this._elem.addEventListener)
+          this._elem.addEventListener(eventname, foo);
+        else
+          this._elem.attachEvent('on'+eventname, foo);
       }
       return this;
     }
@@ -877,7 +902,10 @@
               var env = ee.__events[eventname];
               var j;
               for (j = 0; j < env.length; j++) {
-                ee.removeEventListener(eventname, env[j]);
+                if (ee.removeEventListener)
+                  ee.removeEventListener(eventname, env[j]);
+                else
+                  ee.detachEvent('on'+eventname, env[j]);
               }
               ee.__events[eventname] = [];
             }
@@ -893,7 +921,10 @@
             var env = ee.__events[eventname];
             var j;
             for (j = 0; j < env.length; j++) {
-              ee.removeEventListener(eventname, env[j]);
+              if (ee.removeEventListener)
+                ee.removeEventListener(eventname, env[j]);
+              else
+                ee.detachEvent('on'+eventname, env[j]);
             }
             ee.__events[eventname] = [];
           }
@@ -921,7 +952,10 @@
               }
             }
           }
-          ee.removeEventListener(eventname, foo);
+          if (ee.removeEventListener)
+            ee.removeEventListener(eventname, foo);
+          else
+            ee.detachEvent('on'+eventname, foo);
         }
       }
       else {
@@ -940,7 +974,11 @@
             }
           }
         }
-        ee.removeEventListener(eventname, foo);
+        
+        if (ee.removeEventListener)
+          ee.removeEventListener(eventname, foo);
+        else
+          ee.detachEvent('on'+eventname, foo);
       }
       return this;
     }
@@ -960,14 +998,18 @@
           if (ee instanceof Dom) {
             ee = ee._elem;
           }
-          if (ee.__events) {
-            var env = ee.__events[eventname];
-            if (env) {
-              for (var j = 0; j < env.length; j++) {
-                env[j].bind(ee)();
-              }
+
+          // fire.
+          if (ee) {
+            if (!window.document.addEventListener) {
+              ee.fireEvent('on'+eventname);
             }
-          }
+            else {
+              var env = window.document.createEvent('HTMLEvents');
+              env.initEvent(eventname, true, true);
+              ee.dispatchEvent(env);
+            }
+          } // if.
         }
       }
       else {
@@ -975,14 +1017,18 @@
         if (ee instanceof Dom) {
           ee = ee._elem;
         }
-        if (ee.__events) {
-          var env = ee.__events[eventname];
-          if (env) {
-            for (var j = 0; j < env.length; j++) {
-              env[j].bind(ee)();
-            }
+
+        // fire.
+        if (ee) {
+          if (!window.document.addEventListener) {
+            ee.fireEvent('on'+eventname);
           }
-        }
+          else {
+            var env = window.document.createEvent('HTMLEvents');
+            env.initEvent(eventname, true, true);
+            ee.dispatchEvent(env);
+          }
+        } // if.
       }
       return this;
     }

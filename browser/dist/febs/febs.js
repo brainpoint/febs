@@ -2244,19 +2244,22 @@ var _typeof = __webpack_require__(12)["default"];
       if (name === window.document) {
         this.ready = function (f) {
           if (f) {
-            window.document.addEventListener('DOMContentLoaded', f);return _this;
+            if (window.addEventListener) window.document.addEventListener('DOMContentLoaded', f);else window.document.attachEvent('onload', f);
+            return _this;
           }
         };
         this.unload = function (f) {
           if (f) {
-            window.document.addEventListener('unload', f);return _this;
+            if (window.addEventListener) window.document.addEventListener('unload', f);else window.document.attachEvent('onunload', f);
+            return _this;
           }
         };
         this.context = window.document;
       } else if (name === window) {
         this.unload = function (f) {
           if (f) {
-            window.addEventListener('unload', f);return _this;
+            if (window.addEventListener) window.addEventListener('unload', f);else window.attachEvent('onunload', f);
+            return _this;
           }
         };
       } else {
@@ -2264,7 +2267,7 @@ var _typeof = __webpack_require__(12)["default"];
       }
 
       if (typeof name === 'function') {
-        window.document.addEventListener('DOMContentLoaded', name);
+        if (window.addEventListener) window.document.addEventListener('DOMContentLoaded', name);else window.document.attachEvent('onload', name);
       } else {
         var ttt = function ttt(event, f) {
           if (f) {
@@ -2868,7 +2871,7 @@ var _typeof = __webpack_require__(12)["default"];
           if (j >= env.length) {
             env.push(foo);
           }
-          ee.addEventListener(eventname, foo);
+          if (ee.addEventListener) ee.addEventListener(eventname, foo);else ee.attachEvent('on' + eventname, foo);
         }
       } else {
         var ee = this._elem;
@@ -2887,7 +2890,8 @@ var _typeof = __webpack_require__(12)["default"];
         if (j >= env.length) {
           env.push(foo);
         }
-        this._elem.addEventListener(eventname, foo);
+
+        if (this._elem.addEventListener) this._elem.addEventListener(eventname, foo);else this._elem.attachEvent('on' + eventname, foo);
       }
       return this;
     };
@@ -2930,7 +2934,7 @@ var _typeof = __webpack_require__(12)["default"];
               var env = ee.__events[eventname];
               var j;
               for (j = 0; j < env.length; j++) {
-                ee.removeEventListener(eventname, env[j]);
+                if (ee.removeEventListener) ee.removeEventListener(eventname, env[j]);else ee.detachEvent('on' + eventname, env[j]);
               }
               ee.__events[eventname] = [];
             }
@@ -2944,7 +2948,7 @@ var _typeof = __webpack_require__(12)["default"];
             var env = ee.__events[eventname];
             var j;
             for (j = 0; j < env.length; j++) {
-              ee.removeEventListener(eventname, env[j]);
+              if (ee.removeEventListener) ee.removeEventListener(eventname, env[j]);else ee.detachEvent('on' + eventname, env[j]);
             }
             ee.__events[eventname] = [];
           }
@@ -2970,7 +2974,7 @@ var _typeof = __webpack_require__(12)["default"];
               }
             }
           }
-          ee.removeEventListener(eventname, foo);
+          if (ee.removeEventListener) ee.removeEventListener(eventname, foo);else ee.detachEvent('on' + eventname, foo);
         }
       } else {
         var ee = this._elem;
@@ -2987,7 +2991,8 @@ var _typeof = __webpack_require__(12)["default"];
             }
           }
         }
-        ee.removeEventListener(eventname, foo);
+
+        if (ee.removeEventListener) ee.removeEventListener(eventname, foo);else ee.detachEvent('on' + eventname, foo);
       }
       return this;
     };
@@ -3010,28 +3015,34 @@ var _typeof = __webpack_require__(12)["default"];
           if (ee instanceof Dom) {
             ee = ee._elem;
           }
-          if (ee.__events) {
-            var env = ee.__events[eventname];
-            if (env) {
-              for (var j = 0; j < env.length; j++) {
-                env[j].bind(ee)();
-              }
+
+          // fire.
+          if (ee) {
+            if (!window.document.addEventListener) {
+              ee.fireEvent('on' + eventname);
+            } else {
+              var env = window.document.createEvent('HTMLEvents');
+              env.initEvent(eventname, true, true);
+              ee.dispatchEvent(env);
             }
-          }
+          } // if.
         }
       } else {
         var ee = this._elem;
         if (ee instanceof Dom) {
           ee = ee._elem;
         }
-        if (ee.__events) {
-          var env = ee.__events[eventname];
-          if (env) {
-            for (var j = 0; j < env.length; j++) {
-              env[j].bind(ee)();
-            }
+
+        // fire.
+        if (ee) {
+          if (!window.document.addEventListener) {
+            ee.fireEvent('on' + eventname);
+          } else {
+            var env = window.document.createEvent('HTMLEvents');
+            env.initEvent(eventname, true, true);
+            ee.dispatchEvent(env);
           }
-        }
+        } // if.
       }
       return this;
     };
