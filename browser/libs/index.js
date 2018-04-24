@@ -34,17 +34,17 @@ require('../third-party/bluebird.min.js');
 
 //
 // define the __debug.
-if (!global.hasOwnProperty('__debug')) {
-  global.__debug = false;
+if (!window.hasOwnProperty('__debug')) {
+  window.__debug = false;
 }
 
 //
 // define the animationFrame.
 var animationFrame  = require('./animationFrame');
-if (!global.requestAnimationFrame)
-  global.requestAnimationFrame = animationFrame.requestAnimationFrame;
-if (!global.cancelAnimationFrame)
-  global.cancelAnimationFrame = animationFrame.cancelAnimationFrame;
+if (!window['requestAnimationFrame'])
+  window.requestAnimationFrame = animationFrame.requestAnimationFrame;
+if (!window['cancelAnimationFrame'])
+  window.cancelAnimationFrame = animationFrame.cancelAnimationFrame;
 
 
 var febs = {};
@@ -59,13 +59,15 @@ febs['$'] = febs.dom.CreateDom;
 window['febs'] = febs;
 if (!window['$'])
   window['$'] = febs['$'];
+if (!window['jQuery'])
+  window['jQuery'] = febs['$'];
 
 //
 // debug.
 //
 // if (!console.debug) {
   window.console.debug = function() {
-    if (global.__debug) {
+    if (window.__debug) {
       var logfoo;
       if (window.console.warn)
         logfoo = window.console.warn;
