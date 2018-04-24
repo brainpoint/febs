@@ -310,6 +310,8 @@ export class dom {
    */
   constructor(selector?:string|dom|HTMLElement);
 
+  get(index:number): any;
+  
   /**
    * @desc: hasClass
    */

@@ -344,6 +344,18 @@
       }
     }
 
+    get(index) {
+      if (!this._elem) return null;
+      else {
+        if (this._isArray()) {
+          return this._elem[index];
+        }
+        else {
+          return index > 0 ? null : this._elem;
+        }
+      }
+    }
+
     /**
      * @desc: hasClass
      */

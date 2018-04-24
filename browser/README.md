@@ -390,6 +390,8 @@ febs库模拟了jquery的常用方法(dom操作/事件/css等), 当页面引入f
    */
   $(selector?:string|dom|HTMLElement);
 
+  get(index:number): any;
+
   hasClass( cName:string ): boolean;
   addClass( cName:string ): $;
   removeClass( cName:string ): $;

@@ -2350,6 +2350,16 @@ var _typeof = __webpack_require__(12)["default"];
       }
     }
 
+    Dom.prototype.get = function get(index) {
+      if (!this._elem) return null;else {
+        if (this._isArray()) {
+          return this._elem[index];
+        } else {
+          return index > 0 ? null : this._elem;
+        }
+      }
+    };
+
     /**
      * @desc: hasClass
      */
