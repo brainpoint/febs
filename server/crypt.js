@@ -204,6 +204,51 @@ exports.sha1_file = function( filename ) {
 };
 
 
+
+
+/**
+ * @desc: 分段计算方式.
+ *  var hash = md5_begin();
+ *  md5_update(hash, 'xxx');
+ *  var hex = md5_finish(hash);
+ */
+exports.md5_begin =
+function () {
+  return crypto.createHash('md5');
+}
+
+exports.md5_update =
+function (hash, /* String */ str) {
+  hash.update(str);
+}
+
+exports.md5_finish =
+function (hash) {
+  return hash.digest('hex');
+}
+
+/**
+ * @desc: 分段计算方式.
+ *  var hash = sha1_begin();
+ *  sha1_update(hash, 'xxx');
+ *  var hex = sha1_finish(hash);
+ */
+exports.sha1_begin =
+function () {
+  return crypto.createHash('sha1');
+}
+
+exports.sha1_update =
+function (hash, /* String */ str) {
+  hash.update(str);
+}
+
+exports.sha1_finish =
+function (hash) {
+  return hash.digest('hex');
+}
+
+
 /**
 * @desc: 生成一个uuid字符串 (uuid v1)
 * @return: 

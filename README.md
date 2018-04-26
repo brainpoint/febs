@@ -299,6 +299,28 @@ febs.crypt.uuid()
  * @return: number
  */
 febs.crypt.crc32_file(filename)
+
+/**
+ * @desc: 分段计算方式.
+ *  var hash = md5_begin();
+ *  md5_update(hash, 'xxx');
+ *  var hex = md5_finish(hash);
+ */
+febs.crypt.md5_begin():any;
+febs.crypt.md5_update(hash:any, str: string|Buffer):void;
+febs.crypt.md5_finish(hash:any):string;
+
+/**
+ * @desc: 分段计算方式.
+ *  var hash = sha1_begin();
+ *  sha1_update(hash, 'xxx');
+ *  var hex = sha1_finish(hash);
+ */
+febs.crypt.sha1_begin():any;
+febs.crypt.sha1_update(hash:any, str: string|Buffer):void;
+febs.crypt.sha1_finish(hash:any):string;
+
+
 /**
 * @desc: 使用上次的解码的数据继续进行base64解码.
 * @return: 
@@ -325,6 +347,7 @@ febs.crypt.base64_decode(strBase64, c2 = 0, c3 = 0, c4 = 0)
  * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
  */
 febs.crypt.crc32_file(fileObj, cb)
+
 /**
 * @desc: base64解码.
 * @return: 字节数组.
@@ -350,6 +373,7 @@ febs.crypt.md5( strOrBuffer )
  * @return: string
  */
 febs.crypt.sha1( strOrBuffer )
+
 /**
 * @desc: base64编码.
 * @param arrByte: 字节数组.

@@ -263,6 +263,7 @@ febs.string.replace(str, strSrc, strDest)
  * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
  */
 febs.crypt.crc32_file(fileObj, cb)
+
 /**
 * @desc: base64解码.
 * @return: 字节数组.
@@ -294,6 +295,7 @@ febs.crypt.md5( strOrBuffer )
  * @return: string
  */
 febs.crypt.sha1( strOrBuffer )
+
 ```
 
 # animationFrame

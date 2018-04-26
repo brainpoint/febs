@@ -873,11 +873,11 @@
     * @desc: one.
     */
     one(event, f) { 
-      if (!event) 
+      if (!event || typeof event !== 'string') 
         throw new Error('need event name');
 
       var _this = this;
-      var tt = function(e) { _this.off(event, tt); f(e); };
+      var tt = function(e) { _this.off(event, tt); f.bind(this)(e); };
       _this.on(event, tt);
       return this;
     }

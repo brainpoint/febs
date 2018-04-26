@@ -265,6 +265,25 @@ export namespace crypt {
    * @return: string
    */
   function sha1_file(filename: string): string;
+    /**
+   * @desc: 分段计算方式.
+   *  var hash = md5_begin();
+   *  md5_update(hash, 'xxx');
+   *  var hex = md5_finish(hash);
+   */
+  function md5_begin():any;
+  function md5_update(hash:any, str: string|Buffer):void;
+  function md5_finish(hash:any):string;
+
+  /**
+   * @desc: 分段计算方式.
+   *  var hash = sha1_begin();
+   *  sha1_update(hash, 'xxx');
+   *  var hex = sha1_finish(hash);
+   */
+  function sha1_begin():any;
+  function sha1_update(hash:any, str: string|Buffer):void;
+  function sha1_finish(hash:any):string;
   /**
   * @desc: [only in server] base64编码.
   * @return: string.

@@ -2902,11 +2902,11 @@ var _typeof = __webpack_require__(12)["default"];
 
 
     Dom.prototype.one = function one(event, f) {
-      if (!event) throw new Error('need event name');
+      if (!event || typeof event !== 'string') throw new Error('need event name');
 
       var _this = this;
       var tt = function tt(e) {
-        _this.off(event, tt);f(e);
+        _this.off(event, tt);f.bind(this)(e);
       };
       _this.on(event, tt);
       return this;

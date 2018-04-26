@@ -205,11 +205,13 @@ export namespace crypt {
    * @return: string.
    */
   function md5(str: string|Buffer): string;
+
   /**
    * @desc: 计算字符串的sha1值
    * @return: string.
    */
   function sha1(str: string|Buffer): string;
+
   /**
   * @desc: base64编码.
   * @param arrByte: 字节数组.
@@ -473,4 +475,11 @@ export class dom {
   [index:number]: dom;
 }
 
-export function $(n:any):dom;
+declare global {
+  export function $(n:any):dom;
+
+  export class $ {
+    static fn:any;
+    static extend(...any):$;
+  }
+}
