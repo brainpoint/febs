@@ -2402,6 +2402,8 @@ var _typeof = __webpack_require__(12)["default"];
           for (var i = 0; i < this._elem.length; i++) {
             this._domtify(this._elem[i]);
           }
+        } else {
+          this._domtify(this._elem);
         }
       }
     }
@@ -2425,14 +2427,13 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return false;
       }
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          if (_hasClass(this._elem[i], cName)) return true;
-        }
-        return false;
-      } else {
-        return _hasClass(this._elem, cName);
+
+      var _thisLength = this.length ? this.length : 1;
+
+      for (var i = 0; i < _thisLength; i++) {
+        if (_hasClass(this.get(i), cName)) return true;
       }
+      return false;
     };
 
     /**
@@ -2444,12 +2445,11 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          _addClass(this._elem[i], cName);
-        }
-      } else {
-        _addClass(this._elem, cName);
+
+      var _thisLength = this.length ? this.length : 1;
+
+      for (var i = 0; i < _thisLength; i++) {
+        _addClass(this.get(i), cName);
       }
       return this;
     };
@@ -2463,12 +2463,11 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          _removeClass(this._elem[i], cName);
-        }
-      } else {
-        _removeClass(this._elem, cName);
+
+      var _thisLength = this.length ? this.length : 1;
+
+      for (var i = 0; i < _thisLength; i++) {
+        _removeClass(this.get(i), cName);
       }
       return this;
     };
@@ -2482,12 +2481,11 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          if (_hasClass(this._elem[i], cName)) _removeClass(this._elem[i], cName);else _addClass(this._elem[i], cName);
-        }
-      } else {
-        if (_hasClass(this._elem, cName)) _removeClass(this._elem, cName);else _addClass(this._elem, cName);
+
+      var _thisLength = this.length ? this.length : 1;
+
+      for (var i = 0; i < _thisLength; i++) {
+        if (_hasClass(this.get(i), cName)) _removeClass(this.get(i), cName);else _addClass(this.get(i), cName);
       }
       return this;
     };
@@ -2501,12 +2499,11 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          _removeElement(this._elem[i]);
-        }
-      } else {
-        _removeElement(this._elem);
+
+      var _thisLength = this.length ? this.length : 1;
+
+      for (var i = 0; i < _thisLength; i++) {
+        _removeElement(this.get(i));
       }
       return this;
     };
@@ -2520,13 +2517,16 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          _appendChild(this._elem[i], new Dom(node));
+      var _dom = new Dom(node);
+      _appendChild(this.get(0), _dom);
+
+      // for ie.
+      for (var i = 0; i < _dom.length; i++) {
+        if (_dom[i].getAttribute('disabled') == '') {
+          _dom[i].removeAttribute('disabled');
         }
-      } else {
-        _appendChild(this._elem, new Dom(node));
       }
+
       return this;
     };
 
@@ -2539,10 +2539,8 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      if (!this._isArray()) {
-        var dom = new Dom(node);
-        dom.append(this);
-      }
+      var dom = new Dom(node);
+      dom.append(this);
       return this;
     };
 
@@ -2555,13 +2553,16 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          _prependChild(this._elem[i], new Dom(node));
+      var _dom = new Dom(node);
+      _prependChild(this.get(0), _dom);
+
+      // for ie.
+      for (var i = 0; i < _dom.length; i++) {
+        if (_dom[i].getAttribute('disabled') == '') {
+          _dom[i].removeAttribute('disabled');
         }
-      } else {
-        _prependChild(this._elem, new Dom(node));
       }
+
       return this;
     };
 
@@ -2574,10 +2575,8 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      if (!this._isArray()) {
-        var dom = new Dom(node);
-        dom.prepend(this);
-      }
+      var dom = new Dom(node);
+      dom.prepend(this);
       return this;
     };
 
@@ -2590,13 +2589,22 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          new Dom(node).insertBefore(this._elem[i]);
-        }
-      } else {
-        new Dom(node).insertBefore(this._elem);
+
+      var _dom = new Dom(node);
+
+      var _thisLength = this.length ? this.length : 1;
+
+      for (var i = 0; i < _thisLength; i++) {
+        _dom.insertBefore(this.get(i));
       }
+
+      // for ie.
+      for (var i = 0; i < _dom.length; i++) {
+        if (_dom[i].getAttribute('disabled') == '') {
+          _dom[i].removeAttribute('disabled');
+        }
+      }
+
       return this;
     };
 
@@ -2629,13 +2637,22 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          new Dom(node).insertAfter(this._elem[i]);
-        }
-      } else {
-        new Dom(node).insertAfter(this._elem);
+
+      var _dom = new Dom(node);
+
+      var _thisLength = this.length ? this.length : 1;
+
+      for (var i = 0; i < _thisLength; i++) {
+        _dom.insertAfter(this.get(i));
       }
+
+      // for ie.
+      for (var i = 0; i < _dom.length; i++) {
+        if (_dom[i].getAttribute('disabled') == '') {
+          _dom[i].removeAttribute('disabled');
+        }
+      }
+
       return this;
     };
 
@@ -2667,19 +2684,16 @@ var _typeof = __webpack_require__(12)["default"];
     Dom.prototype.attr = function attr(attrName, value) {
       if (!this._elem) {
         if (typeof value !== 'undefined') return this;
-        return;
+        return undefined;
       }
       if (typeof value === 'undefined') {
-        if (!this._isArray()) {
-          return this._elem.getAttribute(attrName);
-        }
+        return this.get(0).getAttribute(attrName);
       } else {
-        if (this._isArray()) {
-          for (var i = 0; i < this._elem.length; i++) {
-            this._elem[i].setAttribute(attrName, value);
-          }
-        } else {
-          this._elem.setAttribute(attrName, value);
+
+        var _thisLength = this.length ? this.length : 1;
+
+        for (var i = 0; i < _thisLength; i++) {
+          this.get(i).setAttribute(attrName, value);
         }
         return this;
       }
@@ -2694,12 +2708,11 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          this._elem[i].removeAttribute(name);
-        }
-      } else {
-        this._elem.removeAttribute(name);
+
+      var _thisLength = this.length ? this.length : 1;
+
+      for (var i = 0; i < _thisLength; i++) {
+        this.get(i).removeAttribute(name);
       }
       return this;
     };
@@ -2773,12 +2786,11 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          this._elem[i].innerHTML = '';
-        }
-      } else {
-        this._elem.innerHTML = '';
+
+      var _thisLength = this.length ? this.length : 1;
+
+      for (var i = 0; i < _thisLength; i++) {
+        this.get(i).innerHTML = '';
       }
       return this;
     };
@@ -2794,18 +2806,13 @@ var _typeof = __webpack_require__(12)["default"];
         return;
       }
       if (typeof v === 'undefined') {
-        if (this._isArray()) {
-          if (this._elem.length > 0) return this._elem[0].innerHTML;
-        } else {
-          return this._elem.innerHTML;
-        }
+        return this.get(0).innerHTML;
       } else {
-        if (this._isArray()) {
-          for (var i = 0; i < this._elem.length; i++) {
-            this._elem[i].innerHTML = v;
-          }
-        } else {
-          this._elem.innerHTML = v;
+
+        var _thisLength = this.length ? this.length : 1;
+
+        for (var i = 0; i < _thisLength; i++) {
+          this.get(i).innerHTML = v;
         }
         return this;
       }
@@ -2822,18 +2829,13 @@ var _typeof = __webpack_require__(12)["default"];
         return;
       }
       if (typeof v === 'undefined') {
-        if (this._isArray()) {
-          if (this._elem.length > 0) return this._elem[0].textContent;
-        } else {
-          return this._elem.textContent;
-        }
+        return this.get(0).textContent;
       } else {
-        if (this._isArray()) {
-          for (var i = 0; i < this._elem.length; i++) {
-            this._elem[i].textContent = v;
-          }
-        } else {
-          this._elem.textContent = v;
+
+        var _thisLength = this.length ? this.length : 1;
+
+        for (var i = 0; i < _thisLength; i++) {
+          this.get(i).textContent = v;
         }
         return this;
       }
@@ -2850,18 +2852,13 @@ var _typeof = __webpack_require__(12)["default"];
         return;
       }
       if (typeof v === 'undefined') {
-        if (this._isArray()) {
-          if (this._elem.length > 0) return this._elem[0].value;
-        } else {
-          return this._elem.value;
-        }
+        return this.get(0).value;
       } else {
-        if (this._isArray()) {
-          for (var i = 0; i < this._elem.length; i++) {
-            this._elem[i].value = v;
-          }
-        } else {
-          this._elem.value = v;
+
+        var _thisLength = this.length ? this.length : 1;
+
+        for (var i = 0; i < _thisLength; i++) {
+          this.get(i).value = v;
         }
         return this;
       }
@@ -2878,16 +2875,13 @@ var _typeof = __webpack_require__(12)["default"];
         return;
       }
       if (typeof value === 'undefined') {
-        if (!this._isArray()) {
-          return this._elem.style[name];
-        }
+        return this.get(0).style[name];
       } else {
-        if (this._isArray()) {
-          for (var i = 0; i < this._elem.length; i++) {
-            if (value == '') this._elem[i].style[name] = '';else this._elem[i].style[name] = value;
-          }
-        } else {
-          if (value == '') this._elem.style[name] = '';else this._elem.style[name] = value;
+
+        var _thisLength = this.length ? this.length : 1;
+
+        for (var i = 0; i < _thisLength; i++) {
+          if (value == '') this.get(i).style[name] = '';else this.get(i).style[name] = value;
         }
         return this;
       }
@@ -2906,28 +2900,11 @@ var _typeof = __webpack_require__(12)["default"];
       if (!this._elem) {
         return this;
       }
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          var ee = this._elem[i];
-          if (ee instanceof Dom) {
-            ee = ee._elem;
-          }
-          if (!ee.__events) ee.__events = {};
-          if (!ee.__events[eventname]) ee.__events[eventname] = [];
-          var env = ee.__events[eventname];
-          var j;
-          for (j = 0; j < env.length; j++) {
-            if (env[j] === foo) {
-              break;
-            }
-          }
-          if (j >= env.length) {
-            env.push(foo);
-          }
-          if (ee.addEventListener) ee.addEventListener(eventname, foo);else ee.attachEvent('on' + eventname, foo);
-        }
-      } else {
-        var ee = this._elem;
+
+      var _thisLength = this.length ? this.length : 1;
+
+      for (var i = 0; i < _thisLength; i++) {
+        var ee = this.get(i);
         if (ee instanceof Dom) {
           ee = ee._elem;
         }
@@ -2943,8 +2920,7 @@ var _typeof = __webpack_require__(12)["default"];
         if (j >= env.length) {
           env.push(foo);
         }
-
-        if (this._elem.addEventListener) this._elem.addEventListener(eventname, foo);else this._elem.attachEvent('on' + eventname, foo);
+        if (ee.addEventListener) ee.addEventListener(eventname, foo);else ee.attachEvent('on' + eventname, foo);
       }
       return this;
     };
@@ -2977,23 +2953,11 @@ var _typeof = __webpack_require__(12)["default"];
         return this;
       }
       if (!foo) {
-        if (this._isArray()) {
-          for (var i = 0; i < this._elem.length; i++) {
-            var ee = this._elem[i];
-            if (ee instanceof Dom) {
-              ee = ee._elem;
-            }
-            if (ee.__events && ee.__events[eventname]) {
-              var env = ee.__events[eventname];
-              var j;
-              for (j = 0; j < env.length; j++) {
-                if (ee.removeEventListener) ee.removeEventListener(eventname, env[j]);else ee.detachEvent('on' + eventname, env[j]);
-              }
-              ee.__events[eventname] = [];
-            }
-          }
-        } else {
-          var ee = this._elem;
+
+        var _thisLength = this.length ? this.length : 1;
+
+        for (var i = 0; i < _thisLength; i++) {
+          var ee = this.get(i);
           if (ee instanceof Dom) {
             ee = ee._elem;
           }
@@ -3011,26 +2975,10 @@ var _typeof = __webpack_require__(12)["default"];
 
       if (typeof foo !== 'function') throw new Error('off need function params');
 
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          var ee = this._elem[i];
-          if (ee instanceof Dom) {
-            ee = ee._elem;
-          }
-          if (ee.__events && ee.__events[eventname]) {
-            var env = ee.__events[eventname];
-            var j;
-            for (j = 0; j < env.length; j++) {
-              if (env[j] === foo) {
-                env.splice(j, 1);
-                break;
-              }
-            }
-          }
-          if (ee.removeEventListener) ee.removeEventListener(eventname, foo);else ee.detachEvent('on' + eventname, foo);
-        }
-      } else {
-        var ee = this._elem;
+      var _thisLength = this.length ? this.length : 1;
+
+      for (var i = 0; i < _thisLength; i++) {
+        var ee = this.get(i);
         if (ee instanceof Dom) {
           ee = ee._elem;
         }
@@ -3044,9 +2992,9 @@ var _typeof = __webpack_require__(12)["default"];
             }
           }
         }
-
         if (ee.removeEventListener) ee.removeEventListener(eventname, foo);else ee.detachEvent('on' + eventname, foo);
       }
+
       return this;
     };
 
@@ -3062,26 +3010,10 @@ var _typeof = __webpack_require__(12)["default"];
         return this;
       }
 
-      if (this._isArray()) {
-        for (var i = 0; i < this._elem.length; i++) {
-          var ee = this._elem[i];
-          if (ee instanceof Dom) {
-            ee = ee._elem;
-          }
+      var _thisLength = this.length ? this.length : 1;
 
-          // fire.
-          if (ee) {
-            if (!window.document.addEventListener) {
-              ee.fireEvent('on' + eventname);
-            } else {
-              var env = window.document.createEvent('HTMLEvents');
-              env.initEvent(eventname, true, true);
-              ee.dispatchEvent(env);
-            }
-          } // if.
-        }
-      } else {
-        var ee = this._elem;
+      for (var i = 0; i < _thisLength; i++) {
+        var ee = this.get(i);
         if (ee instanceof Dom) {
           ee = ee._elem;
         }
@@ -3117,12 +3049,15 @@ var _typeof = __webpack_require__(12)["default"];
         dom._elem = [];
         dom._isArr = true;
         dom.length = 0;
-        for (var i = 0; i < this._elem.length; i++) {
-          if (this._elem[i].parentNode) {
-            if (!sel || sel._isElementIn(this._elem[i].parentNode)) {
-              this._domtify(this._elem[i].parentNode);
-              dom._elem.push(this._elem[i].parentNode);
-              dom[dom.length] = this._elem[i].parentNode;
+
+        var _thisLength = this.length ? this.length : 1;
+
+        for (var i = 0; i < _thisLength; i++) {
+          if (this.get(i).parentNode) {
+            if (!sel || sel._isElementIn(this.get(i).parentNode)) {
+              this._domtify(this.get(i).parentNode);
+              dom._elem.push(this.get(i).parentNode);
+              dom[dom.length] = this.get(i).parentNode;
               dom.length++;
             }
           }
@@ -3151,63 +3086,40 @@ var _typeof = __webpack_require__(12)["default"];
       var sel;
       if (selector) sel = new Dom(selector);
 
-      if (this._isArray()) {
-        var nodes = [];
-        for (var i = 0; i < this._elem.length; i++) {
-          if (!this._elem[i].parentNode) continue;
-          var elem = this._elem[i];
-          while (elem.parentNode) {
-            if (elem.parentNode == window || elem.parentNode == window.document) break;
+      var nodes = [];
 
-            if (!sel || sel._isElementIn(elem.parentNode)) {
-              var j;
-              for (j = 0; j < nodes.length; j++) {
-                if (nodes[j].isSameNode(elem.parentNode)) {
-                  break;
-                }
-              }
-              if (j >= nodes.length) nodes.push(elem.parentNode);
-            }
-            elem = elem.parentNode;
-          }
-        } // for.
+      var _thisLength = this.length ? this.length : 1;
 
-        var dom = new Dom();
-        if (nodes.length > 0) {
-          dom._elem = nodes;
-          dom._isArr = true;
-          dom.length = nodes.length;
-          for (var i = 0; i < nodes.length; i++) {
-            dom._domtify(nodes[i]);
-            dom[i] = nodes[i];
-          }
-        }
-        return dom;
-      } else {
-        if (!this._elem.parentNode) return new Dom();
-        var nodes = [];
-        var elem = this._elem;
+      for (var i = 0; i < _thisLength; i++) {
+        if (!this.get(i).parentNode) continue;
+        var elem = this.get(i);
         while (elem.parentNode) {
           if (elem.parentNode == window || elem.parentNode == window.document) break;
 
           if (!sel || sel._isElementIn(elem.parentNode)) {
-            nodes.push(elem.parentNode);
+            var j;
+            for (j = 0; j < nodes.length; j++) {
+              if (nodes[j].isSameNode(elem.parentNode)) {
+                break;
+              }
+            }
+            if (j >= nodes.length) nodes.push(elem.parentNode);
           }
           elem = elem.parentNode;
         }
+      } // for.
 
-        var dom = new Dom();
-        if (nodes.length > 0) {
-          dom._elem = nodes;
-          dom._isArr = true;
-          dom.length = nodes.length;
-          for (var i = 0; i < nodes.length; i++) {
-            dom._domtify(nodes[i]);
-            dom[i] = nodes[i];
-          }
+      var dom = new Dom();
+      if (nodes.length > 0) {
+        dom._elem = nodes;
+        dom._isArr = true;
+        dom.length = nodes.length;
+        for (var i = 0; i < nodes.length; i++) {
+          dom._domtify(nodes[i]);
+          dom[i] = nodes[i];
         }
-        return dom;
-      } // if.
+      }
+      return dom;
     };
 
     /**
@@ -3221,59 +3133,37 @@ var _typeof = __webpack_require__(12)["default"];
         return new Dom();
       }
 
-      if (this._isArray()) {
-        var nodes = [];
-        for (var i = 0; i < this._elem.length; i++) {
-          var sel;
-          if (selector) sel = _getElement(selector, this._elem[i]);else {
-            sel = { _elem: [], _isarr: true };
-            for (var j = 0; j < this._elem[i].childNodes.length; j++) {
-              sel._elem.push(this._elem[i].childNodes[j]);
-            }
-          }
+      var nodes = [];
 
-          if (!sel._elem) continue;
+      var _thisLength = this.length ? this.length : 1;
 
-          if (sel._isarr) {
-            nodes = nodes.concat(sel._elem);
-          } else {
-            nodes.push(sel._elem);
-          }
-        }
-
-        var dom = new Dom();
-        dom._elem = nodes;
-        dom._isArr = true;
-        dom.length = nodes.length;
-        for (var i = 0; i < nodes.length; i++) {
-          this._domtify(nodes[i]);
-          dom[i] = nodes[i];
-        }
-        return dom;
-      } else {
+      for (var i = 0; i < _thisLength; i++) {
         var sel;
-        if (selector) sel = _getElement(selector, this._elem);else {
+        if (selector) sel = _getElement(selector, this.get(i));else {
           sel = { _elem: [], _isarr: true };
-          for (var j = 0; j < this._elem.childNodes.length; j++) {
-            sel._elem.push(this._elem.childNodes[j]);
+          for (var j = 0; j < this.get(i).childNodes.length; j++) {
+            sel._elem.push(this.get(i).childNodes[j]);
           }
         }
 
-        var dom = new Dom();
-        dom._elem = sel._elem;
-        dom[0] = sel._elem;
-        dom._isArr = sel._isarr;
-        dom.length = sel._elem ? 1 : 0;
+        if (!sel._elem) continue;
 
-        if (sel._isarr && sel._elem) {
-          for (var i = 0; i < sel._elem.length; i++) {
-            this._domtify(sel._elem[i]);
-            dom[i] = sel._elem[i];
-          }
-          dom.length = sel._elem.length;
+        if (sel._isarr) {
+          nodes = nodes.concat(sel._elem);
+        } else {
+          nodes.push(sel._elem);
         }
-        return dom;
-      } // if..else.      
+      }
+
+      var dom = new Dom();
+      dom._elem = nodes;
+      dom._isArr = true;
+      dom.length = nodes.length;
+      for (var i = 0; i < nodes.length; i++) {
+        this._domtify(nodes[i]);
+        dom[i] = nodes[i];
+      }
+      return dom;
     };
 
     /**
@@ -3295,9 +3185,12 @@ var _typeof = __webpack_require__(12)["default"];
 
       if (this._isArray()) {
         var nodes = [];
-        for (var i = 0; i < this._elem.length; i++) {
-          if (!dom || dom._isElementIn(this._elem[i].nextSibling)) {
-            if (this._elem[i].nextSibling) nodes.push(this._elem[i].nextSibling);
+
+        var _thisLength = this.length ? this.length : 1;
+
+        for (var i = 0; i < _thisLength; i++) {
+          if (!dom || dom._isElementIn(this.get(i).nextSibling)) {
+            if (this.get(i).nextSibling) nodes.push(this.get(i).nextSibling);
           }
         }
 
@@ -3344,9 +3237,12 @@ var _typeof = __webpack_require__(12)["default"];
 
       if (this._isArray()) {
         var nodes = [];
-        for (var i = 0; i < this._elem.length; i++) {
-          if (!dom || dom._isElementIn(this._elem[i].previousSibling)) {
-            if (this._elem[i].previousSibling) nodes.push(this._elem[i].previousSibling);
+
+        var _thisLength = this.length ? this.length : 1;
+
+        for (var i = 0; i < _thisLength; i++) {
+          if (!dom || dom._isElementIn(this.get(i).previousSibling)) {
+            if (this.get(i).previousSibling) nodes.push(this.get(i).previousSibling);
           }
         }
 
@@ -3430,14 +3326,11 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype._isElementIn = function _isElementIn(node) {
       if (!this._elem) return false;
-      if (!this._isArray()) {
-        if (this._elem.isSameNode(node)) {
-          return true;
-        }
-      } else {
-        for (var i = 0; i < this._elem.length; i++) {
-          if (this._elem[i].isSameNode(node)) return true;
-        }
+
+      var _thisLength = this.length ? this.length : 1;
+
+      for (var i = 0; i < _thisLength; i++) {
+        if (this.get(i).isSameNode(node)) return true;
       }
 
       return false;
