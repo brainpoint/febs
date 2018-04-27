@@ -3527,9 +3527,10 @@ var _typeof = __webpack_require__(12)["default"];
     ee = ee[0];
     if (ee) {
       if (typeof ee.getBoundingClientRect === 'function') {
+        var rect = ee.getBoundingClientRect();
         return {
-          left: ee.left,
-          top: ee.top
+          left: rect.left,
+          top: rect.top
         };
       } else {
         var actualLeft = ee.offsetLeft;
@@ -3559,6 +3560,8 @@ var _typeof = __webpack_require__(12)["default"];
         };
       } // if..else.
     }
+
+    return {};
   };
 
   return { Dom: Dom, CreateDom: CreateDom };
