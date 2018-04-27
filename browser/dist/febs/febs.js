@@ -2298,29 +2298,40 @@ var _typeof = __webpack_require__(12)["default"];
         this.ready = function (f) {
           if (f) {
             if (window.addEventListener) window.document.addEventListener('DOMContentLoaded', f);else window.document.attachEvent('onload', f);
-            return _this;
+          } else {
+            _this.trigger('ready');
           }
+          return _this;
         };
         this.unload = function (f) {
           if (f) {
             if (window.addEventListener) window.document.addEventListener('unload', f);else window.document.attachEvent('onunload', f);
-            return _this;
+          } else {
+            _this.trigger('unload');
           }
+          return _this;
         };
         this.context = window.document;
       } else if (name === window) {
         this.unload = function (f) {
           if (f) {
             if (window.addEventListener) window.addEventListener('unload', f);else window.attachEvent('onunload', f);
-            return _this;
+          } else {
+            _this.trigger('unload');
           }
+          return _this;
         };
       } else {
         this.context = window.document;
       }
 
       if (typeof name === 'function') {
-        if (window.addEventListener) window.document.addEventListener('DOMContentLoaded', name);else window.document.attachEvent('onload', name);
+        var _foo = function _foo(e) {
+          name.bind(_this)(e);
+          if (window.addEventListener) window.document.removeEventListener('DOMContentLoaded', _foo);else window.document.detachEvent('onload', _foo);
+        };
+
+        if (window.addEventListener) window.document.addEventListener('DOMContentLoaded', _foo);else window.document.attachEvent('onload', _foo);
       } else {
         var ttt = function ttt(event, f) {
           if (f) {
@@ -2389,14 +2400,6 @@ var _typeof = __webpack_require__(12)["default"];
         };
       }
 
-      // plugin.
-      for (var key in CreateDom.fn) {
-        if (key == 'extend' || key == 'fn') continue;
-        if (typeof CreateDom.fn[key] === 'function') {
-          this[key] = CreateDom.fn[key].bind(this);
-        }
-      }
-
       if (this._elem) {
         if (this._isArray()) {
           for (var i = 0; i < this._elem.length; i++) {
@@ -2406,6 +2409,15 @@ var _typeof = __webpack_require__(12)["default"];
           this._domtify(this._elem);
         }
       }
+
+      // plugin.
+      for (var key in CreateDom.fn) {
+        if (key == 'extend' || key == 'fn') continue;
+        if (typeof CreateDom.fn[key] === 'function') {
+          this[key] = CreateDom.fn[key].bind(this);
+        }
+      }
+      this.__domtify = true;
     }
 
     Dom.prototype.get = function get(index) {
@@ -2520,13 +2532,6 @@ var _typeof = __webpack_require__(12)["default"];
       var _dom = new Dom(node);
       _appendChild(this.get(0), _dom);
 
-      // for ie.
-      for (var i = 0; i < _dom.length; i++) {
-        if (_dom[i].getAttribute('disabled') == '') {
-          _dom[i].removeAttribute('disabled');
-        }
-      }
-
       return this;
     };
 
@@ -2555,13 +2560,6 @@ var _typeof = __webpack_require__(12)["default"];
       }
       var _dom = new Dom(node);
       _prependChild(this.get(0), _dom);
-
-      // for ie.
-      for (var i = 0; i < _dom.length; i++) {
-        if (_dom[i].getAttribute('disabled') == '') {
-          _dom[i].removeAttribute('disabled');
-        }
-      }
 
       return this;
     };
@@ -2596,13 +2594,6 @@ var _typeof = __webpack_require__(12)["default"];
 
       for (var i = 0; i < _thisLength; i++) {
         _dom.insertBefore(this.get(i));
-      }
-
-      // for ie.
-      for (var i = 0; i < _dom.length; i++) {
-        if (_dom[i].getAttribute('disabled') == '') {
-          _dom[i].removeAttribute('disabled');
-        }
       }
 
       return this;
@@ -2646,13 +2637,6 @@ var _typeof = __webpack_require__(12)["default"];
         _dom.insertAfter(this.get(i));
       }
 
-      // for ie.
-      for (var i = 0; i < _dom.length; i++) {
-        if (_dom[i].getAttribute('disabled') == '') {
-          _dom[i].removeAttribute('disabled');
-        }
-      }
-
       return this;
     };
 
@@ -2682,11 +2666,17 @@ var _typeof = __webpack_require__(12)["default"];
 
 
     Dom.prototype.attr = function attr(attrName, value) {
+      if (!attrName) {
+        throw new Error('need attrName');
+      }
+
       if (!this._elem) {
         if (typeof value !== 'undefined') return this;
         return undefined;
       }
       if (typeof value === 'undefined') {
+        if (!this.get(0).hasAttribute(attrName)) return undefined;
+
         return this.get(0).getAttribute(attrName);
       } else {
 
@@ -3275,7 +3265,7 @@ var _typeof = __webpack_require__(12)["default"];
 
     Dom.prototype._domtify = function _domtify(node) {
       if (node instanceof Dom) return;
-      if (node._domtify) return;
+      if (node.__domtify) return;
 
       var _proto = _Object$getPrototypeOf(this);
       for (var key in _proto) {
@@ -3286,32 +3276,23 @@ var _typeof = __webpack_require__(12)["default"];
           }
         }
       }
-      for (var _key in this) {
-        if (_key != '__proto__' && _key != 'constructor' && typeof this[_key] === 'function') {
-          // 不覆盖native方法.
-          if (!node[_key]) {
-            node[_key] = this[_key].bind(node);
+
+      // // plugin.
+      for (var key in CreateDom.fn) {
+        if (key == 'extend' || key == 'fn') continue;
+
+        if (typeof CreateDom.fn[key] === 'function') {
+          if (!node[key]) {
+            node[key] = CreateDom.fn[key].bind(node);
           }
         }
       }
 
-      // plugin.
-      for (var _key2 in CreateDom.fn) {
-        if (_key2 == 'extend' || _key2 == 'fn') continue;
-        if (typeof CreateDom.fn[_key2] === 'function') {
-          node[_key2] = CreateDom.fn[_key2].bind(node);
-        }
-      }
-
-      delete node.length;
+      // delete node.length;
       node._isArr = false;
       node._elem = node;
       // node[0] = node;
       node.__domtify = true;
-
-      if (node != window) {
-        node.context = window.document;
-      }
     };
 
     // 当前是否是数组.

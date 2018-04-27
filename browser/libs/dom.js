@@ -288,17 +288,27 @@
 
       if (name === window.document) {
         this.ready = function(f) { if (f) { 
-          if (window.addEventListener)
-            window.document.addEventListener('DOMContentLoaded', f); 
-          else
-            window.document.attachEvent('onload', f);
-          return _this; } }
+            if (window.addEventListener)
+              window.document.addEventListener('DOMContentLoaded', f); 
+            else
+              window.document.attachEvent('onload', f);
+          }
+          else {
+            _this.trigger('ready');
+          }
+          return _this; 
+        }
         this.unload = function(f) { if (f) { 
           if (window.addEventListener)
             window.document.addEventListener('unload', f); 
           else
             window.document.attachEvent('onunload', f);
-          return _this; } }
+          }
+          else {
+            _this.trigger('unload');
+          }
+          return _this; 
+        }
         this.context = window.document;
       }
       else if (name === window) {
@@ -307,17 +317,29 @@
             window.addEventListener('unload', f); 
           else
             window.attachEvent('onunload', f); 
-          return _this; } }
+          }
+          else {
+            _this.trigger('unload');
+          }
+          return _this; 
+        }
       }
       else {
         this.context = window.document;
       }
 
       if (typeof name === 'function') {
+        function foo(e){
+          name.bind(_this)(e);
+          if (window.addEventListener)
+            window.document.removeEventListener('DOMContentLoaded', foo);
+          else
+            window.document.detachEvent('onload', foo);
+        }
         if (window.addEventListener)
-          window.document.addEventListener('DOMContentLoaded', name);
+          window.document.addEventListener('DOMContentLoaded', foo);
         else
-          window.document.attachEvent('onload', name);
+          window.document.attachEvent('onload', foo);
       }
       else {
         function ttt(event, f) {
@@ -349,14 +371,6 @@
         this.submit = function(f) { return ttt('submit', f); }
       }
 
-      // plugin.
-      for (const key in CreateDom.fn) {
-        if (key == 'extend' || key == 'fn') continue;
-        if (typeof CreateDom.fn[key] === 'function') {
-          this[key] = CreateDom.fn[key].bind(this);
-        }
-      }
-
       if (this._elem) {
         if (this._isArray()) {
           for (var i = 0; i < this._elem.length; i++) {
@@ -366,6 +380,15 @@
           this._domtify(this._elem);
         }
       }
+
+      // plugin.
+      for (const key in CreateDom.fn) {
+        if (key == 'extend' || key == 'fn') continue;
+        if (typeof CreateDom.fn[key] === 'function') {
+          this[key] = CreateDom.fn[key].bind(this);
+        }
+      }
+      this.__domtify = true;
     }
 
     get(index) {
@@ -461,13 +484,6 @@
       var _dom = new Dom(node);
       _appendChild(this.get(0), _dom);
 
-      // for ie.
-      for (var i = 0; i < _dom.length; i++) {
-        if (_dom[i].getAttribute('disabled') == '') {
-          _dom[i].removeAttribute('disabled');
-        } 
-      }
-
       return this;
     }
 
@@ -488,13 +504,6 @@
       if (!this._elem) { return this; }
       var _dom = new Dom(node);
       _prependChild(this.get(0), _dom);
-
-      // for ie.
-      for (var i = 0; i < _dom.length; i++) {
-        if (_dom[i].getAttribute('disabled') == '') {
-          _dom[i].removeAttribute('disabled');
-        } 
-      }
 
       return this;
     }
@@ -521,13 +530,6 @@
 
       for (var i = 0; i < _thisLength; i++) {
         _dom.insertBefore(this.get(i));
-      }
-      
-      // for ie.
-      for (var i = 0; i < _dom.length; i++) {
-        if (_dom[i].getAttribute('disabled') == '') {
-          _dom[i].removeAttribute('disabled');
-        } 
       }
 
       return this;
@@ -562,13 +564,6 @@
       for (var i = 0; i < _thisLength; i++) {
         _dom.insertAfter(this.get(i));
       }
-      
-      // for ie.
-      for (var i = 0; i < _dom.length; i++) {
-        if (_dom[i].getAttribute('disabled') == '') {
-          _dom[i].removeAttribute('disabled');
-        } 
-      }
 
       return this;
     }
@@ -593,12 +588,19 @@
      * @desc: attr.
      */
     attr(attrName, value) {
+      if (!attrName) {
+        throw new Error('need attrName');
+      }
+
       if (!this._elem) { 
         if (typeof value !== 'undefined')
           return this;
         return undefined;
       }
       if (typeof value === 'undefined') {
+        if (!this.get(0).hasAttribute(attrName))
+          return undefined;
+
         return this.get(0).getAttribute(attrName);
       } else {
 
@@ -1163,11 +1165,11 @@
     _domtify(node) {
       if (node instanceof Dom)
         return;
-      if (node._domtify)
+      if (node.__domtify)
         return;
 
       var _proto = Object.getPrototypeOf(this);
-      for (const key in _proto) {
+      for (var key in _proto) {
         if (key != '__proto__' && key != 'constructor') {
           // 不覆盖native方法.
           if (!node[key]) {
@@ -1175,32 +1177,23 @@
           }
         }
       }
-      for (const key in this) {
-        if (key != '__proto__' && key != 'constructor' && typeof this[key] === 'function') {
-          // 不覆盖native方法.
+
+      // // plugin.
+      for (var key in CreateDom.fn) {
+        if (key == 'extend' || key == 'fn') continue;
+
+        if (typeof CreateDom.fn[key] === 'function') {
           if (!node[key]) {
-            node[key] = this[key].bind(node);
+            node[key] = CreateDom.fn[key].bind(node);
           }
         }
       }
 
-      // plugin.
-      for (const key in CreateDom.fn) {
-        if (key == 'extend' || key == 'fn') continue;
-        if (typeof CreateDom.fn[key] === 'function') {
-          node[key] = CreateDom.fn[key].bind(node);
-        }
-      }
-
-      delete node.length;
+      // delete node.length;
       node._isArr = false;
       node._elem = node;
       // node[0] = node;
       node.__domtify = true;
-
-      if (node != window) {
-        node.context = window.document;
-      }
     }
 
     // 当前是否是数组.
