@@ -73,3 +73,7 @@
 0.8.1
 ==================
   - [feature] add dom.getViewPort dom.getDocumentPort.
+
+0.8.2
+==================
+  - [feature] add dom.getElementOffset

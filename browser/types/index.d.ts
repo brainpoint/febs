@@ -493,6 +493,12 @@ export namespace dom {
   * @return: {width, height}
   */
   function getDocumentPort():{width:number, height:number};;
+
+  /**
+  * @desc: 获取指定元素相对于视口的的offset
+  * @return: 
+  */
+  function getElementOffset(e:any):{left:number, top:number};
 }
 
 declare global {

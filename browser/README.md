@@ -96,6 +96,12 @@ febs.string.replace();
   * @return: {width, height}
   */
   febs.dom.getDocumentPort():{width:number, height:number};
+
+  /**
+  * @desc: 获取指定元素相对于视口的的offset
+  * @return: 
+  */
+  febs.dom.getElementOffset(e:any):{left:number, top:number};
 ```
 
 # utils

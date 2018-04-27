@@ -24,6 +24,7 @@
 } )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
 
   var utils = require('./utils');
+  var stringUtils = require('./string');
 
   // - parentNodes 父节点 (HTMLNode)
   // - name 子节点selector.
@@ -162,8 +163,11 @@
    * addClass
    */
   function _addClass( element,cName ){  
-    if( !_hasClass( element,cName ) ){  
-      element.className += " " + cName;  
+    if( !_hasClass( element,cName ) ){
+      if (stringUtils.isEmpty(element.className))
+        element.className += cName;
+      else
+        element.className += " " + cName;  
     };  
   } 
 
@@ -1440,6 +1444,54 @@
             width: Math.max(window.document.documentElement.scrollWidth,window.document.documentElement.clientWidth),
             height: Math.max(window.document.documentElement.scrollHeight,window.document.documentElement.clientHeight)
         }
+    }
+  }
+
+  /**
+  * @desc: 获取指定元素相对于视口的的offset
+  * @return: 
+  */
+  Dom.getElementOffset = function(e) {
+    if (!e) {
+      return {};
+    }
+
+    var ee = CreateDom(e);
+    ee = ee[0];
+    if (ee) {
+      if (typeof ee.getBoundingClientRect === 'function') {
+        return {
+          left: ee.left,
+          top: ee.top
+        };
+      }
+      else {
+        var actualLeft = ee.offsetLeft;
+        var actualTop = ee.offsetTop;
+  　　　　var current = ee.offsetParent;
+
+  　　　　while (current !== null){
+  　　　　　　actualLeft += current.offsetLeft;
+  　　　　　　actualTop += current.offsetTop;
+  　　　　　　current = current.offsetParent;
+  　　　　}
+
+        var elementScrollLeft;
+        var elementScrollTop;
+
+  　　　　if (window.document.compatMode == "BackCompat"){
+            elementScrollLeft=window.document.body.scrollLeft;
+            elementScrollTop=window.document.body.scrollTop;
+  　　　　} else {
+    　　　　　elementScrollLeft=window.document.documentElement.scrollLeft; 
+            elementScrollTop=window.document.documentElement.scrollTop; 
+  　　　　}
+
+        return {
+          left: actualLeft-elementScrollLeft,
+          top: actualTop-elementScrollTop
+        };
+      } // if..else.
     }
   }
 
