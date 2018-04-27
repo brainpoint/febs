@@ -55,6 +55,7 @@ febs.utils  = require('./utils');
 febs.net  = require('./net');
 febs.dom  = require('./dom');
 febs['$'] = febs.dom.CreateDom;
+febs.dom = febs.dom.Dom;
 
 window['febs'] = febs;
 if (!window['$'])

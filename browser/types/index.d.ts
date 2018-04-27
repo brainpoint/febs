@@ -480,6 +480,21 @@ export class dom {
   [index:number]: dom;
 }
 
+export namespace dom {
+
+  /**
+  * @desc: 获得视口大小.
+  * @return: {width, height}
+  */
+  function getViewPort():{width:number, height:number};;
+
+  /**
+  * @desc: 获得文档大小.
+  * @return: {width, height}
+  */
+  function getDocumentPort():{width:number, height:number};;
+}
+
 declare global {
   export function $(n:any):dom;
 

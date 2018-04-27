@@ -69,3 +69,7 @@
 ==================
   - [feature] remove all controls code in client.
   - [feature] add sha1, md5 in crypt. use uuid module for crypt.uuid
+
+0.8.1
+==================
+  - [feature] add dom.getViewPort dom.getDocumentPort.

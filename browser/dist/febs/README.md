@@ -56,6 +56,7 @@ febs.string.replace();
 
 ![](../doc/framework.png)
 
+  - [dom](#dom)
   - [utils](#utils)
   - [string](#string)
   - [crypt](#crypt)
@@ -81,6 +82,21 @@ febs.string.replace();
 * 对早期的浏览器定义了`window.requestAnimationFrame`和`window.cancelAnimationFrame`方法,可进行动画帧操作.
 * 对早期的浏览器添加了`Promise`支持.
 
+# dom
+
+```js
+  /**
+  * @desc: 获得视口大小.
+  * @return: {width, height}
+  */
+  febs.dom.getViewPort():{width:number, height:number};
+
+  /**
+  * @desc: 获得文档大小.
+  * @return: {width, height}
+  */
+  febs.dom.getDocumentPort():{width:number, height:number};
+```
 
 # utils
 

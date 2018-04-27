@@ -3424,6 +3424,43 @@ var _typeof = __webpack_require__(12)["default"];
     } // if..else.
   };
 
+  /**
+  * @desc: viewport.
+  * @return: {width, height}
+  */
+  Dom.getViewPort = function () {
+    if (window.document.compatMode == "BackCompat") {
+      //浏览器嗅探，混杂模式
+      return {
+        width: window.document.body.clientWidth,
+        height: window.document.body.clientHeight
+      };
+    } else {
+      return {
+        width: window.document.documentElement.clientWidth,
+        height: window.document.documentElement.clientHeight
+      };
+    }
+  };
+
+  /**
+  * @desc: documentport.
+  * @return: {width, height}
+  */
+  Dom.getDocumentPort = function () {
+    if (window.document.compatMode == "BackCompat") {
+      return {
+        width: window.document.body.scrollWidth,
+        height: window.document.body.scrollHeight
+      };
+    } else {
+      return {
+        width: Math.max(window.document.documentElement.scrollWidth, window.document.documentElement.clientWidth),
+        height: Math.max(window.document.documentElement.scrollHeight, window.document.documentElement.clientHeight)
+      };
+    }
+  };
+
   return { Dom: Dom, CreateDom: CreateDom };
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
@@ -13407,6 +13444,7 @@ __webpack_require__(84);
   febs.net = __webpack_require__(82);
   febs.dom = __webpack_require__(81);
   febs['$'] = febs.dom.CreateDom;
+  febs.dom = febs.dom.Dom;
 
   window['febs'] = febs;
   if (!window['$']) window['$'] = febs['$'];

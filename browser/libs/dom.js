@@ -1406,6 +1406,43 @@
     } // if..else.
   }
 
+
+  /**
+  * @desc: viewport.
+  * @return: {width, height}
+  */
+  Dom.getViewPort = function() {
+    if(window.document.compatMode == "BackCompat") {   //浏览器嗅探，混杂模式
+        return {
+            width: window.document.body.clientWidth,
+            height: window.document.body.clientHeight
+        };
+    } else {
+        return {
+            width: window.document.documentElement.clientWidth,
+            height: window.document.documentElement.clientHeight
+        };
+    }
+  }
+
+  /**
+  * @desc: documentport.
+  * @return: {width, height}
+  */
+  Dom.getDocumentPort = function() {
+    if(window.document.compatMode == "BackCompat") {
+      return {
+          width: window.document.body.scrollWidth,
+          height: window.document.body.scrollHeight
+      };
+    } else {
+        return {
+            width: Math.max(window.document.documentElement.scrollWidth,window.document.documentElement.clientWidth),
+            height: Math.max(window.document.documentElement.scrollHeight,window.document.documentElement.clientHeight)
+        }
+    }
+  }
+
   return {Dom, CreateDom};
 }
 );
