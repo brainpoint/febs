@@ -246,6 +246,11 @@ febs.string.getByteSize(s)
  * @return: string.
  */
 febs.string.replace(str, strSrc, strDest)
+/**
+* @desc: 对字符串中的 <> 标签进行转义为 &lt;, &gt;
+* @return: string.
+*/
+febs.string.escapeHtml(str); 
 ```
 
 # crypt

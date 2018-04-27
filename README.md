@@ -272,6 +272,15 @@ febs.string.getByteSize(s)
 febs.string.replace(str, strSrc, strDest)
 ```
 
+客户端独有.
+```js
+/**
+* @desc: 对字符串中的 <> 标签进行转义为 &lt;, &gt;
+* @return: string.
+*/
+febs.string.escapeHtml(str); 
+```
+
 # crypt
 目前提供了uuid,crc32,base64.
 

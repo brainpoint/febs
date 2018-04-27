@@ -178,6 +178,11 @@ export namespace string {
    * @return: string.
    */
   function replace(str: string, strSrc: string, strDest: string): string;
+  /**
+  * @desc: 对字符串中的 <> 标签进行转义为 &lt;, &gt;
+  * @return: string.
+  */
+  function escapeHtml(str:string): string; 
 }
 
 //
