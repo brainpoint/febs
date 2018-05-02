@@ -7,8 +7,6 @@
  */
 
 var crypt = require('../common/crypt');
-var sha1 = require('sha1');
-var md5 = require('md5');
 
 /**
  * @desc: 计算字符串的crc32值
@@ -68,10 +66,6 @@ function (file, cb) {
 
   loadNext();
 }
-
-exports.sha1 = sha1;
-
-exports.md5 = md5;
 
 /**
 * @desc: base64编码.

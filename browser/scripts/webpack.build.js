@@ -27,24 +27,12 @@ febs.file.fileCopy(path.join(root, 'test/test.dom.html'), path.join(root, 'dist/
 // febs.file.fileRemove(path.join(root, 'dist/jquery-1.11.3.min.js'));
 // febs.file.fileCopy(path.join(root, 'test/jquery-1.11.3.min.js'), path.join(root, 'dist/jquery-1.11.3.min.js'));
 
-function buildSrc(cbStop, cbSuccess) {
-  webpack(webpackConfig, function (err, stats) {
-    if (err) {
-      cbStop();
-      throw err
-    }
-    process.stdout.write(stats.toString({
-      colors: true,
-      modules: false,
-      children: false,
-      chunks: false,
-      chunkModules: false
-    }) + '\n\n')
-
-    webpack(webpackConfigMin, function (err, stats) {
+function buildSrc(config) {
+  return new Promise((resolve,reject)=>{
+    webpack(config, function (err, stats) {
       if (err) {
-        cbStop();
-        throw err
+        reject(err);
+        return;
       }
       process.stdout.write(stats.toString({
         colors: true,
@@ -53,17 +41,23 @@ function buildSrc(cbStop, cbSuccess) {
         chunks: false,
         chunkModules: false
       }) + '\n\n')
-      cbSuccess();
+      resolve();
     });
   });
-
-  
 }
 
 // start.
-buildSrc(function() {
-  spinner.stop();
-}, function(){
+buildSrc(webpackConfig('libs/index.js', 'febs.all.js'))
+.then(()=>buildSrc(webpackConfig('libs/dist.index.js', 'febs.js')))
+.then(()=>buildSrc(webpackConfig('libs/dist.bigint.js', 'febs.bigint.js')))
+.then(()=>buildSrc(webpackConfig('libs/dist.md5.js', 'febs.md5.js')))
+.then(()=>buildSrc(webpackConfig('libs/dist.sha1.js', 'febs.sha1.js')))
+.then(()=>buildSrc(webpackConfigMin('libs/index.js', 'febs.all.min.js')))
+.then(()=>buildSrc(webpackConfigMin('libs/dist.index.js', 'febs.min.js')))
+.then(()=>buildSrc(webpackConfigMin('libs/dist.bigint.js', 'febs.bigint.min.js')))
+.then(()=>buildSrc(webpackConfigMin('libs/dist.md5.js', 'febs.md5.min.js')))
+.then(()=>buildSrc(webpackConfigMin('libs/dist.sha1.js', 'febs.sha1.min.js')))
+.then(()=>{
   spinner.stop()
 
   // 等待文件flush到磁盘.
@@ -77,6 +71,9 @@ buildSrc(function() {
       '  Opening index.html over file:// won\'t work.\n'
     ))
   }, 1000);
+})
+.catch(err=>{
+  spinner.stop();
 });
 
 

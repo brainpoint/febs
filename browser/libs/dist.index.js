@@ -49,16 +49,9 @@ if (!window['cancelAnimationFrame'])
 
 var febs = {};
 
-febs.utils  = require('./utils');
 febs.string = require('./string');
 febs.crypt  = require('./crypt');
-var cryptMd5  = require('./crypt.md5');
-febs.crypt = febs.utils.mergeMap(febs.crypt, cryptMd5);
-var cryptSha1  = require('./crypt.sha1');
-febs.crypt = febs.utils.mergeMap(febs.crypt, cryptSha1);
-
-var utilsBig  = require('../common/utils.bigint');
-febs.utils = febs.utils.mergeMap(febs.utils, utilsBig);
+febs.utils  = require('./utils');
 febs.net  = require('./net');
 febs.dom  = require('./dom');
 febs['$'] = febs.dom.CreateDom;

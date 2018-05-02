@@ -6,11 +6,12 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-module.exports = {
-  entry:  resolve('libs/index.js'),
+module.exports = function(main, output){
+  return {
+  entry:  resolve(main),
   output: {
     path: resolve('dist/febs'),
-    filename: 'febs.js'
+    filename: output
   },
   module: {
     rules: [
@@ -42,4 +43,5 @@ module.exports = {
       'process.env': 'production'
     })
   ]
+}
 }

@@ -86,7 +86,7 @@ else {
   }
 
   // https://github.com/github/fetch
-  febsnet.fetch_normalizeName = function(name) {
+  febsnet.normalizeName = function(name) {
     if (typeof name !== 'string') {
       name = String(name)
     }
@@ -96,17 +96,17 @@ else {
     return name.toLowerCase()
   }
 
-  febsnet.fetch_normalizeValue = function(value) {
+  febsnet.normalizeValue = function(value) {
     if (typeof value !== 'string') {
       value = String(value)
     }
     return value
   }
 
-  febsnet.fetch_Headers = function(headers) {
+  febsnet.Headers = function(headers) {
     this.map = {}
 
-    if (headers instanceof febsnet.fetch_Headers) {
+    if (headers instanceof febsnet.Headers) {
       headers.forEach(function(value, name) {
         this.append(name, value)
       }, this)
@@ -118,9 +118,9 @@ else {
     }
   }
 
-  febsnet.fetch_Headers.prototype.append = function(name, value) {
-    name = febsnet.fetch_normalizeName(name)
-    value = febsnet.fetch_normalizeValue(value)
+  febsnet.Headers.prototype.append = function(name, value) {
+    name = febsnet.normalizeName(name)
+    value = febsnet.normalizeValue(value)
     var list = this.map[name]
     if (!list) {
       list = []
@@ -129,28 +129,28 @@ else {
     list.push(value)
   }
 
-  febsnet.fetch_Headers.prototype['delete'] = function(name) {
-    delete this.map[febsnet.fetch_normalizeName(name)]
+  febsnet.Headers.prototype['delete'] = function(name) {
+    delete this.map[febsnet.normalizeName(name)]
   }
 
-  febsnet.fetch_Headers.prototype.get = function(name) {
-    var values = this.map[febsnet.fetch_normalizeName(name)]
+  febsnet.Headers.prototype.get = function(name) {
+    var values = this.map[febsnet.normalizeName(name)]
     return values ? values[0] : null
   }
 
-  febsnet.fetch_Headers.prototype.getAll = function(name) {
-    return this.map[febsnet.fetch_normalizeName(name)] || []
+  febsnet.Headers.prototype.getAll = function(name) {
+    return this.map[febsnet.normalizeName(name)] || []
   }
 
-  febsnet.fetch_Headers.prototype.has = function(name) {
-    return this.map.hasOwnProperty(febsnet.fetch_normalizeName(name))
+  febsnet.Headers.prototype.has = function(name) {
+    return this.map.hasOwnProperty(febsnet.normalizeName(name))
   }
 
-  febsnet.fetch_Headers.prototype.set = function(name, value) {
-    this.map[febsnet.fetch_normalizeName(name)] = [febsnet.fetch_normalizeValue(value)]
+  febsnet.Headers.prototype.set = function(name, value) {
+    this.map[febsnet.normalizeName(name)] = [febsnet.normalizeValue(value)]
   }
 
-  febsnet.fetch_Headers.prototype.forEach = function(callback, thisArg) {
+  febsnet.Headers.prototype.forEach = function(callback, thisArg) {
     Object.getOwnPropertyNames(this.map).forEach(function(name) {
       this.map[name].forEach(function(value) {
         callback.call(thisArg, value, name, this)
@@ -158,14 +158,14 @@ else {
     }, this)
   }
 
-  febsnet.fetch_consumed = function(body) {
+  febsnet.consumed = function(body) {
     if (body.bodyUsed) {
       return Promise.reject(new TypeError('Already read'))
     }
     body.bodyUsed = true
   }
 
-  febsnet.fetch_fileReaderReady = function (reader) {
+  febsnet.fileReaderReady = function (reader) {
     return new Promise(function(resolve, reject) {
       reader.onload = function() {
         resolve(reader.result)
@@ -176,19 +176,19 @@ else {
     })
   }
 
-  febsnet.fetch_readBlobAsArrayBuffer = function (blob) {
+  febsnet.readBlobAsArrayBuffer = function (blob) {
     var reader = new FileReader()
     reader.readAsArrayBuffer(blob)
-    return febsnet.fetch_fileReaderReady(reader)
+    return febsnet.fileReaderReady(reader)
   }
 
-  febsnet.fetch_readBlobAsText = function (blob) {
+  febsnet.readBlobAsText = function (blob) {
     var reader = new FileReader()
     reader.readAsText(blob)
-    return febsnet.fetch_fileReaderReady(reader)
+    return febsnet.fileReaderReady(reader)
   }
 
-  febsnet.fetch_support = {
+  febsnet.support = {
     blob: 'FileReader' in window.self && 'Blob' in window.self && (function() {
       try {
         new Blob();
@@ -201,7 +201,7 @@ else {
     arrayBuffer: 'ArrayBuffer' in window.self
   }
 
-  febsnet.fetch_Body = function () {
+  febsnet.Body = function () {
     this.bodyUsed = false
 
 
@@ -209,23 +209,23 @@ else {
       this._bodyInit = body
       if (typeof body === 'string') {
         this._bodyText = body
-      } else if (febsnet.fetch_support.blob && Blob.prototype.isPrototypeOf(body)) {
+      } else if (febsnet.support.blob && Blob.prototype.isPrototypeOf(body)) {
         this._bodyBlob = body
-      } else if (febsnet.fetch_support.formData && FormData.prototype.isPrototypeOf(body)) {
+      } else if (febsnet.support.formData && FormData.prototype.isPrototypeOf(body)) {
         this._bodyFormData = body
       } else if (!body) {
         this._bodyText = ''
-      } else if (febsnet.fetch_support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
-        // Only febsnet.fetch_support ArrayBuffers for POST method.
+      } else if (febsnet.support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
+        // Only febsnet.support ArrayBuffers for POST method.
         // Receiving ArrayBuffers happens via Blobs, instead.
       } else {
         throw new Error('unsupported BodyInit type')
       }
     }
 
-    if (febsnet.fetch_support.blob) {
+    if (febsnet.support.blob) {
       this.blob = function() {
-        var rejected = febsnet.fetch_consumed(this)
+        var rejected = febsnet.consumed(this)
         if (rejected) {
           return rejected
         }
@@ -240,17 +240,17 @@ else {
       }
 
       this.arrayBuffer = function() {
-        return this.blob().then(febsnet.fetch_readBlobAsArrayBuffer)
+        return this.blob().then(febsnet.readBlobAsArrayBuffer)
       }
 
       this.text = function() {
-        var rejected = febsnet.fetch_consumed(this)
+        var rejected = febsnet.consumed(this)
         if (rejected) {
           return rejected
         }
 
         if (this._bodyBlob) {
-          return febsnet.fetch_readBlobAsText(this._bodyBlob)
+          return febsnet.readBlobAsText(this._bodyBlob)
         } else if (this._bodyFormData) {
           throw new Error('could not read FormData body as text')
         } else {
@@ -259,14 +259,14 @@ else {
       }
     } else {
       this.text = function() {
-        var rejected = febsnet.fetch_consumed(this)
+        var rejected = febsnet.consumed(this)
         return rejected ? rejected : Promise.resolve(this._bodyText)
       }
     }
 
-    if (febsnet.fetch_support.formData) {
+    if (febsnet.support.formData) {
       this.formData = function() {
-        return this.text().then(febsnet.fetch_decode)
+        return this.text().then(febsnet.decode)
       }
     }
 
@@ -278,23 +278,23 @@ else {
   }
 
   // HTTP methods whose capitalization should be normalized
-  febsnet.fetch_normalizeMethod = function (method) {
+  febsnet.normalizeMethod = function (method) {
     var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
     var upcased = method.toUpperCase()
     return (methods.indexOf(upcased) > -1) ? upcased : method
   }
 
-  febsnet.fetch_Request = function (input, options) {
+  febsnet.Request = function (input, options) {
     options = options || {}
     var body = options.body
-    if (febsnet.fetch_Request.prototype.isPrototypeOf(input)) {
+    if (febsnet.Request.prototype.isPrototypeOf(input)) {
       if (input.bodyUsed) {
         throw new TypeError('Already read')
       }
       this.url = input.url
       this.credentials = input.credentials
       if (!options.headers) {
-        this.headers = new febsnet.fetch_Headers(input.headers)
+        this.headers = new febsnet.Headers(input.headers)
       }
       this.method = input.method
       this.mode = input.mode
@@ -308,23 +308,23 @@ else {
 
     this.credentials = options.credentials || this.credentials || 'omit'
     if (options.headers || !this.headers) {
-      this.headers = new febsnet.fetch_Headers(options.headers)
+      this.headers = new febsnet.Headers(options.headers)
     }
-    this.method = febsnet.fetch_normalizeMethod(options.method || this.method || 'GET')
+    this.method = febsnet.normalizeMethod(options.method || this.method || 'GET')
     this.mode = options.mode || this.mode || null
     this.referrer = null
 
     if ((this.method === 'GET' || this.method === 'HEAD') && body) {
-      throw new TypeError('febsnet.fetch_Body not allowed for GET or HEAD requests')
+      throw new TypeError('febsnet.Body not allowed for GET or HEAD requests')
     }
     this._initBody(body)
   }
 
-  febsnet.fetch_Request.prototype.clone = function() {
-    return new febsnet.fetch_Request(this)
+  febsnet.Request.prototype.clone = function() {
+    return new febsnet.Request(this)
   }
 
-  febsnet.fetch_decode = function (body) {
+  febsnet.decode = function (body) {
     var form = new FormData()
     body.trim().split('&').forEach(function(bytes) {
       if (bytes) {
@@ -337,8 +337,8 @@ else {
     return form
   }
 
-  febsnet.fetch_headers = function (xhr) {
-    var head = new febsnet.fetch_Headers()
+  febsnet.headers = function (xhr) {
+    var head = new febsnet.Headers()
     var pairs = xhr.getAllResponseHeaders().trim().split('\n')
     pairs.forEach(function(header) {
       var split = header.trim().split(':')
@@ -349,9 +349,9 @@ else {
     return head
   }
 
-  febsnet.fetch_Body.call(febsnet.fetch_Request.prototype)
+  febsnet.Body.call(febsnet.Request.prototype)
 
-  febsnet.fetch_Response = function (bodyInit, options) {
+  febsnet.Response = function (bodyInit, options) {
     if (!options) {
       options = {}
     }
@@ -361,40 +361,40 @@ else {
     this.status = options.status
     this.ok = this.status >= 200 && this.status < 300
     this.statusText = options.statusText
-    this.headers = options.headers instanceof febsnet.fetch_Headers ? options.headers : new febsnet.fetch_Headers(options.headers)
+    this.headers = options.headers instanceof febsnet.Headers ? options.headers : new febsnet.Headers(options.headers)
     this.url = options.url || ''
   }
 
-  febsnet.fetch_Body.call(febsnet.fetch_Response.prototype)
+  febsnet.Body.call(febsnet.Response.prototype)
 
-  febsnet.fetch_Response.prototype.clone = function() {
-    return new febsnet.fetch_Response(this._bodyInit, {
+  febsnet.Response.prototype.clone = function() {
+    return new febsnet.Response(this._bodyInit, {
       status: this.status,
       statusText: this.statusText,
-      headers: new febsnet.fetch_Headers(this.headers),
+      headers: new febsnet.Headers(this.headers),
       url: this.url
     })
   }
 
-  febsnet.fetch_Response.error = function() {
-    var response = new febsnet.fetch_Response(null, {status: 0, statusText: ''})
+  febsnet.Response.error = function() {
+    var response = new febsnet.Response(null, {status: 0, statusText: ''})
     response.type = 'error'
     return response
   }
 
   var redirectStatuses = [301, 302, 303, 307, 308]
 
-  febsnet.fetch_Response.redirect = function(url, status) {
+  febsnet.Response.redirect = function(url, status) {
     if (redirectStatuses.indexOf(status) === -1) {
       throw new RangeError('Invalid status code')
     }
 
-    return new febsnet.fetch_Response(null, {status: status, headers: {location: url}})
+    return new febsnet.Response(null, {status: status, headers: {location: url}})
   }
 
-  window.Headers = febsnet.fetch_Headers;
-  window.Request = febsnet.fetch_Request;
-  window.Response = febsnet.fetch_Response;
+  window.Headers = febsnet.Headers;
+  window.Request = febsnet.Request;
+  window.Response = febsnet.Response;
 
   window.fetch = febsnet.fetch = function(input, init) {
 
@@ -402,7 +402,7 @@ else {
     if (febsUtils.browserIEVer() <= 9) {
       var url;
       var option;
-      if (febsnet.fetch_Request.prototype.isPrototypeOf(input) && !init) {
+      if (febsnet.Request.prototype.isPrototypeOf(input) && !init) {
         url = input.url;
         option = input;
       } else {
@@ -440,8 +440,8 @@ else {
               }
 
               // Avoid security warnings on getResponseHeader when not allowed by CORS
-              if (/^X-febsnet.fetch_Request-URL:/m.test(xhr.getAllResponseHeaders())) {
-                return xhr.getResponseHeader('X-febsnet.fetch_Request-URL')
+              if (/^X-febsnet.Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+                return xhr.getResponseHeader('X-febsnet.Request-URL')
               }
 
               return;
@@ -449,11 +449,11 @@ else {
             var options = {
               status: status,
               statusText: xhr.statusText,
-              headers: febsnet.fetch_headers(xhr),
+              headers: febsnet.headers(xhr),
               url: responseURL()
             }
             var body = 'response' in xhr ? xhr.response : xhr.responseText;
-            resolve(new febsnet.fetch_Response(body, options))
+            resolve(new febsnet.Response(body, options))
           },
           error: function(xhr, msg) {
             if (msg == 'timeout') {
@@ -470,10 +470,10 @@ else {
     // other.
     return new Promise(function(resolve, reject) {
       var request
-      if (febsnet.fetch_Request.prototype.isPrototypeOf(input) && !init) {
+      if (febsnet.Request.prototype.isPrototypeOf(input) && !init) {
         request = input
       } else {
-        request = new febsnet.fetch_Request(input, init)
+        request = new febsnet.Request(input, init)
       }
 
       var xhr;
@@ -493,8 +493,8 @@ else {
         }
 
         // Avoid security warnings on getResponseHeader when not allowed by CORS
-        if (/^X-febsnet.fetch_Request-URL:/m.test(xhr.getAllResponseHeaders())) {
-          return xhr.getResponseHeader('X-febsnet.fetch_Request-URL')
+        if (/^X-febsnet.Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+          return xhr.getResponseHeader('X-febsnet.Request-URL')
         }
 
         return;
@@ -509,11 +509,11 @@ else {
       //   var options = {
       //     status: status,
       //     statusText: xhr.statusText,
-      //     headers: febsnet.fetch_headers(xhr),
+      //     headers: febsnet.headers(xhr),
       //     url: responseURL()
       //   }
       //   var body = 'response' in xhr ? xhr.response : xhr.responseText;
-      //   resolve(new febsnet.fetch_Response(body, options))
+      //   resolve(new febsnet.Response(body, options))
       // }
 
       xhr.onreadystatechange = function() {
@@ -526,11 +526,11 @@ else {
           var options = {
             status: status,
             statusText: xhr.statusText,
-            headers: febsnet.fetch_headers(xhr),
+            headers: febsnet.headers(xhr),
             url: responseURL()
           }
           var body = 'response' in xhr ? xhr.response : xhr.responseText;
-          resolve(new febsnet.fetch_Response(body, options))
+          resolve(new febsnet.Response(body, options))
         }
       }
 
@@ -549,7 +549,7 @@ else {
         xhr.withCredentials = false  
       }
 
-      if ('responseType' in xhr && febsnet.fetch_support.blob) {
+      if ('responseType' in xhr && febsnet.support.blob) {
         xhr.responseType = 'blob'
       }
 

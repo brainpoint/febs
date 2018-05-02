@@ -27,14 +27,17 @@ febs.string.replace();
 
 # browser
 
-以下列方式使用
+以下列方式使用 (将不同的功能分解到不同的包中)
 
 > copy directory `node_modules/febs/dist/febs` to client
 
 ```html
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />  <!-- 如ie9等早期浏览器提示使用最新渲染器 -->
 <link rel="stylesheet" type="text/css" href="path/febs/febs.css" />
-<script charset='UTF-8' type="text/javascript" src="path/febs/febs.min.js"></script>
+<script charset='UTF-8' type="text/javascript" src="path/febs/febs.js"></script>
+<script charset='UTF-8' type="text/javascript" src="path/febs/febs.sha1.js"></script> <!-- febs.crypt.sha1()方法 -->
+<script charset='UTF-8' type="text/javascript" src="path/febs/febs.md5.js"></script> <!-- febs.crypt.md5()方法 -->
+<script charset='UTF-8' type="text/javascript" src="path/febs/febs.bigint.js"></script> <!-- febs.utils.bigint_xxx()方法 -->
 
 <script>
 febs.string.replace();

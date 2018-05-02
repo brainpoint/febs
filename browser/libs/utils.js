@@ -105,45 +105,6 @@ exports.isNull = utils.isNull;
 
 
 /**
- * @desc: 判断是否是bigint.
- */
-exports.bigint_check = utils.bigint_check;
-
-/**
-* @desc: calc bigint
-* @return: bigint.
-*/
-exports.bigint_add = utils.bigint_add;
-
-exports.bigint_minus = utils.bigint_minus;
-
-exports.bigint_dividedBy = utils.bigint_dividedBy;
-
-exports.bigint_mul = utils.bigint_mul;
-
-/**
-* @desc: compare with bigint.
-* @return: boolean.
-*/
-exports.bigint_equal = utils.bigint_equal;
-
-exports.bigint_more_than = utils.bigint_more_than;
-
-exports.bigint_more_than_e  = utils.bigint_more_than_e;
-
-exports.bigint_less_than = utils.bigint_less_than;
-
-exports.bigint_less_than_e = utils.bigint_less_than_e;
-
-
-/**
-* @desc: 转换bigint->string.
-* @param fixed: 小数位个数, 默认为0.
-* @return: string.
-*/
-exports.bigint_toFixed = utils.bigint_toFixed;
-
-/**
 * @desc: 判断是否是ie.
 */
 exports.browserIsIE=

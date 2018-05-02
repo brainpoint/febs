@@ -7,6 +7,7 @@
  */
 
 var utils = require('../browser/common/utils');
+var utilsBigint = require('../browser/common/utils.bigint');
 
 /**
  * @desc: 模拟sleep.
@@ -107,33 +108,33 @@ exports.isNull = utils.isNull;
 /**
  * @desc: 判断是否是bigint.
  */
-exports.bigint_check = utils.bigint_check;
+exports.bigint_check = utilsBigint.bigint_check;
 
 /**
 * @desc: calc bigint
 * @return: bigint.
 */
-exports.bigint_add = utils.bigint_add;
+exports.bigint_add = utilsBigint.bigint_add;
 
-exports.bigint_minus = utils.bigint_minus;
+exports.bigint_minus = utilsBigint.bigint_minus;
 
-exports.bigint_dividedBy = utils.bigint_dividedBy;
+exports.bigint_dividedBy = utilsBigint.bigint_dividedBy;
 
-exports.bigint_mul = utils.bigint_mul;
+exports.bigint_mul = utilsBigint.bigint_mul;
 
 /**
 * @desc: compare with bigint.
 * @return: boolean.
 */
-exports.bigint_equal = utils.bigint_equal;
+exports.bigint_equal = utilsBigint.bigint_equal;
 
-exports.bigint_more_than = utils.bigint_more_than;
+exports.bigint_more_than = utilsBigint.bigint_more_than;
 
-exports.bigint_more_than_e  = utils.bigint_more_than_e;
+exports.bigint_more_than_e  = utilsBigint.bigint_more_than_e;
 
-exports.bigint_less_than = utils.bigint_less_than;
+exports.bigint_less_than = utilsBigint.bigint_less_than;
 
-exports.bigint_less_than_e = utils.bigint_less_than_e;
+exports.bigint_less_than_e = utilsBigint.bigint_less_than_e;
 
 
 /**
@@ -141,7 +142,7 @@ exports.bigint_less_than_e = utils.bigint_less_than_e;
 * @param fixed: 小数位个数, 默认为0.
 * @return: string.
 */
-exports.bigint_toFixed = utils.bigint_toFixed;
+exports.bigint_toFixed = utilsBigint.bigint_toFixed;
 
 
 /**
