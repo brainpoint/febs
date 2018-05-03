@@ -40,7 +40,7 @@ if (!window.hasOwnProperty('__debug')) {
 
 //
 // define the animationFrame.
-var animationFrame  = require('./animationFrame');
+var animationFrame  = require('./libs/animationFrame');
 if (!window['requestAnimationFrame'])
   window.requestAnimationFrame = animationFrame.requestAnimationFrame;
 if (!window['cancelAnimationFrame'])
@@ -49,11 +49,11 @@ if (!window['cancelAnimationFrame'])
 
 var febs = {};
 
-febs.string = require('./string');
-febs.crypt  = require('./crypt');
-febs.utils  = require('./utils');
-febs.net  = require('./net');
-febs.dom  = require('./dom');
+febs.string = require('./libs/string');
+febs.crypt  = require('./libs/crypt');
+febs.utils  = require('./libs/utils');
+febs.net  = require('./libs/net');
+febs.dom  = require('./libs/dom');
 febs['$'] = febs.dom.CreateDom;
 febs.dom = febs.dom.Dom;
 

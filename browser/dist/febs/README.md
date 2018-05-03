@@ -6,6 +6,18 @@ febs实现了jquery的常用方法(dom操作/事件/css/遍历等), 当页面引
 
 > 兼容ie9及以上浏览器
 
+febs按功能分为如下的js包.
+
+| name |  require path  |  feature     |
+|----|--------|-------|
+| febs.js  |  require('febs-browser')  |  all feature |
+| febs.base.js  |  require('febs-browser/base')  |  base feature |
+| febs.bigint.js  |  require('febs-browser/bigint')  |  bigint feature: febs.utils.bigint_xxx |
+| febs.md5.js  |  require('febs-browser/md5')  |  md5 crypto feature: febs.crypt.md5() |
+| febs.sha1.js  |  require('febs-browser/sha1')  |  sha1 crypto feature: febs.crypt.sha1() |
+
+
+
 # Install
 
 Use npm to install:
@@ -34,7 +46,7 @@ febs.string.replace();
 ```html
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />  <!-- 如ie9等早期浏览器提示使用最新渲染器 -->
 <link rel="stylesheet" type="text/css" href="path/febs/febs.css" />
-<script charset='UTF-8' type="text/javascript" src="path/febs/febs.js"></script>
+<script charset='UTF-8' type="text/javascript" src="path/febs/febs.base.js"></script>
 <script charset='UTF-8' type="text/javascript" src="path/febs/febs.sha1.js"></script> <!-- febs.crypt.sha1()方法 -->
 <script charset='UTF-8' type="text/javascript" src="path/febs/febs.md5.js"></script> <!-- febs.crypt.md5()方法 -->
 <script charset='UTF-8' type="text/javascript" src="path/febs/febs.bigint.js"></script> <!-- febs.utils.bigint_xxx()方法 -->
@@ -354,8 +366,14 @@ timer = requestAnimationFrame(foo);
 ```
 
 # net
-net封装了浏览器通信方法: fetch, jsonp
+net封装了浏览器通信方法: ajax, fetch, jsonp
 ```js
+/**
+* @desc: 使用jquery.ajax类似参数调用.
+* @param cfg: 允许额外传递一个 progress:function(percent) {} 的参数来获取进度.
+* @return: 
+*/
+febs.net.ajax(cfg:any):{abort:()=>void}
 /**
  * @desc: 使用fetch方式进行数据请求.
  *        如果超時, 可以catch到 'timeout'
@@ -371,6 +389,7 @@ net封装了浏览器通信方法: fetch, jsonp
               body,    // 请求内容.
               timeout, // 超时 (ms), 默认为5000,
               credentials,  // 携带了credentials='include'则服务器需设置Access-Control-Allow-Credentials
+              progress, // 允许设置进度cb. function(percent) {}
             }
  * @return: 返回 Promise;
  * @e.g.

@@ -77,3 +77,8 @@
 0.8.2
 ==================
   - [feature] add dom.getElementOffset
+
+0.8.7
+==================
+  - [feature] upload允许不验证crc32.
+  - [feature] 分离browser包为多个小包.

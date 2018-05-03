@@ -47,16 +47,16 @@ function buildSrc(config) {
 }
 
 // start.
-buildSrc(webpackConfig('libs/index.js', 'febs.all.js'))
-.then(()=>buildSrc(webpackConfig('libs/dist.index.js', 'febs.js')))
-.then(()=>buildSrc(webpackConfig('libs/dist.bigint.js', 'febs.bigint.js')))
-.then(()=>buildSrc(webpackConfig('libs/dist.md5.js', 'febs.md5.js')))
-.then(()=>buildSrc(webpackConfig('libs/dist.sha1.js', 'febs.sha1.js')))
-.then(()=>buildSrc(webpackConfigMin('libs/index.js', 'febs.all.min.js')))
-.then(()=>buildSrc(webpackConfigMin('libs/dist.index.js', 'febs.min.js')))
-.then(()=>buildSrc(webpackConfigMin('libs/dist.bigint.js', 'febs.bigint.min.js')))
-.then(()=>buildSrc(webpackConfigMin('libs/dist.md5.js', 'febs.md5.min.js')))
-.then(()=>buildSrc(webpackConfigMin('libs/dist.sha1.js', 'febs.sha1.min.js')))
+buildSrc(webpackConfig('libs/index.js', 'febs.js'))
+.then(()=>buildSrc(webpackConfig('base.js', 'febs.base.js')))
+.then(()=>buildSrc(webpackConfig('bigint.js', 'febs.bigint.js')))
+.then(()=>buildSrc(webpackConfig('md5.js', 'febs.md5.js')))
+.then(()=>buildSrc(webpackConfig('sha1.js', 'febs.sha1.js')))
+.then(()=>buildSrc(webpackConfigMin('libs/index.js', 'febs.min.js')))
+.then(()=>buildSrc(webpackConfigMin('base.js', 'febs.base.min.js')))
+.then(()=>buildSrc(webpackConfigMin('bigint.js', 'febs.bigint.min.js')))
+.then(()=>buildSrc(webpackConfigMin('md5.js', 'febs.md5.min.js')))
+.then(()=>buildSrc(webpackConfigMin('sha1.js', 'febs.sha1.min.js')))
 .then(()=>{
   spinner.stop()
 

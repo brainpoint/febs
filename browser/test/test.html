@@ -2,7 +2,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <script charset='UTF-8' type="text/javascript" src="../dist/febs/febs.js"></script>
+    <script charset='UTF-8' type="text/javascript" src="../dist/febs/febs.base.js"></script>
     <script charset='UTF-8' type="text/javascript" src="../dist/febs/febs.md5.js"></script>
     <script charset='UTF-8' type="text/javascript" src="../dist/febs/febs.sha1.js"></script>
     <script charset='UTF-8' type="text/javascript" src="../dist/febs/febs.bigint.js"></script>
@@ -108,46 +108,33 @@
     
 
     // net.
-    febs_assert('febs.net.fetch', null, function(){febs.net.fetch('http://test2.citongs.com/api/batch', {
-      credentials: 'include',
-      mode: 'cors',
-      method: 'post',
-      headers: {'Content-Type': 'application/json'},
-      body: '{}'
-    })
-    .then(function(response){ return response.json(); })
-    .then(function(response){ console.log(response); })});
-    // febs_assert('febs.net.jsonp', null, function(){febs.net.jsonp('http://test2.citongs.com/api/batch', {
-    //   credentials: 'include',
-    //   mode: 'cors',
-    //   method: 'post',
-    //   headers: {'Content-Type': 'application/json',},
-    //   body: '{}'
-    // }).then(response=>{ console.log(response.json()); }));
+    febs_assert('febs.net.fetch', null, function(){
+      febs.net.fetch('http://test2.citongs.com/api/batch', {
+        credentials: 'include',
+        mode: 'cors',
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: '{}',
+        progress: function(percent) {
+          console.log(percent);
+        }
+      })
+      .then(function(response){ return response.json(); })
+      .then(function(response){ console.log(response); })
+      .catch(function(e){ console.log(e); })
+    });
 
-    // controls.
-    // febs.controls.dialog_showToast({content:'即将显示 loading', icon:'ok'});
-    // febs.utils.sleep(1000)
-    // .then(function(){
-    //   febs.controls.loading_show('123');
-    //   return febs.utils.sleep(3000);
-    // })
-    // .then(function(){ 
-    //   febs.controls.loading_hide(); 
-    // })
-    // .then(function(){ 
-    //   febs.controls.dialog_showToast({content:'即将显示 alert', icon:'warn'});
-    //   return febs.utils.sleep(3000);
-    // })
-    // .then(function(){ 
-    //   febs.controls.dialog_showAlert({title:'将要显示confirm对话框', content:'关闭 alert sdfsgeg的 dfdfdfdf', confirm:function(){
-    //     febs.controls.dialog_showConfirm({title:'要显示输入对话框吗?', content:'sdfd alert', confirm:function(){
-    //       febs.controls.dialog_showConfirmEdit({title:'提示', content:'输入你的信息', editText:'1212', confirm:function(text){
-    //         febs.controls.dialog_showToast({content:text, icon:'error'});
-    //       }});
-    //     }});
-    //   }});
-    // })
+    febs_assert('febs.net.ajax', null, function(){
+      febs.net.ajax({
+        url: 'http://test2.citongs.com/api/batch',
+        type: 'post',
+        headers: {'Content-Type': 'application/json',},
+        data: '{"a":"dfdf"}',
+        success: function(data) {
+          console.log(data);
+        }
+      });
+    });
 
     // requestAnimationFrame.
     var total = 0;

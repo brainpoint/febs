@@ -34,12 +34,12 @@ require('console-polyfill');
 
 var febs = {};
 
-febs.utils  = require('../common/utils.bigint');
+febs.utils  = require('./common/utils.bigint');
 
 if (!window['febs'])
   window['febs'] = febs;
 else if (window['febs'].utils) {
-  for (const key in febs.utils) {
+  for (var key in febs.utils) {
     window['febs'].utils[key] = febs.utils[key];
   }
 }

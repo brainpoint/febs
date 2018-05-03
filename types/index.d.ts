@@ -483,11 +483,12 @@ export namespace upload {
    *                      - filename: 上传的文件名.
    *                      - filemimeType: 文件类型, 例如: 'image/jpeg'.
    *                      - return: 存储的文件路径, 返回null表示不存储.
+   * @param checkCrc32: 是否检测crc32值, 如果为true则, 请求时需附带crc32参数.
    * @return Promise.
    * @resolve
    *     - bool. 指明是否存储成功.
    */
-  function accept(app: any, conditionCB: (data: any, filesize: number, filename: string, filemimeType: string) => Promise<string>): Promise<boolean>;
+  function accept(app: any, conditionCB: (data: any, filesize: number, filename: string, filemimeType: string) => Promise<string>, checkCrc32?:boolean): Promise<boolean>;
 
   /**
    * @desc: [only in server]  准备接收上传文件.

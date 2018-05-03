@@ -60,7 +60,10 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
   }
 
   function onData(chunk) {
-    crc32_check = febs.crypt.crc32(chunk, crc32_check);
+    if (crc32) {
+      crc32_check = febs.crypt.crc32(chunk, crc32_check);
+    }
+    
     received += chunk.length
 
     if (size !== null && received > size) {
@@ -161,7 +164,7 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
  * @resolve
  *     - bool. 指明是否存储成功.
  */
-exports.accept = function(app, conditionCB)
+exports.accept = function(app, conditionCB, checkCrc32=true)
 {
   assert(conditionCB);
 
@@ -173,7 +176,7 @@ exports.accept = function(app, conditionCB)
       }
 
       var query = URL.parse(app.request.url, true).query;
-      if (!query.crc32) {
+      if (checkCrc32 && !query.crc32) {
         resolve(false);
         return;
       }
@@ -252,7 +255,7 @@ exports.accept = function(app, conditionCB)
             resolve(false);
           }
           else {
-            save_to(srcStream, destStream, fn1, Number(query.size), Number(query.crc32), (err, ret)=>{
+            save_to(srcStream, destStream, fn1, Number(query.size), (checkCrc32?Number(query.crc32):0), (err, ret)=>{
               if (err)
                 reject(err);
               else

@@ -1,0 +1,115 @@
+/**
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
+ * Author: lipengxiang
+ * Desc:
+ */
+
+var febsUtils = require('./utils');
+
+( function( global, factory ) {
+
+	"use strict";
+
+	if ( typeof module === "object" && typeof module.exports === "object" ) {
+
+		// For CommonJS and CommonJS-like environments where a proper `window`
+		// For environments that do not have a `window` with a `document`
+		// (such as Node.js), expose a factory as module.exports.
+		// This accentuates the need for the creation of a real `window`.
+		module.exports = global.document ?
+			factory( global, true ) :
+			function( w ) {
+				if ( !w.document ) {
+					throw new Error( "febs requires a window with a document" );
+				}
+				return factory( w );
+			};
+	} else {
+		factory( global );
+	}
+
+// Pass this if window is not defined yet
+} )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
+
+'use strict';
+
+const DefaultTimeout = 5000;
+var febsnet = {};
+var net = {};
+
+//--------------------------------------------------------
+// jsonp
+//--------------------------------------------------------
+
+// From https://github.com/camsong/fetch-jsonp
+febsnet.jsonp_defaultOptions = {
+  timeout: DefaultTimeout,
+  jsonpCallback: 'callback'
+};
+
+febsnet.jsonp_generateCallbackFunction = function () {
+  return 'jsonp_' + Date.now().toString() + '_' + Math.ceil(Math.random() * 100000);
+}
+
+// Known issue: Will throw 'Uncaught ReferenceError: callback_*** is not defined' error if request timeout
+febsnet.jsonp_clearFunction = function (functionName) {
+  // IE8 throws an exception when you try to delete a property on window
+  // http://stackoverflow.com/a/1824228/751089
+  try {
+    delete window[functionName];
+  } catch(e) {
+  }
+}
+
+febsnet.jsonp_removeScript = function (scriptId) {
+  var script = document.getElementById(scriptId);
+  document.getElementsByTagName("head")[0].removeChild(script);
+}
+
+febsnet.jsonp = function(url, options) {
+  options = options || {};
+  var timeout = options.timeout != null ? options.timeout : febsnet.jsonp_defaultOptions.timeout;
+  var jsonpCallback = (!!options.jsonpCallback) ? options.jsonpCallback : febsnet.jsonp_defaultOptions.jsonpCallback;
+
+  var timeoutId;
+
+  return new Promise(function(resolve, reject) {
+    var callbackFunction = febsnet.jsonp_generateCallbackFunction();
+
+    window[callbackFunction] = function(response) {
+      resolve({
+        ok: true,
+        // keep consistent with fetch API
+        json: function() {
+          return Promise.resolve(response);
+        }
+      });
+
+      if (timeoutId) clearTimeout(timeoutId);
+
+      febsnet.jsonp_removeScript(jsonpCallback + '_' + callbackFunction);
+
+      febsnet.jsonp_clearFunction(callbackFunction);
+    };
+
+    // Check if the user set their own params, and if not add a ? to start a list of params
+    url += (url.indexOf('?') === -1) ? '?' : '&';
+
+    var jsonpScript = document.createElement('script');
+    jsonpScript.setAttribute("src", url + jsonpCallback + '=' + callbackFunction);
+    jsonpScript.id = jsonpCallback + '_' + callbackFunction;
+    document.getElementsByTagName("head")[0].appendChild(jsonpScript);
+
+    timeoutId = setTimeout(function() {
+      reject('timeout');
+
+      febsnet.jsonp_clearFunction(callbackFunction);
+      febsnet.jsonp_removeScript(jsonpCallback + '_' + callbackFunction);
+    }, timeout);
+  });
+};
+
+net.jsonp = febsnet.jsonp;
+
+return net;
+} );

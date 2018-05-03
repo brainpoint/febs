@@ -578,11 +578,12 @@ febs.file.fileRemove(file)
  *                      - filename: 上传的文件名.
  *                      - filemimeType: 文件类型, 例如: 'image/jpeg'.
  *                      - return: 存储的文件路径, 返回null表示不存储.
+ * @param checkCrc32: 是否检测crc32值, 如果为true则, 请求时需附带crc32参数.
  * @return Promise.
  * @resolve
  *     - bool. 指明是否存储成功.
  */
-febs.upload.accept(ctx, conditionCB)
+febs.upload.accept(ctx, conditionCB, checkCrc32=true)
 ```
 
 ## base64数据流分段方式上传.

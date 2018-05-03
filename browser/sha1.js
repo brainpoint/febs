@@ -34,13 +34,12 @@ require('console-polyfill');
 
 var febs = {};
 
-febs.crypt  = require('./crypt.md5');
-
+febs.crypt  = require('./libs/crypt.sha1');
 
 if (!window['febs'])
   window['febs'] = febs;
 else if (window['febs'].crypt) {
-  for (const key in febs.crypt) {
+  for (var key in febs.crypt) {
     window['febs'].crypt[key] = febs.crypt[key];
   }
 }

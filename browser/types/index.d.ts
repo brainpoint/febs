@@ -233,6 +233,14 @@ export namespace crypt {
 //
 // net.
 export namespace net {
+
+  /**
+  * @desc: 使用jquery.ajax类似参数调用.
+  * @param cfg: 允许额外传递一个 progress:function(percent) {} 的参数来获取进度.
+  * @return: 
+  */
+  function ajax(cfg:any):{abort:()=>void}
+
   /**
    * @desc: 使用fetch方式进行数据请求.
    *        如果超時, 可以catch到 'timeout'
