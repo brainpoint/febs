@@ -370,7 +370,7 @@ net封装了浏览器通信方法: ajax, fetch, jsonp
 ```js
 /**
 * @desc: 使用jquery.ajax类似参数调用.
-* @param cfg: 允许额外传递一个 progress:function(percent) {} 的参数来获取进度.
+* @param cfg: 允许额外传递一个 progress:function(percent) {} 的参数来获取上传进度.
 * @return: 
 */
 febs.net.ajax(cfg:any):{abort:()=>void}

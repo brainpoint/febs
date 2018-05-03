@@ -118,10 +118,14 @@ function ajax( ctx )
   }
 
   if (ctx.progress) {
-    xhr.onprogress = function(event){
-      if(event.lengthComputable){
-        ctx.progress(event.position/event.totalSize);
+    if(('upload' in xhr) && ('onprogress' in xhr.upload)) {
+      xhr.upload.onprogress = function(event){
+        if(event.lengthComputable){
+          ctx.progress(event.loaded/event.total);
+        }
       }
+    } else {
+      console.log('The browser not support progress event');
     }
   }
 
