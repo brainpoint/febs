@@ -4946,6 +4946,7 @@ var febsUtils = __webpack_require__(11);
         var status = xhr.status === 1223 ? 204 : xhr.status;
         if (status < 100 || status > 599) {
           cbError(xhr, xhr.statusText, new TypeError('Network request failed'));
+          cbError = null;
           return;
         }
 
@@ -4957,10 +4958,10 @@ var febsUtils = __webpack_require__(11);
     };
 
     xhr.ontimeout = function () {
-      cbError(xhr, null, 'timeout');
+      if (cbError) cbError(xhr, null, 'timeout');
     };
     xhr.onerror = function () {
-      cbError(xhr, null, new TypeError('Network request failed'));
+      if (cbError) cbError(xhr, null, new TypeError('Network request failed'));
     };
 
     if (ctx.progress) {
