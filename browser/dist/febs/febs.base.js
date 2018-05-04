@@ -2916,6 +2916,28 @@ var _typeof = __webpack_require__(5)["default"];
   };
 
   /**
+  * @desc: document offset.
+  * @return: {top, left}
+  */
+  Dom.getDocumentOffset = function () {
+    var elementScrollLeft;
+    var elementScrollTop;
+
+    if (window.document.compatMode == "BackCompat") {
+      elementScrollLeft = window.document.body.scrollLeft;
+      elementScrollTop = window.document.body.scrollTop;
+    } else {
+      elementScrollLeft = window.document.documentElement.scrollLeft;
+      elementScrollTop = window.document.documentElement.scrollTop;
+    }
+
+    return {
+      top: elementScrollTop,
+      left: elementScrollLeft
+    };
+  };
+
+  /**
   * @desc: 获取指定元素相对于视口的的offset
   * @return: 
   */

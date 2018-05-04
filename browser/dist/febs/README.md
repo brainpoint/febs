@@ -113,6 +113,12 @@ febs.string.replace();
   febs.dom.getDocumentPort():{width:number, height:number};
 
   /**
+  * @desc: 获得document scroll offset.
+  * @return: {top, left}
+  */
+  febs.dom..getDocumentOffset():{top:number, left:number};
+
+  /**
   * @desc: 获取指定元素相对于视口的的offset
   * @return: 
   */

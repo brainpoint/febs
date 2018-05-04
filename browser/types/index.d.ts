@@ -503,6 +503,12 @@ export namespace dom {
   function getDocumentPort():{width:number, height:number};;
 
   /**
+  * @desc: 获得document scroll offset.
+  * @return: {top, left}
+  */
+  function getDocumentOffset():{top:number, left:number};
+
+  /**
   * @desc: 获取指定元素相对于视口的的offset
   * @return: 
   */
