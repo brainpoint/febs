@@ -109,7 +109,7 @@
 
   // - parentNode 仅筛选此节点下的节点.
   function _getElement(name, parentNode) {
-    if (name == '') name = null;
+    if (name === '') name = null;
     var _elem;
     var _isarr = false;
     if (typeof name === 'string') {
