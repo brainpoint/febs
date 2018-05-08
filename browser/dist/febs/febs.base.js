@@ -5008,6 +5008,13 @@ var febsUtils = __webpack_require__(11);
           var element = ctx.headers[key];
           xhr.setRequestHeader(key, element);
         }
+
+        // auto content-type.
+        if (!ctx.headers.hasOwnProperty('Content-Type')) {
+          if (typeof ctx.data !== 'string') {
+            xhr.setRequestHeader('Content-Type', 'application/json');
+          }
+        }
       } else {
         console.log('can\'t set headers');
       }
