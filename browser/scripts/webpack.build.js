@@ -9,14 +9,16 @@ var webpack = require('webpack')
 var webpackConfig = require('./webpack.config.js')
 var webpackConfigMin = require('./webpack.config.min.js')
 
+var packageJson = require('../package.json');
+
+var dir = 'febs-'+packageJson.version;
 
 var spinner = ora('building for production...')
 spinner.start()
 
 var root = path.resolve(__dirname, '../');
 var febs = require('../../server/index');
-febs.file.dirRemoveRecursive(path.join(root, 'dist/febs'));
-febs.file.fileCopy(path.join(root, 'README.md'), path.join(root, 'dist/febs/README.md'));
+febs.file.fileCopy(path.join(root, 'README.md'), path.join(root, `dist/${dir}/README.md`));
 
 febs.file.fileRemove(path.join(root, 'dist/test.html'));
 febs.file.fileCopy(path.join(root, 'test/test.html'), path.join(root, 'dist/test.html'));
@@ -47,16 +49,16 @@ function buildSrc(config) {
 }
 
 // start.
-buildSrc(webpackConfig('libs/index.js', 'febs.js'))
-.then(()=>buildSrc(webpackConfig('base.js', 'febs.base.js')))
-.then(()=>buildSrc(webpackConfig('bigint.js', 'febs.bigint.js')))
-.then(()=>buildSrc(webpackConfig('md5.js', 'febs.md5.js')))
-.then(()=>buildSrc(webpackConfig('sha1.js', 'febs.sha1.js')))
-.then(()=>buildSrc(webpackConfigMin('libs/index.js', 'febs.min.js')))
-.then(()=>buildSrc(webpackConfigMin('base.js', 'febs.base.min.js')))
-.then(()=>buildSrc(webpackConfigMin('bigint.js', 'febs.bigint.min.js')))
-.then(()=>buildSrc(webpackConfigMin('md5.js', 'febs.md5.min.js')))
-.then(()=>buildSrc(webpackConfigMin('sha1.js', 'febs.sha1.min.js')))
+buildSrc(webpackConfig('libs/index.js', 'febs.js', 'dist/'+dir))
+.then(()=>buildSrc(webpackConfig('base.js', 'febs.base.js', 'dist/'+dir)))
+.then(()=>buildSrc(webpackConfig('bigint.js', 'febs.bigint.js', 'dist/'+dir)))
+.then(()=>buildSrc(webpackConfig('md5.js', 'febs.md5.js', 'dist/'+dir)))
+.then(()=>buildSrc(webpackConfig('sha1.js', 'febs.sha1.js', 'dist/'+dir)))
+.then(()=>buildSrc(webpackConfigMin('libs/index.js', 'febs.min.js', 'dist/'+dir)))
+.then(()=>buildSrc(webpackConfigMin('base.js', 'febs.base.min.js', 'dist/'+dir)))
+.then(()=>buildSrc(webpackConfigMin('bigint.js', 'febs.bigint.min.js', 'dist/'+dir)))
+.then(()=>buildSrc(webpackConfigMin('md5.js', 'febs.md5.min.js', 'dist/'+dir)))
+.then(()=>buildSrc(webpackConfigMin('sha1.js', 'febs.sha1.min.js', 'dist/'+dir)))
 .then(()=>{
   spinner.stop()
 

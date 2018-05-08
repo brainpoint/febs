@@ -139,16 +139,23 @@ function ajax( ctx )
         var element = ctx.headers[key];
         xhr.setRequestHeader(key, element);
       }
-
-      // auto content-type.
-      if (!ctx.headers.hasOwnProperty('Content-Type')) {
-        if (typeof ctx.data !== 'string') {
-          xhr.setRequestHeader('Content-Type', 'application/json');
-        }
-      }
     }
     else {
       console.log('can\'t set headers');
+    }
+  }
+
+  // auto content-type.
+  var data_content = ctx.data;
+  if (data_content && (!ctx.headers || !ctx.headers.hasOwnProperty('Content-Type'))) {
+    if (typeof data_content !== 'string') {
+      try {
+        data_content = JSON.stringify(data_content);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+      } catch (e) {
+        console.log('ajax stringify data error');
+        console.log(e);        
+      }
     }
   }
 
@@ -156,7 +163,7 @@ function ajax( ctx )
     ctx.beforeSend(xhr);
   }
 
-  xhr.send(ctx.data);
+  xhr.send(data_content);
 
   return {
     abort: function() {

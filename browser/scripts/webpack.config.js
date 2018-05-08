@@ -6,11 +6,11 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-module.exports = function(main, output){
+module.exports = function(main, output, outputDir){
   return {
   entry:  resolve(main),
   output: {
-    path: resolve('dist/febs'),
+    path: resolve(outputDir),
     filename: output
   },
   module: {
