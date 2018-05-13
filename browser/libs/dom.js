@@ -235,6 +235,16 @@
     } 
   }
 
+  function _isHtmlElement(obj) {
+    var d = document.createElement("div"); 
+    try{ 
+        d.appendChild(obj.cloneNode(true)); 
+        return obj.nodeType==1 ? true : false; 
+    }catch(e){ 
+        return obj==window || obj==document; 
+    } 
+} 
+
   var CreateDom;
 
   /**
@@ -264,14 +274,15 @@
         this._elem = name._elem;
         this._isArr = name._isArr;
       } else {
-        if (name && name.length == 1) {
-          this._elem = _getElement(name[0]);
+        if (_isHtmlElement(name)) {
+          this._elem = name;
+          this._isArr = false;
         }
         else {
           this._elem = _getElement(name);  
+          this._isArr = this._elem._isarr;
+          this._elem = this._elem._elem;
         }
-        this._isArr = this._elem._isarr;
-        this._elem = this._elem._elem;
       }
 
       if (!this._isArray()) {
