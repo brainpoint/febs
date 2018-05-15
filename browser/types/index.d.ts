@@ -461,7 +461,7 @@ export class dom {
   /**
   * @desc: trigger.
   */
-  trigger(eventname:string): dom;
+  trigger(eventname:string, extraParameters?:any): dom;
 
   ready(f?:any):dom;
   unload(f?:any):dom;

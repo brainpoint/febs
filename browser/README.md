@@ -481,7 +481,7 @@ febs库模拟了jquery的常用方法(dom操作/事件/css等), 当页面引入f
   on(eventname:string, foo:any): $;
   one(event:string, f:any): $;
   off(eventname:string, foo?:any): $;
-  trigger(eventname:string): $;
+  trigger(eventname:string, extraParameters?:any): $; // extraParameters仅支持自定义事件.
   ready(f?:any):$;
   unload(f?:any):$;
   blur(f?:any):$;

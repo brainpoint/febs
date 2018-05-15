@@ -1,27 +1,3 @@
-( function( global, factory ) {
-
-	"use strict";
-
-	if ( typeof module === "object" && typeof module.exports === "object" ) {
-
-		// For CommonJS and CommonJS-like environments where a proper `window`
-		// For environments that do not have a `window` with a `document`
-		// (such as Node.js), expose a factory as module.exports.
-		// This accentuates the need for the creation of a real `window`.
-		module.exports = global.document ?
-			factory( global, true ) :
-			function( w ) {
-				if ( !w.document ) {
-					throw new Error( "febs requires a window with a document" );
-				}
-				return factory( w );
-			};
-	} else {
-		factory( global );
-	}
-
-// Pass this if window is not defined yet
-} )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
 
   var utils = require('./utils');
   var stringUtils = require('./string');
@@ -41,8 +17,6 @@
     else if (name[0] == '#') {
       tag = 1;
       name = name.substr(1);
-    } else {
-      name = name.toUpperCase();
     }
 
     if (!parentNodes || parentNodes.length == 0) {
@@ -82,7 +56,7 @@
             }
           }
           else {
-            if (node[j].nodeName.toUpperCase() == name) {
+            if (node[j].nodeName.toUpperCase() == name.toUpperCase()) {
               elems.push(node[j]);
               continue;
             }
@@ -827,10 +801,12 @@
         if (j >= env.length) {
           env.push(foo);
         }
-        if (ee.addEventListener)
-          ee.addEventListener(eventname, foo);
-        else
-          ee.attachEvent('on'+eventname, foo);
+        if ('on'+eventname in ee) {
+          if (ee.addEventListener)
+            ee.addEventListener(eventname, foo);
+          else
+            ee.attachEvent('on'+eventname, foo);
+        }
       }
       return this;
     }
@@ -869,11 +845,13 @@
           {
             var env = ee.__events[eventname];
             var j;
-            for (j = 0; j < env.length; j++) {
-              if (ee.removeEventListener)
-                ee.removeEventListener(eventname, env[j]);
-              else
-                ee.detachEvent('on'+eventname, env[j]);
+            if ('on'+eventname in ee) {
+              for (j = 0; j < env.length; j++) {
+                if (ee.removeEventListener)
+                  ee.removeEventListener(eventname, env[j]);
+                else
+                  ee.detachEvent('on'+eventname, env[j]);
+              }
             }
             ee.__events[eventname] = [];
           }
@@ -903,10 +881,12 @@
             }
           }
         }
-        if (ee.removeEventListener)
-          ee.removeEventListener(eventname, foo);
-        else
-          ee.detachEvent('on'+eventname, foo);
+        if ('on'+eventname in ee) {
+          if (ee.removeEventListener)
+            ee.removeEventListener(eventname, foo);
+          else
+            ee.detachEvent('on'+eventname, foo);
+        }
       }
 
       return this;
@@ -915,7 +895,7 @@
     /**
     * @desc: trigger.
     */
-    trigger(eventname) {
+    trigger(eventname, extraParameters) {
       if (!eventname) 
         throw new Error('need event name');
       
@@ -932,13 +912,46 @@
 
         // fire.
         if (ee) {
-          if (!window.document.addEventListener) {
-            ee.fireEvent('on'+eventname);
-          }
+          if ('on'+eventname in ee) {
+            if (!window.document.addEventListener) {
+              ee.fireEvent('on'+eventname);
+            }
+            else {
+              var env = window.document.createEvent('HTMLEvents');
+              env.initEvent(eventname, true, true);
+              ee.dispatchEvent(env);
+            }
+          } 
           else {
-            var env = window.document.createEvent('HTMLEvents');
-            env.initEvent(eventname, true, true);
-            ee.dispatchEvent(env);
+            if (ee.__events && ee.__events[eventname])
+            {
+              var env = ee.__events[eventname];
+              var j;
+
+              var enve;
+              // if (!window.document.addEventListener) {
+                enve = {
+                  bubbles: false,
+                  cancelable: false,
+                  cancelBubble: false,
+                  defaultPrevented: false,
+                  // currentTarget: ee,
+                  // target: ee,
+                  type: eventname
+                };
+              // }
+              // else {
+              //   enve = window.document.createEvent('HTMLEvents');
+              //   enve.initEvent(eventname, false, false);
+              // }
+
+              enve.currentTarget = ee;
+              enve.target = ee;
+
+              for (j = 0; j < env.length; j++) {
+                env[j](enve, extraParameters);
+              }
+            } // if.
           }
         } // if.
       }
@@ -1376,6 +1389,5 @@
     return {};
   }
 
-  return {Dom, CreateDom};
-}
-);
+  exports.Dom = Dom;
+  exports.CreateDom = CreateDom;
