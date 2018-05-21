@@ -271,6 +271,11 @@ febs.string.getByteSize(s)
  * @return: string.
  */
 febs.string.replace(str, strSrc, strDest)
+
+/**
+ * @desc trim.
+ */
+febs.string.trim(str: string) : string;
 ```
 
 客户端独有.

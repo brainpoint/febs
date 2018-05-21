@@ -34,6 +34,8 @@ exports.getByteSize = string.getByteSize;
  */
 exports.replace = string.replace;
 
+exports.trim = string.trim;
+
 /**
 * @desc: 对字符串中的 <> 标签进行转义为 &lt;, &gt;
 * @return: string.

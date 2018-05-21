@@ -32,3 +32,9 @@ exports.getByteSize = string.getByteSize;
  * @return: string.
  */
 exports.replace = string.replace;
+
+/**
+ * @desc: 除去字符串两端空格.
+ * @return: string.
+ */
+exports.trim = string.trim;

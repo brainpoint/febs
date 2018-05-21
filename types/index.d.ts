@@ -6,18 +6,7 @@
 declare global {
   const __line: number;
   const __column: number;
-  let __debug: boolean;
 }
-
-
-/**
- * [only in browser]
- */
-export function requestAnimationFrame(cb:(tm:number)=>void):any;
-/**
- * [only in browser]
- */
-export function cancelAnimationFrame(timer:any):void;
 
 export interface WeekFmt {
   '0'?: string;
@@ -202,6 +191,8 @@ export namespace string {
    * @return: string.
    */
   function replace(str: string, strSrc: string, strDest: string): string;
+
+  function trim(str: string) : string;
 }
 
 export interface Base64Result {

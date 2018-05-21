@@ -20,12 +20,6 @@ var root = path.resolve(__dirname, '../');
 var febs = require('../../server/index');
 febs.file.fileCopy(path.join(root, 'README.md'), path.join(root, `dist/${dir}/README.md`));
 
-febs.file.fileRemove(path.join(root, 'dist/test.html'));
-febs.file.fileCopy(path.join(root, 'test/test.html'), path.join(root, 'dist/test.html'));
-
-febs.file.fileRemove(path.join(root, 'dist/test.dom.html'));
-febs.file.fileCopy(path.join(root, 'test/test.dom.html'), path.join(root, 'dist/test.dom.html'));
-
 // febs.file.fileRemove(path.join(root, 'dist/jquery-1.11.3.min.js'));
 // febs.file.fileCopy(path.join(root, 'test/jquery-1.11.3.min.js'), path.join(root, 'dist/jquery-1.11.3.min.js'));
 

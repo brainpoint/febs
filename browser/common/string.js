@@ -107,3 +107,11 @@ exports.replace = function(str, strSrc, strDest) {
 
   return s;
 };
+
+
+exports.trim = function(str) {
+  if (!str)
+    return str;
+  
+  return str.replace(/(^\s*)|(\s*$)/g, "")
+}

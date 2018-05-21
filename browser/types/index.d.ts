@@ -4,13 +4,12 @@
 
 
 declare global {
-  const __line: number;
   let __debug: boolean;
+
+  export function requestAnimationFrame(cb:(tm:number)=>void):any;
+  export function cancelAnimationFrame(timer:any):void;
 }
 
-
-export function requestAnimationFrame(cb:(tm:number)=>void):any;
-export function cancelAnimationFrame(timer:any):void;
 
 export interface WeekFmt {
   '0'?: string;
@@ -178,6 +177,9 @@ export namespace string {
    * @return: string.
    */
   function replace(str: string, strSrc: string, strDest: string): string;
+
+  function trim(str: string) : string;
+  
   /**
   * @desc: 对字符串中的 <> 标签进行转义为 &lt;, &gt;
   * @return: string.
@@ -309,6 +311,7 @@ export namespace net {
   }): Promise<any>;
 }
 
+export type SELECTOR = any; /*string|dom|HTMLElement; */
 
 //
 // like jquery.
@@ -323,7 +326,7 @@ export class dom {
    *    - node.
    * 不支持带空格多层结构的情况.
    */
-  constructor(selector?:string|dom|HTMLElement);
+  constructor(selector?:SELECTOR);
 
   get(index:number): any;
   
@@ -355,42 +358,42 @@ export class dom {
   /**
    * @desc: append
    */
-  append(selector?:string|dom|HTMLElement): dom;
+  append(selector?:SELECTOR): dom;
 
   /**
    * appendTo
    */
-  appendTo(selector?:string|dom|HTMLElement): dom;
+  appendTo(selector?:SELECTOR): dom;
 
   /**
    * @desc: prepend
    */
-  prepend(selector?:string|dom|HTMLElement): dom;
+  prepend(selector?:SELECTOR): dom;
 
   /**
    * @desc: prependTo
    */
-  prependTo(selector?:string|dom|HTMLElement): dom;
+  prependTo(selector?:SELECTOR): dom;
 
   /**
    * @desc: before
    */
-  before(selector?:string|dom|HTMLElement): dom;
+  before(selector?:SELECTOR): dom;
 
   /**
    * insertBefore
    */
-  insertBefore(selector?:string|dom|HTMLElement): dom;
+  insertBefore(selector?:SELECTOR): dom;
 
   /**
    * @desc: after
    */
-  after(selector?:string|dom|HTMLElement): dom;
+  after(selector?:SELECTOR): dom;
 
   /**
    * @desc: insertAfter
    */
-  insertAfter(selector?:string|dom|HTMLElement): dom;
+  insertAfter(selector?:SELECTOR): dom;
 
   /**
    * @desc: attr.
@@ -428,15 +431,15 @@ export class dom {
   * @desc: css.
   */
   css(name:string, value:string): string;
-
+  
   /**
    * html.
    */
-  parent(selector?:string|dom|HTMLElement) : dom;
-  parents(selector?:string|dom|HTMLElement) : dom;
-  children(selector?:string|dom|HTMLElement) : dom;
-  prev(selector?:string|dom|HTMLElement) : dom;
-  next(selector?:string|dom|HTMLElement) : dom;
+  parent(selector?:SELECTOR) : dom;
+  parents(selector?:SELECTOR) : dom;
+  children(selector?:SELECTOR) : dom;
+  prev(selector?:SELECTOR) : dom;
+  next(selector?:SELECTOR) : dom;
 
 
   /**
@@ -494,13 +497,13 @@ export namespace dom {
   * @desc: 获得视口大小.
   * @return: {width, height}
   */
-  function getViewPort():{width:number, height:number};;
+  function getViewPort():{width:number, height:number};
 
   /**
   * @desc: 获得文档大小.
   * @return: {width, height}
   */
-  function getDocumentPort():{width:number, height:number};;
+  function getDocumentPort():{width:number, height:number};
 
   /**
   * @desc: 获得document scroll offset.
@@ -516,10 +519,13 @@ export namespace dom {
 }
 
 declare global {
-  export function $(n:any):dom;
 
-  export class $ {
-    static fn:any;
-    static extend(...any):$;
+  export function $(n:any):dom;
+  
+  export namespace $ {
+    var fn:any;
+
+    function extend(...args:any[]):dom;
+    function extend(deep: true, ...args:any[]):dom;
   }
 }

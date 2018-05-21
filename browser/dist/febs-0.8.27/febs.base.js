@@ -716,6 +716,8 @@ exports.getByteSize = string.getByteSize;
  */
 exports.replace = string.replace;
 
+exports.trim = string.trim;
+
 /**
 * @desc: 对字符串中的 <> 标签进行转义为 &lt;, &gt;
 * @return: string.
@@ -1602,7 +1604,9 @@ function _addClass(element, cName) {
  */
 function _removeClass(element, cName) {
   if (_hasClass(element, cName)) {
-    element.className = element.className.replace(new RegExp("(\\s|^)" + cName + "(\\s|$)"), " "); // replace方法是替换  
+    element.className = element.className.replace(new RegExp("(\\s|^)" + cName + "(\\s|$)"), " "); // replace方法是替换 
+    // trim.
+    element.className = stringUtils.trim(element.className);
   };
 }
 /**
@@ -4540,6 +4544,12 @@ exports.replace = function (str, strSrc, strDest) {
   } while (i < endPos); // while
 
   return s;
+};
+
+exports.trim = function (str) {
+  if (!str) return str;
+
+  return str.replace(/(^\s*)|(\s*$)/g, "");
 };
 
 /***/ }),

@@ -290,6 +290,11 @@ febs.string.getByteSize(s)
  */
 febs.string.replace(str, strSrc, strDest)
 /**
+ * @desc: 去除两端空格.
+ * @return: string.
+ */
+febs.string.trim(str)
+/**
 * @desc: 对字符串中的 <> 标签进行转义为 &lt;, &gt;
 * @return: string.
 */

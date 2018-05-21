@@ -150,7 +150,9 @@
    */
   function _removeClass( element, cName ){  
     if( _hasClass( element,cName ) ){  
-      element.className = element.className.replace( new RegExp( "(\\s|^)" + cName + "(\\s|$)" )," " ); // replace方法是替换  
+      element.className = element.className.replace( new RegExp( "(\\s|^)" + cName + "(\\s|$)" )," " ); // replace方法是替换 
+      // trim.
+      element.className = stringUtils.trim(element.className);
     };  
   }
   /**
