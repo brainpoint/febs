@@ -9,6 +9,8 @@
 var utils = require('../browser/common/utils');
 var utilsBigint = require('../browser/common/utils.bigint');
 
+var PromiseLib = Promise;
+
 /**
  * @desc: 模拟sleep.
  * @return: Promise.
