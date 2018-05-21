@@ -82,3 +82,8 @@
 ==================
   - [feature] upload允许不验证crc32.
   - [feature] 分离browser包为多个小包.
+
+0.8.20
+==================
+  - [bugfix] ajax header: content-type:false
+  

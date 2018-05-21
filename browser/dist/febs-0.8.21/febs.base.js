@@ -4880,6 +4880,8 @@ function ajax(ctx) {
   var cbSuccess = ctx.success || function () {};
   var cbComplete = ctx.complete || function () {};
 
+  ctx.processData = ctx.hasOwnProperty('processData') ? ctx.processData : true;
+
   //
   // net transfer.
   var xhr = transfer.transfer(window, ctx.timeout);
@@ -4943,6 +4945,10 @@ function ajax(ctx) {
     if (xhr.setRequestHeader) {
       for (var key in ctx.headers) {
         var element = ctx.headers[key];
+
+        if (key == 'Content-Type' && element === false) {
+          continue;
+        }
         xhr.setRequestHeader(key, element);
       }
     } else {
@@ -4950,13 +4956,27 @@ function ajax(ctx) {
     }
   }
 
+  if (!ctx.headers || !ctx.headers.hasOwnProperty('Content-Type')) {
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  }
+
   // auto content-type.
   var data_content = ctx.data;
-  if (data_content && (!ctx.headers || !ctx.headers.hasOwnProperty('Content-Type'))) {
-    if (typeof data_content !== 'string') {
+  if (data_content) {
+    if (ctx.processData && typeof data_content !== 'string') {
       try {
-        data_content = _JSON$stringify(data_content);
-        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        if (ctx.headers['Content-Type'] && ctx.headers['Content-Type'].toLowerCase().indexOf('json') >= 0) {
+          data_content = _JSON$stringify(data_content);
+        } else {
+          var data_tt = '';
+          for (var key in data_content) {
+            var element = data_content[key];
+            if (data_tt.length > 0) data_tt += '&';
+            data_tt += key + '=' + (element ? element.toString() : '');
+          }
+          data_content = data_tt;
+        }
       } catch (e) {
         console.log('ajax stringify data error');
         console.log(e);
