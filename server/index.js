@@ -28,6 +28,11 @@ if (!global.__line) {
      return __stack[1].getLineNumber();
    }
   });
+  Object.defineProperty(global, '__column', {
+   get: function(){
+     return __stack[1].getColumnNumber();
+   }
+  });
 }
 
 //

@@ -5,6 +5,7 @@
 
 declare global {
   const __line: number;
+  const __column: number;
   let __debug: boolean;
 }
 

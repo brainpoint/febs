@@ -86,4 +86,7 @@
 0.8.20
 ==================
   - [bugfix] ajax header: content-type:false
-  
+
+0.8.23
+==================
+  - [feature] add __column
