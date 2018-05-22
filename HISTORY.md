@@ -90,3 +90,7 @@
 0.8.23
 ==================
   - [feature] add __column
+
+0.8.28
+==================
+  - [feature] add $('input[name="xxx"]:checked') selector.

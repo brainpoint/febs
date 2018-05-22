@@ -447,6 +447,9 @@ febs库模拟了jquery的常用方法(dom操作/事件/css等), 当页面引入f
    *    - .name 使用类名构建.
    *    - #name 使用id名构建.
    *    - name  使用tag名构建.
+   *    - input[name="xxx"] 这样的选择器.
+   *    - input[name="xxx"]:checked 这样的选择器.
+   *    - input[name="xxx"]:disabled 这样的选择器.
    *    - <div...>...</div> 使用内容构建.
    *    - node.
    */

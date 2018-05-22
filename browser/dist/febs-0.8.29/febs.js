@@ -1782,7 +1782,18 @@ var stringUtils = __webpack_require__(36);
 // 返回匹配到的元素集合.
 function _matchElement(parentNodes, name, notAllChildren) {
   var elems;
-  var tag = 0; // 0-tag, 1-id, 2-class.
+  var tag = 0; // 0-tag, 1-id, 2-class, 3-name.
+  var nametag;
+
+  // :checked, :disabled
+  var selector = name.split(':');
+  name = selector[0];
+  selector = selector[1];
+  if (selector) {
+    if (selector != 'checked' && selector != 'disabled') {
+      throw new Error('only support `:checked or :disabled` selector');
+    }
+  }
 
   if (name[0] == '.') {
     tag = 2;
@@ -1790,6 +1801,19 @@ function _matchElement(parentNodes, name, notAllChildren) {
   } else if (name[0] == '#') {
     tag = 1;
     name = name.substr(1);
+  } else if (name.indexOf('[') > 0) {
+    tag = 3;
+    var iblace = name.indexOf('[');
+    nametag = name.substring(iblace + 1, name.length - 1);
+    name = name.substr(0, iblace);
+    if (name !== 'input') {
+      throw new Error('only support `input[name=xxx]` selector');
+    }
+    nametag = nametag.split('=');
+    if (nametag.length != 2 || nametag[0] != 'name') {
+      throw new Error('only support `input[name=xxx]` selector');
+    }
+    nametag = nametag[1].substr(1, nametag[1].length - 2);
   }
 
   if (!parentNodes || parentNodes.length == 0) {
@@ -1798,9 +1822,27 @@ function _matchElement(parentNodes, name, notAllChildren) {
     } else if (1 == tag) {
       elems = window.document.getElementById(name);
       if (elems) elems = [elems];else elems = [];
-    } else {
+    } else if (0 == tag) {
       elems = window.document.getElementsByTagName(name);
+    } else {
+      elems = window.document.getElementsByName(nametag);
     }
+
+    if (selector) {
+      var tt_elems = elems;
+      elems = [];
+      for (var i = 0; i < tt_elems.length; i++) {
+        if (selector == 'disabled') {
+          if (tt_elems[i].disabled) {
+            elems.push(tt_elems[i]);
+          }
+        } else if (selector == 'checked') {
+          if (tt_elems[i].checked) {
+            elems.push(tt_elems[i]);
+          }
+        }
+      }
+    } // if.
   } else {
     elems = [];
     for (var i = 0; i < parentNodes.length; i++) {
@@ -1812,22 +1854,43 @@ function _matchElement(parentNodes, name, notAllChildren) {
       }
 
       for (var j = 0; j < node.length; j++) {
-        if (2 == tag) {
-          if (_hasClass(node[j], name)) {
-            elems.push(node[j]);
-            continue;
+        var add = true;
+
+        if (selector) {
+          if (selector == 'disabled') {
+            if (!node[j].disabled) {
+              add = false;
+            }
+          } else if (selector == 'checked') {
+            if (!node[j].checked) {
+              add = false;
+            }
           }
-        } else if (1 == tag) {
-          if (node[j].id == name) {
-            elems.push(node[j]);
-            continue;
+        } // if.
+
+        if (add) {
+          if (2 == tag) {
+            if (_hasClass(node[j], name)) {
+              elems.push(node[j]);
+              continue;
+            }
+          } else if (1 == tag) {
+            if (node[j].id == name) {
+              elems.push(node[j]);
+              continue;
+            }
+          } else if (0 == tag) {
+            if (node[j].nodeName.toUpperCase() == name.toUpperCase()) {
+              elems.push(node[j]);
+              continue;
+            }
+          } else {
+            if (node[j].nodeName.toUpperCase() == 'INPUT' && node[j].getAttribute('name') == nametag) {
+              elems.push(node[j]);
+              continue;
+            }
           }
-        } else {
-          if (node[j].nodeName.toUpperCase() == name.toUpperCase()) {
-            elems.push(node[j]);
-            continue;
-          }
-        }
+        } // if.
 
         if (!notAllChildren) {
           var nn = node[j].childNodes;

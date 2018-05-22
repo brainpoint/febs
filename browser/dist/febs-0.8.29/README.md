@@ -290,6 +290,11 @@ febs.string.getByteSize(s)
  */
 febs.string.replace(str, strSrc, strDest)
 /**
+ * @desc: 去除两端空格.
+ * @return: string.
+ */
+febs.string.trim(str)
+/**
 * @desc: 对字符串中的 <> 标签进行转义为 &lt;, &gt;
 * @return: string.
 */
@@ -442,6 +447,9 @@ febs库模拟了jquery的常用方法(dom操作/事件/css等), 当页面引入f
    *    - .name 使用类名构建.
    *    - #name 使用id名构建.
    *    - name  使用tag名构建.
+   *    - input[name="xxx"] 这样的选择器.
+   *    - input[name="xxx"]:checked 这样的选择器.
+   *    - input[name="xxx"]:disabled 这样的选择器.
    *    - <div...>...</div> 使用内容构建.
    *    - node.
    */

@@ -2,13 +2,30 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.27/febs.js"></script>
+    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.29/febs.js"></script>
   </head>
   <body>
     将在console中输出调用日志
     <div id="test_elem"></div>
     <div class="test_elem aa"></div>
     <div class="test_elem"><div class="aa"></div></div>
+
+    <div id="children1">
+      <div class="a">a
+        <div class="a">a
+          <div class="a">a</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="a">a</div>
+
+    <input class="abc1" checked>
+    <input class="abc1" disabled>
+
+    <input name="abc" checked>
+    <input name="abc">
+    <input name="dfd">
     <script>
     
     var assert = console.assert;
@@ -161,6 +178,43 @@
         return $('.test_elem1').parent('#prependok');
       });
 
+
+    febs_assert('children', function(r){return r.length == 4;}, 
+      function(){
+        return $('.a');
+      });
+    febs_assert('children', function(r){return r.length == 2;}, 
+      function(){
+        return $('.a .a');
+      });
+    febs_assert('children', function(r){return r.length == 1;}, 
+      function(){
+        return $('.a .a .a');
+      });
+    febs_assert('children', function(r){return r.length == 0;}, 
+      function(){
+        return $('#children1').children('.b');
+      });
+    febs_assert('children', function(r){return r.length == 1;}, 
+      function(){
+        return $('#children1').children('.a');
+      });
+    febs_assert(':checked', function(r){return r.length == 1;}, 
+      function(){
+        return $('.abc1:checked');
+      });
+    febs_assert(':disabled', function(r){return r.length == 1;}, 
+      function(){
+        return $('.abc1:disabled');
+      });
+    febs_assert('input', function(r){return r.length == 2;}, 
+      function(){
+        return $('input[name="abc"]');
+      });
+    febs_assert('input', function(r){return r.length == 1;}, 
+      function(){
+        return $('input[name="abc"]:checked');
+      });
     </script>
   </body>
 </html>
