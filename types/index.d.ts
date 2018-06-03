@@ -168,6 +168,104 @@ export namespace utils {
   function bigint_toFixed(a: any, fixed?: boolean): string;
 }
 
+
+//
+// date.
+export namespace date {
+
+  /**
+  * @desc: 判断是否是有效时间.
+  */
+  function isValidate(date: Date): boolean;
+
+  /**
+   * @desc: 获取时间的string.
+   * @param localtime: ms.
+   * @param fmt: 格式化, 默认为 'HH:mm:ss'
+   *             年(y)、月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
+   *              'yyyy-MM-dd hh:mm:ss.S' ==> 2006-07-02 08:09:04.423
+   *              'yyyy-MM-dd E HH:mm:ss' ==> 2009-03-10 星期二 20:09:04
+   *              'yyyy-M-d h:m:s.S'      ==> 2006-7-2 8:9:4.18
+   * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
+   * @return: string.
+   */
+  function getTimeString(localtime: number, fmt: string, weekFmt: WeekFmt): string;
+
+
+  /**
+   * @desc: 获取指定时间距离现在的时间描述.
+   *        例如, 昨天, 1小时前等.
+   * @param localtime: ms. 小于当前时间, 大于当前时间将显示为 '刚刚';
+   * @param strFmt: 需要显示的文字. 
+   *                默认为 {
+   *                        now:    '刚刚',           // 3秒钟以内将显示此信息.
+   *                        second: '秒前',
+   *                        minute: '分钟前',
+   *                        hour:   '小时前',
+   *                        day_yesterday: '昨天',
+   *                        day:    '天前',
+   *                        month:  '个月前',          // 6个月内将显示此信息.
+   *                        time:   'yyyy-M-d h:m:s'  // 超过6个月将使用此格式格式化时间
+   *                       }
+   * @return: string.
+   */
+  function getTimeStringFromNow(localtime: number, strFmt: string): string;
+
+  /**
+   * @desc: getDate('2012-05-09')
+   * @return: Date.
+   */
+  function getDate(strDate: string): Date
+
+
+  /**
+   * @desc: getDate2('20120509')
+   * @return: Date.
+   */
+  function getDate2(strDate: string): Date;
+
+  /**
+   * @desc: 获取时间的协调世界时间 string.
+   * @param localtime: ms. (本地时间)
+   * @param fmt: 格式化, 默认为 'HH:mm:ss'
+   *             年(y)、月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
+   *              'yyyy-MM-dd hh:mm:ss.S' ==> 2006-07-02 08:09:04.423
+   *              'yyyy-MM-dd E HH:mm:ss' ==> 2009-03-10 星期二 20:09:04
+   *              'yyyy-M-d h:m:s.S'      ==> 2006-7-2 8:9:4.18
+   * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
+   * @return: string.
+   */
+  function getUTCTimeString(localtime: number, fmt: string, weekFmt: WeekFmt): string;
+
+  /**
+   * @desc: 通过世界时间获取date. getDateFromUTC('2012-05-09')
+   * @param strDateUTC: 世界日期字符串. '2012-05-09' 
+   * @return: Date.
+   */
+  function getDateFromUTC(strDateUTC: string): Date;
+
+  /**
+   * @desc: 通过世界时间获取date. getDate2FromUTC('20120509')
+   * @param strDateUTC: 世界日期字符串. '20120509' 
+   * @return: Date.
+   */
+  function getDate2FromUTC(strDateUTC: string): Date;
+
+  /**
+   * @desc: 通过世界时间获取date. getTimeFromUTC('2012-05-09 11:10:12')
+   * @param strTimeUTC: 世界时间字符串. '2012-05-09 11:10:12' 
+   * @return: Date.
+   */
+  function getTimeFromUTC(strTimeUTC: string): Date;
+
+  /**
+   * @desc: 通过世界时间获取date. getTime2FromUTC('20120509111012')
+   * @param strTimeUTC: 世界日期字符串. '20120509111012' 
+   * @return: Date.
+   */
+  function getTime2FromUTC(strTimeUTC: string): Date;
+}
+
 //
 // string.
 export namespace string {
