@@ -94,3 +94,7 @@
 0.8.28
 ==================
   - [feature] add $('input[name="xxx"]:checked') selector.
+
+0.8.32
+==================
+  - [feature] add febs.date.xxx.

@@ -2,7 +2,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.29/febs.js"></script>
+    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.31/febs.js"></script>
   </head>
   <body>
     将在console中输出调用日志
@@ -26,6 +26,12 @@
     <input name="abc" checked>
     <input name="abc">
     <input name="dfd">
+
+    <div gegd="sf3232"></div>
+    <div gegd="sf3232"></div>
+    <div gegd="sf3232"></div>
+
+
     <script>
     
     var assert = console.assert;
@@ -207,9 +213,13 @@
       function(){
         return $('.abc1:disabled');
       });
-    febs_assert('input', function(r){return r.length == 2;}, 
+    febs_assert('input attr', function(r){return r.length == 2;}, 
       function(){
         return $('input[name="abc"]');
+      });
+    febs_assert('div attr', function(r){return r.length == 3;}, 
+      function(){
+        return $("div[gegd='sf3232']");
       });
     febs_assert('input', function(r){return r.length == 1;}, 
       function(){

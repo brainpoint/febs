@@ -49,6 +49,7 @@ if (!window['cancelAnimationFrame'])
 
 var febs = {};
 
+febs.date = require('./libs/date');
 febs.string = require('./libs/string');
 febs.crypt  = require('./libs/crypt');
 febs.utils  = require('./libs/utils');

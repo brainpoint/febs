@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 132);
+/******/ 	return __webpack_require__(__webpack_require__.s = 134);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -91,7 +91,7 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 /***/ (function(module, exports, __webpack_require__) {
 
 var store = __webpack_require__(30)('wks');
-var uid = __webpack_require__(21);
+var uid = __webpack_require__(22);
 var Symbol = __webpack_require__(1).Symbol;
 var USE_SYMBOL = typeof Symbol == 'function';
 
@@ -109,7 +109,7 @@ $exports.store = store;
 
 var global = __webpack_require__(1);
 var core = __webpack_require__(0);
-var ctx = __webpack_require__(17);
+var ctx = __webpack_require__(18);
 var hide = __webpack_require__(8);
 var has = __webpack_require__(7);
 var PROTOTYPE = 'prototype';
@@ -216,7 +216,7 @@ module.exports = function (it, key) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP = __webpack_require__(9);
-var createDesc = __webpack_require__(19);
+var createDesc = __webpack_require__(20);
 module.exports = __webpack_require__(6) ? function (object, key, value) {
   return dP.f(object, key, createDesc(1, value));
 } : function (object, key, value) {
@@ -260,9 +260,9 @@ exports.f = __webpack_require__(6) ? Object.defineProperty : function defineProp
  * Desc:
  */
 
-var _Number$MAX_SAFE_INTEGER = __webpack_require__(76)['default'];
+var _Number$MAX_SAFE_INTEGER = __webpack_require__(78)['default'];
 
-var utils = __webpack_require__(131);
+var utils = __webpack_require__(133);
 
 /**
  * @desc: 模拟sleep.
@@ -398,7 +398,7 @@ exports.browserIsSupportHtml5 = function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(100);
+var IObject = __webpack_require__(102);
 var defined = __webpack_require__(23);
 module.exports = function (it) {
   return IObject(defined(it));
@@ -477,6 +477,12 @@ module.exports = charenc;
 
 /***/ }),
 /* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(93), __esModule: true };
+
+/***/ }),
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -486,11 +492,11 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(16);
+var aFunction = __webpack_require__(17);
 module.exports = function (fn, that, length) {
   aFunction(fn);
   if (that === undefined) return fn;
@@ -512,14 +518,14 @@ module.exports = function (fn, that, length) {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = true;
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = function (bitmap, value) {
@@ -533,7 +539,7 @@ module.exports = function (bitmap, value) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var def = __webpack_require__(9).f;
@@ -546,7 +552,7 @@ module.exports = function (it, tag, stat) {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 var id = 0;
@@ -555,12 +561,6 @@ module.exports = function (key) {
   return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 };
 
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(91), __esModule: true };
 
 /***/ }),
 /* 23 */
@@ -603,7 +603,7 @@ module.exports = (
 "use strict";
 
 // 25.4.1.5 NewPromiseCapability(C)
-var aFunction = __webpack_require__(16);
+var aFunction = __webpack_require__(17);
 
 function PromiseCapability(C) {
   var resolve, reject;
@@ -646,7 +646,7 @@ exports.f = {}.propertyIsEnumerable;
 /***/ (function(module, exports, __webpack_require__) {
 
 var shared = __webpack_require__(30)('keys');
-var uid = __webpack_require__(21);
+var uid = __webpack_require__(22);
 module.exports = function (key) {
   return shared[key] || (shared[key] = uid(key));
 };
@@ -700,7 +700,7 @@ module.exports = function (it, S) {
 
 var global = __webpack_require__(1);
 var core = __webpack_require__(0);
-var LIBRARY = __webpack_require__(18);
+var LIBRARY = __webpack_require__(19);
 var wksExt = __webpack_require__(34);
 var defineProperty = __webpack_require__(9).f;
 module.exports = function (name) {
@@ -725,7 +725,7 @@ exports.f = __webpack_require__(2);
 
 exports.__esModule = true;
 
-var _iterator = __webpack_require__(79);
+var _iterator = __webpack_require__(81);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
@@ -756,7 +756,7 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
  * Desc:
  */
 
-var string = __webpack_require__(130);
+var string = __webpack_require__(132);
 
 /**
 * @desc: 判断是否是手机号码.
@@ -903,7 +903,7 @@ exports.escapeHtml = function (str) {
 /* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(92), __esModule: true };
+module.exports = { "default": __webpack_require__(94), __esModule: true };
 
 /***/ }),
 /* 39 */
@@ -957,13 +957,13 @@ module.exports = !__webpack_require__(6) && !__webpack_require__(13)(function ()
 
 "use strict";
 
-var LIBRARY = __webpack_require__(18);
+var LIBRARY = __webpack_require__(19);
 var $export = __webpack_require__(3);
 var redefine = __webpack_require__(52);
 var hide = __webpack_require__(8);
 var Iterators = __webpack_require__(14);
-var $iterCreate = __webpack_require__(105);
-var setToStringTag = __webpack_require__(20);
+var $iterCreate = __webpack_require__(107);
+var setToStringTag = __webpack_require__(21);
 var getPrototypeOf = __webpack_require__(47);
 var ITERATOR = __webpack_require__(2)('iterator');
 var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
@@ -1033,7 +1033,7 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject = __webpack_require__(4);
-var dPs = __webpack_require__(110);
+var dPs = __webpack_require__(112);
 var enumBugKeys = __webpack_require__(25);
 var IE_PROTO = __webpack_require__(29)('IE_PROTO');
 var Empty = function () { /* empty */ };
@@ -1144,7 +1144,7 @@ module.exports = Object.getPrototypeOf || function (O) {
 
 var has = __webpack_require__(7);
 var toIObject = __webpack_require__(11);
-var arrayIndexOf = __webpack_require__(96)(false);
+var arrayIndexOf = __webpack_require__(98)(false);
 var IE_PROTO = __webpack_require__(29)('IE_PROTO');
 
 module.exports = function (object, names) {
@@ -1221,7 +1221,7 @@ module.exports = __webpack_require__(8);
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
 var anObject = __webpack_require__(4);
-var aFunction = __webpack_require__(16);
+var aFunction = __webpack_require__(17);
 var SPECIES = __webpack_require__(2)('species');
 module.exports = function (O, D) {
   var C = anObject(O).constructor;
@@ -1234,8 +1234,8 @@ module.exports = function (O, D) {
 /* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ctx = __webpack_require__(17);
-var invoke = __webpack_require__(99);
+var ctx = __webpack_require__(18);
+var invoke = __webpack_require__(101);
 var html = __webpack_require__(40);
 var cel = __webpack_require__(24);
 var global = __webpack_require__(1);
@@ -1355,7 +1355,7 @@ module.exports = function (it) {
 
 "use strict";
 
-var $at = __webpack_require__(114)(true);
+var $at = __webpack_require__(116)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
 __webpack_require__(42)(String, 'String', function (iterated) {
@@ -1377,7 +1377,7 @@ __webpack_require__(42)(String, 'String', function (iterated) {
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(117);
+__webpack_require__(119);
 var global = __webpack_require__(1);
 var hide = __webpack_require__(8);
 var Iterators = __webpack_require__(14);
@@ -1411,6 +1411,272 @@ for (var i = 0; i < DOMIterables.length; i++) {
  * Desc:
  */
 
+var _Promise = __webpack_require__(16)['default'];
+
+var PromiseLib = _Promise;
+
+/**
+* @desc: 判断是否是有效时间.
+*/
+exports.isValidate = function (date /*:Date*/) /*:boolean*/{
+  if (!date || date.toString() == 'Invalid Date') return false;
+  return date instanceof Date;
+};
+
+/**
+ * @desc: 获取时间的string.
+ * @param time: ms.
+ * @param fmt: 格式化, 默认为 'HH:mm:ss'
+ *             年(y)、月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
+ *              'yyyy-MM-dd hh:mm:ss.S' ==> 2006-07-02 08:09:04.423
+ *              'yyyy-MM-dd E HH:mm:ss' ==> 2009-03-10 星期二 20:09:04
+ *              'yyyy-M-d h:m:s.S'      ==> 2006-7-2 8:9:4.18
+ * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
+ * @return: string.
+ */
+function getTimeString(time, fmt, weekFmt) {
+  if (typeof time !== "number") return "";
+
+  fmt = fmt || 'HH:mm:ss';
+
+  var t = new Date(time);
+  var o = {
+    "M+": t.getMonth() + 1, //月份         
+    "d+": t.getDate(), //日         
+    "h+": t.getHours() % 12 == 0 ? 12 : t.getHours() % 12, //小时         
+    "H+": t.getHours(), //小时         
+    "m+": t.getMinutes(), //分         
+    "s+": t.getSeconds(), //秒         
+    "q+": Math.floor((t.getMonth() + 3) / 3), //季度         
+    "S": t.getMilliseconds() //毫秒         
+  };
+  var week = weekFmt || {
+    "0": "星期天",
+    "1": "星期一",
+    "2": "星期二",
+    "3": "星期三",
+    "4": "星期四",
+    "5": "星期五",
+    "6": "星期六"
+  };
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (t.getFullYear() + "").substr(4 - RegExp.$1.length));
+  }
+  if (/(E+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, week[t.getDay() + ""]);
+  }
+  for (var k in o) {
+    if (new RegExp("(" + k + ")").test(fmt)) {
+      fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+    }
+  }
+  return fmt;
+};
+exports.getTimeString = getTimeString;
+
+/**
+ * @desc: 获取指定时间距离现在的时间描述.
+ *        例如, 昨天, 1小时前等.
+ * @param time: ms. 小于当前时间, 大于当前时间将显示为 '刚刚';
+ * @param strFmt: 需要显示的文字. 
+ *                默认为 {
+ *                        now:    '刚刚',           // 3秒钟以内将显示此信息.
+ *                        second: '秒前',
+ *                        minute: '分钟前',
+ *                        hour:   '小时前',
+ *                        day_yesterday: '昨天',
+ *                        day:    '天前',
+ *                        month:  '个月前',          // 6个月内将显示此信息.
+ *                        time:   'yyyy-M-d h:m:s'  // 超过6个月将使用此格式格式化时间
+ *                       }
+ * @return: string.
+ */
+exports.getTimeStringFromNow = function (time, strFmt) {
+  strFmt = strFmt || {};
+  strFmt.now = strFmt.now || '刚刚';
+  strFmt.second = strFmt.second || '秒前';
+  strFmt.minute = strFmt.minute || '分钟前';
+  strFmt.hour = strFmt.hour || '小时前';
+  strFmt.day_yesterday = strFmt.day_yesterday || '昨天';
+  strFmt.day = strFmt.day || '天前';
+  strFmt.month = strFmt.month || '个月前';
+  strFmt.time = strFmt.time || 'yyyy-M-d h:m:s';
+
+  var now = Math.ceil(Date.now() / 1000);
+  time = Math.ceil(time / 1000);
+
+  if (now > time) {
+    var s = now - time;
+    if (s < 3) {
+      return strFmt.now;
+    }
+
+    if (s < 60) {
+      return s.toString() + strFmt.second;
+    }
+
+    if (s < 60 * 60) {
+      return Math.ceil(s / 60).toString() + strFmt.minute;
+    }
+
+    if (s < 60 * 60 * 24) {
+      return Math.ceil(s / 60 / 60).toString() + strFmt.hour;
+    }
+
+    if (s < 60 * 60 * 24 * 30) {
+      var dNow = new Date(now * 1000);
+
+      dNow.setHours(0, 0, 1);
+      if (dNow.getTime() - time <= 60 * 60 * 24) {
+        return strFmt.day_yesterday;
+      }
+
+      return Math.ceil(s / 60 / 60 / 24).toString() + strFmt.day;
+    }
+
+    if (s < 60 * 60 * 24 * 30 * 6) {
+      return Math.ceil(s / 60 / 60 / 24 / 30).toString() + strFmt.month;
+    }
+
+    return getTimeString(time, strFmt.time);
+  }
+
+  return strFmt.now;
+};
+
+/**
+ * @desc: getDate('2012-05-09')
+ * @return: Date.
+ */
+exports.getDate = function (strDate) {
+  var date = new Date(parseInt(strDate.substr(0, 4)), parseInt(strDate.substr(5, 2), 10) - 1, parseInt(strDate.substr(8, 2)));
+  return date;
+};
+
+/**
+ * @desc: getDate2('20120509')
+ * @return: Date.
+ */
+exports.getDate2 = function (strDate) {
+  var date = new Date(parseInt(strDate.substr(0, 4)), parseInt(strDate.substr(4, 2), 10) - 1, parseInt(strDate.substr(6, 2)));
+  return date;
+};
+
+/**
+ * @desc: 获取时间的协调世界时间 string.
+ * @param time: ms. (本地时间)
+ * @param fmt: 格式化, 默认为 'HH:mm:ss'
+ *             年(y)、月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
+ *              'yyyy-MM-dd hh:mm:ss.S' ==> 2006-07-02 08:09:04.423
+ *              'yyyy-MM-dd E HH:mm:ss' ==> 2009-03-10 星期二 20:09:04
+ *              'yyyy-M-d h:m:s.S'      ==> 2006-7-2 8:9:4.18
+ * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
+ * @return: string.
+ */
+exports.getUTCTimeString = function (time, fmt, weekFmt) {
+  if (typeof time !== "number") return "";
+
+  fmt = fmt || 'HH:mm:ss';
+
+  var t = new Date(time);
+  var o = {
+    "M+": t.getUTCMonth() + 1, //月份         
+    "d+": t.getUTCDate(), //日         
+    "h+": t.getUTCHours() % 12 == 0 ? 12 : t.getUTCHours() % 12, //小时         
+    "H+": t.getUTCHours(), //小时         
+    "m+": t.getUTCMinutes(), //分         
+    "s+": t.getUTCSeconds(), //秒         
+    "q+": Math.floor((t.getUTCMonth() + 3) / 3), //季度         
+    "S": t.getUTCMilliseconds() //毫秒         
+  };
+  var week = weekFmt || {
+    "0": "星期天",
+    "1": "星期一",
+    "2": "星期二",
+    "3": "星期三",
+    "4": "星期四",
+    "5": "星期五",
+    "6": "星期六"
+  };
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (t.getUTCFullYear() + "").substr(4 - RegExp.$1.length));
+  }
+  if (/(E+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, week[t.getUTCDay() + ""]);
+  }
+  for (var k in o) {
+    if (new RegExp("(" + k + ")").test(fmt)) {
+      fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+    }
+  }
+  return fmt;
+};
+
+/**
+ * @desc: 通过世界时间获取date. getDateFromUTC('2012-05-09')
+ * @param strDateUTC: 世界日期字符串. '2012-05-09' 
+ * @return: Date.
+ */
+exports.getDateFromUTC = function (strDateUTC) {
+  var date = new Date();
+  date.setUTCFullYear(parseInt(strDateUTC.substr(0, 4)), parseInt(strDateUTC.substr(5, 2), 10) - 1, parseInt(strDateUTC.substr(8, 2)));
+  date.setUTCHours(0, 0, 0, 0);
+  return date;
+};
+
+/**
+ * @desc: 通过世界时间获取date. getDate2FromUTC('20120509')
+ * @param strDateUTC: 世界日期字符串. '20120509' 
+ * @return: Date.
+ */
+exports.getDate2FromUTC = function (strDateUTC) {
+  var date = new Date();
+
+  date.setUTCFullYear(parseInt(strDateUTC.substr(0, 4)), parseInt(strDateUTC.substr(4, 2), 10) - 1, parseInt(strDateUTC.substr(6, 2)));
+  date.setUTCHours(0, 0, 0, 0);
+
+  return date;
+};
+
+/**
+ * @desc: 通过世界时间获取date. getTimeFromUTC('2012-05-09 11:10:12')
+ * @param strTimeUTC: 世界时间字符串. '2012-05-09 11:10:12' 
+ * @return: Date.
+ */
+exports.getTimeFromUTC = function (strTimeUTC) {
+  var date = new Date();
+  date.setUTCFullYear(parseInt(strTimeUTC.substr(0, 4)), parseInt(strTimeUTC.substr(5, 2), 10) - 1, parseInt(strTimeUTC.substr(8, 2)));
+  date.setUTCHours(parseInt(strTimeUTC.substr(11, 2)), parseInt(strTimeUTC.substr(14, 2)), parseInt(strTimeUTC.substr(17, 2)), 0);
+  return date;
+};
+
+/**
+ * @desc: 通过世界时间获取date. getTime2FromUTC('20120509111012')
+ * @param strTimeUTC: 世界日期字符串. '20120509111012' 
+ * @return: Date.
+ */
+exports.getTime2FromUTC = function (strTimeUTC) {
+  var date = new Date();
+
+  date.setUTCFullYear(parseInt(strTimeUTC.substr(0, 4)), parseInt(strTimeUTC.substr(4, 2), 10) - 1, parseInt(strTimeUTC.substr(6, 2)));
+  date.setUTCHours(parseInt(strTimeUTC.substr(8, 2)), parseInt(strTimeUTC.substr(10, 2)), parseInt(strTimeUTC.substr(12, 2)), 0);
+
+  return date;
+};
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
+ * Author: lipengxiang
+ * Desc:
+ */
+
 var DefaultTimeout = 5000;
 
 exports.transfer = function (window, timeout) {
@@ -1430,7 +1696,7 @@ exports.transfer = function (window, timeout) {
 };
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports) {
 
 // Console-polyfill. MIT license.
@@ -1455,7 +1721,7 @@ exports.transfer = function (window, timeout) {
 
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1469,9 +1735,9 @@ exports.transfer = function (window, timeout) {
 
 // var BigNumber = require('../third-party/bignumber.min.js');
 
-var _Number$isInteger = __webpack_require__(74)['default'];
+var _Number$isInteger = __webpack_require__(76)['default'];
 
-var BigNumber = __webpack_require__(82);
+var BigNumber = __webpack_require__(84);
 
 /**
  * @desc: 判断是否是bigint.
@@ -1553,7 +1819,7 @@ exports.bigint_toFixed = function (a, fixed) {
 };
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1593,7 +1859,7 @@ animationFrame.cancelAnimationFrame = window.cancelAnimationFrame;
 module.exports = animationFrame;
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1607,7 +1873,7 @@ module.exports = animationFrame;
  *  crc32_file(file, function(crc32Value) {})
  */
 
-var crypt = __webpack_require__(129);
+var crypt = __webpack_require__(131);
 
 /**
  * @desc: 计算字符串的crc32值
@@ -1725,25 +1991,6 @@ exports.base64_decode = function (strBase64) {
 };
 
 /***/ }),
-/* 65 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
- * Author: lipengxiang
- * Desc:
- *  crc32(str, crc=null);
- *  crc32_file(file, function(crc32Value) {})
- */
-
-var md5 = __webpack_require__(71);
-
-exports.md5 = md5;
-
-/***/ }),
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1758,9 +2005,9 @@ exports.md5 = md5;
  *  crc32_file(file, function(crc32Value) {})
  */
 
-var sha1 = __webpack_require__(72);
+var md5 = __webpack_require__(73);
 
-exports.sha1 = sha1;
+exports.md5 = md5;
 
 /***/ }),
 /* 67 */
@@ -1769,9 +2016,55 @@ exports.sha1 = sha1;
 "use strict";
 
 
-var _Object$getPrototypeOf = __webpack_require__(78)['default'];
+/**
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
+ * Author: lipengxiang
+ * Desc:
+ *  crc32(str, crc=null);
+ *  crc32_file(file, function(crc32Value) {})
+ */
 
-var _classCallCheck = __webpack_require__(80)['default'];
+var sha1 = __webpack_require__(74);
+
+exports.sha1 = sha1;
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+* Copyright (c) 2017 Copyright tj All Rights Reserved.
+* Author: lipengxiang
+* Date: 2018-06-02 17:39
+* Desc: 
+*/
+
+var date = __webpack_require__(60);
+
+exports.isValidate = date.isValidate;
+exports.getDate = date.getDate;
+exports.getDate2 = date.getDate2;
+exports.getDate2FromUTC = date.getDate2FromUTC;
+exports.getDateFromUTC = date.getDateFromUTC;
+exports.getTime2FromUTC = date.getTime2FromUTC;
+exports.getTimeString = date.getTimeString;
+exports.getUTCTimeString = date.getUTCTimeString;
+exports.getTimeStringFromNow = date.getTimeStringFromNow;
+exports.getTimeFromUTC = date.getTimeFromUTC;
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _Object$getPrototypeOf = __webpack_require__(80)['default'];
+
+var _classCallCheck = __webpack_require__(82)['default'];
 
 var utils = __webpack_require__(10);
 var stringUtils = __webpack_require__(36);
@@ -1782,17 +2075,32 @@ var stringUtils = __webpack_require__(36);
 // 返回匹配到的元素集合.
 function _matchElement(parentNodes, name, notAllChildren) {
   var elems;
-  var tag = 0; // 0-tag, 1-id, 2-class, 3-name.
-  var nametag;
+  var tag = 0; // 0-tag, 1-id, 2-class.
+  var nameattr, nameattrVal;
 
   // :checked, :disabled
   var selector = name.split(':');
   name = selector[0];
+  name = stringUtils.trim(name);
   selector = selector[1];
   if (selector) {
     if (selector != 'checked' && selector != 'disabled') {
       throw new Error('only support `:checked or :disabled` selector');
     }
+  }
+
+  // attri.
+  if (name.indexOf('[') > 0) {
+    var iblace = name.indexOf('[');
+    nameattr = name.substring(iblace + 1, name.length - 1);
+    nameattr = nameattr.split('=');
+    if (nameattr.length != 2) {
+      throw new Error('Syntax error, unrecognized expression: ' + name);
+    }
+    nameattrVal = nameattr[1];
+    if (nameattrVal.indexOf('\'') >= 0 || nameattrVal.indexOf('"') >= 0) nameattrVal = nameattrVal.substring(1, nameattrVal.length - 1);
+    nameattr = nameattr[0];
+    name = name.substr(0, iblace);
   }
 
   if (name[0] == '.') {
@@ -1801,19 +2109,6 @@ function _matchElement(parentNodes, name, notAllChildren) {
   } else if (name[0] == '#') {
     tag = 1;
     name = name.substr(1);
-  } else if (name.indexOf('[') > 0) {
-    tag = 3;
-    var iblace = name.indexOf('[');
-    nametag = name.substring(iblace + 1, name.length - 1);
-    name = name.substr(0, iblace);
-    if (name !== 'input') {
-      throw new Error('only support `input[name=xxx]` selector');
-    }
-    nametag = nametag.split('=');
-    if (nametag.length != 2 || nametag[0] != 'name') {
-      throw new Error('only support `input[name=xxx]` selector');
-    }
-    nametag = nametag[1].substr(1, nametag[1].length - 2);
   }
 
   if (!parentNodes || parentNodes.length == 0) {
@@ -1824,9 +2119,18 @@ function _matchElement(parentNodes, name, notAllChildren) {
       if (elems) elems = [elems];else elems = [];
     } else if (0 == tag) {
       elems = window.document.getElementsByTagName(name);
-    } else {
-      elems = window.document.getElementsByName(nametag);
     }
+
+    // attrvalue.
+    if (nameattr) {
+      var tt_elems = elems;
+      elems = [];
+      for (var i = 0; i < tt_elems.length; i++) {
+        if (tt_elems[i].getAttribute(nameattr) === nameattrVal) {
+          elems.push(tt_elems[i]);
+        }
+      }
+    } // if.
 
     if (selector) {
       var tt_elems = elems;
@@ -1868,6 +2172,13 @@ function _matchElement(parentNodes, name, notAllChildren) {
           }
         } // if.
 
+        // attrvalue.
+        if (add && nameattr) {
+          if (node[j].getAttribute(nameattr) !== nameattrVal) {
+            add = false;
+          }
+        }
+
         if (add) {
           if (2 == tag) {
             if (_hasClass(node[j], name)) {
@@ -1881,11 +2192,6 @@ function _matchElement(parentNodes, name, notAllChildren) {
             }
           } else if (0 == tag) {
             if (node[j].nodeName.toUpperCase() == name.toUpperCase()) {
-              elems.push(node[j]);
-              continue;
-            }
-          } else {
-            if (node[j].nodeName.toUpperCase() == 'INPUT' && node[j].getAttribute('name') == nametag) {
               elems.push(node[j]);
               continue;
             }
@@ -3306,7 +3612,7 @@ exports.Dom = Dom;
 exports.CreateDom = CreateDom;
 
 /***/ }),
-/* 68 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3319,9 +3625,9 @@ exports.CreateDom = CreateDom;
  */
 
 var febsUtils = __webpack_require__(10);
-var netajax = __webpack_require__(133);
-var netfetch = __webpack_require__(134);
-var netjsonp = __webpack_require__(135);
+var netajax = __webpack_require__(135);
+var netfetch = __webpack_require__(136);
+var netjsonp = __webpack_require__(137);
 
 'use strict';
 
@@ -3334,7 +3640,7 @@ var net = {
 module.exports = net;
 
 /***/ }),
-/* 69 */
+/* 71 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -3362,7 +3668,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 70 */
+/* 72 */
 /***/ (function(module, exports) {
 
 /*!
@@ -3389,13 +3695,13 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 71 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function(){
   var crypt = __webpack_require__(37),
       utf8 = __webpack_require__(15).utf8,
-      isBuffer = __webpack_require__(70),
+      isBuffer = __webpack_require__(72),
       bin = __webpack_require__(15).bin,
 
   // The core
@@ -3555,7 +3861,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 72 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {(function() {
@@ -3641,19 +3947,7 @@ function isSlowBuffer (obj) {
   module.exports = api;
 })();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(83).Buffer))
-
-/***/ }),
-/* 73 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(85), __esModule: true };
-
-/***/ }),
-/* 74 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(86), __esModule: true };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(85).Buffer))
 
 /***/ }),
 /* 75 */
@@ -3683,10 +3977,22 @@ module.exports = { "default": __webpack_require__(90), __esModule: true };
 /* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(93), __esModule: true };
+module.exports = { "default": __webpack_require__(91), __esModule: true };
 
 /***/ }),
 /* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(92), __esModule: true };
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(95), __esModule: true };
+
+/***/ }),
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3701,7 +4007,7 @@ exports.default = function (instance, Constructor) {
 };
 
 /***/ }),
-/* 81 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3824,7 +4130,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 82 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*! bignumber.js v4.1.0 https://github.com/MikeMcl/bignumber.js/LICENCE */
@@ -6565,7 +6871,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*! bignumber.js v4.1.0 https://github.com/Mik
 
 
 /***/ }),
-/* 83 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6579,9 +6885,9 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*! bignumber.js v4.1.0 https://github.com/Mik
 
 
 
-var base64 = __webpack_require__(81)
-var ieee754 = __webpack_require__(136)
-var isArray = __webpack_require__(84)
+var base64 = __webpack_require__(83)
+var ieee754 = __webpack_require__(138)
+var isArray = __webpack_require__(86)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -8359,10 +8665,10 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(137)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(139)))
 
 /***/ }),
-/* 84 */
+/* 86 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -8373,7 +8679,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 85 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var core = __webpack_require__(0);
@@ -8384,27 +8690,11 @@ module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
 
 
 /***/ }),
-/* 86 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(118);
-module.exports = __webpack_require__(0).Number.isInteger;
-
-
-/***/ }),
-/* 87 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(119);
-module.exports = __webpack_require__(0).Number.isNaN;
-
-
-/***/ }),
 /* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(120);
-module.exports = 0x1fffffffffffff;
+module.exports = __webpack_require__(0).Number.isInteger;
 
 
 /***/ }),
@@ -8412,10 +8702,7 @@ module.exports = 0x1fffffffffffff;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(121);
-var $Object = __webpack_require__(0).Object;
-module.exports = function getOwnPropertyNames(it) {
-  return $Object.getOwnPropertyNames(it);
-};
+module.exports = __webpack_require__(0).Number.isNaN;
 
 
 /***/ }),
@@ -8423,20 +8710,18 @@ module.exports = function getOwnPropertyNames(it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(122);
-module.exports = __webpack_require__(0).Object.getPrototypeOf;
+module.exports = 0x1fffffffffffff;
 
 
 /***/ }),
 /* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(57);
-__webpack_require__(58);
-__webpack_require__(59);
 __webpack_require__(123);
-__webpack_require__(125);
-__webpack_require__(126);
-module.exports = __webpack_require__(0).Promise;
+var $Object = __webpack_require__(0).Object;
+module.exports = function getOwnPropertyNames(it) {
+  return $Object.getOwnPropertyNames(it);
+};
 
 
 /***/ }),
@@ -8444,14 +8729,35 @@ module.exports = __webpack_require__(0).Promise;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(124);
-__webpack_require__(57);
-__webpack_require__(127);
-__webpack_require__(128);
-module.exports = __webpack_require__(0).Symbol;
+module.exports = __webpack_require__(0).Object.getPrototypeOf;
 
 
 /***/ }),
 /* 93 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(57);
+__webpack_require__(58);
+__webpack_require__(59);
+__webpack_require__(125);
+__webpack_require__(127);
+__webpack_require__(128);
+module.exports = __webpack_require__(0).Promise;
+
+
+/***/ }),
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(126);
+__webpack_require__(57);
+__webpack_require__(129);
+__webpack_require__(130);
+module.exports = __webpack_require__(0).Symbol;
+
+
+/***/ }),
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(58);
@@ -8460,14 +8766,14 @@ module.exports = __webpack_require__(34).f('iterator');
 
 
 /***/ }),
-/* 94 */
+/* 96 */
 /***/ (function(module, exports) {
 
 module.exports = function () { /* empty */ };
 
 
 /***/ }),
-/* 95 */
+/* 97 */
 /***/ (function(module, exports) {
 
 module.exports = function (it, Constructor, name, forbiddenField) {
@@ -8478,14 +8784,14 @@ module.exports = function (it, Constructor, name, forbiddenField) {
 
 
 /***/ }),
-/* 96 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(11);
 var toLength = __webpack_require__(55);
-var toAbsoluteIndex = __webpack_require__(115);
+var toAbsoluteIndex = __webpack_require__(117);
 module.exports = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
     var O = toIObject($this);
@@ -8507,7 +8813,7 @@ module.exports = function (IS_INCLUDES) {
 
 
 /***/ }),
-/* 97 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
@@ -8528,15 +8834,15 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 98 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ctx = __webpack_require__(17);
-var call = __webpack_require__(104);
-var isArrayIter = __webpack_require__(101);
+var ctx = __webpack_require__(18);
+var call = __webpack_require__(106);
+var isArrayIter = __webpack_require__(103);
 var anObject = __webpack_require__(4);
 var toLength = __webpack_require__(55);
-var getIterFn = __webpack_require__(116);
+var getIterFn = __webpack_require__(118);
 var BREAK = {};
 var RETURN = {};
 var exports = module.exports = function (iterable, entries, fn, that, ITERATOR) {
@@ -8559,7 +8865,7 @@ exports.RETURN = RETURN;
 
 
 /***/ }),
-/* 99 */
+/* 101 */
 /***/ (function(module, exports) {
 
 // fast apply, http://jsperf.lnkit.com/fast-apply/5
@@ -8581,7 +8887,7 @@ module.exports = function (fn, args, that) {
 
 
 /***/ }),
-/* 100 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
@@ -8593,7 +8899,7 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 
 /***/ }),
-/* 101 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
@@ -8607,7 +8913,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 102 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
@@ -8618,7 +8924,7 @@ module.exports = Array.isArray || function isArray(arg) {
 
 
 /***/ }),
-/* 103 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.3 Number.isInteger(number)
@@ -8630,7 +8936,7 @@ module.exports = function isInteger(it) {
 
 
 /***/ }),
-/* 104 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // call something on iterator step with safe closing on error
@@ -8648,14 +8954,14 @@ module.exports = function (iterator, fn, value, entries) {
 
 
 /***/ }),
-/* 105 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var create = __webpack_require__(43);
-var descriptor = __webpack_require__(19);
-var setToStringTag = __webpack_require__(20);
+var descriptor = __webpack_require__(20);
+var setToStringTag = __webpack_require__(21);
 var IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
@@ -8668,7 +8974,7 @@ module.exports = function (Constructor, NAME, next) {
 
 
 /***/ }),
-/* 106 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ITERATOR = __webpack_require__(2)('iterator');
@@ -8696,7 +9002,7 @@ module.exports = function (exec, skipClosing) {
 
 
 /***/ }),
-/* 107 */
+/* 109 */
 /***/ (function(module, exports) {
 
 module.exports = function (done, value) {
@@ -8705,10 +9011,10 @@ module.exports = function (done, value) {
 
 
 /***/ }),
-/* 108 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var META = __webpack_require__(21)('meta');
+var META = __webpack_require__(22)('meta');
 var isObject = __webpack_require__(5);
 var has = __webpack_require__(7);
 var setDesc = __webpack_require__(9).f;
@@ -8764,7 +9070,7 @@ var meta = module.exports = {
 
 
 /***/ }),
-/* 109 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(1);
@@ -8838,7 +9144,7 @@ module.exports = function () {
 
 
 /***/ }),
-/* 110 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP = __webpack_require__(9);
@@ -8857,11 +9163,11 @@ module.exports = __webpack_require__(6) ? Object.defineProperties : function def
 
 
 /***/ }),
-/* 111 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var pIE = __webpack_require__(28);
-var createDesc = __webpack_require__(19);
+var createDesc = __webpack_require__(20);
 var toIObject = __webpack_require__(11);
 var toPrimitive = __webpack_require__(32);
 var has = __webpack_require__(7);
@@ -8879,7 +9185,7 @@ exports.f = __webpack_require__(6) ? gOPD : function getOwnPropertyDescriptor(O,
 
 
 /***/ }),
-/* 112 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var hide = __webpack_require__(8);
@@ -8892,7 +9198,7 @@ module.exports = function (target, src, safe) {
 
 
 /***/ }),
-/* 113 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8913,7 +9219,7 @@ module.exports = function (KEY) {
 
 
 /***/ }),
-/* 114 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(31);
@@ -8936,7 +9242,7 @@ module.exports = function (TO_STRING) {
 
 
 /***/ }),
-/* 115 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(31);
@@ -8949,7 +9255,7 @@ module.exports = function (index, length) {
 
 
 /***/ }),
-/* 116 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var classof = __webpack_require__(39);
@@ -8963,13 +9269,13 @@ module.exports = __webpack_require__(0).getIteratorMethod = function (it) {
 
 
 /***/ }),
-/* 117 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(94);
-var step = __webpack_require__(107);
+var addToUnscopables = __webpack_require__(96);
+var step = __webpack_require__(109);
 var Iterators = __webpack_require__(14);
 var toIObject = __webpack_require__(11);
 
@@ -9004,17 +9310,17 @@ addToUnscopables('entries');
 
 
 /***/ }),
-/* 118 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.3 Number.isInteger(number)
 var $export = __webpack_require__(3);
 
-$export($export.S, 'Number', { isInteger: __webpack_require__(103) });
+$export($export.S, 'Number', { isInteger: __webpack_require__(105) });
 
 
 /***/ }),
-/* 119 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.4 Number.isNaN(number)
@@ -9029,7 +9335,7 @@ $export($export.S, 'Number', {
 
 
 /***/ }),
-/* 120 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.6 Number.MAX_SAFE_INTEGER
@@ -9039,7 +9345,7 @@ $export($export.S, 'Number', { MAX_SAFE_INTEGER: 0x1fffffffffffff });
 
 
 /***/ }),
-/* 121 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 Object.getOwnPropertyNames(O)
@@ -9049,7 +9355,7 @@ __webpack_require__(49)('getOwnPropertyNames', function () {
 
 
 /***/ }),
-/* 122 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 Object.getPrototypeOf(O)
@@ -9064,23 +9370,23 @@ __webpack_require__(49)('getPrototypeOf', function () {
 
 
 /***/ }),
-/* 123 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var LIBRARY = __webpack_require__(18);
+var LIBRARY = __webpack_require__(19);
 var global = __webpack_require__(1);
-var ctx = __webpack_require__(17);
+var ctx = __webpack_require__(18);
 var classof = __webpack_require__(39);
 var $export = __webpack_require__(3);
 var isObject = __webpack_require__(5);
-var aFunction = __webpack_require__(16);
-var anInstance = __webpack_require__(95);
-var forOf = __webpack_require__(98);
+var aFunction = __webpack_require__(17);
+var anInstance = __webpack_require__(97);
+var forOf = __webpack_require__(100);
 var speciesConstructor = __webpack_require__(53);
 var task = __webpack_require__(54).set;
-var microtask = __webpack_require__(109)();
+var microtask = __webpack_require__(111)();
 var newPromiseCapabilityModule = __webpack_require__(26);
 var perform = __webpack_require__(50);
 var promiseResolve = __webpack_require__(51);
@@ -9250,7 +9556,7 @@ if (!USE_NATIVE) {
     this._h = 0;              // <- rejection state, 0 - default, 1 - handled, 2 - unhandled
     this._n = false;          // <- notify
   };
-  Internal.prototype = __webpack_require__(112)($Promise.prototype, {
+  Internal.prototype = __webpack_require__(114)($Promise.prototype, {
     // 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
     then: function then(onFulfilled, onRejected) {
       var reaction = newPromiseCapability(speciesConstructor(this, $Promise));
@@ -9281,8 +9587,8 @@ if (!USE_NATIVE) {
 }
 
 $export($export.G + $export.W + $export.F * !USE_NATIVE, { Promise: $Promise });
-__webpack_require__(20)($Promise, PROMISE);
-__webpack_require__(113)(PROMISE);
+__webpack_require__(21)($Promise, PROMISE);
+__webpack_require__(115)(PROMISE);
 Wrapper = __webpack_require__(0)[PROMISE];
 
 // statics
@@ -9301,7 +9607,7 @@ $export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
     return promiseResolve(LIBRARY && this === Wrapper ? $Promise : this, x);
   }
 });
-$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(106)(function (iter) {
+$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(108)(function (iter) {
   $Promise.all(iter)['catch'](empty);
 })), PROMISE, {
   // 25.4.4.1 Promise.all(iterable)
@@ -9348,7 +9654,7 @@ $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(106)(functio
 
 
 /***/ }),
-/* 124 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9359,24 +9665,24 @@ var has = __webpack_require__(7);
 var DESCRIPTORS = __webpack_require__(6);
 var $export = __webpack_require__(3);
 var redefine = __webpack_require__(52);
-var META = __webpack_require__(108).KEY;
+var META = __webpack_require__(110).KEY;
 var $fails = __webpack_require__(13);
 var shared = __webpack_require__(30);
-var setToStringTag = __webpack_require__(20);
-var uid = __webpack_require__(21);
+var setToStringTag = __webpack_require__(21);
+var uid = __webpack_require__(22);
 var wks = __webpack_require__(2);
 var wksExt = __webpack_require__(34);
 var wksDefine = __webpack_require__(33);
-var enumKeys = __webpack_require__(97);
-var isArray = __webpack_require__(102);
+var enumKeys = __webpack_require__(99);
+var isArray = __webpack_require__(104);
 var anObject = __webpack_require__(4);
 var isObject = __webpack_require__(5);
 var toIObject = __webpack_require__(11);
 var toPrimitive = __webpack_require__(32);
-var createDesc = __webpack_require__(19);
+var createDesc = __webpack_require__(20);
 var _create = __webpack_require__(43);
 var gOPNExt = __webpack_require__(44);
-var $GOPD = __webpack_require__(111);
+var $GOPD = __webpack_require__(113);
 var $DP = __webpack_require__(9);
 var $keys = __webpack_require__(27);
 var gOPD = $GOPD.f;
@@ -9505,7 +9811,7 @@ if (!USE_NATIVE) {
   __webpack_require__(28).f = $propertyIsEnumerable;
   __webpack_require__(46).f = $getOwnPropertySymbols;
 
-  if (DESCRIPTORS && !__webpack_require__(18)) {
+  if (DESCRIPTORS && !__webpack_require__(19)) {
     redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
   }
 
@@ -9589,7 +9895,7 @@ setToStringTag(global.JSON, 'JSON', true);
 
 
 /***/ }),
-/* 125 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9616,7 +9922,7 @@ $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
 
 
 /***/ }),
-/* 126 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9635,21 +9941,21 @@ $export($export.S, 'Promise', { 'try': function (callbackfn) {
 
 
 /***/ }),
-/* 127 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(33)('asyncIterator');
 
 
 /***/ }),
-/* 128 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(33)('observable');
 
 
 /***/ }),
-/* 129 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9702,7 +10008,7 @@ exports.base64_encode = function (arrByte) {
 };
 
 /***/ }),
-/* 130 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9809,7 +10115,7 @@ exports.trim = function (str) {
 };
 
 /***/ }),
-/* 131 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9821,13 +10127,14 @@ exports.trim = function (str) {
  * Desc:
  */
 
-var _Number$isNaN = __webpack_require__(75)['default'];
+var _Number$isNaN = __webpack_require__(77)['default'];
 
 var _typeof = __webpack_require__(35)['default'];
 
-var _Promise = __webpack_require__(22)['default'];
+var _Promise = __webpack_require__(16)['default'];
 
 var PromiseLib = _Promise;
+var utilsDate = __webpack_require__(60);
 
 /**
  * @desc: 模拟sleep.
@@ -9924,145 +10231,6 @@ exports.browserIsWeixin = function (userAgent) {
 };
 
 /**
- * @desc: 获取时间的string.
- * @param time: ms.
- * @param fmt: 格式化, 默认为 'HH:mm:ss'
- *             年(y)、月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
- *              'yyyy-MM-dd hh:mm:ss.S' ==> 2006-07-02 08:09:04.423
- *              'yyyy-MM-dd E HH:mm:ss' ==> 2009-03-10 星期二 20:09:04
- *              'yyyy-M-d h:m:s.S'      ==> 2006-7-2 8:9:4.18
- * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
- * @return: string.
- */
-function getTimeString(time, fmt, weekFmt) {
-  if (typeof time !== "number") return "";
-
-  fmt = fmt || 'HH:mm:ss';
-
-  var t = new Date(time);
-  var o = {
-    "M+": t.getMonth() + 1, //月份         
-    "d+": t.getDate(), //日         
-    "h+": t.getHours() % 12 == 0 ? 12 : t.getHours() % 12, //小时         
-    "H+": t.getHours(), //小时         
-    "m+": t.getMinutes(), //分         
-    "s+": t.getSeconds(), //秒         
-    "q+": Math.floor((t.getMonth() + 3) / 3), //季度         
-    "S": t.getMilliseconds() //毫秒         
-  };
-  var week = weekFmt || {
-    "0": "星期天",
-    "1": "星期一",
-    "2": "星期二",
-    "3": "星期三",
-    "4": "星期四",
-    "5": "星期五",
-    "6": "星期六"
-  };
-  if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, (t.getFullYear() + "").substr(4 - RegExp.$1.length));
-  }
-  if (/(E+)/.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, week[t.getDay() + ""]);
-  }
-  for (var k in o) {
-    if (new RegExp("(" + k + ")").test(fmt)) {
-      fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
-    }
-  }
-  return fmt;
-};
-exports.getTimeString = getTimeString;
-
-/**
- * @desc: 获取指定时间距离现在的时间描述.
- *        例如, 昨天, 1小时前等.
- * @param time: ms. 小于当前时间, 大于当前时间将显示为 '刚刚';
- * @param strFmt: 需要显示的文字. 
- *                默认为 {
- *                        now:    '刚刚',           // 3秒钟以内将显示此信息.
- *                        second: '秒前',
- *                        minute: '分钟前',
- *                        hour:   '小时前',
- *                        day_yesterday: '昨天',
- *                        day:    '天前',
- *                        month:  '个月前',          // 6个月内将显示此信息.
- *                        time:   'yyyy-M-d h:m:s'  // 超过6个月将使用此格式格式化时间
- *                       }
- * @return: string.
- */
-exports.getTimeStringFromNow = function (time, strFmt) {
-  strFmt = strFmt || {};
-  strFmt.now = strFmt.now || '刚刚';
-  strFmt.second = strFmt.second || '秒前';
-  strFmt.minute = strFmt.minute || '分钟前';
-  strFmt.hour = strFmt.hour || '小时前';
-  strFmt.day_yesterday = strFmt.day_yesterday || '昨天';
-  strFmt.day = strFmt.day || '天前';
-  strFmt.month = strFmt.month || '个月前';
-  strFmt.time = strFmt.time || 'yyyy-M-d h:m:s';
-
-  var now = Math.ceil(Date.now() / 1000);
-  time = Math.ceil(time / 1000);
-
-  if (now > time) {
-    var s = now - time;
-    if (s < 3) {
-      return strFmt.now;
-    }
-
-    if (s < 60) {
-      return s.toString() + strFmt.second;
-    }
-
-    if (s < 60 * 60) {
-      return Math.ceil(s / 60).toString() + strFmt.minute;
-    }
-
-    if (s < 60 * 60 * 24) {
-      return Math.ceil(s / 60 / 60).toString() + strFmt.hour;
-    }
-
-    if (s < 60 * 60 * 24 * 30) {
-      var dNow = new Date(now * 1000);
-
-      dNow.setHours(0, 0, 1);
-      if (dNow.getTime() - time <= 60 * 60 * 24) {
-        return strFmt.day_yesterday;
-      }
-
-      return Math.ceil(s / 60 / 60 / 24).toString() + strFmt.day;
-    }
-
-    if (s < 60 * 60 * 24 * 30 * 6) {
-      return Math.ceil(s / 60 / 60 / 24 / 30).toString() + strFmt.month;
-    }
-
-    return getTimeString(time, strFmt.time);
-  }
-
-  return strFmt.now;
-};
-
-/**
- * @desc: getDate('2012-05-09')
- * @return: Date.
- */
-exports.getDate = function (strDate) {
-  var date = new Date(parseInt(strDate.substr(0, 4)), parseInt(strDate.substr(5, 2), 10) - 1, parseInt(strDate.substr(8, 2)));
-  return date;
-};
-
-/**
- * @desc: getDate2('20120509')
- * @return: Date.
- */
-exports.getDate2 = function (strDate) {
-  var date = new Date(parseInt(strDate.substr(0, 4)), parseInt(strDate.substr(4, 2), 10) - 1, parseInt(strDate.substr(6, 2)));
-  return date;
-};
-
-/**
  * @desc: 合并多个map.
  * @return: {}
  */
@@ -10089,8 +10257,16 @@ exports.isNull = function (e) {
   return e === null || e === undefined || _Number$isNaN(e);
 };
 
+/**
+ * date.
+ */
+exports.getTimeString = utilsDate.getTimeString;
+exports.getTimeStringFromNow = utilsDate.getTimeStringFromNow;
+exports.getDate = utilsDate.getDate;
+exports.getDate2 = utilsDate.getDate2;
+
 /***/ }),
-/* 132 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10100,7 +10276,7 @@ var _typeof = __webpack_require__(35)["default"];
 
 // require('es5-shim');
 // require('es5-shim/es5-sham');
-__webpack_require__(61);
+__webpack_require__(62);
 // require('babel-polyfill');
 // require('../third-party/bluebird.min.js');
 // require('../third-party/bignumber.min.js');
@@ -10136,24 +10312,25 @@ __webpack_require__(61);
 
   //
   // define the animationFrame.
-  var animationFrame = __webpack_require__(63);
+  var animationFrame = __webpack_require__(64);
   if (!window['requestAnimationFrame']) window.requestAnimationFrame = animationFrame.requestAnimationFrame;
   if (!window['cancelAnimationFrame']) window.cancelAnimationFrame = animationFrame.cancelAnimationFrame;
 
   var febs = {};
 
+  febs.date = __webpack_require__(68);
   febs.utils = __webpack_require__(10);
   febs.string = __webpack_require__(36);
-  febs.crypt = __webpack_require__(64);
-  var cryptMd5 = __webpack_require__(65);
+  febs.crypt = __webpack_require__(65);
+  var cryptMd5 = __webpack_require__(66);
   febs.crypt = febs.utils.mergeMap(febs.crypt, cryptMd5);
-  var cryptSha1 = __webpack_require__(66);
+  var cryptSha1 = __webpack_require__(67);
   febs.crypt = febs.utils.mergeMap(febs.crypt, cryptSha1);
 
-  var utilsBig = __webpack_require__(62);
+  var utilsBig = __webpack_require__(63);
   febs.utils = febs.utils.mergeMap(febs.utils, utilsBig);
-  febs.net = __webpack_require__(68);
-  febs.dom = __webpack_require__(67);
+  febs.net = __webpack_require__(70);
+  febs.dom = __webpack_require__(69);
   febs['$'] = febs.dom.CreateDom;
   febs.dom = febs.dom.Dom;
 
@@ -10186,16 +10363,16 @@ __webpack_require__(61);
 
   return febs;
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(69)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(71)(module)))
 
 /***/ }),
-/* 133 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _JSON$stringify = __webpack_require__(73)['default'];
+var _JSON$stringify = __webpack_require__(75)['default'];
 
 var _Symbol = __webpack_require__(38)['default'];
 
@@ -10209,7 +10386,7 @@ var febsUtils = __webpack_require__(10);
 
 'use strict';
 
-var transfer = __webpack_require__(60);
+var transfer = __webpack_require__(61);
 
 var Ajaxmark = _Symbol('ajaxmark');
 var net = {};
@@ -10367,15 +10544,15 @@ net.ajax = ajax;
 module.exports = net;
 
 /***/ }),
-/* 134 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Object$getOwnPropertyNames = __webpack_require__(77)['default'];
+var _Object$getOwnPropertyNames = __webpack_require__(79)['default'];
 
-var _Promise = __webpack_require__(22)['default'];
+var _Promise = __webpack_require__(16)['default'];
 
 /**
  * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
@@ -10387,7 +10564,7 @@ var febsUtils = __webpack_require__(10);
 
 'use strict';
 
-var transfer = __webpack_require__(60);
+var transfer = __webpack_require__(61);
 
 var febsnet = {};
 var net = {};
@@ -10818,13 +10995,13 @@ if (false) {
 module.exports = net;
 
 /***/ }),
-/* 135 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Promise = __webpack_require__(22)['default'];
+var _Promise = __webpack_require__(16)['default'];
 
 /**
  * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
@@ -10916,7 +11093,7 @@ net.jsonp = febsnet.jsonp;
 module.exports = net;
 
 /***/ }),
-/* 136 */
+/* 138 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -11006,7 +11183,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 137 */
+/* 139 */
 /***/ (function(module, exports) {
 
 var g;

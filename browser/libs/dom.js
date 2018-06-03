@@ -8,17 +8,33 @@
   // 返回匹配到的元素集合.
   function _matchElement(parentNodes, name, notAllChildren) {
     var elems;
-    var tag = 0;  // 0-tag, 1-id, 2-class, 3-name.
-    var nametag;
+    var tag = 0;  // 0-tag, 1-id, 2-class.
+    var nameattr, nameattrVal;
 
     // :checked, :disabled
     var selector = name.split(':');
     name = selector[0];
+    name = stringUtils.trim(name);
     selector = selector[1];
     if (selector) {
       if (selector != 'checked' && selector != 'disabled') {
         throw new Error('only support `:checked or :disabled` selector');
       }
+    }
+
+    // attri.
+    if (name.indexOf('[') > 0) {
+      var iblace = name.indexOf('[');
+      nameattr = name.substring(iblace+1, name.length-1);
+      nameattr = nameattr.split('=');
+      if (nameattr.length != 2) {
+        throw new Error('Syntax error, unrecognized expression: ' + name);
+      }
+      nameattrVal = nameattr[1];
+      if (nameattrVal.indexOf('\'') >= 0 || nameattrVal.indexOf('"') >= 0)
+        nameattrVal = nameattrVal.substring(1, nameattrVal.length-1);
+      nameattr = nameattr[0];
+      name = name.substr(0, iblace);
     }
     
     if (name[0] == '.') {
@@ -28,20 +44,6 @@
     else if (name[0] == '#') {
       tag = 1;
       name = name.substr(1);
-    }
-    else if (name.indexOf('[') > 0) {
-      tag = 3;
-      var iblace = name.indexOf('[');
-      nametag = name.substring(iblace+1, name.length-1);
-      name = name.substr(0, iblace);
-      if (name !== 'input') {
-        throw new Error('only support `input[name=xxx]` selector');
-      }
-      nametag = nametag.split('=');
-      if (nametag.length != 2 || nametag[0] != 'name') {
-        throw new Error('only support `input[name=xxx]` selector');
-      }
-      nametag = nametag[1].substr(1, nametag[1].length-2);
     }
 
     if (!parentNodes || parentNodes.length == 0) {
@@ -56,9 +58,17 @@
       else if (0 == tag) {
         elems = window.document.getElementsByTagName(name);
       }
-      else {
-        elems = window.document.getElementsByName(nametag);
-      }
+
+      // attrvalue.
+      if (nameattr) {
+        var tt_elems = elems;
+        elems = [];
+        for (var i = 0; i < tt_elems.length; i++) {
+          if (tt_elems[i].getAttribute(nameattr) === nameattrVal) {
+            elems.push(tt_elems[i]);
+          }
+        }
+      } // if.
 
       if (selector) {
         var tt_elems = elems;
@@ -105,6 +115,13 @@
             }
           } // if.
 
+          // attrvalue.
+          if (add && nameattr) {
+            if (node[j].getAttribute(nameattr) !== nameattrVal) {
+              add = false;
+            }
+          }
+
           if (add) {
             if (2 == tag) {
               if (_hasClass(node[j], name)) {
@@ -120,12 +137,6 @@
             }
             else if (0 == tag) {
               if (node[j].nodeName.toUpperCase() == name.toUpperCase()) {
-                elems.push(node[j]);
-                continue;
-              }
-            }
-            else {
-              if (node[j].nodeName.toUpperCase() == 'INPUT' && node[j].getAttribute('name') == nametag) {
                 elems.push(node[j]);
                 continue;
               }

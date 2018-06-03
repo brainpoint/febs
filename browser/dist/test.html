@@ -2,10 +2,10 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.29/febs.base.js"></script>
-    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.29/febs.md5.js"></script>
-    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.29/febs.sha1.js"></script>
-    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.29/febs.bigint.js"></script>
+    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.31/febs.base.js"></script>
+    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.31/febs.md5.js"></script>
+    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.31/febs.sha1.js"></script>
+    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.31/febs.bigint.js"></script>
   </head>
   <body>
     将在console中输出调用日志
@@ -66,6 +66,13 @@
     febs_assert('febs.utils.getTimeStringFromNow', null, function(){return febs.utils.getTimeStringFromNow(Date.now()-1000*60*5)});
     febs_assert('febs.utils.getDate', null, function(){return febs.utils.getDate('2012-05-09')});
     febs_assert('febs.utils.getDate2', null, function(){return febs.utils.getDate2('20120509')});
+    febs_assert('febs.date.getUTCTimeString', null, function(){return febs.date.getUTCTimeString(Date.now(), 'yyyy-MM-dd hh:mm:ss.S E 时间')});
+    febs_assert('febs.date.getDateFromUTC', null, function(){return febs.date.getDateFromUTC('2012-05-09')});
+    febs_assert('febs.date.getDate2FromUTC', null, function(){return febs.date.getDate2FromUTC('20120509')});
+    febs_assert('febs.date.isValidate', function(r){return r==true;},function(){return febs.date.isValidate(new Date())});
+    febs_assert('febs.date.isValidate', function(r){return r==false;}, function(){return febs.date.isValidate(new Date('sdfsge'))});
+    febs_assert('febs.date.getTimeFromUTC', null, function(){return febs.date.getTimeFromUTC('2012-05-09 11:10:12')});
+    febs_assert('febs.date.getTime2FromUTC', null, function(){return febs.date.getTime2FromUTC('20120509111012')});
 
     // mergeMap
     febs_assert('febs.utils.mergeMap', null, function(){return febs.utils.mergeMap({_1:11, _2:{_3:3}}, {_2:22})});

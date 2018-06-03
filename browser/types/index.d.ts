@@ -6,8 +6,8 @@
 declare global {
   let __debug: boolean;
 
-  export function requestAnimationFrame(cb:(tm:number)=>void):any;
-  export function cancelAnimationFrame(timer:any):void;
+  export function requestAnimationFrame(cb: (tm: number) => void): any;
+  export function cancelAnimationFrame(timer: any): void;
 }
 
 
@@ -30,6 +30,103 @@ export interface StrFmt {
   day?: string;
   month?: string;
   time?: string;  // 超过6个月将使用此格式格式化时间
+}
+
+//
+// date.
+export namespace date {
+
+  /**
+  * @desc: 判断是否是有效时间.
+  */
+  function isValidate(date: Date): boolean;
+
+  /**
+   * @desc: 获取时间的string.
+   * @param localtime: ms.
+   * @param fmt: 格式化, 默认为 'HH:mm:ss'
+   *             年(y)、月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
+   *              'yyyy-MM-dd hh:mm:ss.S' ==> 2006-07-02 08:09:04.423
+   *              'yyyy-MM-dd E HH:mm:ss' ==> 2009-03-10 星期二 20:09:04
+   *              'yyyy-M-d h:m:s.S'      ==> 2006-7-2 8:9:4.18
+   * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
+   * @return: string.
+   */
+  function getTimeString(localtime: number, fmt: string, weekFmt: WeekFmt): string;
+
+
+  /**
+   * @desc: 获取指定时间距离现在的时间描述.
+   *        例如, 昨天, 1小时前等.
+   * @param localtime: ms. 小于当前时间, 大于当前时间将显示为 '刚刚';
+   * @param strFmt: 需要显示的文字. 
+   *                默认为 {
+   *                        now:    '刚刚',           // 3秒钟以内将显示此信息.
+   *                        second: '秒前',
+   *                        minute: '分钟前',
+   *                        hour:   '小时前',
+   *                        day_yesterday: '昨天',
+   *                        day:    '天前',
+   *                        month:  '个月前',          // 6个月内将显示此信息.
+   *                        time:   'yyyy-M-d h:m:s'  // 超过6个月将使用此格式格式化时间
+   *                       }
+   * @return: string.
+   */
+  function getTimeStringFromNow(localtime: number, strFmt: string): string;
+
+  /**
+   * @desc: getDate('2012-05-09')
+   * @return: Date.
+   */
+  function getDate(strDate: string): Date
+
+
+  /**
+   * @desc: getDate2('20120509')
+   * @return: Date.
+   */
+  function getDate2(strDate: string): Date;
+
+  /**
+   * @desc: 获取时间的协调世界时间 string.
+   * @param localtime: ms. (本地时间)
+   * @param fmt: 格式化, 默认为 'HH:mm:ss'
+   *             年(y)、月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
+   *              'yyyy-MM-dd hh:mm:ss.S' ==> 2006-07-02 08:09:04.423
+   *              'yyyy-MM-dd E HH:mm:ss' ==> 2009-03-10 星期二 20:09:04
+   *              'yyyy-M-d h:m:s.S'      ==> 2006-7-2 8:9:4.18
+   * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
+   * @return: string.
+   */
+  function getUTCTimeString(localtime: number, fmt: string, weekFmt: WeekFmt): string;
+
+  /**
+   * @desc: 通过世界时间获取date. getDateFromUTC('2012-05-09')
+   * @param strDateUTC: 世界日期字符串. '2012-05-09' 
+   * @return: Date.
+   */
+  function getDateFromUTC(strDateUTC: string): Date;
+
+  /**
+   * @desc: 通过世界时间获取date. getDate2FromUTC('20120509')
+   * @param strDateUTC: 世界日期字符串. '20120509' 
+   * @return: Date.
+   */
+  function getDate2FromUTC(strDateUTC: string): Date;
+
+  /**
+   * @desc: 通过世界时间获取date. getTimeFromUTC('2012-05-09 11:10:12')
+   * @param strTimeUTC: 世界时间字符串. '2012-05-09 11:10:12' 
+   * @return: Date.
+   */
+  function getTimeFromUTC(strTimeUTC: string): Date;
+
+  /**
+   * @desc: 通过世界时间获取date. getTime2FromUTC('20120509111012')
+   * @param strTimeUTC: 世界日期字符串. '20120509111012' 
+   * @return: Date.
+   */
+  function getTime2FromUTC(strTimeUTC: string): Date;
 }
 
 //
@@ -178,13 +275,13 @@ export namespace string {
    */
   function replace(str: string, strSrc: string, strDest: string): string;
 
-  function trim(str: string) : string;
-  
+  function trim(str: string): string;
+
   /**
   * @desc: 对字符串中的 <> 标签进行转义为 &lt;, &gt;
   * @return: string.
   */
-  function escapeHtml(str:string): string; 
+  function escapeHtml(str: string): string;
 }
 
 //
@@ -211,20 +308,20 @@ export namespace crypt {
    * @desc: 计算字符串的md5值
    * @return: string.
    */
-  function md5(str: string|Buffer): string;
+  function md5(str: string | Buffer): string;
 
   /**
    * @desc: 计算字符串的sha1值
    * @return: string.
    */
-  function sha1(str: string|Buffer): string;
+  function sha1(str: string | Buffer): string;
 
   /**
   * @desc: base64编码.
   * @param arrByte: 字节数组.
   * @return: string.
   */
-  function base64_encode(arrByte: Array<number>|Buffer): string;
+  function base64_encode(arrByte: Array<number> | Buffer): string;
   /**
   * @desc: base64解码.
   * @return: 字节数组.
@@ -241,7 +338,7 @@ export namespace net {
   * @param cfg: 允许额外传递一个 progress:function(percent) {} 的参数来获取进度.
   * @return: 
   */
-  function ajax(cfg:any):{abort:()=>void}
+  function ajax(cfg: any): { abort: () => void }
 
   /**
    * @desc: 使用fetch方式进行数据请求.
@@ -269,16 +366,16 @@ export namespace net {
         });
   */
   function fetch(url: string, option: {
-    method?:string, // 请求方法 get, post, delete 等.
-    mode?:string|'no-cors'|'cors'|'same-origin',   // 'no-cors', 'same-origin'等; (可忽略)
-    headers?:any, // 请求header, 例如:
-                  // {
-                  //   "Content-Type": "application/json",
-                  //   "Accept": 'application/json',
-                  // }
-    body?:string,    // 请求内容.
-    timeout?:number, // 超时 (ms), 默认为5000,
-    credentials?:'include'|null|undefined,  // 携带了credentials='include'则服务器需设置Access-Control-Allow-Credentials
+    method?: string, // 请求方法 get, post, delete 等.
+    mode?: string | 'no-cors' | 'cors' | 'same-origin',   // 'no-cors', 'same-origin'等; (可忽略)
+    headers?: any, // 请求header, 例如:
+    // {
+    //   "Content-Type": "application/json",
+    //   "Accept": 'application/json',
+    // }
+    body?: string,    // 请求内容.
+    timeout?: number, // 超时 (ms), 默认为5000,
+    credentials?: 'include' | null | undefined,  // 携带了credentials='include'则服务器需设置Access-Control-Allow-Credentials
   }): Promise<any>;
   /**
    * @desc: jsonp方式获取数据.
@@ -298,16 +395,16 @@ export namespace net {
         });
   */
   function jsonp(url: string, option: {
-    method?:string, // 请求方法 get, post, delete 等.
-    mode?:string|'no-cors'|'cors'|'same-origin',   // 'no-cors', 'same-origin'等; (可忽略)
-    headers?:any, // 请求header, 例如:
-                  // {
-                  //   "Content-Type": "application/json",
-                  //   "Accept": 'application/json',
-                  // }
-    body?:string,    // 请求内容.
-    timeout?:number, // 超时 (ms), 默认为5000,
-    credentials?:'include'|null|undefined,  // 携带了credentials='include'则服务器需设置Access-Control-Allow-Credentials
+    method?: string, // 请求方法 get, post, delete 等.
+    mode?: string | 'no-cors' | 'cors' | 'same-origin',   // 'no-cors', 'same-origin'等; (可忽略)
+    headers?: any, // 请求header, 例如:
+    // {
+    //   "Content-Type": "application/json",
+    //   "Accept": 'application/json',
+    // }
+    body?: string,    // 请求内容.
+    timeout?: number, // 超时 (ms), 默认为5000,
+    credentials?: 'include' | null | undefined,  // 携带了credentials='include'则服务器需设置Access-Control-Allow-Credentials
   }): Promise<any>;
 }
 
@@ -326,29 +423,29 @@ export class dom {
    *    - node.
    * 不支持带空格多层结构的情况.
    */
-  constructor(selector?:SELECTOR);
+  constructor(selector?: SELECTOR);
 
-  get(index:number): any;
-  
+  get(index: number): any;
+
   /**
    * @desc: hasClass
    */
-  hasClass( cName:string ): boolean;
+  hasClass(cName: string): boolean;
 
   /**
    * @desc: addClass
    */
-  addClass( cName:string ): dom;
+  addClass(cName: string): dom;
 
   /**
    * @desc: removeClass
    */
-  removeClass( cName:string ): dom;
+  removeClass(cName: string): dom;
 
   /**
    * @desc: toggleClass
    */
-  toggleClass( cName:string ): dom;
+  toggleClass(cName: string): dom;
 
   /**
    * @desc: remove
@@ -358,52 +455,52 @@ export class dom {
   /**
    * @desc: append
    */
-  append(selector?:SELECTOR): dom;
+  append(selector?: SELECTOR): dom;
 
   /**
    * appendTo
    */
-  appendTo(selector?:SELECTOR): dom;
+  appendTo(selector?: SELECTOR): dom;
 
   /**
    * @desc: prepend
    */
-  prepend(selector?:SELECTOR): dom;
+  prepend(selector?: SELECTOR): dom;
 
   /**
    * @desc: prependTo
    */
-  prependTo(selector?:SELECTOR): dom;
+  prependTo(selector?: SELECTOR): dom;
 
   /**
    * @desc: before
    */
-  before(selector?:SELECTOR): dom;
+  before(selector?: SELECTOR): dom;
 
   /**
    * insertBefore
    */
-  insertBefore(selector?:SELECTOR): dom;
+  insertBefore(selector?: SELECTOR): dom;
 
   /**
    * @desc: after
    */
-  after(selector?:SELECTOR): dom;
+  after(selector?: SELECTOR): dom;
 
   /**
    * @desc: insertAfter
    */
-  insertAfter(selector?:SELECTOR): dom;
+  insertAfter(selector?: SELECTOR): dom;
 
   /**
    * @desc: attr.
    */
-  attr(attrName:any, value:any): string;
+  attr(attrName: any, value: any): string;
 
   /**
    * @desc: removeAttr
    */
-  removeAttr(name:any): dom;
+  removeAttr(name: any): dom;
 
   /**
   * @desc: empty.
@@ -413,82 +510,82 @@ export class dom {
   /**
   * @desc: html.
   */
-  html(v:string): string;
+  html(v: string): string;
 
 
   /**
   * @desc: text.
   */
-  text(v:string): string;
+  text(v: string): string;
 
   /**
   * @desc: val.
   */
-  val(v:string): string;
+  val(v: string): string;
 
 
   /**
   * @desc: css.
   */
-  css(name:string, value:string): string;
-  
+  css(name: string, value: string): string;
+
   /**
    * html.
    */
-  parent(selector?:SELECTOR) : dom;
-  parents(selector?:SELECTOR) : dom;
-  children(selector?:SELECTOR) : dom;
-  prev(selector?:SELECTOR) : dom;
-  next(selector?:SELECTOR) : dom;
+  parent(selector?: SELECTOR): dom;
+  parents(selector?: SELECTOR): dom;
+  children(selector?: SELECTOR): dom;
+  prev(selector?: SELECTOR): dom;
+  next(selector?: SELECTOR): dom;
 
 
   /**
   * @desc: on.
   */
-  on(eventname:string, foo:any): dom;
-  bind(eventname:string, foo:any): dom;
-  live(eventname:string, foo:any): dom;
+  on(eventname: string, foo: any): dom;
+  bind(eventname: string, foo: any): dom;
+  live(eventname: string, foo: any): dom;
 
   /**
   * @desc: off.
   */
-  off(eventname:string, foo?:any): dom;
-  unbind(eventname:string, foo?:any): dom;
-  die(eventname:string, foo?:any): dom;
+  off(eventname: string, foo?: any): dom;
+  unbind(eventname: string, foo?: any): dom;
+  die(eventname: string, foo?: any): dom;
 
   /**
   * @desc: one.
   */
-  one(event:string, f:any): dom;
+  one(event: string, f: any): dom;
 
   /**
   * @desc: trigger.
   */
-  trigger(eventname:string, extraParameters?:any): dom;
+  trigger(eventname: string, extraParameters?: any): dom;
 
-  ready(f?:any):dom;
-  unload(f?:any):dom;
-  blur(f?:any):dom;
-  change(f?:any):dom;
-  click(f?:any):dom;
-  dblclick(f?:any):dom;
-  error(f?:any):dom;
-  keydown(f?:any):dom;
-  keypress(f?:any):dom;
-  keyup(f?:any):dom;
-  load(f?:any):dom;
-  mousedown(f?:any):dom;
-  mouseenter(f?:any):dom;
-  mouseleave(f?:any):dom;
-  mousemove(f?:any):dom;
-  mouseout(f?:any):dom;
-  mouseover(f?:any):dom;
-  mouseup(f?:any):dom;
-  scroll(f?:any):dom;
-  select(f?:any):dom;
-  submit(f?:any):dom;
+  ready(f?: any): dom;
+  unload(f?: any): dom;
+  blur(f?: any): dom;
+  change(f?: any): dom;
+  click(f?: any): dom;
+  dblclick(f?: any): dom;
+  error(f?: any): dom;
+  keydown(f?: any): dom;
+  keypress(f?: any): dom;
+  keyup(f?: any): dom;
+  load(f?: any): dom;
+  mousedown(f?: any): dom;
+  mouseenter(f?: any): dom;
+  mouseleave(f?: any): dom;
+  mousemove(f?: any): dom;
+  mouseout(f?: any): dom;
+  mouseover(f?: any): dom;
+  mouseup(f?: any): dom;
+  scroll(f?: any): dom;
+  select(f?: any): dom;
+  submit(f?: any): dom;
 
-  [index:number]: dom;
+  [index: number]: dom;
 }
 
 export namespace dom {
@@ -497,35 +594,35 @@ export namespace dom {
   * @desc: 获得视口大小.
   * @return: {width, height}
   */
-  function getViewPort():{width:number, height:number};
+  function getViewPort(): { width: number, height: number };
 
   /**
   * @desc: 获得文档大小.
   * @return: {width, height}
   */
-  function getDocumentPort():{width:number, height:number};
+  function getDocumentPort(): { width: number, height: number };
 
   /**
   * @desc: 获得document scroll offset.
   * @return: {top, left}
   */
-  function getDocumentOffset():{top:number, left:number};
+  function getDocumentOffset(): { top: number, left: number };
 
   /**
   * @desc: 获取指定元素相对于视口的的offset
   * @return: 
   */
-  function getElementOffset(e:any):{left:number, top:number};
+  function getElementOffset(e: any): { left: number, top: number };
 }
 
 declare global {
 
-  export function $(n:any):dom;
-  
-  export namespace $ {
-    var fn:any;
+  export function $(n: any): dom;
 
-    function extend(...args:any[]):dom;
-    function extend(deep: true, ...args:any[]):dom;
+  export namespace $ {
+    var fn: any;
+
+    function extend(...args: any[]): dom;
+    function extend(deep: true, ...args: any[]): dom;
   }
 }
