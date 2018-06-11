@@ -1273,6 +1273,17 @@
       } // if..else
     }
 
+    /**
+    * @desc: 遍历
+    */
+    each(cb) {
+      if (cb) {
+        for (var i = 0; i < this.length; i++) {
+          cb(i, this.get(i));
+        }
+      }
+    }
+
     // 将普通节点设置为Dom对象.
     _domtify(node) {
       if (node instanceof Dom)

@@ -3104,6 +3104,19 @@ var Dom = function () {
     } // if..else
   };
 
+  /**
+  * @desc: 遍历
+  */
+
+
+  Dom.prototype.each = function each(cb) {
+    if (cb) {
+      for (var i = 0; i < this.length; i++) {
+        cb(i, this.get(i));
+      }
+    }
+  };
+
   // 将普通节点设置为Dom对象.
 
 
