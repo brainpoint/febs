@@ -305,7 +305,7 @@ export interface Base64Result {
 // crypt.
 export namespace crypt {
   /**
-   * @desc [only in server] 
+   * @desc 
   * @return 生成一个uuid字符串. (uuid v1)
   */
   function uuid(): string;

@@ -250,7 +250,7 @@ function (hash) {
 
 
 /**
-* @desc: 生成一个uuid字符串 (uuid v1)
+* @desc: 生成一个uuid字符串 (uuid v1 timestamp)
 * @return: 
 */
 exports.uuid =
