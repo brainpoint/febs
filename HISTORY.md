@@ -98,3 +98,7 @@
 0.8.32
 ==================
   - [feature] add febs.date.xxx.
+
+0.8.36
+==================
+  - [feature] add dom.isDom

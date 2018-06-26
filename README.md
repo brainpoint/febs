@@ -71,6 +71,7 @@ febs web库分为客户端与服务器端;
   - [string](#string)
   - [crypt](#crypt)
   - [net](#net)
+  - [dom](./browser/README.md#dom)
 
 - 客户端独有库
   - [animationFrame](#animationFrame)

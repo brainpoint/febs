@@ -1483,5 +1483,17 @@
     return {};
   }
 
+  /**
+  * @desc: 判断是否是dom对象.
+  * @return: boolean.
+  */
+  Dom.isDom = function(e) {
+    return (typeof HTMLElement === 'object') ? (
+      e instanceof HTMLElement
+    ) : (
+        e && typeof e === 'object' && e.nodeType === 1 && typeof e.nodeName === 'string'
+      );
+  }
+
   exports.Dom = Dom;
   exports.CreateDom = CreateDom;

@@ -613,6 +613,12 @@ export namespace dom {
   * @return: 
   */
   function getElementOffset(e: any): { left: number, top: number };
+
+  /**
+  * @desc: 判断是否是dom对象.
+  * @return: boolean.
+  */
+  function isDom(e: any): boolean;
 }
 
 declare global {

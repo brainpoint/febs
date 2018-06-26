@@ -7,7 +7,7 @@ exports.crypt  = require('./crypt');
 exports.utils  = require('./utils');
 exports.date   = require('../browser/libs/date');
 exports.net  = require('./net');
-
+exports.dom  = require('../browser/libs/dom');
 
 //
 // define the __line. __filename.
