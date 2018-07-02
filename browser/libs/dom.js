@@ -869,8 +869,11 @@
 
       for (var i = 0; i < _thisLength; i++) {
         var ee = this.get(i);
-        if (ee instanceof Dom) {
+        if (ee instanceof Dom || ee.__domtify) {
           ee = ee._elem;
+          if (!ee) {
+            continue;
+          }
         }
         if (!ee.__events) ee.__events = {};
         if (!ee.__events[eventname]) ee.__events[eventname] = [];
@@ -921,8 +924,11 @@
 
         for (var i = 0; i < _thisLength; i++) {
           var ee = this.get(i);
-          if (ee instanceof Dom) {
+          if (ee instanceof Dom || ee.__domtify) {
             ee = ee._elem;
+            if (!ee) {
+              continue;
+            }
           }
           if (ee.__events && ee.__events[eventname])
           {
