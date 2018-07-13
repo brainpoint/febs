@@ -4,9 +4,9 @@
  * Desc:
  */
 
-var DefaultTimeout = 5000;
+exports.DefaultTimeout = 5000;
 
-exports.transfer = function(window, timeout) {
+exports.transfer = function(window) {
   var xhr;
   if (window.XDomainRequest) xhr = new XDomainRequest();
   else if (window.XMLHttpRequest) xhr = new XMLHttpRequest();
@@ -20,8 +20,6 @@ exports.transfer = function(window, timeout) {
       }
     }
   }
-
-  xhr.timeout = timeout ? timeout : DefaultTimeout;
   
   return xhr;
 }

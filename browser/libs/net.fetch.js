@@ -346,7 +346,7 @@ else {
         request = new febsnet.Request(input, init)
       }
 
-      var xhr = transfer.transfer(window, init?init.timeout:0);
+      var xhr = transfer.transfer(window);
 
       function responseURL() {
         if ('responseURL' in xhr) {
@@ -411,6 +411,8 @@ else {
       }
 
       xhr.open(request.method, request.url, true)
+      var timeout = init?init.timeout:null;
+      xhr.timeout = (timeout !== undefined && timeout !== null) ? timeout : transfer.DefaultTimeout;
 
       if (request.credentials === 'include') {
         xhr.withCredentials = true

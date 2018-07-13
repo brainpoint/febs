@@ -1536,9 +1536,9 @@ exports.getTime2FromUTC = function (strTimeUTC) {
  * Desc:
  */
 
-var DefaultTimeout = 5000;
+exports.DefaultTimeout = 5000;
 
-exports.transfer = function (window, timeout) {
+exports.transfer = function (window) {
   var xhr;
   if (window.XDomainRequest) xhr = new XDomainRequest();else if (window.XMLHttpRequest) xhr = new XMLHttpRequest();else {
     var XmlHttpVersions = new Array("MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.5.0", "MSXML2.XMLHTTP.4.0", "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP");
@@ -1548,8 +1548,6 @@ exports.transfer = function (window, timeout) {
       } catch (e) {}
     }
   }
-
-  xhr.timeout = timeout ? timeout : DefaultTimeout;
 
   return xhr;
 };
@@ -2749,8 +2747,11 @@ var Dom = function () {
 
     for (var i = 0; i < _thisLength; i++) {
       var ee = this.get(i);
-      if (ee instanceof Dom) {
+      if (ee instanceof Dom || ee.__domtify) {
         ee = ee._elem;
+        if (!ee) {
+          continue;
+        }
       }
       if (!ee.__events) ee.__events = {};
       if (!ee.__events[eventname]) ee.__events[eventname] = [];
@@ -2804,8 +2805,11 @@ var Dom = function () {
 
       for (var i = 0; i < _thisLength; i++) {
         var ee = this.get(i);
-        if (ee instanceof Dom) {
+        if (ee instanceof Dom || ee.__domtify) {
           ee = ee._elem;
+          if (!ee) {
+            continue;
+          }
         }
         if (ee.__events && ee.__events[eventname]) {
           var env = ee.__events[eventname];
@@ -5175,7 +5179,7 @@ function ajax(ctx) {
 
   //
   // net transfer.
-  var xhr = transfer.transfer(window, ctx.timeout);
+  var xhr = transfer.transfer(window);
 
   // xhr.onload = function() {
   //   var status = (xhr.status === 1223) ? 204 : xhr.status
@@ -5229,6 +5233,8 @@ function ajax(ctx) {
   }
 
   xhr.open(ctx.type, ctx.url, ctx.async === false ? false : true);
+  var timeout = (ctx.async === false ? false : true) ? ctx.timeout : 0;
+  xhr.timeout = timeout !== undefined && timeout !== null ? timeout : transfer.DefaultTimeout;
 
   xhr.withCredentials = true;
 
@@ -5648,7 +5654,7 @@ if (false) {
         request = new febsnet.Request(input, init);
       }
 
-      var xhr = transfer.transfer(window, init ? init.timeout : 0);
+      var xhr = transfer.transfer(window);
 
       function responseURL() {
         if ('responseURL' in xhr) {
@@ -5713,6 +5719,8 @@ if (false) {
       }
 
       xhr.open(request.method, request.url, true);
+      var timeout = init ? init.timeout : null;
+      xhr.timeout = timeout !== undefined && timeout !== null ? timeout : transfer.DefaultTimeout;
 
       if (request.credentials === 'include') {
         xhr.withCredentials = true;

@@ -50,7 +50,7 @@ function ajax( ctx )
 
   //
   // net transfer.
-  var xhr = transfer.transfer(window, ctx.timeout);
+  var xhr = transfer.transfer(window);
 
   // xhr.onload = function() {
   //   var status = (xhr.status === 1223) ? 204 : xhr.status
@@ -106,7 +106,10 @@ function ajax( ctx )
     }
   }
 
-  xhr.open(ctx.type, ctx.url, ctx.async===false?false:true)
+  xhr.open(ctx.type, ctx.url, ctx.async===false?false:true);
+  var timeout = (ctx.async===false?false:true)? ctx.timeout: 0;
+  xhr.timeout = (timeout !== undefined && timeout !== null) ? timeout : transfer.DefaultTimeout;
+
 
   xhr.withCredentials = true
 

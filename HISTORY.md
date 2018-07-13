@@ -102,3 +102,8 @@
 0.8.36
 ==================
   - [feature] add dom.isDom
+
+0.8.36
+==================
+  - [bugfix] set timeout error net.fetch in ie
+
