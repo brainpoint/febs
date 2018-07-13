@@ -2277,7 +2277,7 @@ function _getElement(name, parentNode) {
  * hasClass
  */
 function _hasClass(element, cName) {
-  if (!element || !element.className) return false;
+  if (!element || !element.className || typeof element.className.match !== 'function') return false;
   return !!element.className.match(new RegExp("(\\s|^)" + cName + "(\\s|$)")); // ( \\s|^ ) 判断前面是否有空格 （\\s | $ ）判断后面是否有空格 两个感叹号为转换为布尔值 以方便做判断  
 }
 
@@ -2285,20 +2285,24 @@ function _hasClass(element, cName) {
  * addClass
  */
 function _addClass(element, cName) {
-  if (!_hasClass(element, cName)) {
-    if (stringUtils.isEmpty(element.className)) element.className += cName;else element.className += " " + cName;
-  };
+  if (typeof element.className === 'string') {
+    if (!_hasClass(element, cName)) {
+      if (stringUtils.isEmpty(element.className)) element.className += cName;else element.className += " " + cName;
+    };
+  }
 }
 
 /**
  * removeClass
  */
 function _removeClass(element, cName) {
-  if (_hasClass(element, cName)) {
-    element.className = element.className.replace(new RegExp("(\\s|^)" + cName + "(\\s|$)"), " "); // replace方法是替换 
-    // trim.
-    element.className = stringUtils.trim(element.className);
-  };
+  if (typeof element.className === 'string') {
+    if (_hasClass(element, cName)) {
+      element.className = element.className.replace(new RegExp("(\\s|^)" + cName + "(\\s|$)"), " "); // replace方法是替换 
+      // trim.
+      element.className = stringUtils.trim(element.className);
+    };
+  }
 }
 /**
  * removeElement
