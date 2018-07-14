@@ -38,3 +38,5 @@ exports.replace = string.replace;
  * @return: string.
  */
 exports.trim = string.trim;
+
+exports.escapeHtml = string.escapeHtml;

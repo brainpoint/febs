@@ -377,12 +377,9 @@ febs.string.replace(str, strSrc, strDest)
  * @desc trim.
  */
 febs.string.trim(str: string) : string;
-```
 
-客户端独有.
-```js
 /**
-* @desc: 对字符串中的 <> 标签进行转义为 &lt;, &gt;
+* @desc: 对字符串中的 <>空格"& 标签进行转义为 & lt;, & gt;
 * @return: string.
 */
 febs.string.escapeHtml(str); 

@@ -291,6 +291,12 @@ export namespace string {
   function replace(str: string, strSrc: string, strDest: string): string;
 
   function trim(str: string) : string;
+
+  /**
+  * @desc: 对字符串中的 <>空格 标签进行转义为 &lt;, &gt;
+  * @return: string.
+  */
+  function escapeHtml(str: string): string;
 }
 
 export interface Base64Result {

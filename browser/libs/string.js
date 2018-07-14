@@ -40,11 +40,4 @@ exports.trim = string.trim;
 * @desc: 对字符串中的 <> 标签进行转义为 &lt;, &gt;
 * @return: string.
 */
-exports.escapeHtml = function(str) {
-  // 转义.
-  if (str) {
-    str = string.replace(str, '<', '&lt;');
-    str = string.replace(str, '>', '&gt;');
-  }
-  return str||'';
-}
+exports.escapeHtml = string.escapeHtml;
