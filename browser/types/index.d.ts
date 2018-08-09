@@ -619,6 +619,16 @@ export namespace dom {
   * @return: boolean.
   */
   function isDom(e: any): boolean;
+
+  /**
+  * @desc: 统一处理 addEventListener, attachEvent; 并提供useCapture参数问题.
+  */
+  function addEventListener(domElement:any, event:string, func:any, useCapture?:boolean):null;
+
+  /**
+  * @desc: 统一处理 removeEventListener, detachEvent; 并提供useCapture参数问题.
+  */
+  function removeEventListener(domElement:any, event:string, func:any, useCapture?:boolean):null;
 }
 
 declare global {

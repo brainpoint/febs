@@ -129,6 +129,14 @@ febs.string.replace();
   * @return: boolean.
   */
   febs.dom.isDom(e: any): boolean;
+  /**
+  * @desc: 统一处理 addEventListener, attachEvent; 并提供useCapture参数问题.
+  */
+  febs.dom.addEventListener(domElement:any, event:string, func:any, useCapture?:boolean):null;
+  /**
+  * @desc: 统一处理 removeEventListener, detachEvent; 并提供useCapture参数问题.
+  */
+  febs.dom.removeEventListener(domElement:any, event:string, func:any, useCapture?:boolean):null;
 ```
 
 # date
