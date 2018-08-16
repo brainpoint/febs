@@ -3582,8 +3582,9 @@ Dom.getDocumentOffset = function () {
     elementScrollLeft = window.document.body.scrollLeft;
     elementScrollTop = window.document.body.scrollTop;
   } else {
-    elementScrollLeft = window.document.documentElement.scrollLeft;
-    elementScrollTop = window.document.documentElement.scrollTop;
+    // CSS1Compat
+    elementScrollLeft = document.documentElement.scrollLeft == 0 ? document.body.scrollLeft : document.documentElement.scrollLeft;
+    elementScrollTop = document.documentElement.scrollTop == 0 ? document.body.scrollTop : document.documentElement.scrollTop;
   }
 
   return {
