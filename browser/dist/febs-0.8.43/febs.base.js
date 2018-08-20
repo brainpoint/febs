@@ -3352,8 +3352,8 @@ Dom.getElementOffset = function (e) {
         elementScrollLeft = window.document.body.scrollLeft;
         elementScrollTop = window.document.body.scrollTop;
       } else {
-        elementScrollLeft = window.document.documentElement.scrollLeft;
-        elementScrollTop = window.document.documentElement.scrollTop;
+        elementScrollLeft = window.document.documentElement.scrollLeft == 0 ? window.document.body.scrollLeft : window.document.documentElement.scrollLeft;
+        elementScrollTop = window.document.documentElement.scrollTop == 0 ? window.document.body.scrollTop : window.document.documentElement.scrollTop;
       }
 
       return {
