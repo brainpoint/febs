@@ -640,4 +640,5 @@ febs库模拟了jquery的常用方法(dom操作/事件/css等), 当页面引入f
   children(selector?:string|dom|HTMLElement) : $;
   prev(selector?:string|dom|HTMLElement) : $;
   next(selector?:string|dom|HTMLElement) : $;
+  each((e)=>{});
 ```

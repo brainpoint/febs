@@ -70,7 +70,7 @@
 /* 0 */
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.5.5' };
+var core = module.exports = { version: '2.5.7' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -120,7 +120,7 @@ module.exports = function (it) {
 
 var global = __webpack_require__(1);
 var core = __webpack_require__(0);
-var ctx = __webpack_require__(17);
+var ctx = __webpack_require__(18);
 var hide = __webpack_require__(7);
 var has = __webpack_require__(6);
 var PROTOTYPE = 'prototype';
@@ -262,7 +262,7 @@ exports.f = __webpack_require__(5) ? Object.defineProperty : function defineProp
 
 var _Number$MAX_SAFE_INTEGER = __webpack_require__(69)['default'];
 
-var utils = __webpack_require__(117);
+var utils = __webpack_require__(118);
 
 /**
  * @desc: 模拟sleep.
@@ -438,12 +438,19 @@ module.exports = {};
 
 /***/ }),
 /* 15 */
+/***/ (function(module, exports) {
+
+module.exports = true;
+
+
+/***/ }),
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(79), __esModule: true };
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -453,11 +460,11 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(16);
+var aFunction = __webpack_require__(17);
 module.exports = function (fn, that, length) {
   aFunction(fn);
   if (that === undefined) return fn;
@@ -476,13 +483,6 @@ module.exports = function (fn, that, length) {
     return fn.apply(that, arguments);
   };
 };
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports) {
-
-module.exports = true;
 
 
 /***/ }),
@@ -564,7 +564,7 @@ module.exports = (
 "use strict";
 
 // 25.4.1.5 NewPromiseCapability(C)
-var aFunction = __webpack_require__(16);
+var aFunction = __webpack_require__(17);
 
 function PromiseCapability(C) {
   var resolve, reject;
@@ -617,12 +617,18 @@ module.exports = function (key) {
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var core = __webpack_require__(0);
 var global = __webpack_require__(1);
 var SHARED = '__core-js_shared__';
 var store = global[SHARED] || (global[SHARED] = {});
-module.exports = function (key) {
-  return store[key] || (store[key] = {});
-};
+
+(module.exports = function (key, value) {
+  return store[key] || (store[key] = value !== undefined ? value : {});
+})('versions', []).push({
+  version: core.version,
+  mode: __webpack_require__(15) ? 'pure' : 'global',
+  copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
+});
 
 
 /***/ }),
@@ -661,7 +667,7 @@ module.exports = function (it, S) {
 
 var global = __webpack_require__(1);
 var core = __webpack_require__(0);
-var LIBRARY = __webpack_require__(18);
+var LIBRARY = __webpack_require__(15);
 var wksExt = __webpack_require__(33);
 var defineProperty = __webpack_require__(9).f;
 module.exports = function (name) {
@@ -690,7 +696,7 @@ exports.f = __webpack_require__(2);
  * Desc:
  */
 
-var string = __webpack_require__(116);
+var string = __webpack_require__(117);
 
 /**
 * @desc: 判断是否是手机号码.
@@ -809,7 +815,7 @@ module.exports = !__webpack_require__(5) && !__webpack_require__(13)(function ()
 
 "use strict";
 
-var LIBRARY = __webpack_require__(18);
+var LIBRARY = __webpack_require__(15);
 var $export = __webpack_require__(4);
 var redefine = __webpack_require__(50);
 var hide = __webpack_require__(7);
@@ -1073,7 +1079,7 @@ module.exports = __webpack_require__(7);
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
 var anObject = __webpack_require__(3);
-var aFunction = __webpack_require__(16);
+var aFunction = __webpack_require__(17);
 var SPECIES = __webpack_require__(2)('species');
 module.exports = function (O, D) {
   var C = anObject(O).constructor;
@@ -1086,7 +1092,7 @@ module.exports = function (O, D) {
 /* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ctx = __webpack_require__(17);
+var ctx = __webpack_require__(18);
 var invoke = __webpack_require__(87);
 var html = __webpack_require__(38);
 var cel = __webpack_require__(23);
@@ -1229,7 +1235,7 @@ __webpack_require__(40)(String, 'String', function (iterated) {
 /* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(104);
+__webpack_require__(105);
 var global = __webpack_require__(1);
 var hide = __webpack_require__(7);
 var Iterators = __webpack_require__(14);
@@ -1263,7 +1269,7 @@ for (var i = 0; i < DOMIterables.length; i++) {
  * Desc:
  */
 
-var _Promise = __webpack_require__(15)['default'];
+var _Promise = __webpack_require__(16)['default'];
 
 var PromiseLib = _Promise;
 
@@ -1625,7 +1631,7 @@ module.exports = animationFrame;
  *  crc32_file(file, function(crc32Value) {})
  */
 
-var crypt = __webpack_require__(115);
+var crypt = __webpack_require__(116);
 
 /**
  * @desc: 计算字符串的crc32值
@@ -2717,7 +2723,7 @@ var Dom = function () {
       return this.get(0).style[name];
     } else {
 
-      var _thisLength = this.length ? this.length : 1;
+      var _thisLength = this.length ? this.length : 0;
 
       for (var i = 0; i < _thisLength; i++) {
         if (value == '') this.get(i).style[name] = '';else this.get(i).style[name] = value;
@@ -3415,9 +3421,9 @@ exports.CreateDom = CreateDom;
  */
 
 var febsUtils = __webpack_require__(10);
-var netajax = __webpack_require__(118);
-var netfetch = __webpack_require__(119);
-var netjsonp = __webpack_require__(120);
+var netajax = __webpack_require__(119);
+var netfetch = __webpack_require__(120);
+var netjsonp = __webpack_require__(121);
 
 'use strict';
 
@@ -3598,7 +3604,7 @@ module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
 /* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(105);
+__webpack_require__(106);
 module.exports = __webpack_require__(0).Number.isNaN;
 
 
@@ -3606,7 +3612,7 @@ module.exports = __webpack_require__(0).Number.isNaN;
 /* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(106);
+__webpack_require__(107);
 module.exports = 0x1fffffffffffff;
 
 
@@ -3614,7 +3620,7 @@ module.exports = 0x1fffffffffffff;
 /* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(107);
+__webpack_require__(108);
 var $Object = __webpack_require__(0).Object;
 module.exports = function getOwnPropertyNames(it) {
   return $Object.getOwnPropertyNames(it);
@@ -3625,7 +3631,7 @@ module.exports = function getOwnPropertyNames(it) {
 /* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(108);
+__webpack_require__(109);
 module.exports = __webpack_require__(0).Object.getPrototypeOf;
 
 
@@ -3636,9 +3642,9 @@ module.exports = __webpack_require__(0).Object.getPrototypeOf;
 __webpack_require__(55);
 __webpack_require__(56);
 __webpack_require__(57);
-__webpack_require__(109);
-__webpack_require__(111);
+__webpack_require__(110);
 __webpack_require__(112);
+__webpack_require__(113);
 module.exports = __webpack_require__(0).Promise;
 
 
@@ -3646,10 +3652,10 @@ module.exports = __webpack_require__(0).Promise;
 /* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(110);
+__webpack_require__(111);
 __webpack_require__(55);
-__webpack_require__(113);
 __webpack_require__(114);
+__webpack_require__(115);
 module.exports = __webpack_require__(0).Symbol;
 
 
@@ -3734,12 +3740,12 @@ module.exports = function (it) {
 /* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ctx = __webpack_require__(17);
+var ctx = __webpack_require__(18);
 var call = __webpack_require__(91);
 var isArrayIter = __webpack_require__(89);
 var anObject = __webpack_require__(3);
 var toLength = __webpack_require__(53);
-var getIterFn = __webpack_require__(103);
+var getIterFn = __webpack_require__(104);
 var BREAK = {};
 var RETURN = {};
 var exports = module.exports = function (iterable, entries, fn, that, ITERATOR) {
@@ -4000,7 +4006,8 @@ module.exports = function () {
     };
   // environments with maybe non-completely correct, but existent Promise
   } else if (Promise && Promise.resolve) {
-    var promise = Promise.resolve();
+    // Promise.resolve without an argument throws an error in LG WebOS 2
+    var promise = Promise.resolve(undefined);
     notify = function () {
       promise.then(flush);
     };
@@ -4143,6 +4150,16 @@ module.exports = function (index, length) {
 /* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var global = __webpack_require__(1);
+var navigator = global.navigator;
+
+module.exports = navigator && navigator.userAgent || '';
+
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var classof = __webpack_require__(37);
 var ITERATOR = __webpack_require__(2)('iterator');
 var Iterators = __webpack_require__(14);
@@ -4154,7 +4171,7 @@ module.exports = __webpack_require__(0).getIteratorMethod = function (it) {
 
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4195,7 +4212,7 @@ addToUnscopables('entries');
 
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.4 Number.isNaN(number)
@@ -4210,7 +4227,7 @@ $export($export.S, 'Number', {
 
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.6 Number.MAX_SAFE_INTEGER
@@ -4220,7 +4237,7 @@ $export($export.S, 'Number', { MAX_SAFE_INTEGER: 0x1fffffffffffff });
 
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 Object.getOwnPropertyNames(O)
@@ -4230,7 +4247,7 @@ __webpack_require__(47)('getOwnPropertyNames', function () {
 
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 Object.getPrototypeOf(O)
@@ -4245,18 +4262,18 @@ __webpack_require__(47)('getPrototypeOf', function () {
 
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var LIBRARY = __webpack_require__(18);
+var LIBRARY = __webpack_require__(15);
 var global = __webpack_require__(1);
-var ctx = __webpack_require__(17);
+var ctx = __webpack_require__(18);
 var classof = __webpack_require__(37);
 var $export = __webpack_require__(4);
 var isObject = __webpack_require__(8);
-var aFunction = __webpack_require__(16);
+var aFunction = __webpack_require__(17);
 var anInstance = __webpack_require__(83);
 var forOf = __webpack_require__(86);
 var speciesConstructor = __webpack_require__(51);
@@ -4264,10 +4281,13 @@ var task = __webpack_require__(52).set;
 var microtask = __webpack_require__(96)();
 var newPromiseCapabilityModule = __webpack_require__(25);
 var perform = __webpack_require__(48);
+var userAgent = __webpack_require__(103);
 var promiseResolve = __webpack_require__(49);
 var PROMISE = 'Promise';
 var TypeError = global.TypeError;
 var process = global.process;
+var versions = process && process.versions;
+var v8 = versions && versions.v8 || '';
 var $Promise = global[PROMISE];
 var isNode = classof(process) == 'process';
 var empty = function () { /* empty */ };
@@ -4282,7 +4302,13 @@ var USE_NATIVE = !!function () {
       exec(empty, empty);
     };
     // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
-    return (isNode || typeof PromiseRejectionEvent == 'function') && promise.then(empty) instanceof FakePromise;
+    return (isNode || typeof PromiseRejectionEvent == 'function')
+      && promise.then(empty) instanceof FakePromise
+      // v8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
+      // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
+      // we can't detect it synchronously, so just check versions
+      && v8.indexOf('6.6') !== 0
+      && userAgent.indexOf('Chrome/66') === -1;
   } catch (e) { /* empty */ }
 }();
 
@@ -4529,7 +4555,7 @@ $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(93)(function
 
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4686,7 +4712,7 @@ if (!USE_NATIVE) {
   __webpack_require__(27).f = $propertyIsEnumerable;
   __webpack_require__(44).f = $getOwnPropertySymbols;
 
-  if (DESCRIPTORS && !__webpack_require__(18)) {
+  if (DESCRIPTORS && !__webpack_require__(15)) {
     redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
   }
 
@@ -4770,7 +4796,7 @@ setToStringTag(global.JSON, 'JSON', true);
 
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4797,7 +4823,7 @@ $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
 
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4816,21 +4842,21 @@ $export($export.S, 'Promise', { 'try': function (callbackfn) {
 
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(32)('asyncIterator');
 
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(32)('observable');
 
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4883,7 +4909,7 @@ exports.base64_encode = function (arrByte) {
 };
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5006,7 +5032,7 @@ exports.escapeHtml = function (str) {
 };
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5022,7 +5048,7 @@ var _Number$isNaN = __webpack_require__(68)['default'];
 
 var _typeof = __webpack_require__(36)['default'];
 
-var _Promise = __webpack_require__(15)['default'];
+var _Promise = __webpack_require__(16)['default'];
 
 var PromiseLib = _Promise;
 var utilsDate = __webpack_require__(58);
@@ -5157,7 +5183,7 @@ exports.getDate = utilsDate.getDate;
 exports.getDate2 = utilsDate.getDate2;
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5337,7 +5363,7 @@ net.ajax = ajax;
 module.exports = net;
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5345,7 +5371,7 @@ module.exports = net;
 
 var _Object$getOwnPropertyNames = __webpack_require__(70)['default'];
 
-var _Promise = __webpack_require__(15)['default'];
+var _Promise = __webpack_require__(16)['default'];
 
 /**
  * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
@@ -5790,13 +5816,13 @@ if (false) {
 module.exports = net;
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Promise = __webpack_require__(15)['default'];
+var _Promise = __webpack_require__(16)['default'];
 
 /**
  * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.

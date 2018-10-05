@@ -518,6 +518,11 @@ export namespace file {
    */
   function dirCopy(src: string, dest: string, callback: (err: any) => void): void;
   /**
+   * @desc: [only in server]  复制文件夹 返回promise.
+   * @return: Promise(()=>{}).
+   */
+  function dirCopyAsync(src: string, dest: string): Promise<()=>{}>;
+  /**
    * @desc: [only in server]  删除文件夹.
    * @return:bool.指明是否删除.
    */
@@ -563,10 +568,20 @@ export namespace file {
    */
   function fileCopy(src: string, dest: string, callback: (err: any) => void): boolean;
   /**
+   * @desc: [only in server]  复制文件 返回promise.
+   * @return: Promise(()=>{}).
+   */
+  function fileCopyAsync(src: string, dest: string): Promise<()=>{}>;
+  /**
    * @desc: [only in server]  移除文件.
    * @return: bool.指明是否删除.
    */
   function fileRemove(file: string): boolean;
+  /**
+   * @desc: [only in server]  移除文件 返回promise.
+   * @return: Promise(()=>{}).
+   */
+  function fileRemoveAsync(file: string): Promise<()=>{}>;
 }
 
 

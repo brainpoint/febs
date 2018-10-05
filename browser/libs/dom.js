@@ -845,7 +845,7 @@
           return this.get(0).style[name];
       } else {
 
-        var _thisLength = (this.length) ? this.length : 1;
+        var _thisLength = (this.length) ? this.length : 0;
 
         for (var i = 0; i < _thisLength; i++) {
           if (value == '')

@@ -96,7 +96,7 @@ exports.dirAssure = dirAssure;
 */
 exports.dirCopy = function(src, dest, callback) {
   if (!src || !dest || !dirIsExist(src)) {
-    callback && callback('params err');
+    callback && callback('dirCopy src or dest error');
     return false;
   }
 
@@ -157,6 +157,23 @@ exports.dirCopy = function(src, dest, callback) {
   }
 
   copy1();
+}
+
+/**
+* @desc: 返回promise方式.
+* @return: Promise(()=>{})
+*/
+exports.dirCopyAsync = function(src, dest) {
+  return new Promise((resolve, reject)=>{
+    exports.dirCopy(src, dest, (err)=>{
+      if (err) {
+        reject(err);
+      }
+      else {
+        resolve();
+      }
+    });
+  });
 }
 
 /**
@@ -432,6 +449,24 @@ function fileCopy(src, dest, callback) {
 }
 exports.fileCopy = fileCopy;
 
+
+/**
+* @desc: 返回promise方式.
+* @return: Promise(()=>{})
+*/
+exports.fileCopyAsync = function(src, dest) {
+  return new Promise((resolve, reject)=>{
+    exports.fileCopy(src, dest, (err)=>{
+      if (err) {
+        reject(err);
+      }
+      else {
+        resolve();
+      }
+    });
+  });
+}
+
 /**
  * @desc: 移除文件.
  * @return: bool. 指明是否删除.
@@ -443,4 +478,23 @@ exports.fileRemove = function(file) {
   } catch(e) {
     return false;
   }
+}
+
+/**
+* @desc: promise方式.
+* @return: Promise(()=>{})
+*/
+exports.fileRemoveAsync = function(file) {
+  return new Promise((resolve, reject)=>{
+    try {
+      fs.unlink(file, (err)=>{
+        if (err)
+          reject(err);
+        else 
+          resolve();
+      });
+    } catch(e) {
+      reject(e);
+    }
+  });
 }
