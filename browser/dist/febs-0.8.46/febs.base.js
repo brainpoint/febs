@@ -1539,7 +1539,7 @@ exports.DefaultTimeout = 5000;
 
 exports.transfer = function (window) {
   var xhr;
-  if (window.XDomainRequest) xhr = new XDomainRequest();else if (window.XMLHttpRequest) xhr = new XMLHttpRequest();else {
+  if (window.XMLHttpRequest) xhr = new XMLHttpRequest();else if (window.XDomainRequest) xhr = new XDomainRequest();else {
     var XmlHttpVersions = new Array("MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.5.0", "MSXML2.XMLHTTP.4.0", "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP");
     for (var i = 0; i < XmlHttpVersions.length && !xmlHttp; i++) {
       try {
@@ -5313,7 +5313,7 @@ function ajax(ctx) {
         xhr.setRequestHeader(key, element);
       }
     } else {
-      console.log('can\'t set headers');
+      console.log('ajax can\'t set headers');
     }
   }
 
@@ -5800,8 +5800,8 @@ if (false) {
         request.headers.forEach(function (value, name) {
           xhr.setRequestHeader(name, value);
         });
-      } else if (request.headers) {
-        console.log('can\'t set headers');
+      } else if (request.headers && request.headers.map.length > 0) {
+        console.log('fetch can\'t set headers');
       }
 
       xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit);

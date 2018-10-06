@@ -429,8 +429,8 @@ else {
           xhr.setRequestHeader(name, value)
         })
       }
-      else if (request.headers) {
-        console.log('can\'t set headers');
+      else if (request.headers && request.headers.map.length > 0) {
+        console.log('fetch can\'t set headers');
       }
 
       xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)

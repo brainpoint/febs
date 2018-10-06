@@ -125,7 +125,7 @@ function ajax( ctx )
       }
     }
     else {
-      console.log('can\'t set headers');
+      console.log('ajax can\'t set headers');
     }
   }
 

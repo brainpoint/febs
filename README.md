@@ -617,6 +617,11 @@ febs.file.dirAssure(dir)
  */
 febs.file.dirCopy(src, dest, callback)
 /**
+ * @desc: [only in server]  复制文件夹 返回promise.
+ * @return: Promise(()=>{}).
+ */
+febs.file.dirCopyAsync(src: string, dest: string): Promise<()=>{}>;
+/**
  * @desc: 删除文件夹.
  * @return:bool.指明是否删除.
  */
@@ -662,10 +667,20 @@ febs.file.fileIsExist(file)
  */
 febs.file.fileCopy(src, dest, callback)
 /**
+ * @desc: [only in server]  复制文件 返回promise.
+ * @return: Promise(()=>{}).
+ */
+febs.file.fileCopyAsync(src: string, dest: string): Promise<()=>{}>;
+/**
  * @desc: 移除文件.
  * @return: bool.指明是否删除.
  */
 febs.file.fileRemove(file)
+/**
+ * @desc: [only in server]  移除文件 返回promise.
+ * @return: Promise(()=>{}).
+ */
+febs.file.fileRemoveAsync(file: string): Promise<()=>{}>;
 ```
 
 
