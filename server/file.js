@@ -96,7 +96,7 @@ exports.dirAssure = dirAssure;
 */
 exports.dirCopy = function(src, dest, callback) {
   if (!src || !dest || !dirIsExist(src)) {
-    callback && callback('dirCopy src or dest error');
+    callback && callback(`dirCopy src or dest error; src: ${src}. dest: ${dest} `);
     return false;
   }
 
@@ -412,12 +412,12 @@ exports.fileSize = function(file) {
  */
 function fileCopy(src, dest, callback) {
   if (!src || !dest) {
-    callback && callback('params err');
+    callback && callback(`fileCopy src or dest error; src: ${src}. dest: ${dest} `);
     return false;
   }
 
   if (!fs.existsSync(src) || (fs.existsSync(dest) && fs.statSync(dest).isFile()) ) {
-    callback && callback('params err');
+    callback && callback(`fileCopy src or dest error; src: ${src}. dest: ${dest} `);
     return false;
   }
 
