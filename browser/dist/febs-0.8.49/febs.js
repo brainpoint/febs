@@ -2299,6 +2299,7 @@ function _hasClass(element, cName) {
  * addClass
  */
 function _addClass(element, cName) {
+  if (!element) return;
   if (typeof element.className === 'string') {
     if (!_hasClass(element, cName)) {
       if (stringUtils.isEmpty(element.className)) element.className += cName;else element.className += " " + cName;
@@ -2310,6 +2311,7 @@ function _addClass(element, cName) {
  * removeClass
  */
 function _removeClass(element, cName) {
+  if (!element) return;
   if (typeof element.className === 'string') {
     if (_hasClass(element, cName)) {
       element.className = element.className.replace(new RegExp("(\\s|^)" + cName + "(\\s|$)"), " "); // replace方法是替换 
@@ -2322,9 +2324,11 @@ function _removeClass(element, cName) {
  * removeElement
  */
 function _removeElement(element) {
-  var _parentElement = element.parentNode;
-  if (_parentElement) {
-    _parentElement.removeChild(element);
+  if (element) {
+    var _parentElement = element.parentNode;
+    if (_parentElement) {
+      _parentElement.removeChild(element);
+    }
   }
 }
 
@@ -2332,20 +2336,23 @@ function _removeElement(element) {
  * appendChild
  */
 function _appendChild(element, node) {
-  if (node instanceof Dom) {
-    if (!node._isArray()) {
-      element.appendChild(node[0]);
-    } else {
-      for (var i = 0; i < node.length; i++) {
-        element.appendChild(node[i]);
+  if (element) {
+    if (node instanceof Dom) {
+      if (!node._isArray()) {
+        element.appendChild(node[0]);
+      } else {
+        for (var i = 0; i < node.length; i++) {
+          element.appendChild(node[i]);
+        }
       }
+    } else {
+      element.appendChild(node);
     }
-  } else {
-    element.appendChild(node);
   }
 }
 
 function _prependChild(element, node) {
+  if (!element) return;
   if (element.hasChildNodes()) {
     if (node instanceof Dom) {
       if (!node._isArray()) {
