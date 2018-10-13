@@ -1961,7 +1961,7 @@ function _matchElement(parentNodes, name, notAllChildren) {
             }
             if (j > 20) {
               node = node.slice(j + 1);
-              j = 0;
+              j = -1;
             }
           }
         }
