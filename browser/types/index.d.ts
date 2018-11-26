@@ -1,3 +1,4 @@
+
 // Type definitions for febs
 
 /// <reference types="node" />
@@ -203,6 +204,10 @@ export namespace utils {
   * @return: boolean
   */
   function isNull(e: any): boolean;
+  /**
+   * @desc: 进行bigint类型转换.
+   */
+  function bigint(v: any): number|object;
   /**
    * @desc: 判断是否是bigint.
    */

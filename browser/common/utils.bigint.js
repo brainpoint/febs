@@ -11,6 +11,25 @@ var BigNumber = require('bignumber.js');
 
 
 /**
+ * @desc: 进行bigint转换.
+ */
+exports.bigint = 
+function(v) {
+  if (exports.bigint_check(v)) {
+    if (typeof v === 'string') {
+      if (v.length >= 15) // 对千亿以上的数值使用bignumber.
+        return new BigNumber(v);
+      return Number(v);
+    } else {
+      return v;
+    }
+  }
+  else {
+    return Number.NaN;
+  }
+}
+
+/**
  * @desc: 判断是否是bigint.
  */
 exports.bigint_check = 
@@ -20,7 +39,8 @@ function(v) {
   if (!v)
     return false;
 
-  if (typeof v === 'string')
+  var typev = typeof v;
+  if (typev === 'string')
   {
     if (v.length > 22 || v.length < 1)
       return false;
@@ -39,6 +59,9 @@ function(v) {
     }
 
     return true;
+  }
+  else if (typev === 'object') {
+    return !!v.isBigNumber;
   }
   else {
     return false;
