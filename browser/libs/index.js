@@ -49,6 +49,8 @@ if (!window['cancelAnimationFrame'])
 
 var febs = {};
 
+febs.BigNumber = require('bignumber.js');
+
 febs.date  = require('./date');
 febs.utils  = require('./utils');
 febs.string = require('./string');

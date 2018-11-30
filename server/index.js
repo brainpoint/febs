@@ -1,4 +1,6 @@
 
+exports.BigNumber = require('bignumber.js');
+
 exports.upload = require('./upload');
 exports.exception = require('./exception');
 exports.file   = require('./file');

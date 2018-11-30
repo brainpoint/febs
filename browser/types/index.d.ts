@@ -33,6 +33,419 @@ export interface StrFmt {
   time?: string;  // 超过6个月将使用此格式格式化时间
 }
 
+/**
+* @desc: big number type
+*/
+export class BigNumber {
+  constructor(v:any);
+
+  /**
+   * Returns a BigNumber whose value is the absolute value, i.e. the magnitude, of the value of this BigNumber. The
+   * return value is always exact and unrounded.
+   * ```ts
+   * x = new BigNumber(-0.8)
+   * y = x.absoluteValue()           // '0.8'
+   * z = y.abs()                     // '0.8'
+   * ```
+   */
+  abs(): BigNumber;
+
+  /**
+   * Returns a BigNumber whose value is the value of this BigNumber plus `n`.
+   *
+   * The return value is always exact and unrounded.
+   */
+  add(n: number | string | BigNumber): BigNumber;
+
+
+  /**
+   * Returns a BigNumber whose value is the value of this BigNumber minus `n`.
+   *
+   * The return value is always exact and unrounded.
+   */
+  minus(n: number | string | BigNumber): BigNumber;
+
+  /**
+   * Returns a BigNumber whose value is the value of this BigNumber times n.
+   *
+   * The return value is always exact and unrounded.
+   */
+  mul(n: number | string | BigNumber, base?: number): BigNumber;
+
+  /**
+   * Returns a BigNumber whose value is the value of this BigNumber divided by n, rounded according to the current
+   * DECIMAL_PLACES and ROUNDING_MODE configuration.
+   *
+   * ```ts
+   * x = new BigNumber(355)
+   * y = new BigNumber(113)
+   * x.dividedBy(y)                  // '3.14159292035398230088'
+   * x.dividedBy(5)                        // '71'
+   * x.dividedBy(47, 16)                   // '5'
+   * ```
+   */
+  dividedBy(n: number | string | BigNumber): BigNumber;
+
+  /**
+   * Returns a BigNumber whose value is the value of this BigNumber modulo n, i.e. the integer remainder of dividing
+   * this BigNumber by n.
+   *
+   * The value returned, and in particular its sign, is dependent on the value of the [[Configuration.MODULO_MODE]]
+   * setting of this BigNumber constructor. If it is `1` (default value), the result will have the same sign as this
+   * BigNumber, and it will match that of Javascript's `%` operator (within the limits of double precision) and
+   * BigDecimal's remainder method.
+   *
+   * The return value is always exact and unrounded.
+   *
+   * ```ts
+   * 1 % 0.9                         // 0.09999999999999998
+   * x = new BigNumber(1)
+   * x.modulo(0.9)                   // '0.1'
+   * y = new BigNumber(33)
+   * y.mod('a', 33)                  // '3'
+   * ```
+   **/
+  mod(n: number | string | BigNumber): BigNumber;
+
+  /**
+   * Returns a BigNumber whose value is the value of this BigNumber rounded to a whole number in the direction of
+   * positive `Infinity`.
+   *
+   * ```ts
+   * x = new BigNumber(1.3)
+   * x.ceil()                        // '2'
+   * y = new BigNumber(-1.8)
+   * y.ceil()                        // '-1'
+   * ```
+   */
+  ceil(): BigNumber;
+
+  /**
+   * Returns a BigNumber whose value is the value of this BigNumber rounded to a whole number in the direction of
+   * negative `Infinity`.
+   *
+   * ```ts
+   * x = new BigNumber(1.8)
+   * x.floor()                       // '1'
+   * y = new BigNumber(-1.3)
+   * y.floor()                       // '-2'
+   * ```
+   */
+  floor(): BigNumber;
+
+  /**
+   * Returns a BigNumber whose value is the value of this BigNumber rounded by rounding mode rm to a maximum of dp
+   * decimal places.
+   *
+   *  - if dp is omitted, or is null or undefined, the return value is n rounded to a whole number.
+   *  - if rm is omitted, or is null or undefined, ROUNDING_MODE is used.
+   *
+   * ```ts
+   * x = 1234.56
+   * Math.round(x)                             // 1235
+   * y = new BigNumber(x)
+   * y.round()                                 // '1235'
+   * y.round(1)                                // '1234.6'
+   * y.round(2)                                // '1234.56'
+   * y.round(10)                               // '1234.56'
+   * y.round(0, 1)                             // '1234'
+   * y.round(0, 6)                             // '1235'
+   * y.round(1, 1)                             // '1234.5'
+   * y.round(1, BigNumber.ROUND_HALF_EVEN)     // '1234.6'
+   * y                                         // '1234.56'
+   * ```
+   *
+   * @param dp integer, 0 to 1e+9 inclusive
+   * @param rm integer, 0 to 8 inclusive
+   */
+  round(dp?: number, rm?: number): BigNumber;
+
+  /**
+   * Returns a BigNumber whose value is the value of this BigNumber truncated to a whole number.
+   *
+   * ```ts
+   * x = new BigNumber(123.456)
+   * x.truncated()                   // '123'
+   * y = new BigNumber(-12.3)
+   * y.trunc()                       // '-12'
+   * ```
+   */
+  truncated(): BigNumber;
+  
+  /**
+   * Returns true if the value of this BigNumber equals the value of `n`, otherwise returns `false`. As with JavaScript,
+   * `NaN` does not equal `NaN`.
+   *
+   * Note: This method uses the [[comparedTo]] internally.
+   *
+   * ```ts
+   * 0 === 1e-324                    // true
+   * x = new BigNumber(0)
+   * x.equals('1e-324')              // false
+   * BigNumber(-0).eq(x)             // true  ( -0 === 0 )
+   * BigNumber(255).eq('ff', 16)     // true
+   *
+   * y = new BigNumber(NaN)
+   * y.equals(NaN)                   // false
+   * ```
+   */
+  equals(n: number | string | BigNumber): boolean;
+
+  /**
+   * Returns `true` if the value of this BigNumber is greater than the value of `n`, otherwise returns `false`.
+   *
+   * Note: This method uses the comparedTo method internally.
+   *
+   * ```ts
+   * 0.1 > (0.3 - 0.2)                           // true
+   * x = new BigNumber(0.1)
+   * x.greaterThan(BigNumber(0.3).minus(0.2))    // false
+   * BigNumber(0).gt(x)                          // false
+   * BigNumber(11, 3).gt(11.1, 2)                // true
+   * ```
+   */
+  greaterThan(n: number | string | BigNumber): boolean;
+
+  /**
+   * Returns `true` if the value of this BigNumber is greater than or equal to the value of `n`, otherwise returns `false`.
+   *
+   * Note: This method uses the comparedTo method internally.
+   */
+  greaterThanOrEqualTo(n: number | string | BigNumber): boolean;
+
+  /**
+   * Returns true if the value of this BigNumber is less than the value of n, otherwise returns false.
+   *
+   * Note: This method uses [[comparedTo]] internally.
+   *
+   * @alias [[lt]]
+   */
+  lessThan(n: number | string | BigNumber): boolean;
+
+  /**
+   * Returns true if the value of this BigNumber is less than or equal the value of n, otherwise returns false.
+   *
+   * Note: This method uses [[comparedTo]] internally.
+   */
+  lessThanOrEqualTo(n: number | string | BigNumber): boolean;
+
+  /**
+   * Returns true if the value of this BigNumber is a whole number, otherwise returns false.
+   */
+  isInteger(): boolean;
+
+  /**
+   * Returns `true` if the value of this BigNumber is `NaN`, otherwise returns `false`.
+   *
+   * Note: The native method isNaN() can also be used.
+   */
+  isNaN(): boolean;
+
+  /**
+   * Returns true if the value of this BigNumber is negative, otherwise returns false.
+   *
+   * Note: `n < 0` can be used if `n <= * -Number.MIN_VALUE`.
+   */
+  isNegative(): boolean;
+
+  /**
+   * Returns true if the value of this BigNumber is zero or minus zero, otherwise returns false.
+   *
+   * Note: `n == 0` can be used if `n >= Number.MIN_VALUE`.
+   */
+  isZero(): boolean;
+
+  /**
+   * Returns a BigNumber whose value is the value of this BigNumber negated, i.e. multiplied by -1.
+   *
+   * ```ts
+   * x = new BigNumber(1.8)
+   * x.negated()                     // '-1.8'
+   * y = new BigNumber(-1.3)
+   * y.neg()                         // '1.3'
+   * ```
+   */
+  negated(): BigNumber;
+
+  /**
+   * Returns a BigNumber whose value is the square root of the value of this BigNumber, rounded according to the
+   * current DECIMAL_PLACES and ROUNDING_MODE configuration.
+   *
+   * The return value will be correctly rounded, i.e. rounded
+   * as if the result was first calculated to an infinite number of correct digits before rounding.
+   */
+  sqrt(): BigNumber;
+
+  /**
+   * Returns a BigNumber whose value is the value of this BigNumber rounded to sd significant digits using rounding mode rm.
+   *
+   * If sd is omitted or is null or undefined, the return value will not be rounded.
+   *
+   * If rm is omitted or is null or undefined, ROUNDING_MODE will be used.
+   *
+   * ```ts
+   * BigNumber.config({ precision: 5, rounding: 4 })
+   * x = new BigNumber(9876.54321)
+   *
+   * x.toDigits()                          // '9876.5'
+   * x.toDigits(6)                         // '9876.54'
+   * x.toDigits(6, BigNumber.ROUND_UP)     // '9876.55'
+   * x.toDigits(2)                         // '9900'
+   * x.toDigits(2, 1)                      // '9800'
+   * x                                     // '9876.54321'
+   * ```
+   *
+   * @param sd integer, 1 to 1e+9 inclusive
+   * @param rm integer, 0 to 8 inclusive
+   */
+  toDigits(sd?: number, rm?: number): BigNumber;
+
+  /**
+   * Returns a string representing the value of this BigNumber in normal (fixed-point) notation rounded to dp decimal
+   * places using rounding mode `rm`.
+   *
+   * If the value of this BigNumber in normal notation has fewer than `dp` fraction digits, the return value will be
+   * appended with zeros accordingly.
+   *
+   * Unlike `Number.prototype.toFixed`, which returns exponential notation if a number is greater or equal to 10<sup>21</sup>, this
+   * method will always return normal notation.
+   *
+   * If dp is omitted or is `null` or `undefined`, the return value will be unrounded and in normal notation. This is also
+   * unlike `Number.prototype.toFixed`, which returns the value to zero decimal places.
+   *
+   * It is useful when fixed-point notation is required and the current `EXPONENTIAL_AT` setting causes toString to
+   * return exponential notation.
+   *
+   * If `rm` is omitted or is `null` or `undefined`, `ROUNDING_MODE` is used.
+   *
+   * ```ts
+   * x = 3.456
+   * y = new BigNumber(x)
+   * x.toFixed()                     // '3'
+   * y.toFixed()                     // '3.456'
+   * y.toFixed(0)                    // '3'
+   * x.toFixed(2)                    // '3.46'
+   * y.toFixed(2)                    // '3.46'
+   * y.toFixed(2, 1)                 // '3.45'  (ROUND_DOWN)
+   * x.toFixed(5)                    // '3.45600'
+   * y.toFixed(5)                    // '3.45600'
+   * ```
+   *
+   * @param dp integer, 0 to 1e+9 inclusive
+   * @param rm integer, 0 to 8 inclusive
+   */
+  toFixed(dp?: number, rm?: number): string;
+
+  /**
+   * Same as [[valueOf]]
+   *
+   * ```ts
+   * x = new BigNumber('177.7e+457')
+   * y = new BigNumber(235.4325)
+   * z = new BigNumber('0.0098074')
+   *
+   * // Serialize an array of three BigNumbers
+   * str = JSON.stringify( [x, y, z] )
+   * // "["1.777e+459","235.4325","0.0098074"]"
+   *
+   * // Return an array of three BigNumbers
+   * JSON.parse(str, function (key, val) {
+   *     return key === '' ? val : new BigNumber(val)
+   * })
+   * ```
+   */
+  toJSON(): string;
+
+  /**
+   * Returns a BigNumber whose value is the value of this BigNumber raised to the power `n`, and optionally modulo `a`
+   * modulus `m`.
+   *
+   * If `n` is negative the result is rounded according to the current [[Configuration.DECIMAL_PLACES]] and
+   * [[Configuration.ROUNDING_MODE]] configuration.
+   *
+   * If `n` is not an integer or is out of range:
+   *  - If `ERRORS` is `true` a BigNumber Error is thrown,
+   *  - else if `n` is greater than `9007199254740991`, it is interpreted as `Infinity`;
+   *  - else if n is less than `-9007199254740991`, it is interpreted as `-Infinity`;
+   *  - else if `n` is otherwise a number, it is truncated to an integer;
+   *  - else it is interpreted as `NaN`.
+   *
+   * As the number of digits of the result of the power operation can grow so large so quickly, e.g.
+   * 123.456<sup>10000</sup> has over 50000 digits, the number of significant digits calculated is limited to the
+   * value of the [[Configuration.POW_PRECISION]] setting (default value: `100`) unless a modulus `m` is specified.
+   *
+   * Set [[Configuration.POW_PRECISION]] to `0` for an unlimited number of significant digits to be calculated (this
+   * will cause the method to slow dramatically for larger exponents).
+   *
+   * Negative exponents will be calculated to the number of decimal places specified by
+   * [[Configuration.DECIMAL_PLACES]] (but not to more than [[Configuration.POW_PRECISION]] significant digits).
+   *
+   * If `m` is specified and the value of `m`, `n` and this BigNumber are positive integers, then a fast modular
+   * exponentiation algorithm is used, otherwise if any of the values is not a positive integer the operation will
+   * simply be performed as `x.toPower(n).modulo(m)` with a `POW_PRECISION` of `0`.
+   *
+   * ```ts
+   * Math.pow(0.7, 2)                // 0.48999999999999994
+   * x = new BigNumber(0.7)
+   * x.toPower(2)                    // '0.49'
+   * BigNumber(3).pow(-2)            // '0.11111111111111111111'
+   * ```
+   *
+   * @param n integer, -9007199254740991 to 9007199254740991 inclusive
+   */
+  pow(n: number, m?: number | string | BigNumber): BigNumber;
+
+  /**
+   * Returns a string representing the value of this BigNumber in the specified base, or base 10 if base is omitted or
+   * is `null` or `undefined`.
+   *
+   * For bases above 10, values from 10 to 35 are represented by a-z (as with `Number.prototype.toString`), 36 to 61 by
+   * A-Z, and 62 and 63 by `$` and `_` respectively.
+   *
+   * If a base is specified the value is rounded according to the current `DECIMAL_PLACES` and `ROUNDING_MODE`
+   * configuration.
+   *
+   * If a base is not specified, and this BigNumber has a positive exponent that is equal to or greater than the
+   * positive component of the current `EXPONENTIAL_AT` setting, or a negative exponent equal to or less than the
+   * negative component of the setting, then exponential notation is returned.
+   *
+   * If base is `null` or `undefined` it is ignored.
+   *
+   * ```ts
+   * x = new BigNumber(750000)
+   * x.toString()                    // '750000'
+   * BigNumber.config({ EXPONENTIAL_AT: 5 })
+   * x.toString()                    // '7.5e+5'
+   *
+   * y = new BigNumber(362.875)
+   * y.toString(2)                   // '101101010.111'
+   * y.toString(9)                   // '442.77777777777777777778'
+   * y.toString(32)                  // 'ba.s'
+   *
+   * BigNumber.config({ DECIMAL_PLACES: 4 });
+   * z = new BigNumber('1.23456789')
+   * z.toString()                    // '1.23456789'
+   * z.toString(10)                  // '1.2346'
+   * ```
+   *
+   * @param base integer, 2 to 64 inclusive
+   */
+  toString(base?: number): string;
+
+  /**
+   * As [[toString]], but does not accept a base argument and includes the minus sign for negative zero.`
+   *
+   * ```ts
+   * x = new BigNumber('-0')
+   * x.toString()                    // '0'
+   * x.valueOf()                     // '-0'
+   * y = new BigNumber('1.777e+457')
+   * y.valueOf()                     // '1.777e+457'
+   * ```
+   */
+  valueOf(): string;
+}
+
 //
 // date.
 export namespace date {
@@ -205,9 +618,9 @@ export namespace utils {
   */
   function isNull(e: any): boolean;
   /**
-   * @desc: 进行bigint类型转换.
+   * @desc: 进行bigint类型转换. 如果数值超过15位,等同于 new BigNumber(v)
    */
-  function bigint(v: any): number|object;
+  function bigint(v: any): number|BigNumber;
   /**
    * @desc: 判断是否是bigint.
    */
@@ -215,19 +628,19 @@ export namespace utils {
   /**
    * @desc: a+b.
    */
-  function bigint_add(a: any, b: any): any;
+  function bigint_add(a: any, b: any): BigNumber;
   /**
    * @desc: a-b.
    */
-  function bigint_minus(a: any, b: any): any;
+  function bigint_minus(a: any, b: any): BigNumber;
   /**
    * @desc: a/b.
    */
-  function bigint_dividedBy(a: any, b: any): any;
+  function bigint_dividedBy(a: any, b: any): BigNumber;
   /**
    * @desc: a*b.
    */
-  function bigint_mul(a: any, b: any): any;
+  function bigint_mul(a: any, b: any): BigNumber;
   /**
    * @desc: a==b.
    */

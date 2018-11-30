@@ -36,6 +36,8 @@ var febs = {};
 
 febs.utils  = require('./common/utils.bigint');
 
+febs.BigNumber = require('bignumber.js');
+
 if (!window['febs'])
   window['febs'] = febs;
 else if (window['febs'].utils) {
