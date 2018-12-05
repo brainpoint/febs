@@ -5,7 +5,7 @@
 
 
 declare global {
-  let __debug: boolean;
+  export let __debug: boolean;
 
   export function requestAnimationFrame(cb: (tm: number) => void): any;
   export function cancelAnimationFrame(timer: any): void;
@@ -706,6 +706,11 @@ export namespace string {
 // crypt.
 export namespace crypt {
   /**
+  * @desc: 生成一个uuid (v4 random).
+  * @return: 
+  */
+  function uuid(): string;
+  /**
    * @desc: 计算字符串的crc32值
    * @param crc 可以在这个值得基础上继续计算
    * @return: number.
@@ -1047,16 +1052,4 @@ export namespace dom {
   * @desc: 统一处理 removeEventListener, detachEvent; 并提供useCapture参数问题.
   */
   function removeEventListener(domElement:any, event:string, func:any, useCapture?:boolean):null;
-}
-
-declare global {
-
-  export function $(n: any): dom;
-
-  export namespace $ {
-    var fn: any;
-
-    function extend(...args: any[]): dom;
-    function extend(deep: true, ...args: any[]): dom;
-  }
 }
