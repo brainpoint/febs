@@ -6,15 +6,15 @@ declare global {
   /**
   * @desc: 是否是开发模式.
   */
-  export let __debug: boolean;
+  var __debug: boolean;
   /**
   * @desc: 当前所在行.
   */
-  export const __line: number;
+  var __line: number;
   /**
   * @desc: 当前所在列
   */
-  export const __column: number;
+  var __column: number;
 }
 
 export interface WeekFmt {

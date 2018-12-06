@@ -64,7 +64,9 @@
   },
   "files": [
     "doc",
-    "browser",
+    "browser/common",
+    "browser/libs",
+    "browser/dist",
     "server",
     "test",
     "types",
@@ -83,5 +85,5 @@
     "test": "tap test/*.js"
   },
   "name": "febs",
-  "version": "0.8.54"
+  "version": "0.8.58"
 }

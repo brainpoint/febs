@@ -5,10 +5,10 @@
 
 
 declare global {
-  export let __debug: boolean;
+  var __debug: boolean;
 
-  export function requestAnimationFrame(cb: (tm: number) => void): any;
-  export function cancelAnimationFrame(timer: any): void;
+  function requestAnimationFrame(cb: (tm: number) => void): any;
+  function cancelAnimationFrame(timer: any): void;
 }
 
 

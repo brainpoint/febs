@@ -35,3 +35,4 @@ npm-debug.log
 # resource
 #
 browser/dist/febs/report.html
+browser/types/
