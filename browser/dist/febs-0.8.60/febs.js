@@ -4307,7 +4307,7 @@ exports.getTimeStringFromNow = function (time, strFmt) {
 exports.getTime = function (strTime) {
   var date = new Date();
   date.setFullYear(parseInt(strTime.substr(0, 4)), parseInt(strTime.substr(5, 2), 10) - 1, parseInt(strTime.substr(8, 2)));
-  date.setHours(parseInt(strTime.substr(11, 2)), parseInt(strTime.substr(14, 2)), parseInt(strTime.substr(17, 2)), 0);
+  date.setHours(parseInt(strTime.substr(11, 2)) || 0, parseInt(strTime.substr(14, 2)) || 0, parseInt(strTime.substr(17, 2)) || 0, 0);
   return date;
 };
 
@@ -4320,7 +4320,7 @@ exports.getTime2 = function (strTime) {
   var date = new Date();
 
   date.setFullYear(parseInt(strTime.substr(0, 4)), parseInt(strTime.substr(4, 2), 10) - 1, parseInt(strTime.substr(6, 2)));
-  date.setHours(parseInt(strTime.substr(8, 2)), parseInt(strTime.substr(10, 2)), parseInt(strTime.substr(12, 2)), 0);
+  date.setHours(parseInt(strTime.substr(8, 2)) || 0, parseInt(strTime.substr(10, 2)) || 0, parseInt(strTime.substr(12, 2)) || 0, 0);
 
   return date;
 };
@@ -4427,7 +4427,7 @@ exports.getDate2FromUTC = function (strDateUTC) {
 exports.getTimeFromUTC = function (strTimeUTC) {
   var date = new Date();
   date.setUTCFullYear(parseInt(strTimeUTC.substr(0, 4)), parseInt(strTimeUTC.substr(5, 2), 10) - 1, parseInt(strTimeUTC.substr(8, 2)));
-  date.setUTCHours(parseInt(strTimeUTC.substr(11, 2)), parseInt(strTimeUTC.substr(14, 2)), parseInt(strTimeUTC.substr(17, 2)), 0);
+  date.setUTCHours(parseInt(strTimeUTC.substr(11, 2)) || 0, parseInt(strTimeUTC.substr(14, 2)) || 0, parseInt(strTimeUTC.substr(17, 2)) || 0, 0);
   return date;
 };
 
@@ -4440,7 +4440,7 @@ exports.getTime2FromUTC = function (strTimeUTC) {
   var date = new Date();
 
   date.setUTCFullYear(parseInt(strTimeUTC.substr(0, 4)), parseInt(strTimeUTC.substr(4, 2), 10) - 1, parseInt(strTimeUTC.substr(6, 2)));
-  date.setUTCHours(parseInt(strTimeUTC.substr(8, 2)), parseInt(strTimeUTC.substr(10, 2)), parseInt(strTimeUTC.substr(12, 2)), 0);
+  date.setUTCHours(parseInt(strTimeUTC.substr(8, 2)) || 0, parseInt(strTimeUTC.substr(10, 2)) || 0, parseInt(strTimeUTC.substr(12, 2)) || 0, 0);
 
   return date;
 };
