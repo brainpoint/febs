@@ -143,6 +143,47 @@ exports.getTimeStringFromNow = function(time, strFmt)
   return strFmt.now;
 }
 
+
+/**
+ * @desc: 通过字符串获取date. getTime('2012-05-09 11:10:12')
+ * @param strTime: 时间字符串. '2012-05-09 11:10:12' 
+ * @return: Date.
+ */
+exports.getTime = function(strTime) {
+  var date = new Date();
+  date.setFullYear(
+    parseInt(strTime.substr(0, 4)), 
+    parseInt(strTime.substr(5, 2), 10)-1,
+    parseInt(strTime.substr(8, 2)));
+  date.setHours(
+    parseInt(strTime.substr(11, 2)), 
+    parseInt(strTime.substr(14, 2)),
+    parseInt(strTime.substr(17, 2)),
+    0);
+  return date;
+}
+
+/**
+ * @desc: 通过时间获取date. getTime2('20120509111012')
+ * @param strTime: 时间字符串. '20120509111012' 
+ * @return: Date.
+ */
+exports.getTime2 = function(strTime) {
+  var date = new Date();
+
+  date.setFullYear(
+    parseInt(strTime.substr(0, 4)), 
+    parseInt(strTime.substr(4, 2), 10)-1,
+    parseInt(strTime.substr(6, 2)));
+  date.setHours(
+    parseInt(strTime.substr(8, 2)), 
+    parseInt(strTime.substr(10, 2)),
+    parseInt(strTime.substr(12, 2)),
+    0);
+    
+  return date;
+}
+
 /**
  * @desc: getDate('2012-05-09')
  * @return: Date.

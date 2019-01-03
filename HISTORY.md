@@ -107,3 +107,7 @@
 ==================
   - [bugfix] set timeout error net.fetch in ie
 
+0.8.59
+==================
+  - [feature] add time function.
+

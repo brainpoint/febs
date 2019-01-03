@@ -222,19 +222,6 @@ date库包含了一些常用的时间操作库, 如验证时间对象是否有�
    */
   febs.date.getDate2FromUTC(strDateUTC: string): Date;
 
-  /**
-   * @desc: 通过字符串获取date. getTime('2012-05-09 11:10:12')
-   * @param strTime: 时间字符串. '2012-05-09 11:10:12' 
-   * @return: Date.
-   */
-  febs.date.getTime(strTime:string): Date;
-
-  /**
-   * @desc: 通过时间获取date. getTime2('20120509111012')
-   * @param strTime: 时间字符串. '20120509111012' 
-   * @return: Date.
-   */
-  febs.date.getTime2(strTime:string): Date;
 
   /**
    * @desc: 通过世界时间获取date. getTimeFromUTC('2012-05-09 11:10:12')

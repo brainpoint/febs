@@ -19,3 +19,5 @@ exports.getTimeString = date.getTimeString;
 exports.getUTCTimeString = date.getUTCTimeString;
 exports.getTimeStringFromNow  = date.getTimeStringFromNow;
 exports.getTimeFromUTC    = date.getTimeFromUTC;
+exports.getTime  = date.getTime;
+exports.getTime2    = date.getTime2;
