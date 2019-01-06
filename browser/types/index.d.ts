@@ -631,6 +631,15 @@ export namespace utils {
   * @return: boolean
   */
   function isNull(e: any): boolean;
+
+  /**
+  * @desc: 将异步回调方式的方法转换成promise, 函数中的this可以为指定值.
+  *         例如: yield denodeify(fs.exists)(path);
+  * @param self: 指定的调用对象
+  * @return: promise.
+  */
+  function denodeify(fn: any, self: any, argumentCount?: number): Promise<any>;
+
   /**
    * @desc: 进行bigint类型转换. 如果数值超过15位,等同于 new BigNumber(v)
    */
@@ -707,6 +716,10 @@ export namespace string {
    */
   function replace(str: string, strSrc: string, strDest: string): string;
 
+  /**
+  * @desc: 去除两端空格.
+  * @return: string.
+  */
   function trim(str: string): string;
   
   /**

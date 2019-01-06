@@ -151,3 +151,33 @@ exports.getTimeString = utilsDate.getTimeString;
 exports.getTimeStringFromNow = utilsDate.getTimeStringFromNow;
 exports.getDate = utilsDate.getDate;
 exports.getDate2 = utilsDate.getDate2;
+
+/**
+* @desc: 创建promise，但函数中的this可以为指定值.
+*         例如: yield denodeify(fs.exists)(path);
+* @param self: 指定的对象.s
+* @return: promise.
+*/
+exports.denodeify = function (fn, self, argumentCount) {
+  argumentCount = argumentCount || Infinity;
+  return function () {
+    var args = Array.prototype.slice.call(arguments, 0,
+        argumentCount > 0 ? argumentCount : 0);
+    return new PromiseLib(function (resolve, reject) {
+      args.push(function (err, res) {
+        if (err) reject(err);
+        else resolve(res);
+      })
+      var res = fn.apply(self, args);
+      if (res &&
+        (
+          typeof res === 'object' ||
+          typeof res === 'function'
+        ) &&
+        typeof res.then === 'function'
+      ) {
+        resolve(res);
+      }
+    })
+  }
+}

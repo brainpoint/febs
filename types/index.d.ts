@@ -645,7 +645,7 @@ export namespace utils {
   */
   function isNull(e: any): boolean;
   /**
-  * @desc: [only in server] 将异步回调方式的方法转换成promise, 函数中的this可以为指定值.
+  * @desc: 将异步回调方式的方法转换成promise, 函数中的this可以为指定值.
   *         例如: yield denodeify(fs.exists)(path);
   * @param self: 指定的调用对象
   * @return: promise.
@@ -728,6 +728,10 @@ export namespace string {
    */
   function replace(str: string, strSrc: string, strDest: string): string;
 
+  /**
+  * @desc: 去除两端空格.
+  * @return: string.
+  */
   function trim(str: string) : string;
 
   /**

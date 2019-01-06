@@ -268,48 +268,6 @@ febs.utils.browserIsSupportHtml5()
 ```
 ```js
 /**
- * @desc: 获取时间的string.
- * @param time: ms.
- * @param fmt: 格式化, 默认为 'HH:mm:ss'
- *             年(y)、月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
- *              'yyyy-MM-dd hh:mm:ss.S' ==> 2006-07-02 08:09:04.423
- *              'yyyy-MM-dd E HH:mm:ss' ==> 2009-03-10 星期二 20:09:04
- *              'yyyy-M-d h:m:s.S'      ==> 2006-7-2 8:9:4.18
- * @param weekFmt: 星期的文字格式, 默认为 {'0':'星期天', '1': '星期一', ..., '6':'星期六'}
- * @return: string.
- */
-febs.utils.getTimeString(time, fmt, weekFmt)
-/**
- * @desc: 获取指定时间距离现在的时间描述.
- *        例如, 昨天, 1小时前等.
- * @param time: ms. 小于当前时间, 大于当前时间将显示为 '刚刚';
- * @param strFmt: 需要显示的文字. 
- *                默认为 {
- *                        now:    '刚刚',           // 3秒钟以内将显示此信息.
- *                        second: '秒前',
- *                        minute: '分钟前',
- *                        hour:   '小时前',
- *                        day_yesterday: '昨天',
- *                        day:    '天前',
- *                        month:  '个月前',          // 6个月内将显示此信息.
- *                        time:   'yyyy-M-d h:m:s'  // 超过6个月将使用此格式格式化时间
- *                       }
- * @return: string.
- */
-febs.utils.getTimeStringFromNow(time, strFmt);
-/**
- * @desc: getDate('2012-05-09')
- * @return: Date.
- */
-febs.utils.getDate(strDate)
-/**
- * @desc: getDate2('20120509')
- * @return: Date.
- */
-febs.utils.getDate2(strDate)
-```
-```js
-/**
  * @desc: 合并多个map.
  * @return: {}
  */
@@ -327,11 +285,18 @@ febs.utils.isNull(e)
 * @param self: 指定的调用对象
 * @return: promise.
 */
-febs.utils.denodeify(fn, self, argumentCount)   `仅服务端`
+febs.utils.denodeify(fn, self, argumentCount)
 ```
 
 ```js
 // 大数运算.
+
+大数类型: febs.BigNumber
+
+/**
+ * @desc: 进行bigint类型转换. 如果数值超过15位,等同于 new BigNumber(v)
+ */
+febs.utils.bigint(v: any): number|BigNumber;
 
 /**
  * @desc: 判断是否是bigint.
@@ -388,7 +353,7 @@ febs.string.getByteSize(s)
 febs.string.replace(str, strSrc, strDest)
 
 /**
- * @desc trim.
+ * @desc 去除两端空格.
  */
 febs.string.trim(str: string) : string;
 

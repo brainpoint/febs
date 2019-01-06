@@ -103,6 +103,13 @@ exports.mergeMap = utils.mergeMap;
  */
 exports.isNull = utils.isNull;
 
+/**
+* @desc: 创建promise，但函数中的this可以为指定值.
+*         例如: yield denodeify(fs.exists)(path);
+* @param self: 指定的对象.s
+* @return: promise.
+*/
+exports.denodeify = utils.denodeify;
 
 /**
  * @desc: 判断是否是ie.
