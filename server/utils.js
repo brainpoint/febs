@@ -107,6 +107,10 @@ exports.mergeMap = utils.mergeMap;
 exports.isNull = utils.isNull;
 
 
+exports.bigint = utilsBigint.bigint;
+
+exports.bigint_mod = utilsBigint.bigint_mod;
+
 /**
  * @desc: 判断是否是bigint.
  */

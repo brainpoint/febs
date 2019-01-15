@@ -104,6 +104,20 @@ exports.bigint_less_than_e =
 function(a, b) {if (!(a instanceof BigNumber)) a = new BigNumber(a); return a.lessThanOrEqualTo(b);}
 
 
+exports.bigint_mod = 
+function(a, b) { 
+  if (Number.isInteger(a)) {
+    if (Number.isInteger(b)) 
+      return a%b; 
+    else {
+      return (new BigNumber(a)).mod(b);
+    }
+  }
+  
+  if (!(a instanceof BigNumber)) a = new BigNumber(a);
+  return a.mod(b);
+}
+
 /**
 * @desc: 转换bigint->string.
 * @param fixed: 小数位个数, 默认为0.

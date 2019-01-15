@@ -649,6 +649,10 @@ export namespace utils {
    */
   function bigint_check(v: any): boolean;
   /**
+  * @desc: a%b.
+  */
+  function bigint_mod(a:any, b:any): BigNumber|number;
+  /**
    * @desc: a+b.
    */
   function bigint_add(a: any, b: any): BigNumber;
