@@ -286,6 +286,13 @@ febs.utils.isNull(e)
 * @return: promise.
 */
 febs.utils.denodeify(fn, self, argumentCount)
+/**
+* @desc: 执行cmd (仅server端可用).
+* @param cmd: 指令.
+* @param params: 输入参数数组.
+* @param cbFinish: 完成的回调.
+*/
+febs.utils.execCommand(cmd:string, params:string[], cbFinish:(err:any)=>void);
 ```
 
 ```js
