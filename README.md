@@ -608,6 +608,12 @@ febs.file.dirCopy(src, dest, callback)
  */
 febs.file.dirCopyAsync(src: string, dest: string): Promise<()=>{}>;
 /**
+* @desc: copy dir exclude specify path.
+* @param excludePath: regex.
+* @return: Promise(()=>{})
+*/
+febs.file.dirCopyExcludeAsync(src: string, dest: string, excludePath:RegExp = null): Promise<()=>{}>;
+/**
  * @desc: 删除文件夹.
  * @return:bool.指明是否删除.
  */

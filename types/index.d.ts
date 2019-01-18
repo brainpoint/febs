@@ -984,6 +984,12 @@ export namespace file {
    */
   function dirCopyAsync(src: string, dest: string): Promise<()=>{}>;
   /**
+  * @desc: copy dir exclude specify path.
+  * @param excludePath: regex.
+  * @return: Promise(()=>{})
+  */
+  function dirCopyExcludeAsync(src: string, dest: string, excludePath:RegExp = null): Promise<()=>{}>;
+  /**
    * @desc: [only in server]  删除文件夹.
    * @return:bool.指明是否删除.
    */

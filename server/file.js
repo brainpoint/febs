@@ -176,6 +176,84 @@ exports.dirCopyAsync = function(src, dest) {
   });
 }
 
+
+/**
+* @desc: copy dir exclude specify path.
+* @param excludePath: regex.
+* @return: Promise(()=>{})
+*/
+exports.dirCopyExcludeAsync = function(src, dest, excludePath = null) {
+
+  return new Promise((resolve, reject)=>{
+    if (!src || !dest || !dirIsExist(src)) {
+      reject(`dirCopy src or dest error; src: ${src}. dest: ${dest} `);
+      return;
+    }
+
+    var arrFiles = [];
+    var arrEmptyDirs = [];
+
+    function dirCopy1(dirSrc, dirDest, arrF) {
+      dirAssure(dirDest);
+      var src1;
+      var dest1;
+      var stat;
+
+      for (var i = 0; i < arrF.length; i++) {
+        src1 = path.join(dirSrc, arrF[i]);
+        dest1 = path.join(dirDest, arrF[i]);
+
+        if (!excludePath || !excludePath.test(src1)) {
+          stat = fs.statSync(src1);
+          if (stat.isDirectory()) {
+            var arrF1 = fs.readdirSync(src1);
+            if (!arrF1 || arrF1.length == 0) {
+              arrEmptyDirs.push(dest1);
+            } else {
+              dirCopy1(src1, dest1, arrF1);
+            }
+          } else {
+            arrFiles.push(src1);
+            arrFiles.push(dest1);
+          }
+        }
+      }
+    } // function.
+
+
+    var arrF = fs.readdirSync(src);
+    if (!arrF || arrF.length == 0) {
+      arrEmptyDirs.push(dest);
+    } else {
+      dirCopy1(src, dest, arrF);
+    }
+
+    // copy.
+    for (let i = 0; i < arrEmptyDirs.length; i++) {
+      dirAssure(arrEmptyDirs[i]);
+    }
+
+    var index = 0;
+    function copy1(err) {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      if (index < arrFiles.length) {
+        var i1 = index++;
+        var i2 = index++;
+        fileCopy(arrFiles[i1], arrFiles[i2], copy1);
+      } else {
+        resolve();
+      }
+    }
+
+    copy1();
+  });
+}
+
+
 /**
  * @desc: 删除文件夹.
  * @return: bool. 指明是否删除.
