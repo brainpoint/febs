@@ -54,7 +54,7 @@ function(v) {
       if (v.length < 2 || v[1] < '1' || v[1] > '9')
         return false;
     } else {
-      if (v[j] < '1' || v[j] > '9')
+      if (v[0] < '1' || v[0] > '9')
         return false;
     }
 

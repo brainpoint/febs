@@ -111,3 +111,8 @@
 ==================
   - [feature] add time function.
 
+0.8.67
+==================
+  - [bugfix] bigint check.
+
+
