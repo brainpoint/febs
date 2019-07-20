@@ -637,7 +637,7 @@ export namespace utils {
    * @desc: 合并多个map.
    * @return: {}
    */
-  function mergeMap(...map: object[]): object;
+  function mergeMap(...map: any[]): any;
 
   /**
   * @desc: 判断参数是否是null,undefined,NaN
@@ -791,7 +791,7 @@ export namespace crypt {
    *             $('#file')[0].files[0] 即为第一个文件对象.
    * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
    */
-  function crc32_file(fileObj: object, cb: (crc32: number) => void): void;
+  function crc32_file(fileObj: any, cb: (crc32: number) => void): void;
 
   /**
    * @desc: 计算字符串的md5值
@@ -1084,7 +1084,7 @@ export namespace upload {
   /**
    * @desc: [only in server]  上传文件内容.
    *  发生错误会自动调用 cleanup
-   * @param finishCB: async function(filename):object.
+   * @param finishCB: async function(filename):any.
    *                      - filename: 本地存储的文件名.
    *                      - return: 返回给客户端的数据. 不能包含err数据.
    *

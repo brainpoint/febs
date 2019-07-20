@@ -60,7 +60,7 @@
     "febs"
   ],
   "engines": {
-    "node": ">=7"
+    "node": ">=8"
   },
   "files": [
     "doc",
@@ -85,5 +85,5 @@
     "test": "tap test/*.js"
   },
   "name": "febs",
-  "version": "0.8.67"
+  "version": "0.8.69"
 }

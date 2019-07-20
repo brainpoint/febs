@@ -624,7 +624,7 @@ export namespace utils {
    * @desc: 合并多个map.
    * @return: {}
    */
-  function mergeMap(...map: object[]): object;
+  function mergeMap(...map: any[]): any;
 
   /**
   * @desc: 判断参数是否是null,undefined,NaN
@@ -756,7 +756,7 @@ export namespace crypt {
    *             dom('#file')[0].files[0] 即为第一个文件对象.
    * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
    */
-  function crc32_file(fileObj: object, cb: (crc32: number) => void): void;
+  function crc32_file(fileObj: any, cb: (crc32: number) => void): void;
 
   /**
    * @desc: 计算字符串的md5值
