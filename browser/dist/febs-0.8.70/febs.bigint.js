@@ -3474,7 +3474,7 @@ exports.bigint_check = function (v) {
     if (v[0] == '-') {
       if (v.length < 2 || v[1] < '1' || v[1] > '9') return false;
     } else {
-      if (v[j] < '1' || v[j] > '9') return false;
+      if (v[0] < '1' || v[0] > '9') return false;
     }
 
     return true;
@@ -3527,6 +3527,17 @@ exports.bigint_less_than = function (a, b) {
 
 exports.bigint_less_than_e = function (a, b) {
   if (!(a instanceof BigNumber)) a = new BigNumber(a);return a.lessThanOrEqualTo(b);
+};
+
+exports.bigint_mod = function (a, b) {
+  if (_Number$isInteger(a)) {
+    if (_Number$isInteger(b)) return a % b;else {
+      return new BigNumber(a).mod(b);
+    }
+  }
+
+  if (!(a instanceof BigNumber)) a = new BigNumber(a);
+  return a.mod(b);
 };
 
 /**
@@ -3633,14 +3644,14 @@ var _symbol = __webpack_require__(41);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
+var _typeof = typeof _symbol2['default'] === "function" && typeof _iterator2['default'] === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2['default'] === "function" && obj.constructor === _symbol2['default'] && obj !== _symbol2['default'].prototype ? "symbol" : typeof obj; };
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
+exports['default'] = typeof _symbol2['default'] === "function" && _typeof(_iterator2['default']) === "symbol" ? function (obj) {
   return typeof obj === "undefined" ? "undefined" : _typeof(obj);
 } : function (obj) {
-  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
+  return obj && typeof _symbol2['default'] === "function" && obj.constructor === _symbol2['default'] && obj !== _symbol2['default'].prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
 };
 
 /***/ }),

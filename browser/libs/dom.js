@@ -466,7 +466,7 @@
       }
 
       // plugin.
-      for (const key in CreateDom.fn) {
+      for (var key in CreateDom.fn) {
         if (key == 'extend' || key == 'fn') continue;
         if (typeof CreateDom.fn[key] === 'function') {
           this[key] = CreateDom.fn[key].bind(this);
@@ -1367,7 +1367,7 @@
       return {}
 
     if (arguments.length == 1) {
-      for (const key in arguments[0]) {
+      for (var key in arguments[0]) {
         if (key == 'extend' || key == 'fn') continue;
         if (typeof arguments[0][key] === 'function') {
           CreateDom[key] = arguments[0][key];

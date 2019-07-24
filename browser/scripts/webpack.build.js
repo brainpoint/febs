@@ -79,7 +79,7 @@ buildSrc(webpackConfig('libs/index.js', 'febs.js', 'dist/'+dir))
 */
 function formatDotDefault() {
 
-  let assetsRoot = path.join(root, 'dist/febs');
+  let assetsRoot = path.join(root, 'dist/'+dir);
 
   // 查找所有css.
   let alljs = febs.file.dirExplorerFilesRecursive(assetsRoot);
@@ -93,6 +93,12 @@ function formatDotDefault() {
         buf = febs.string.replace(buf, '.default=', '[\'default\']=');
         buf = febs.string.replace(buf, '.default)', '[\'default\'])');
         buf = febs.string.replace(buf, '{ default:', '{ \'default\':');
+
+        buf = febs.string.replace(buf, '.default}', '[\'default\']}');
+        buf = febs.string.replace(buf, '.default,', '[\'default\'],');
+        buf = febs.string.replace(buf, '.default&&', '[\'default\']&&');
+        buf = febs.string.replace(buf, '.default?', '[\'default\']?');
+        buf = febs.string.replace(buf, '.default;', '[\'default\'];');
 
         buf = febs.string.replace(buf, '.return ', '[\'return\'] ');
         buf = febs.string.replace(buf, '.return.', '[\'return\'].');

@@ -8,7 +8,7 @@ var febsUtils = require('./utils');
 
 'use strict';
 
-const DefaultTimeout = 5000;
+var DefaultTimeout = 5000;
 var febsnet = {};
 var net = {};
 

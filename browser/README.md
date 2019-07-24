@@ -4,7 +4,7 @@ febs实现了jquery的常用方法(dom操作/事件/css/遍历等), 当页面引
 
 大多数场景下可以使用febs库代替jquery, 而解决jquery臃肿的问题.
 
-> 兼容ie9及以上浏览器
+> 兼容ie8及以上浏览器
 
 febs按功能分为如下的js包.
 

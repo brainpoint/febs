@@ -355,6 +355,14 @@ exports.mergeMap = utils.mergeMap;
 exports.isNull = utils.isNull;
 
 /**
+* @desc: 创建promise，但函数中的this可以为指定值.
+*         例如: yield denodeify(fs.exists)(path);
+* @param self: 指定的对象.s
+* @return: promise.
+*/
+exports.denodeify = utils.denodeify;
+
+/**
  * @desc: 判断是否是ie.
  */
 exports.browserIsIE = function () {
@@ -475,14 +483,14 @@ var _symbol = __webpack_require__(38);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
+var _typeof = typeof _symbol2['default'] === "function" && typeof _iterator2['default'] === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2['default'] === "function" && obj.constructor === _symbol2['default'] && obj !== _symbol2['default'].prototype ? "symbol" : typeof obj; };
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
+exports['default'] = typeof _symbol2['default'] === "function" && _typeof(_iterator2['default']) === "symbol" ? function (obj) {
   return typeof obj === "undefined" ? "undefined" : _typeof(obj);
 } : function (obj) {
-  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
+  return obj && typeof _symbol2['default'] === "function" && obj.constructor === _symbol2['default'] && obj !== _symbol2['default'].prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
 };
 
 /***/ }),
@@ -4555,7 +4563,7 @@ exports.bigint_check = function (v) {
     if (v[0] == '-') {
       if (v.length < 2 || v[1] < '1' || v[1] > '9') return false;
     } else {
-      if (v[j] < '1' || v[j] > '9') return false;
+      if (v[0] < '1' || v[0] > '9') return false;
     }
 
     return true;
@@ -4608,6 +4616,17 @@ exports.bigint_less_than = function (a, b) {
 
 exports.bigint_less_than_e = function (a, b) {
   if (!(a instanceof BigNumber)) a = new BigNumber(a);return a.lessThanOrEqualTo(b);
+};
+
+exports.bigint_mod = function (a, b) {
+  if (_Number$isInteger(a)) {
+    if (_Number$isInteger(b)) return a % b;else {
+      return new BigNumber(a).mod(b);
+    }
+  }
+
+  if (!(a instanceof BigNumber)) a = new BigNumber(a);
+  return a.mod(b);
 };
 
 /**
@@ -6604,7 +6623,7 @@ module.exports = { "default": __webpack_require__(91), __esModule: true };
 
 exports.__esModule = true;
 
-exports.default = function (instance, Constructor) {
+exports['default'] = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
   }
@@ -9475,7 +9494,7 @@ if (!USE_NATIVE) {
       if (this._s) notify(this, false);
       return reaction.promise;
     },
-    // 25.4.5.1 Promise.prototype.catch(onRejected)
+    // 25.4.5.1 Promise.prototype['catch'](onRejected)
     'catch': function (onRejected) {
       return this.then(undefined, onRejected);
     }
@@ -10187,6 +10206,28 @@ exports.getTimeString = utilsDate.getTimeString;
 exports.getTimeStringFromNow = utilsDate.getTimeStringFromNow;
 exports.getDate = utilsDate.getDate;
 exports.getDate2 = utilsDate.getDate2;
+
+/**
+* @desc: 创建promise，但函数中的this可以为指定值.
+*         例如: yield denodeify(fs.exists)(path);
+* @param self: 指定的对象.s
+* @return: promise.
+*/
+exports.denodeify = function (fn, self, argumentCount) {
+  argumentCount = argumentCount || Infinity;
+  return function () {
+    var args = Array.prototype.slice.call(arguments, 0, argumentCount > 0 ? argumentCount : 0);
+    return new PromiseLib(function (resolve, reject) {
+      args.push(function (err, res) {
+        if (err) reject(err);else resolve(res);
+      });
+      var res = fn.apply(self, args);
+      if (res && ((typeof res === 'undefined' ? 'undefined' : _typeof(res)) === 'object' || typeof res === 'function') && typeof res.then === 'function') {
+        resolve(res);
+      }
+    });
+  };
+};
 
 /***/ }),
 /* 131 */
