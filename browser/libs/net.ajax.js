@@ -10,7 +10,9 @@ var febsUtils = require('./utils');
 
 var transfer = require('./net.transfer');
 
-var Ajaxmark = Symbol('ajaxmark');
+// var Ajaxmark = Symbol('ajaxmark');
+var Ajaxmark = '_FeBs_ajaxmark';
+
 var net = {};
 
 //--------------------------------------------------------

@@ -6,6 +6,8 @@ febs实现了jquery的常用方法(dom操作/事件/css/遍历等), 当页面引
 
 > 兼容ie8及以上浏览器
 
+> ie8中使用 `febs.ie8.js` 文件.
+
 febs按功能分为如下的js包.
 
 | name |  require path  |  feature     |

@@ -2,10 +2,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.55/febs.base.js"></script>
-    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.55/febs.md5.js"></script>
-    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.55/febs.sha1.js"></script>
-    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.55/febs.bigint.js"></script>
+    <script charset='UTF-8' type="text/javascript" src="../dist/febs-0.8.70/febs.ie8.js""></script>
   </head>
   <body>
     将在console中输出调用日志
@@ -116,10 +113,10 @@
 
     // net.
     febs_assert('febs.net.fetch', null, function(){
-      febs.net.fetch('http://test2.citongs.com/api/batch', {
+      febs.net.fetch('https://www.baidu.com/', {
         credentials: 'include',
         mode: 'cors',
-        method: 'post',
+        method: 'get',
         headers: {'Content-Type': 'application/json'},
         body: '{}',
         progress: function(percent) {
@@ -128,12 +125,12 @@
       })
       .then(function(response){ return response.json(); })
       .then(function(response){ console.log(response); })
-      .catch(function(e){ console.log(e); })
+      // .catch(function(e){ console.log(e); })
     });
 
     febs_assert('febs.net.ajax', null, function(){
       febs.net.ajax({
-        url: 'http://test2.citongs.com/api/batch',
+        url: 'https://www.baidu.com/',
         type: 'post',
         headers: {'Content-Type': 'application/json',},
         data: '{"a":"dfdf"}',

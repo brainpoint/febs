@@ -12,7 +12,7 @@ var PromiseLib   = Promise;
 * @desc: 判断是否是有效时间.
 */
 exports.isValidate = function (date/*:Date*/)/*:boolean*/ {
-  if (!date || date.toString() == 'Invalid Date')
+  if (isNaN(date) || !date || date.toString() == 'Invalid Date')
     return false;
   return date instanceof Date;
 }

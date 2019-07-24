@@ -34,7 +34,7 @@ require('console-polyfill');
 
 //
 // define the __debug.
-if (!window.hasOwnProperty('__debug')) {
+if (!window['__debug']) {
   window.__debug = false;
 }
 

@@ -1120,8 +1120,15 @@
           if (!sel || sel._isElementIn(elem.parentNode)) {
             var j;
             for (j = 0; j < nodes.length; j++) {
-              if (nodes[j].isSameNode(elem.parentNode)) {
-                break;
+              if (typeof nodes[j].isSameNode === 'function') {
+                if (nodes[j].isSameNode(elem.parentNode)) {
+                  break;
+                }
+              }
+              else {
+                if (nodes[j] === elem.parentNode) {
+                  break;
+                }
               }
             }
             if (j >= nodes.length)
@@ -1349,8 +1356,14 @@
       var _thisLength = (this.length) ? this.length : 1;
 
       for (var i = 0; i < _thisLength; i++) {
-        if (this.get(i).isSameNode(node))
-          return true;
+        if (typeof this.get(i).isSameNode === 'function') {
+          if (this.get(i).isSameNode(node))
+            return true;
+        }
+        else {
+          if (this.get(i) === node)
+            return true;
+        }
       }
       
       return false;

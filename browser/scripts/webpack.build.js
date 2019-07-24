@@ -43,16 +43,17 @@ function buildSrc(config) {
 }
 
 // start.
-buildSrc(webpackConfig('libs/index.js', 'febs.js', 'dist/'+dir))
+buildSrc(webpackConfig('index.js', 'febs.js', 'dist/'+dir))
 .then(()=>buildSrc(webpackConfig('base.js', 'febs.base.js', 'dist/'+dir)))
 .then(()=>buildSrc(webpackConfig('bigint.js', 'febs.bigint.js', 'dist/'+dir)))
 .then(()=>buildSrc(webpackConfig('md5.js', 'febs.md5.js', 'dist/'+dir)))
 .then(()=>buildSrc(webpackConfig('sha1.js', 'febs.sha1.js', 'dist/'+dir)))
-.then(()=>buildSrc(webpackConfigMin('libs/index.js', 'febs.min.js', 'dist/'+dir)))
+.then(()=>buildSrc(webpackConfigMin('index.js', 'febs.min.js', 'dist/'+dir)))
 .then(()=>buildSrc(webpackConfigMin('base.js', 'febs.base.min.js', 'dist/'+dir)))
 .then(()=>buildSrc(webpackConfigMin('bigint.js', 'febs.bigint.min.js', 'dist/'+dir)))
 .then(()=>buildSrc(webpackConfigMin('md5.js', 'febs.md5.min.js', 'dist/'+dir)))
 .then(()=>buildSrc(webpackConfigMin('sha1.js', 'febs.sha1.min.js', 'dist/'+dir)))
+.then(()=>buildSrc(webpackConfig('index.ie8.js', 'febs.ie8.js', 'dist/'+dir)))
 .then(()=>{
   spinner.stop()
 

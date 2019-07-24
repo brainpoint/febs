@@ -34,13 +34,13 @@ require('console-polyfill');
 
 //
 // define the __debug.
-if (!window.hasOwnProperty('__debug')) {
+if (!window['__debug']) {
   window.__debug = false;
 }
 
 //
 // define the animationFrame.
-var animationFrame  = require('./animationFrame');
+var animationFrame  = require('./libs/animationFrame');
 if (!window['requestAnimationFrame'])
   window.requestAnimationFrame = animationFrame.requestAnimationFrame;
 if (!window['cancelAnimationFrame'])
@@ -51,19 +51,19 @@ var febs = {};
 
 febs.BigNumber = require('bignumber.js');
 
-febs.date  = require('./date');
-febs.utils  = require('./utils');
-febs.string = require('./string');
-febs.crypt  = require('./crypt');
-var cryptMd5  = require('./crypt.md5');
+febs.date  = require('./libs/date');
+febs.utils  = require('./libs/utils');
+febs.string = require('./libs/string');
+febs.crypt  = require('./libs/crypt');
+var cryptMd5  = require('./libs/crypt.md5');
 febs.crypt = febs.utils.mergeMap(febs.crypt, cryptMd5);
-var cryptSha1  = require('./crypt.sha1');
+var cryptSha1  = require('./libs/crypt.sha1');
 febs.crypt = febs.utils.mergeMap(febs.crypt, cryptSha1);
 
-var utilsBig  = require('../common/utils.bigint');
+var utilsBig  = require('./common/utils.bigint');
 febs.utils = febs.utils.mergeMap(febs.utils, utilsBig);
-febs.net  = require('./net');
-febs.dom  = require('./dom');
+febs.net  = require('./libs/net');
+febs.dom  = require('./libs/dom');
 febs['$'] = febs.dom.CreateDom;
 febs.dom = febs.dom.Dom;
 
