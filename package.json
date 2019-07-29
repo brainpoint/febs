@@ -67,6 +67,8 @@
     "browser/common",
     "browser/libs",
     "browser/dist",
+    "browser/index.js",
+    "browser/index.ie8.js",
     "server",
     "test",
     "types",
@@ -85,5 +87,5 @@
     "test": "tap test/*.js"
   },
   "name": "febs",
-  "version": "0.8.71"
+  "version": "0.8.72"
 }
