@@ -941,7 +941,7 @@ export namespace net {
 
 //
 // exception.
-export class exception {
+export class exception extends Error {
   constructor(msg: string, code: string, filename: string, line: number);
 
   /** @desc: 错误代码 */
