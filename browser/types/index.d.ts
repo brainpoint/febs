@@ -719,7 +719,15 @@ export namespace string {
    * @return: string.
    */
   function replace(str: string, strSrc: string, strDest: string): string;
-
+  /**
+   * @desc: 将utf8字符串转为字节数组.
+   * @return: [].
+   */
+  function utf8ToBytes(str:string):number[];
+  /**
+  * @desc: 将utf8字节数组转为字符串.
+  */
+  function bytesToUtf8(utfBytes:number[]):string;
   /**
   * @desc: 去除两端空格.
   * @return: string.
@@ -775,7 +783,7 @@ export namespace crypt {
   * @param arrByte: 字节数组.
   * @return: string.
   */
-  function base64_encode(arrByte: Array<number> | Buffer): string;
+  function base64_encode(arrByte: Array<number> | Buffer|string): string;
   /**
   * @desc: base64解码.
   * @return: 字节数组.

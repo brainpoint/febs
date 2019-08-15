@@ -522,7 +522,7 @@ febs.net.ajax(cfg:any):{abort:()=>void}
       febs.net.fetch(url, {})
       .then(response=>response.json())
       .then(data=>{})
-      .catch(err=>{
+      ['catch'](err=>{
         if (err === 'timeout)  // 超时.
       });
  */
@@ -540,7 +540,7 @@ febs.net.fetch(url, option)
       febs.net.jsonp(url, {})
       .then(response=>response.json())
       .then(data=>{})
-      .catch(err=>{
+      ['catch'](err=>{
         if (err === 'timeout)  // 超时.
       });
  */

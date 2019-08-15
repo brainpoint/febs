@@ -358,7 +358,15 @@ febs.string.getByteSize(s)
  * @return: string.
  */
 febs.string.replace(str, strSrc, strDest)
-
+/**
+ * @desc: 将utf8字符串转为字节数组.
+ * @return: [].
+ */
+febs.string.utf8ToBytes(str)
+/**
+* @desc: 将utf8字节数组转为字符串.
+*/
+febs.string.bytesToUtf8(utfBytes:number[]):string;
 /**
  * @desc 去除两端空格.
  */
@@ -475,7 +483,7 @@ febs.crypt.sha1( strOrBuffer )
 
 /**
 * @desc: base64编码.
-* @param arrByte: 字节数组.
+* @param arrByte: 字节数组. 或字符串.
 * @return: string.
 */
 febs.crypt.base64_encode(arrByte)

@@ -87,5 +87,5 @@
     "test": "tap test/*.js"
   },
   "name": "febs",
-  "version": "0.8.73"
+  "version": "0.8.74"
 }

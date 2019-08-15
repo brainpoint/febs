@@ -34,6 +34,9 @@ exports.getByteSize = string.getByteSize;
  */
 exports.replace = string.replace;
 
+exports.utf8ToBytes = string.utf8ToBytes;
+exports.bytesToUtf8 = string.bytesToUtf8;
+
 exports.trim = string.trim;
 
 /**

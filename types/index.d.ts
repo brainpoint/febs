@@ -739,7 +739,15 @@ export namespace string {
    * @return: string.
    */
   function replace(str: string, strSrc: string, strDest: string): string;
-
+  /**
+   * @desc: 将utf8字符串转为字节数组.
+   * @return: [].
+   */
+  function utf8ToBytes(str:string):number[];
+  /**
+  * @desc: 将utf8字节数组转为字符串.
+  */
+  function bytesToUtf8(utfBytes:number[]):string;
   /**
   * @desc: 去除两端空格.
   * @return: string.
@@ -835,10 +843,10 @@ export namespace crypt {
   function sha1_update(hash:any, str: string|Buffer):void;
   function sha1_finish(hash:any):string;
   /**
-  * @desc: [only in server] base64编码.
+  * @desc: base64编码.
   * @return: string.
   */
-  function base64_encode(arrByte:  Array<number>|Buffer): string;
+  function base64_encode(arrByte:  Array<number>|Buffer|string): string;
   /**
   * @desc: [only in server]  使用上次的解码的数据继续进行base64解码.
   * @return: 
