@@ -743,11 +743,11 @@ export namespace string {
    * @desc: 将utf8字符串转为字节数组.
    * @return: [].
    */
-  function utf8ToBytes(str:string):number[];
+  function utf8ToBytes(str:string):Array<number>;
   /**
   * @desc: 将utf8字节数组转为字符串.
   */
-  function bytesToUtf8(utfBytes:number[]):string;
+  function bytesToUtf8(utfBytes:Array<number>):string;
   /**
   * @desc: 去除两端空格.
   * @return: string.
@@ -859,7 +859,6 @@ export namespace crypt {
           }.
   */
   function base64_decode(strBase64: string, c2?: number, c3?: number, c4?: number): Base64Result;
-
 
   /**
   * @desc: [only in browser] base64解码.
