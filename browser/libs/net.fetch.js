@@ -253,9 +253,10 @@ else {
     this.mode = options.mode || this.mode || null
     this.referrer = null
 
-    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
-      throw new TypeError('febsnet.Body not allowed for GET or HEAD requests')
-    }
+    // if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+    //   throw new TypeError('febsnet.Body not allowed for GET or HEAD requests')
+    // }
+    
     this._initBody(body)
   }
 

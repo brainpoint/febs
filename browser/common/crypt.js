@@ -18,6 +18,10 @@ exports.crc32_table = crc32_table;
 exports.base64_encode=
 function (arrByte){
 
+  if (!arrByte) {
+    return '';
+  }
+
   if (typeof arrByte === 'string') {
     arrByte = utilsString.utf8ToBytes(arrByte);
   }
