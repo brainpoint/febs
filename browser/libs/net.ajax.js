@@ -112,8 +112,12 @@ function ajax( ctx )
   var timeout = (ctx.async===false?false:true)? ctx.timeout: 0;
   xhr.timeout = (timeout !== undefined && timeout !== null) ? timeout : transfer.DefaultTimeout;
 
-
-  xhr.withCredentials = true
+  if (ctx.hasOwnProperty('withCredentials')) {
+    xhr.withCredentials = ctx.withCredentials;
+  }
+  else {
+    xhr.withCredentials = true;
+  }
 
   if (ctx.headers) {
     if (xhr.setRequestHeader) {
