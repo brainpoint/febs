@@ -77,5 +77,5 @@
     "prepare": "node scripts/webpack.build.js"
   },
   "name": "febs-browser",
-  "version": "0.8.77"
+  "version": "0.8.78"
 }

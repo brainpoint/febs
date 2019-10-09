@@ -650,7 +650,7 @@ export namespace utils {
   * @param self: 指定的调用对象
   * @return: promise.
   */
-  function denodeify(fn: any, self: any, argumentCount?: number): Promise<any>;
+  function denodeify(fn: any, self?: any, argumentCount?: number): ()=>Promise<any>;
 
   /**
    * @desc: 进行bigint类型转换. 如果数值超过15位,等同于 new BigNumber(v)
@@ -724,6 +724,25 @@ export namespace string {
   * @return: boolean.
   */
   function isPhoneMobile(str: string): boolean;
+
+  /**
+   * @desc: 判断是否是email.
+   * @return: boolean.
+   */
+  function isEmail(str: string): boolean;
+
+  /**
+   * @desc: 判断是否是英文数字组合.
+   * @return: boolean.
+   */
+  function isAlphaOrDigit(str: string): boolean;
+
+  /**
+   * @desc: 判断是否是中文.
+   * @return: boolean.
+   */
+  function isChinese(str: string): boolean;
+  
   /**
    * @desc: 是否为空串.
    * @return: boolean.

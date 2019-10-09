@@ -13,7 +13,43 @@
  */
 exports.isPhoneMobile = function (str) {
   if (!str) return false;
-  if (/^0?1[2|3|4|5|6|7|8][0-9]\d{8}$/.test(str)) {
+  if (/^(1[2-9][0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89]|98[0-9]|99[0-9])\d{8}$/.test(str)) {
+    return true;
+  }
+  return false;
+};
+
+/**
+ * @desc: 判断是否是email.
+ * @return: boolean.
+ */
+exports.isEmail = function (str) {
+  if (!str) return false;
+  if (/^(([A-Za-z0-9\u4e00-\u9fa5_-]|\.)+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+)$/.test(str)) {
+    return true;
+  }
+  return false;
+};
+
+/**
+ * @desc: 判断是否是英文数字组合.
+ * @return: boolean.
+ */
+exports.isAlphaOrDigit = function (str) {
+  if (!str) return false;
+  if (/^[A-Za-z0-9]+$/.test(str)) {
+    return true;
+  }
+  return false;
+};
+
+/**
+ * @desc: 判断是否是中文.
+ * @return: boolean.
+ */
+exports.isChinese = function (str) {
+  if (!str) return false;
+  if (/^[\u4e00-\u9fa5]{0,}$/.test(str)) {
     return true;
   }
   return false;
