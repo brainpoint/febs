@@ -30,7 +30,7 @@
     "tap": "^10.1.0",
     "uglify-js": "^3.2.1",
     "webpack": "^2.6.1",
-    "webpack-bundle-analyzer": "^2.11.1"
+    "webpack-bundle-analyzer": "^3.6.0"
   },
   "directories": {},
   "homepage": "https://github.com/brainpoint/febs#readme",
