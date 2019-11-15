@@ -115,4 +115,6 @@
 ==================
   - [bugfix] bigint check.
 
-
+0.8.80
+==================
+  - [feature] promise.finally polyfill.

@@ -4,6 +4,7 @@
     "bignumber.js": "^4.0.1",
     "console-polyfill": "^0.3.0",
     "md5": "^2.2.1",
+    "promise-prototype-finally": "^1.0.0",
     "sha1": "^1.1.1"
   },
   "devDependencies": {
@@ -77,5 +78,5 @@
     "prepare": "node scripts/webpack.build.js"
   },
   "name": "febs-browser",
-  "version": "0.8.78"
+  "version": "0.8.80"
 }

@@ -1,4 +1,6 @@
 
+require('promise-prototype-finally');
+
 exports.BigNumber = require('bignumber.js');
 
 exports.upload = require('./upload');

@@ -1028,7 +1028,7 @@ export namespace file {
   *                 仅从名称的第一个字符开始匹配, 例如: / a.* /, 匹配 a开头的文件名.
   * @return: {files:[], dirs:[]}; 发生错误返回null.
   */
-  function dirExplorer(dir: string): DirExplorerRet | null;
+  function dirExplorer(dir: string, pattern?: RegExp): DirExplorerRet | null;
   /**
   * @desc: [only in server]  递归获取当前目录下的所有子文件.
   * @param dir: 要搜索的目录路径.
