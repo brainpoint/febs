@@ -808,6 +808,13 @@ export namespace crypt {
    * @return: number
    */
   function crc32_file(filename: string): number;
+  /**
+   * @desc: [only in server] 直接对文件进行计算.
+   * @param filename: 文件路径
+   * @param length: 如果<0, 将会计算到文件的末尾.
+   * @return: number
+   */
+  function crc32_fileSegment(filename: string, offset:number, length:number): number;
 
   /**
    * @desc: [only in browser] 通过文件表单控件进行文件的crc32计算.

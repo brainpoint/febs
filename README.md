@@ -405,8 +405,14 @@ febs.crypt.uuid()
  * @param filename: 文件路径
  * @return: number
  */
-febs.crypt.crc32_file(filename)
-
+febs.crypt.crc32_file(filename):number
+/**
+ * @desc: [only in server] 直接对文件进行计算.
+ * @param filename: 文件路径
+ * @param length: 如果<0, 将会计算到文件的末尾.
+ * @return: number
+ */
+febs.crypt.crc32_fileSegment(filename: string, offset:number, length:number): number;
 /**
  * @desc: 分段计算方式.
  *  var hash = md5_begin();
@@ -454,7 +460,17 @@ febs.crypt.base64_decode(strBase64, c2 = 0, c3 = 0, c4 = 0)
  * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
  */
 febs.crypt.crc32_file(fileObj, cb)
-
+/**
+ * @desc: [客户端调用] 通过文件表单控件进行文件的crc32计算.
+ * @param fileObj: 表单文件对象, 例如表单为:
+ *                  <form enctype="multipart/form-data">
+ *                    <input id="file" type="file" name="file" multiple>
+ *                  </form>
+ *             dom('#file')[0].files[0] 即为第一个文件对象.
+ * @param length: 如果<0, 将会计算到文件的末尾.
+ * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
+ */
+febs.crypt.crc32_fileSegment(fileObj: any, offset:number, length:number, cb: (crc32: number) => void): void;
 /**
 * @desc: base64解码.
 * @return: 字节数组.

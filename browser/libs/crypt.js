@@ -29,23 +29,36 @@ exports.crc32 = crc32;
  * @param cb: cb(crc32)
  * @return:
  */
-exports.crc32_file =
-function (file, cb) {
-  if (!file && !cb)
+exports.crc32_fileSegment =
+function crc32_fileSegment(file, offset, length, cb) {
+  if (!file || !cb)
   {
     if (cb) cb(0);
     return;
   }
 
+  if (offset >= file.size || offset < 0 || length == 0) {
+    if (cb) cb(0);
+    return;
+  }
+
+  if (length < 0) {
+    length = file.size;
+  }
+
   var blobSlice = File.prototype.mozSlice || File.prototype.webkitSlice || File.prototype.slice;
   var fileReader = new FileReader();
 
+  if (file.size-offset < length) {
+    length = file.size-offset;
+  }
+
   var chunkSize = 1024*1024*2;
-  var chunks = Math.ceil(file.size / chunkSize);
+  var chunks = Math.ceil(length / chunkSize);
   var currentChunk = 0;
 
   var loadNext = function() {
-    var start = currentChunk * chunkSize, end = start + chunkSize >= file.size ? file.size : start + chunkSize;
+    var start = currentChunk * chunkSize + offset, end = start + chunkSize >= length+offset ? length+offset : start + chunkSize;
     fileReader.readAsBinaryString(blobSlice.call(file, start, end));
   };
 
@@ -66,6 +79,17 @@ function (file, cb) {
 
   loadNext();
 }
+
+/**
+ * @desc:
+ * @param cb: cb(crc32)
+ * @return:
+ */
+exports.crc32_file =
+function (file, cb) {
+  crc32_fileSegment(file, 0, file.size, cb);
+}
+
 
 /**
 * @desc: base64编码.

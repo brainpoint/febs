@@ -43,12 +43,25 @@ exports.crc32 = crc32;
  * @desc:
  * @return:u32. crc32
  */
-exports.crc32_file = function( filename ) {
+exports.crc32_fileSegment = function crc32_fileSegment( filename, offset, length ) {
 
   var stat = fs.statSync(filename);
   if (stat && stat.isFile() && stat.size > 0)
   {
     try {
+
+      if (offset >= stat.size || offset < 0 || length == 0) {
+        return 0;
+      }
+
+      if (length < 0) {
+        length = stat.size;
+      }
+
+      if (stat.size-offset < length) {
+        length = file.size-offset;
+      }
+
       var fd = fs.openSync(filename, 'r');
       if (!fd)
         return 0;
@@ -56,10 +69,10 @@ exports.crc32_file = function( filename ) {
       var crc = 0;
       var buf = new Buffer(1024*10);
       var size;
-      for (var i = 0, len = stat.size; i < len; i+=buf.length) {
+      for (var i = offset, len = offset+length; i < len; i+=buf.length) {
         size = buf.length > len-i ? len-i : buf.length;
 
-        if (fs.readSync(fd, buf, 0, size, null) != size)
+        if (fs.readSync(fd, buf, i, size, null) != size)
         {
           crc = 0;
           break;
@@ -78,6 +91,14 @@ exports.crc32_file = function( filename ) {
   {
     return 0;
   }
+};
+
+/**
+ * @desc:
+ * @return:u32. crc32
+ */
+exports.crc32_file = function( filename ) {
+  return crc32_fileSegment(filename, 0, -1);
 };
 
 /**

@@ -784,6 +784,17 @@ export namespace crypt {
    * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
    */
   function crc32_file(fileObj: any, cb: (crc32: number) => void): void;
+  /**
+   * @desc: [客户端调用] 通过文件表单控件进行文件的crc32计算.
+   * @param fileObj: 表单文件对象, 例如表单为:
+   *                  <form enctype="multipart/form-data">
+   *                    <input id="file" type="file" name="file" multiple>
+   *                  </form>
+   *             dom('#file')[0].files[0] 即为第一个文件对象.
+   * @param length: 如果<0, 将会计算到文件的末尾.
+   * @param cb: function(crc32) {}; 计算出来的crc32通过回调函数返回
+   */
+  function crc32_fileSegment(fileObj: any, offset:number, length:number, cb: (crc32: number) => void): void;
 
   /**
    * @desc: 计算字符串的md5值
