@@ -164,7 +164,7 @@ function save_to(stream, writeStream, writeStreamPath, size, crc32, done) {
  * @resolve
  *     - bool. 指明是否存储成功.
  */
-exports.accept = function(app, conditionCB, checkCrc32=true)
+exports.accept = function(app, conditionCB, checkCrc32=true, append=true)
 {
   assert(conditionCB);
 
@@ -235,7 +235,13 @@ exports.accept = function(app, conditionCB, checkCrc32=true)
           fn1 = fn;
 
           // create stream.
-          destStream = fs.createWriteStream(fn);
+          if (append) {
+            destStream = fs.createWriteStream(fn, {flags: 'a'});
+          }
+          else {
+            destStream = fs.createWriteStream(fn);
+          }
+
           if (!destStream)
           {
             console.debug('febs upload.accpet createWriteStream err:' + fn);
