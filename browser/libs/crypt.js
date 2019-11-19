@@ -29,7 +29,6 @@ exports.crc32 = crc32;
  * @param cb: cb(crc32)
  * @return:
  */
-exports.crc32_fileSegment =
 function crc32_fileSegment(file, offset, length, cb) {
   if (!file || !cb)
   {
@@ -79,6 +78,7 @@ function crc32_fileSegment(file, offset, length, cb) {
 
   loadNext();
 }
+exports.crc32_fileSegment = crc32_fileSegment;
 
 /**
  * @desc:

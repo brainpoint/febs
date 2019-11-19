@@ -43,7 +43,7 @@ exports.crc32 = crc32;
  * @desc:
  * @return:u32. crc32
  */
-exports.crc32_fileSegment = function crc32_fileSegment( filename, offset, length ) {
+function crc32_fileSegment( filename, offset, length ) {
 
   var stat = fs.statSync(filename);
   if (stat && stat.isFile() && stat.size > 0)
@@ -72,7 +72,7 @@ exports.crc32_fileSegment = function crc32_fileSegment( filename, offset, length
       for (var i = offset, len = offset+length; i < len; i+=buf.length) {
         size = buf.length > len-i ? len-i : buf.length;
 
-        if (fs.readSync(fd, buf, i, size, null) != size)
+        if (fs.readSync(fd, buf, 0, size, i) != size)
         {
           crc = 0;
           break;
@@ -92,6 +92,7 @@ exports.crc32_fileSegment = function crc32_fileSegment( filename, offset, length
     return 0;
   }
 };
+exports.crc32_fileSegment = crc32_fileSegment;
 
 /**
  * @desc:
