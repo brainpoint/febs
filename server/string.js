@@ -21,6 +21,25 @@ exports.isPhoneMobile = string.isPhoneMobile;
 exports.isEmpty = string.isEmpty;
 
 /**
+ * @desc: 判断是否是email.
+ * @return: boolean.
+ */
+exports.isEmail = string.isEmail;
+
+/**
+ * @desc: 判断是否是英文数字组合.
+ * @return: boolean.
+ */
+exports.isAlphaOrDigit = string.isAlphaOrDigit;
+
+/**
+ * @desc: 判断是否是中文.
+ * @return: boolean.
+ */
+exports.isChinese = string.isChinese;
+
+
+/**
  * @desc: 获得字符串utf8编码后的字节长度.
  * @return: u32.
  */
