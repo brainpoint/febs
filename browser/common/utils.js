@@ -116,7 +116,7 @@ exports.browserIsWeixin = function(userAgent) {
 }
 
 /**
- * @desc: 合并多个map.
+ * @desc: 合并多个map (浅拷贝).
  * @return: {}
  */
 exports.mergeMap = function()
@@ -135,7 +135,6 @@ exports.mergeMap = function()
 
   return map0;
 };
-
 /**
 * @desc: 判断参数是否是null,undefined,NaN
 * @return: boolean

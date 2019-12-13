@@ -1,5 +1,5 @@
 
-require('promise-prototype-finally');
+require('../browser/common/promise-finally-polyfill');
 
 exports.BigNumber = require('bignumber.js');
 
