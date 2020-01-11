@@ -50,6 +50,13 @@ function(v) {
         return false;
     }
     
+    if (v.length == 1) {
+      if (v[0] < '0' || v[0] > '9')
+        return false;
+      else
+        return true;
+    }
+    
     if (v[0] == '-') {
       if (v.length < 2 || v[1] < '1' || v[1] > '9')
         return false;
