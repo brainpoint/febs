@@ -27,7 +27,7 @@
     "es5-shim": "^4.5.10",
     "es6-promise": "^4.2.4",
     "ora": "^2.0.0",
-    "tap": "^10.1.0",
+    "tap": "^14.10.6",
     "uglify-js": "^3.2.1",
     "webpack": "^2.6.1",
     "webpack-bundle-analyzer": "^2.11.1"
@@ -77,5 +77,5 @@
     "prepare": "node scripts/webpack.build.js"
   },
   "name": "febs-browser",
-  "version": "0.8.87"
+  "version": "0.8.88"
 }

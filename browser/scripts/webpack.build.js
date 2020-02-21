@@ -11,14 +11,12 @@ var webpackConfigMin = require('./webpack.config.min.js')
 
 var packageJson = require('../package.json');
 
-var dir = 'febs-'+packageJson.version;
-
 var spinner = ora('building for production...')
 spinner.start()
 
 var root = path.resolve(__dirname, '../');
 var febs = require('../../server/index');
-febs.file.fileCopy(path.join(root, 'README.md'), path.join(root, `dist/${dir}/README.md`));
+febs.file.fileCopy(path.join(root, 'README.md'), path.join(root, `dist/README.md`));
 
 // febs.file.fileRemove(path.join(root, 'dist/jquery-1.11.3.min.js'));
 // febs.file.fileCopy(path.join(root, 'test/jquery-1.11.3.min.js'), path.join(root, 'dist/jquery-1.11.3.min.js'));
@@ -43,17 +41,17 @@ function buildSrc(config) {
 }
 
 // start.
-buildSrc(webpackConfig('index.js', 'febs.js', 'dist/'+dir))
-.then(()=>buildSrc(webpackConfig('base.js', 'febs.base.js', 'dist/'+dir)))
-.then(()=>buildSrc(webpackConfig('bigint.js', 'febs.bigint.js', 'dist/'+dir)))
-.then(()=>buildSrc(webpackConfig('md5.js', 'febs.md5.js', 'dist/'+dir)))
-.then(()=>buildSrc(webpackConfig('sha1.js', 'febs.sha1.js', 'dist/'+dir)))
-.then(()=>buildSrc(webpackConfigMin('index.js', 'febs.min.js', 'dist/'+dir)))
-.then(()=>buildSrc(webpackConfigMin('base.js', 'febs.base.min.js', 'dist/'+dir)))
-.then(()=>buildSrc(webpackConfigMin('bigint.js', 'febs.bigint.min.js', 'dist/'+dir)))
-.then(()=>buildSrc(webpackConfigMin('md5.js', 'febs.md5.min.js', 'dist/'+dir)))
-.then(()=>buildSrc(webpackConfigMin('sha1.js', 'febs.sha1.min.js', 'dist/'+dir)))
-.then(()=>buildSrc(webpackConfig('index.ie8.js', 'febs.ie8.js', 'dist/'+dir)))
+buildSrc(webpackConfig('index.js', 'febs.js', 'dist/'))
+.then(()=>buildSrc(webpackConfig('base.js', 'febs.base.js', 'dist/')))
+.then(()=>buildSrc(webpackConfig('bigint.js', 'febs.bigint.js', 'dist/')))
+.then(()=>buildSrc(webpackConfig('md5.js', 'febs.md5.js', 'dist/')))
+.then(()=>buildSrc(webpackConfig('sha1.js', 'febs.sha1.js', 'dist/')))
+.then(()=>buildSrc(webpackConfigMin('index.js', 'febs.min.js', 'dist/')))
+.then(()=>buildSrc(webpackConfigMin('base.js', 'febs.base.min.js', 'dist/')))
+.then(()=>buildSrc(webpackConfigMin('bigint.js', 'febs.bigint.min.js', 'dist/')))
+.then(()=>buildSrc(webpackConfigMin('md5.js', 'febs.md5.min.js', 'dist/')))
+.then(()=>buildSrc(webpackConfigMin('sha1.js', 'febs.sha1.min.js', 'dist/')))
+.then(()=>buildSrc(webpackConfig('index.ie8.js', 'febs.ie8.js', 'dist/')))
 .then(()=>{
   spinner.stop()
 
@@ -80,7 +78,7 @@ buildSrc(webpackConfig('index.js', 'febs.js', 'dist/'+dir))
 */
 function formatDotDefault() {
 
-  let assetsRoot = path.join(root, 'dist/'+dir);
+  let assetsRoot = path.join(root, 'dist/');
 
   // 查找所有css.
   let alljs = febs.file.dirExplorerFilesRecursive(assetsRoot);

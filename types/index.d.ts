@@ -714,6 +714,13 @@ export namespace utils {
   * @param cbFinish: 完成的回调.
   */
   function execCommand(cmd:string, params:string[], cbFinish:(err:any)=>void):void;
+  /**
+  * @desc: 执行cmd.
+  * @param cmd: 指令.
+  * @param params: 输入参数数组.
+  * @param cbFinish: 完成的回调.
+  */
+  function execCommand(cmd:string, params:string[], options:{cwd?:string}, cbFinish:(err:any)=>void):void;
 }
 
 //

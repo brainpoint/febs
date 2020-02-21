@@ -169,18 +169,29 @@ exports.denodeify = utils.denodeify;
 * @param params: 输入参数数组.
 * @param cbFinish: 完成的回调.
 */
-exports.execCommand = function execCommand(cmdString, params, cbFinish) {
+exports.execCommand = function execCommand(cmdString, params, optionOrCbFinish, cbFinish) {
+
+  var option;
+  if (typeof optionOrCbFinish === 'function') {
+    cbFinish = paramsOrOption;
+  }
+  else if (typeof optionOrCbFinish === 'object') {
+    option = optionOrCbFinish;
+  }
+
+  if (!option) option = {};
+
   // scripts.
-  let cms = cmdString.split(' ');
-  let cmps = cms[0];
-  let inputps = cms.splice(1);
+  var cms = cmdString.split(' ');
+  var cmps = cms[0];
+  var inputps = cms.splice(1);
   if (cmdString.indexOf('&') >= 0) {
     cmps = cmdString;
     inputps = null;
   }
 
   if (!inputps) {
-    exec(cmps, function(err){
+    exec(cmps, option, function(err){
       if (cbFinish) cbFinish(err);
       if (err) {
         console.log(err);
@@ -192,7 +203,8 @@ exports.execCommand = function execCommand(cmdString, params, cbFinish) {
   else {
     inputps = inputps.concat(params||[]);
     
-    var proc = spawn(cmps, inputps, {stdio: 'inherit'});
+    option = mergeMap( {stdio: 'inherit'}, option);
+    var proc = spawn(cmps, inputps, option);
     proc.on('close', function (code) {
       if (code !== 0) {
         console.log(code);
