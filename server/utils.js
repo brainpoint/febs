@@ -203,7 +203,7 @@ exports.execCommand = function execCommand(cmdString, params, optionOrCbFinish, 
   else {
     inputps = inputps.concat(params||[]);
     
-    option = mergeMap( {stdio: 'inherit'}, option);
+    option = utils.mergeMap( {stdio: 'inherit'}, option);
     var proc = spawn(cmps, inputps, option);
     proc.on('close', function (code) {
       if (code !== 0) {
