@@ -173,11 +173,13 @@ exports.execCommand = function execCommand(cmdString, params, optionOrCbFinish, 
 
   var option;
   if (typeof optionOrCbFinish === 'function') {
-    cbFinish = paramsOrOption;
+    cbFinish = optionOrCbFinish;
   }
   else if (typeof optionOrCbFinish === 'object') {
     option = optionOrCbFinish;
   }
+
+  var usePromise = !cbFinish;
 
   if (!option) option = {};
 
@@ -190,27 +192,62 @@ exports.execCommand = function execCommand(cmdString, params, optionOrCbFinish, 
     inputps = null;
   }
 
-  if (!inputps) {
-    exec(cmps, option, function(err){
-      if (cbFinish) cbFinish(err);
-      if (err) {
-        console.log(err);
-      } else {
-      }
-      if (cbFinish) cbFinish(err);
-    });
+  var foo = function(inputps, cbFinish, resolve, reject) {
+    if (!inputps) {
+      exec(cmps, option, function(err, stdout, stderr){
+        if (err) {
+          console.log(err);
+        } else {
+        }
+        stdout = stdout?stdout.toString('utf8'):null;
+        stderr = stderr?stderr.toString('utf8'):null;
+        if (err) {
+          if (reject) reject(err);
+          else cbFinish(err, stdout, stderr);
+        }
+        else {
+          if (resolve) resolve({stdout:stdout, stderr:stderr});
+          else cbFinish(err, stdout, stderr);
+        }
+      });
+    }
+    else {
+      inputps = inputps.concat(params||[]);
+
+      let out = '';
+      let err = '';
+
+      //option = utils.mergeMap( {stdio: 'inherit'}, option);
+      var proc = spawn(cmps, inputps, option);
+      proc.stdout.on('data', function(data) {
+        out += data;
+      });
+      proc.stderr.on('data', function(data) {
+        err += data;
+      });
+      proc.on('close', function (code) {
+        if (code !== 0) {
+          console.log(code);
+        } else {
+        }
+        if (code !== 0) {
+          if (reject) reject(code);
+          else cbFinish(code, out, err);
+        }
+        else {
+          if (resolve) resolve({stdout:out, stderr:err});
+          else cbFinish(code, out, err);
+        }
+      });
+    }
+  }
+
+  if (!usePromise) {
+    foo(inputps, cbFinish);
   }
   else {
-    inputps = inputps.concat(params||[]);
-    
-    option = utils.mergeMap( {stdio: 'inherit'}, option);
-    var proc = spawn(cmps, inputps, option);
-    proc.on('close', function (code) {
-      if (code !== 0) {
-        console.log(code);
-      } else {
-      }
-      if (cbFinish) cbFinish(code);
+    return new Promise(function(resolve, reject){
+      foo(inputps, cbFinish, resolve, reject);
     });
   }
 }

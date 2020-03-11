@@ -650,7 +650,7 @@ export namespace utils {
   * @param self: 指定的调用对象
   * @return: promise.
   */
-  function denodeify(fn: any, self?: any, argumentCount?: number): ()=>Promise<any>;
+  function denodeify(fn: any, self?: any, argumentCount?: number): (...args:any[])=>Promise<any>;
 
   /**
    * @desc: 进行bigint类型转换. 如果数值超过15位,等同于 new BigNumber(v)
@@ -713,14 +713,21 @@ export namespace utils {
   * @param params: 输入参数数组.
   * @param cbFinish: 完成的回调.
   */
-  function execCommand(cmd:string, params:string[], cbFinish:(err:any)=>void):void;
+  function execCommand(cmd:string, params:string[], cbFinish:(err:any, stdout:string, stderr:string)=>void):void;
   /**
   * @desc: 执行cmd.
   * @param cmd: 指令.
   * @param params: 输入参数数组.
   * @param cbFinish: 完成的回调.
   */
-  function execCommand(cmd:string, params:string[], options:{cwd?:string}, cbFinish:(err:any)=>void):void;
+  function execCommand(cmd:string, params:string[], options:{cwd?:string}, cbFinish:(err:any, stdout:string, stderr:string)=>void):void;
+  /**
+  * @desc: 执行cmd.
+  * @param cmd: 指令.
+  * @param params: 输入参数数组.
+  * @param cbFinish: 完成的回调.
+  */
+  function execCommand(cmd:string, params:string[], options:{cwd?:string}):Promise<{stdout:string, stderr:string}>;
 }
 
 //
