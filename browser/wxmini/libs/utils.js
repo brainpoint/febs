@@ -6,7 +6,7 @@
  * Desc:
  */
 
-var utils = require('../common/utils');
+var utils = require('../../common/utils');
 
 /**
  * @desc: 模拟sleep.
@@ -18,6 +18,7 @@ var utils = require('../common/utils');
        });
  */
 exports.sleep = utils.sleep;
+
 
 /**
  * @desc: 获取时间的string.
@@ -91,10 +92,7 @@ exports.denodeify = utils.denodeify;
  */
 exports.browserIsIE =
   function () {
-    if (!!window.ActiveXObject || "ActiveXObject" in window)
-      return true;
-    else
-      return false;
+    return false;
   }
 
 /**
@@ -104,34 +102,7 @@ exports.browserIsIE =
  */
 exports.browserIEVer =
   function () {
-    if (!exports.browserIsIE()) return Number.MAX_SAFE_INTEGER;
-
-    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串  
-    var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器  
-    var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器  
-    var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
-    if (isIE) {
-      var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
-      reIE.test(userAgent);
-      var fIEVersion = parseFloat(RegExp["$1"]);
-      if (fIEVersion == 7) {
-        return 7;
-      } else if (fIEVersion == 8) {
-        return 8;
-      } else if (fIEVersion == 9) {
-        return 9;
-      } else if (fIEVersion == 10) {
-        return 10;
-      } else {
-        return 6; //IE版本<=7
-      }
-    } else if (isEdge) {
-      return 'edge'; //edge
-    } else if (isIE11) {
-      return 11; //IE11  
-    } else {
-      Number.MAX_SAFE_INTEGER;; //不是ie浏览器
-    }
+    return Number.MAX_SAFE_INTEGER;
   }
 
 
@@ -153,42 +124,18 @@ exports.browserIsSupportHtml5 =
  * @param userAgent: the browser user agent string.
  */
 exports.browserIsMobile = function(userAgent) {
-
-  if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
-    }
-  }
-
-  var agent = userAgent;
-  var platforms = [
-    'Android', 'webOS', 'iPhone', 'iPad',
-    'iPod', 'Blackberry', 'Windows Phone'
-  ];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
+  return true;
 }
 
 /**
  * @desc: the browser is ios.
- * @param userAgent: the browser user agent string.
  */
-exports.browserIsIOS = function(userAgent) {
-  if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
-    }
+exports.browserIsIOS = function() {
+  let systemInfo = wx.getSystemInfoSync();
+  if (systemInfo && systemInfo.platform == 'ios') {
+    return true;
   }
-
-  var agent = userAgent;
-  var platforms = [
-    'iPhone', 'iPad',
-    'iPod'
-  ];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
+  return false;
 }
 
 
@@ -197,20 +144,12 @@ exports.browserIsIOS = function(userAgent) {
  * @param userAgent: the browser user agent string.
  */
 exports.browserIsPhone = function(userAgent) {
-  if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent;
-  var platforms = [
-    'Android', 'iPhone',
-    'iPod', 'Blackberry', 'Windows Phone'
-  ];
-  var expression = new RegExp(platforms.join('|'), 'i');
 
-  return agent.match(expression) != null;
+  let systemInfo = wx.getSystemInfoSync();
+  if (systemInfo && systemInfo.windowWidth <= 767) {
+    return true;
+  }
+  return false;
 }
 
 
@@ -218,16 +157,5 @@ exports.browserIsPhone = function(userAgent) {
  * @desc: the browser is weixin.
  */
 exports.browserIsWeixin = function(userAgent) {
-  if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent;
-  if(agent.match(/MicroMessenger/i)=="MicroMessenger") {
-      return true;
-  } else {
-      return false;
-  }
+  return true;
 }

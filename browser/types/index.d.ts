@@ -5,9 +5,18 @@
 
 
 declare global {
+  /**
+   * 微信小程序不支持
+   */
   var __debug: boolean;
 
+  /**
+   * 微信小程序不支持
+   */
   function requestAnimationFrame(cb: (tm: number) => void): any;
+  /**
+   * 微信小程序不支持
+   */
   function cancelAnimationFrame(timer: any): void;
 }
 
@@ -828,6 +837,7 @@ export namespace net {
 
   /**
   * @desc: 使用jquery.ajax类似参数调用.
+  *       (微信小程序不支持)
   * @param cfg: 允许额外传递一个 progress:function(percent) {} 的参数来获取进度.
   * @return: 
   */
@@ -873,6 +883,7 @@ export namespace net {
   /**
    * @desc: jsonp方式获取数据.
    *        如果超時, 可以catch到 'timeout'
+  *       (微信小程序不支持)
    * @param option: 请求选项同fetch. 可以附带如下的更多属性. jsonp只能使用`get`方式.
    *          {
                 jsonpCallback, // jsonp请求时附带到地址中的callback参数, 默认为 'callback';
@@ -903,8 +914,9 @@ export namespace net {
 
 export type SELECTOR = any; /*string|dom|HTMLElement; */
 
-//
-// like jquery.
+/**
+ * 微信小程序不支持
+ */
 export interface dom {
 
   /**
@@ -1081,6 +1093,9 @@ export interface dom {
   [index: number]: dom;
 }
 
+/**
+ * 微信小程序不支持
+ */
 export namespace dom {
 
   /**

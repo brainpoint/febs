@@ -8,6 +8,7 @@ var fs = require('fs');
 var webpack = require('webpack')
 var webpackConfig = require('./webpack.config.js')
 var webpackConfigMin = require('./webpack.config.min.js')
+var webpackConfigWX = require('./webpack.config.wxmini.js')
 
 var packageJson = require('../package.json');
 
@@ -41,7 +42,8 @@ function buildSrc(config) {
 }
 
 // start.
-buildSrc(webpackConfig('index.js', 'febs.js', 'dist/'))
+buildSrc(webpackConfigWX('wxmini/index.js', 'index.js', 'dist/wxmini/'))  // wxmini.
+.then(()=>buildSrc(webpackConfig('index.js', 'febs.js', 'dist/')))
 .then(()=>buildSrc(webpackConfig('base.js', 'febs.base.js', 'dist/')))
 .then(()=>buildSrc(webpackConfig('bigint.js', 'febs.bigint.js', 'dist/')))
 .then(()=>buildSrc(webpackConfig('md5.js', 'febs.md5.js', 'dist/')))

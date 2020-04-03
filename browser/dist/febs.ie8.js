@@ -79,6 +79,14 @@
  * Desc:
  */
 
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
 var utils = __webpack_require__(24);
 
 /**
@@ -91,29 +99,6 @@ var utils = __webpack_require__(24);
        });
  */
 exports.sleep = utils.sleep;
-
-/**
- * @desc: the browser is mobile.
- * @param userAgent: the browser user agent string.
- */
-exports.browserIsMobile = utils.browserIsMobile;
-
-/**
- * @desc: the browser is ios.
- * @param userAgent: the browser user agent string.
- */
-exports.browserIsIOS = utils.browserIsIOS;
-
-/**
- * @desc: the browser is phone.
- * @param userAgent: the browser user agent string.
- */
-exports.browserIsPhone = utils.browserIsPhone;
-
-/**
- * @desc: the browser is weixin.
- */
-exports.browserIsWeixin = utils.browserIsWeixin;
 
 /**
  * @desc: 获取时间的string.
@@ -227,6 +212,79 @@ exports.browserIEVer = function () {
  */
 exports.browserIsSupportHtml5 = function () {
   if (typeof Worker !== "undefined") {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+/**
+ * @desc: the browser is mobile.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsMobile = function (userAgent) {
+
+  if (!userAgent) {
+    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined) {
+      userAgent = window.navigator.userAgent;
+    }
+  }
+
+  var agent = userAgent;
+  var platforms = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'Blackberry', 'Windows Phone'];
+  var expression = new RegExp(platforms.join('|'), 'i');
+
+  return agent.match(expression) != null;
+};
+
+/**
+ * @desc: the browser is ios.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsIOS = function (userAgent) {
+  if (!userAgent) {
+    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined) {
+      userAgent = window.navigator.userAgent;
+    }
+  }
+
+  var agent = userAgent;
+  var platforms = ['iPhone', 'iPad', 'iPod'];
+  var expression = new RegExp(platforms.join('|'), 'i');
+
+  return agent.match(expression) != null;
+};
+
+/**
+ * @desc: the browser is phone.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsPhone = function (userAgent) {
+  if (!userAgent) {
+    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined) {
+      userAgent = window.navigator.userAgent;
+    }
+  }
+
+  var agent = userAgent;
+  var platforms = ['Android', 'iPhone', 'iPod', 'Blackberry', 'Windows Phone'];
+  var expression = new RegExp(platforms.join('|'), 'i');
+
+  return agent.match(expression) != null;
+};
+
+/**
+ * @desc: the browser is weixin.
+ */
+exports.browserIsWeixin = function (userAgent) {
+  if (!userAgent) {
+    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined) {
+      userAgent = window.navigator.userAgent;
+    }
+  }
+
+  var agent = userAgent;
+  if (agent.match(/MicroMessenger/i) == "MicroMessenger") {
     return true;
   } else {
     return false;
@@ -10436,79 +10494,6 @@ exports.sleep = function (ms) {
       reject(err);
     }
   });
-};
-
-/**
- * @desc: the browser is mobile.
- * @param userAgent: the browser user agent string.
- */
-exports.browserIsMobile = function (userAgent) {
-
-  if (!userAgent) {
-    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined) {
-      userAgent = window.navigator.userAgent;
-    }
-  }
-
-  var agent = userAgent;
-  var platforms = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'Blackberry', 'Windows Phone'];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
-};
-
-/**
- * @desc: the browser is ios.
- * @param userAgent: the browser user agent string.
- */
-exports.browserIsIOS = function (userAgent) {
-  if (!userAgent) {
-    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined) {
-      userAgent = window.navigator.userAgent;
-    }
-  }
-
-  var agent = userAgent;
-  var platforms = ['iPhone', 'iPad', 'iPod'];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
-};
-
-/**
- * @desc: the browser is phone.
- * @param userAgent: the browser user agent string.
- */
-exports.browserIsPhone = function (userAgent) {
-  if (!userAgent) {
-    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined) {
-      userAgent = window.navigator.userAgent;
-    }
-  }
-
-  var agent = userAgent;
-  var platforms = ['Android', 'iPhone', 'iPod', 'Blackberry', 'Windows Phone'];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
-};
-
-/**
- * @desc: the browser is weixin.
- */
-exports.browserIsWeixin = function (userAgent) {
-  if (!userAgent) {
-    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined) {
-      userAgent = window.navigator.userAgent;
-    }
-  }
-
-  var agent = userAgent;
-  if (agent.match(/MicroMessenger/i) == "MicroMessenger") {
-    return true;
-  } else {
-    return false;
-  }
 };
 
 /**
