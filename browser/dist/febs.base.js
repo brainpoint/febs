@@ -2811,6 +2811,8 @@ if (!window['cancelAnimationFrame'])
 
 var febs = {};
 
+febs.__debug = window.__debug;
+
 febs.date = __webpack_require__(8);
 febs.string = __webpack_require__(1);
 febs.crypt  = __webpack_require__(7);

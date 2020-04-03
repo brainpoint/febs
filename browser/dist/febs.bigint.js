@@ -3179,6 +3179,8 @@ __webpack_require__(1);
 
 var febs = {};
 
+febs.__debug = window.__debug;
+
 febs.utils  = __webpack_require__(2);
 
 febs.BigNumber = __webpack_require__(0);

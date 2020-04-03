@@ -35,6 +35,8 @@ require('./common/promise-finally-polyfill');
 
 var febs = {};
 
+febs.__debug = window.__debug;
+
 febs.utils  = require('./common/utils.bigint');
 
 febs.BigNumber = require('bignumber.js');

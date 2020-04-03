@@ -50,6 +50,8 @@ if (!window['cancelAnimationFrame'])
 
 var febs = {};
 
+febs.__debug = window.__debug;
+
 febs.date = require('./libs/date');
 febs.string = require('./libs/string');
 febs.crypt  = require('./libs/crypt');

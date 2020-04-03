@@ -35,6 +35,7 @@ require('./common/promise-finally-polyfill');
 
 var febs = {};
 
+febs.__debug = window.__debug;
 febs.crypt  = require('./libs/crypt.md5');
 
 

@@ -11,6 +11,7 @@ declare global {
   function cancelAnimationFrame(timer: any): void;
 }
 
+export const __debug:boolean;
 
 export interface WeekFmt {
   '0'?: string;

@@ -49,6 +49,7 @@ if (!window['cancelAnimationFrame'])
 
 
 var febs = {};
+febs.__debug = window.__debug;
 
 febs.BigNumber = require('bignumber.js');
 

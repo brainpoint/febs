@@ -128,6 +128,8 @@ require('./common/promise-finally-polyfill');
 
   var febs = {}
 
+  febs.__debug = window.__debug;
+
   febs.BigNumber = require('bignumber.js')
 
   febs.date = require('./libs/date')

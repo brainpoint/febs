@@ -189,6 +189,7 @@ __webpack_require__(1);
 
 var febs = {};
 
+febs.__debug = window.__debug;
 febs.crypt  = __webpack_require__(2);
 
 

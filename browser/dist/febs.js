@@ -6037,6 +6037,7 @@ if (!window['cancelAnimationFrame'])
 
 
 var febs = {};
+febs.__debug = window.__debug;
 
 febs.BigNumber = __webpack_require__(2);
 
