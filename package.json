@@ -51,6 +51,7 @@
   ],
   "license": "MIT",
   "main": "./index.js",
+  "miniprogram": "./browser/dist/wxmini",
   "types": "./types/index.d.ts",
   "maintainers": [
     {
@@ -62,5 +63,5 @@
     "test": "tap test/*.js"
   },
   "name": "febs",
-  "version": "0.8.93"
+  "version": "0.8.94"
 }
