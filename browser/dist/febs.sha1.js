@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -107,31 +107,6 @@ module.exports = charenc;
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
-
-// Console-polyfill. MIT license.
-// https://github.com/paulmillr/console-polyfill
-// Make it safe to do console.log() always.
-(function(global) {
-  'use strict';
-  if (!global.console) {
-    global.console = {};
-  }
-  var con = global.console;
-  var prop, method;
-  var dummy = function() {};
-  var properties = ['memory'];
-  var methods = ('assert,clear,count,debug,dir,dirxml,error,exception,group,' +
-     'groupCollapsed,groupEnd,info,log,markTimeline,profile,profiles,profileEnd,' +
-     'show,table,time,timeEnd,timeline,timelineEnd,timeStamp,trace,warn').split(',');
-  while (prop = properties.pop()) if (!con[prop]) con[prop] = {};
-  while (method = methods.pop()) if (!con[method]) con[method] = dummy;
-  // Using `this` for web workers & supports Browserify / Webpack.
-})(typeof window === 'undefined' ? this : window);
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -155,7 +130,7 @@ module.exports = charenc;
 })();
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -169,12 +144,12 @@ module.exports = charenc;
  *  crc32_file(file, function(crc32Value) {})
  */
 
-var sha1 = __webpack_require__(9);
+var sha1 = __webpack_require__(8);
 
 exports.sha1 = sha1;
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -332,7 +307,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -346,9 +321,9 @@ function fromByteArray (uint8) {
 
 
 
-var base64 = __webpack_require__(4)
-var ieee754 = __webpack_require__(7)
-var isArray = __webpack_require__(8)
+var base64 = __webpack_require__(3)
+var ieee754 = __webpack_require__(6)
+var isArray = __webpack_require__(7)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -2126,10 +2101,10 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports) {
 
 (function() {
@@ -2231,7 +2206,7 @@ function isnan (val) {
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -2321,7 +2296,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -2332,11 +2307,11 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {(function() {
-  var crypt = __webpack_require__(6),
+  var crypt = __webpack_require__(5),
       utf8 = __webpack_require__(0).utf8,
       bin = __webpack_require__(0).bin,
 
@@ -2418,10 +2393,10 @@ module.exports = Array.isArray || function (arr) {
   module.exports = api;
 })();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4).Buffer))
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports) {
 
 var g;
@@ -2448,14 +2423,14 @@ module.exports = g;
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 // require('es5-shim');
 // require('es5-shim/es5-sham');
+// require('console-polyfill');
 __webpack_require__(1);
-__webpack_require__(2);
 // require('babel-polyfill');
 // require('../third-party/bluebird.min.js');
 // require('../third-party/bignumber.min.js');
@@ -2488,7 +2463,7 @@ __webpack_require__(2);
 
 var febs = {};
 
-febs.crypt  = __webpack_require__(3);
+febs.crypt  = __webpack_require__(2);
 
 if (!window['febs'])
   window['febs'] = febs;

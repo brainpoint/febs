@@ -41,8 +41,8 @@ export interface StrFmt {
 /**
 * @desc: big number type
 */
-export class BigNumber {
-  constructor(v:any);
+export interface BigNumber {
+  new(v:any):BigNumber;
 
   /**
    * Returns a BigNumber whose value is the absolute value, i.e. the magnitude, of the value of this BigNumber. The
@@ -988,8 +988,8 @@ export namespace net {
 
 //
 // exception.
-export class exception extends Error {
-  constructor(msg: string, code: string, filename: string, line: number);
+export interface exception extends Error {
+  new(msg: string, code: string, filename: string, line: number): exception;
 
   /** @desc: 错误代码 */
   code: string;
@@ -1168,7 +1168,7 @@ export type SELECTOR = any; /*string|dom|HTMLElement; */
 /**
 * @desc: [only browser]
 */
-export class dom {
+export interface dom {
 
   /**
    * 支持 
@@ -1179,7 +1179,7 @@ export class dom {
    *    - node.
    * 不支持带空格多层结构的情况.
    */
-  constructor(selector?: SELECTOR);
+  new(selector?: SELECTOR):dom;
 
   get(index: number): any;
 

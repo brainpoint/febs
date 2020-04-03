@@ -1,7 +1,7 @@
 
 // require('es5-shim');
 // require('es5-shim/es5-sham');
-require('console-polyfill');
+// require('console-polyfill');
 require('./common/promise-finally-polyfill');
 // require('babel-polyfill');
 // require('../third-party/bluebird.min.js');

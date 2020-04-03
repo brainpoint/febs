@@ -36,8 +36,8 @@ export interface StrFmt {
 /**
 * @desc: big number type
 */
-export class BigNumber {
-  constructor(v:any);
+export interface BigNumber {
+  new (v:any) :BigNumber;
 
   /**
    * Returns a BigNumber whose value is the absolute value, i.e. the magnitude, of the value of this BigNumber. The
@@ -904,7 +904,7 @@ export type SELECTOR = any; /*string|dom|HTMLElement; */
 
 //
 // like jquery.
-export class dom {
+export interface dom {
 
   /**
    * 支持 
@@ -915,7 +915,7 @@ export class dom {
    *    - node.
    * 不支持带空格多层结构的情况.
    */
-  constructor(selector?: SELECTOR);
+  new(selector?: SELECTOR): dom;
 
   get(index: number): any;
 

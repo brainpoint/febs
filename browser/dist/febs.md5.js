@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -107,31 +107,6 @@ module.exports = charenc;
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
-
-// Console-polyfill. MIT license.
-// https://github.com/paulmillr/console-polyfill
-// Make it safe to do console.log() always.
-(function(global) {
-  'use strict';
-  if (!global.console) {
-    global.console = {};
-  }
-  var con = global.console;
-  var prop, method;
-  var dummy = function() {};
-  var properties = ['memory'];
-  var methods = ('assert,clear,count,debug,dir,dirxml,error,exception,group,' +
-     'groupCollapsed,groupEnd,info,log,markTimeline,profile,profiles,profileEnd,' +
-     'show,table,time,timeEnd,timeline,timelineEnd,timeStamp,trace,warn').split(',');
-  while (prop = properties.pop()) if (!con[prop]) con[prop] = {};
-  while (method = methods.pop()) if (!con[method]) con[method] = dummy;
-  // Using `this` for web workers & supports Browserify / Webpack.
-})(typeof window === 'undefined' ? this : window);
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -155,7 +130,7 @@ module.exports = charenc;
 })();
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -169,19 +144,19 @@ module.exports = charenc;
  *  crc32_file(file, function(crc32Value) {})
  */
 
-var md5 = __webpack_require__(7);
+var md5 = __webpack_require__(6);
 
 exports.md5 = md5;
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 // require('es5-shim');
 // require('es5-shim/es5-sham');
+// require('console-polyfill');
 __webpack_require__(1);
-__webpack_require__(2);
 // require('babel-polyfill');
 // require('../third-party/bluebird.min.js');
 // require('../third-party/bignumber.min.js');
@@ -214,7 +189,7 @@ __webpack_require__(2);
 
 var febs = {};
 
-febs.crypt  = __webpack_require__(3);
+febs.crypt  = __webpack_require__(2);
 
 
 if (!window['febs'])
@@ -234,7 +209,7 @@ return febs;
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports) {
 
 (function() {
@@ -336,7 +311,7 @@ return febs;
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports) {
 
 /*!
@@ -363,13 +338,13 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function(){
-  var crypt = __webpack_require__(5),
+  var crypt = __webpack_require__(4),
       utf8 = __webpack_require__(0).utf8,
-      isBuffer = __webpack_require__(6),
+      isBuffer = __webpack_require__(5),
       bin = __webpack_require__(0).bin,
 
   // The core

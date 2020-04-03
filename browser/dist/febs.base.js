@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -79,7 +79,7 @@
  * Desc:
  */
 
-var utils = __webpack_require__(14);
+var utils = __webpack_require__(13);
 
 /**
  * @desc: 模拟sleep.
@@ -861,31 +861,6 @@ exports.transfer = function (window) {
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports) {
-
-// Console-polyfill. MIT license.
-// https://github.com/paulmillr/console-polyfill
-// Make it safe to do console.log() always.
-(function(global) {
-  'use strict';
-  if (!global.console) {
-    global.console = {};
-  }
-  var con = global.console;
-  var prop, method;
-  var dummy = function() {};
-  var properties = ['memory'];
-  var methods = ('assert,clear,count,debug,dir,dirxml,error,exception,group,' +
-     'groupCollapsed,groupEnd,info,log,markTimeline,profile,profiles,profileEnd,' +
-     'show,table,time,timeEnd,timeline,timelineEnd,timeStamp,trace,warn').split(',');
-  while (prop = properties.pop()) if (!con[prop]) con[prop] = {};
-  while (method = methods.pop()) if (!con[method]) con[method] = dummy;
-  // Using `this` for web workers & supports Browserify / Webpack.
-})(typeof window === 'undefined' ? this : window);
-
-
-/***/ }),
-/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -909,7 +884,7 @@ exports.transfer = function (window) {
 })();
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -949,7 +924,7 @@ animationFrame.cancelAnimationFrame = window.cancelAnimationFrame;
 module.exports = animationFrame;
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -963,7 +938,7 @@ module.exports = animationFrame;
  *  crc32_file(file, function(crc32Value) {})
  */
 
-var crypt = __webpack_require__(13);
+var crypt = __webpack_require__(12);
 
 /**
  * @desc: 计算字符串的crc32值
@@ -1122,7 +1097,7 @@ exports.uuid = function () {
 };
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1151,7 +1126,7 @@ exports.getTime = date.getTime;
 exports.getTime2 = date.getTime2;
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2753,7 +2728,7 @@ exports.Dom = Dom;
 exports.CreateDom = CreateDom;
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2766,9 +2741,9 @@ exports.CreateDom = CreateDom;
  */
 
 var febsUtils = __webpack_require__(0);
-var netajax = __webpack_require__(15);
-var netfetch = __webpack_require__(16);
-var netjsonp = __webpack_require__(17);
+var netajax = __webpack_require__(14);
+var netfetch = __webpack_require__(15);
+var netjsonp = __webpack_require__(16);
 
 'use strict';
 
@@ -2781,14 +2756,14 @@ var net = {
 module.exports = net;
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 // require('es5-shim');
 // require('es5-shim/es5-sham');
+// require('console-polyfill');
 __webpack_require__(5);
-__webpack_require__(6);
 // require('babel-polyfill');
 // require('../third-party/bluebird.min.js');
 // require('../third-party/bignumber.min.js');
@@ -2827,7 +2802,7 @@ if (!window['__debug']) {
 
 //
 // define the animationFrame.
-var animationFrame  = __webpack_require__(7);
+var animationFrame  = __webpack_require__(6);
 if (!window['requestAnimationFrame'])
   window.requestAnimationFrame = animationFrame.requestAnimationFrame;
 if (!window['cancelAnimationFrame'])
@@ -2836,12 +2811,12 @@ if (!window['cancelAnimationFrame'])
 
 var febs = {};
 
-febs.date = __webpack_require__(9);
+febs.date = __webpack_require__(8);
 febs.string = __webpack_require__(1);
-febs.crypt  = __webpack_require__(8);
+febs.crypt  = __webpack_require__(7);
 febs.utils  = __webpack_require__(0);
-febs.net  = __webpack_require__(11);
-febs.dom  = __webpack_require__(10);
+febs.net  = __webpack_require__(10);
+febs.dom  = __webpack_require__(9);
 febs['$'] = febs.dom.CreateDom;
 febs.dom = febs.dom.Dom;
 
@@ -2885,7 +2860,7 @@ return febs;
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2949,7 +2924,7 @@ exports.base64_encode = function (arrByte) {
 };
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3123,7 +3098,7 @@ exports.denodeify = function (fn, self, argumentCount) {
 };
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3305,7 +3280,7 @@ net.ajax = ajax;
 module.exports = net;
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3755,7 +3730,7 @@ if (false) {
 module.exports = net;
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
