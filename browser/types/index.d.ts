@@ -46,8 +46,8 @@ export interface StrFmt {
 /**
 * @desc: big number type
 */
-export interface BigNumber {
-  new (v:any) :BigNumber;
+export class BigNumber {
+  constructor (v:any);
 
   /**
    * Returns a BigNumber whose value is the absolute value, i.e. the magnitude, of the value of this BigNumber. The

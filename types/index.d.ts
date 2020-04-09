@@ -41,8 +41,8 @@ export interface StrFmt {
 /**
 * @desc: big number type
 */
-export interface BigNumber {
-  new(v:any):BigNumber;
+export class BigNumber {
+  constructor(v:any);
 
   /**
    * Returns a BigNumber whose value is the absolute value, i.e. the magnitude, of the value of this BigNumber. The
@@ -988,8 +988,8 @@ export namespace net {
 
 //
 // exception.
-export interface exception extends Error {
-  new(msg: string, code: string, filename: string, line: number): exception;
+export class exception extends Error {
+  constructor(msg: string, code: string, filename: string, line: number);
 
   /** @desc: 错误代码 */
   code: string;
