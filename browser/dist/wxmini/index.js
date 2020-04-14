@@ -4191,6 +4191,21 @@ exports.browserIsWeixin = function(userAgent) {
   return true;
 }
 
+/**
+ * @desc: the platform is Windows.
+ */
+exports.platformIsWindows = function(userAgent) {
+  return false;
+}
+
+
+/**
+ * @desc: the platform is Mac.
+ */
+exports.platformIsMac = function(userAgent) {
+  return false;
+}
+
 
 /***/ }),
 /* 14 */

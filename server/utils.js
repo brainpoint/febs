@@ -10,6 +10,7 @@ var spawn = require('child_process').spawn;
 var exec = require('child_process').exec;
 
 var utils = require('../browser/common/utils');
+var utilsBrowser = require('../browser/common/utils.browser');
 var utilsBigint = require('../browser/common/utils.bigint');
 
 var PromiseLib = Promise;
@@ -30,85 +31,38 @@ exports.sleep = utils.sleep;
  * @desc: the browser is mobile.
  * @param userAgent: the browser user agent string.
  */
-exports.browserIsMobile = function(userAgent) {
-
-  if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
-    }
-  }
-
-  var agent = userAgent;
-  var platforms = [
-    'Android', 'webOS', 'iPhone', 'iPad',
-    'iPod', 'Blackberry', 'Windows Phone'
-  ];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
-}
+exports.browserIsMobile = utilsBrowser.browserIsMobile;
 
 /**
  * @desc: the browser is ios.
  * @param userAgent: the browser user agent string.
  */
-exports.browserIsIOS = function(userAgent) {
-  if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
-    }
-  }
-
-  var agent = userAgent;
-  var platforms = [
-    'iPhone', 'iPad',
-    'iPod'
-  ];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
-}
+exports.browserIsIOS = utilsBrowser.browserIsIOS;
 
 
 /**
  * @desc: the browser is phone.
  * @param userAgent: the browser user agent string.
  */
-exports.browserIsPhone = function(userAgent) {
-  if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent;
-  var platforms = [
-    'Android', 'iPhone',
-    'iPod', 'Blackberry', 'Windows Phone'
-  ];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
-}
+exports.browserIsPhone = utilsBrowser.browserIsPhone;
 
 
 /**
  * @desc: the browser is weixin.
  */
-exports.browserIsWeixin = function(userAgent) {
-  if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent;
-  if(agent.match(/MicroMessenger/i)=="MicroMessenger") {
-      return true;
-  } else {
-      return false;
-  }
-}
+exports.browserIsWeixin = utilsBrowser.browserIsWeixin;
+
+
+/**
+ * @desc: the platform is Windows.
+ */
+exports.platformIsWin = utilsBrowser.platformIsWin;
+
+
+/**
+ * @desc: the platform is Mac.
+ */
+exports.platformIsMac = utilsBrowser.platformIsMac;
 
 
 /**

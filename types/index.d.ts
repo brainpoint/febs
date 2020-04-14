@@ -589,6 +589,16 @@ export namespace utils {
   function browserIEVer(): boolean;
 
   /**
+   * @desc: the platform is Windows.
+   */
+  function platformIsWin(userAgent?:string):boolean;
+
+  /**
+   * @desc: the platform is Mac.
+   */
+  function platformIsMac(userAgent?:string):boolean;
+  
+  /**
    * [only in browser]
    */
   function browserIsSupportHtml5(): boolean;

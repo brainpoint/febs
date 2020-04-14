@@ -7,6 +7,7 @@
  */
 
 var utils = require('../common/utils');
+var utilsBrowser = require('../common/utils.browser');
 
 /**
  * @desc: 模拟sleep.
@@ -89,145 +90,55 @@ exports.denodeify = utils.denodeify;
 /**
  * @desc: 判断是否是ie.
  */
-exports.browserIsIE =
-  function () {
-    if (!!window.ActiveXObject || "ActiveXObject" in window)
-      return true;
-    else
-      return false;
-  }
+exports.browserIsIE = utilsBrowser.browserIsIE;
 
 /**
  * @desc: 判断ie版本号.
  * @return number. 非ie返回Number.MAX_SAFE_INTEGER.
  *        如果是 edge 返回 'edge'
  */
-exports.browserIEVer =
-  function () {
-    if (!exports.browserIsIE()) return Number.MAX_SAFE_INTEGER;
-
-    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串  
-    var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器  
-    var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器  
-    var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
-    if (isIE) {
-      var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
-      reIE.test(userAgent);
-      var fIEVersion = parseFloat(RegExp["$1"]);
-      if (fIEVersion == 7) {
-        return 7;
-      } else if (fIEVersion == 8) {
-        return 8;
-      } else if (fIEVersion == 9) {
-        return 9;
-      } else if (fIEVersion == 10) {
-        return 10;
-      } else {
-        return 6; //IE版本<=7
-      }
-    } else if (isEdge) {
-      return 'edge'; //edge
-    } else if (isIE11) {
-      return 11; //IE11  
-    } else {
-      Number.MAX_SAFE_INTEGER;; //不是ie浏览器
-    }
-  }
+exports.browserIEVer = utilsBrowser.browserIEVer;
 
 
 /**
  * @desc: the browser is support html5.
  */
-exports.browserIsSupportHtml5 =
-  function () {
-    if (typeof (Worker) !== "undefined") {
-      return true;
-    } else {
-      return false;
-    }
-  }
+exports.browserIsSupportHtml5 = utilsBrowser.browserIsSupportHtml5;
 
 
 /**
  * @desc: the browser is mobile.
  * @param userAgent: the browser user agent string.
  */
-exports.browserIsMobile = function(userAgent) {
-
-  if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
-    }
-  }
-
-  var agent = userAgent;
-  var platforms = [
-    'Android', 'webOS', 'iPhone', 'iPad',
-    'iPod', 'Blackberry', 'Windows Phone'
-  ];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
-}
+exports.browserIsMobile = utilsBrowser.browserIsMobile;
 
 /**
  * @desc: the browser is ios.
  * @param userAgent: the browser user agent string.
  */
-exports.browserIsIOS = function(userAgent) {
-  if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
-    }
-  }
-
-  var agent = userAgent;
-  var platforms = [
-    'iPhone', 'iPad',
-    'iPod'
-  ];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
-}
+exports.browserIsIOS = utilsBrowser.browserIsIOS;
 
 
 /**
  * @desc: the browser is phone.
  * @param userAgent: the browser user agent string.
  */
-exports.browserIsPhone = function(userAgent) {
-  if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent;
-  var platforms = [
-    'Android', 'iPhone',
-    'iPod', 'Blackberry', 'Windows Phone'
-  ];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
-}
+exports.browserIsPhone = utilsBrowser.browserIsPhone;
 
 
 /**
  * @desc: the browser is weixin.
  */
-exports.browserIsWeixin = function(userAgent) {
-  if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent;
-  if(agent.match(/MicroMessenger/i)=="MicroMessenger") {
-      return true;
-  } else {
-      return false;
-  }
-}
+exports.browserIsWeixin = utilsBrowser.browserIsWeixin;
+
+
+/**
+ * @desc: the platform is Windows.
+ */
+exports.platformIsWin = utilsBrowser.platformIsWin;
+
+
+/**
+ * @desc: the platform is Mac.
+ */
+exports.platformIsMac = utilsBrowser.platformIsMac;

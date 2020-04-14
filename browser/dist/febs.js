@@ -79,15 +79,8 @@
  * Desc:
  */
 
-var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-var utils = __webpack_require__(21);
+var utils = __webpack_require__(22);
+var utilsBrowser = __webpack_require__(21);
 
 /**
  * @desc: 模拟sleep.
@@ -167,129 +160,52 @@ exports.denodeify = utils.denodeify;
 /**
  * @desc: 判断是否是ie.
  */
-exports.browserIsIE = function () {
-  if (!!window.ActiveXObject || "ActiveXObject" in window) return true;else return false;
-};
+exports.browserIsIE = utilsBrowser.browserIsIE;
 
 /**
  * @desc: 判断ie版本号.
  * @return number. 非ie返回Number.MAX_SAFE_INTEGER.
  *        如果是 edge 返回 'edge'
  */
-exports.browserIEVer = function () {
-  if (!exports.browserIsIE()) return Number.MAX_SAFE_INTEGER;
-
-  var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串  
-  var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器  
-  var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器  
-  var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
-  if (isIE) {
-    var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
-    reIE.test(userAgent);
-    var fIEVersion = parseFloat(RegExp["$1"]);
-    if (fIEVersion == 7) {
-      return 7;
-    } else if (fIEVersion == 8) {
-      return 8;
-    } else if (fIEVersion == 9) {
-      return 9;
-    } else if (fIEVersion == 10) {
-      return 10;
-    } else {
-      return 6; //IE版本<=7
-    }
-  } else if (isEdge) {
-    return 'edge'; //edge
-  } else if (isIE11) {
-    return 11; //IE11  
-  } else {
-    Number.MAX_SAFE_INTEGER;; //不是ie浏览器
-  }
-};
+exports.browserIEVer = utilsBrowser.browserIEVer;
 
 /**
  * @desc: the browser is support html5.
  */
-exports.browserIsSupportHtml5 = function () {
-  if (typeof Worker !== "undefined") {
-    return true;
-  } else {
-    return false;
-  }
-};
+exports.browserIsSupportHtml5 = utilsBrowser.browserIsSupportHtml5;
 
 /**
  * @desc: the browser is mobile.
  * @param userAgent: the browser user agent string.
  */
-exports.browserIsMobile = function (userAgent) {
-
-  if (!userAgent) {
-    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined) {
-      userAgent = window.navigator.userAgent;
-    }
-  }
-
-  var agent = userAgent;
-  var platforms = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'Blackberry', 'Windows Phone'];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
-};
+exports.browserIsMobile = utilsBrowser.browserIsMobile;
 
 /**
  * @desc: the browser is ios.
  * @param userAgent: the browser user agent string.
  */
-exports.browserIsIOS = function (userAgent) {
-  if (!userAgent) {
-    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined) {
-      userAgent = window.navigator.userAgent;
-    }
-  }
-
-  var agent = userAgent;
-  var platforms = ['iPhone', 'iPad', 'iPod'];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
-};
+exports.browserIsIOS = utilsBrowser.browserIsIOS;
 
 /**
  * @desc: the browser is phone.
  * @param userAgent: the browser user agent string.
  */
-exports.browserIsPhone = function (userAgent) {
-  if (!userAgent) {
-    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined) {
-      userAgent = window.navigator.userAgent;
-    }
-  }
-
-  var agent = userAgent;
-  var platforms = ['Android', 'iPhone', 'iPod', 'Blackberry', 'Windows Phone'];
-  var expression = new RegExp(platforms.join('|'), 'i');
-
-  return agent.match(expression) != null;
-};
+exports.browserIsPhone = utilsBrowser.browserIsPhone;
 
 /**
  * @desc: the browser is weixin.
  */
-exports.browserIsWeixin = function (userAgent) {
-  if (!userAgent) {
-    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined) {
-      userAgent = window.navigator.userAgent;
-    }
-  }
+exports.browserIsWeixin = utilsBrowser.browserIsWeixin;
 
-  var agent = userAgent;
-  if (agent.match(/MicroMessenger/i) == "MicroMessenger") {
-    return true;
-  } else {
-    return false;
-  }
-};
+/**
+ * @desc: the platform is Windows.
+ */
+exports.platformIsWin = utilsBrowser.platformIsWin;
+
+/**
+ * @desc: the platform is Mac.
+ */
+exports.platformIsMac = utilsBrowser.platformIsMac;
 
 /***/ }),
 /* 1 */
@@ -4190,7 +4106,7 @@ exports.uuid = function () {
  *  crc32_file(file, function(crc32Value) {})
  */
 
-var md5 = __webpack_require__(28);
+var md5 = __webpack_require__(29);
 
 exports.md5 = md5;
 
@@ -4209,7 +4125,7 @@ exports.md5 = md5;
  *  crc32_file(file, function(crc32Value) {})
  */
 
-var sha1 = __webpack_require__(29);
+var sha1 = __webpack_require__(30);
 
 exports.sha1 = sha1;
 
@@ -5858,9 +5774,9 @@ exports.CreateDom = CreateDom;
  */
 
 var febsUtils = __webpack_require__(0);
-var netajax = __webpack_require__(22);
-var netfetch = __webpack_require__(23);
-var netjsonp = __webpack_require__(24);
+var netajax = __webpack_require__(23);
+var netfetch = __webpack_require__(24);
+var netjsonp = __webpack_require__(25);
 
 'use strict';
 
@@ -6160,8 +6076,8 @@ function fromByteArray (uint8) {
 
 
 var base64 = __webpack_require__(18)
-var ieee754 = __webpack_require__(25)
-var isArray = __webpack_require__(27)
+var ieee754 = __webpack_require__(26)
+var isArray = __webpack_require__(28)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -7939,7 +7855,7 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ }),
 /* 20 */
@@ -8007,6 +7923,195 @@ exports.base64_encode = function (arrByte) {
 
 /***/ }),
 /* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+* Copyright (c) 2020 Copyright bp All Rights Reserved.
+* Author: lipengxiang
+* Date: 2020-04-14 12:46
+* Desc: 
+*/
+
+/**
+ * @desc: 判断是否是ie.
+ */
+
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
+exports.browserIsIE = function () {
+  if (!!window.ActiveXObject || "ActiveXObject" in window) return true;else return false;
+};
+
+/**
+ * @desc: 判断ie版本号.
+ * @return number. 非ie返回Number.MAX_SAFE_INTEGER.
+ *        如果是 edge 返回 'edge'
+ */
+exports.browserIEVer = function () {
+  if (!exports.browserIsIE()) return Number.MAX_SAFE_INTEGER;
+
+  var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串  
+  var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器  
+  var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器  
+  var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+  if (isIE) {
+    var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+    reIE.test(userAgent);
+    var fIEVersion = parseFloat(RegExp["$1"]);
+    if (fIEVersion == 7) {
+      return 7;
+    } else if (fIEVersion == 8) {
+      return 8;
+    } else if (fIEVersion == 9) {
+      return 9;
+    } else if (fIEVersion == 10) {
+      return 10;
+    } else {
+      return 6; //IE版本<=7
+    }
+  } else if (isEdge) {
+    return 'edge'; //edge
+  } else if (isIE11) {
+    return 11; //IE11  
+  } else {
+    Number.MAX_SAFE_INTEGER;; //不是ie浏览器
+  }
+};
+
+/**
+ * @desc: the browser is support html5.
+ */
+exports.browserIsSupportHtml5 = function () {
+  if (typeof Worker !== "undefined") {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+/**
+ * @desc: the browser is mobile.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsMobile = function (userAgent) {
+
+  if (!userAgent) {
+    if ((typeof window === "undefined" ? "undefined" : _typeof(window)) !== undefined) {
+      userAgent = window.navigator.userAgent;
+    }
+  }
+
+  var agent = userAgent;
+  var platforms = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'Blackberry', 'Windows Phone'];
+  var expression = new RegExp(platforms.join('|'), 'i');
+
+  return agent.match(expression) != null;
+};
+
+/**
+ * @desc: the browser is ios.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsIOS = function (userAgent) {
+  if (!userAgent) {
+    if ((typeof window === "undefined" ? "undefined" : _typeof(window)) !== undefined) {
+      userAgent = window.navigator.userAgent;
+    }
+  }
+
+  var agent = userAgent;
+  var platforms = ['iPhone', 'iPad', 'iPod'];
+  var expression = new RegExp(platforms.join('|'), 'i');
+
+  return agent.match(expression) != null;
+};
+
+/**
+ * @desc: the browser is phone.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsPhone = function (userAgent) {
+  if (!userAgent) {
+    if ((typeof window === "undefined" ? "undefined" : _typeof(window)) !== undefined) {
+      userAgent = window.navigator.userAgent;
+    }
+  }
+
+  var agent = userAgent;
+  var platforms = ['Android', 'iPhone', 'iPod', 'Blackberry', 'Windows Phone'];
+  var expression = new RegExp(platforms.join('|'), 'i');
+
+  return agent.match(expression) != null;
+};
+
+/**
+ * @desc: the browser is weixin.
+ */
+exports.browserIsWeixin = function (userAgent) {
+  if (!userAgent) {
+    if ((typeof window === "undefined" ? "undefined" : _typeof(window)) !== undefined) {
+      userAgent = window.navigator.userAgent;
+    }
+  }
+
+  var agent = userAgent;
+  if (agent.match(/MicroMessenger/i) == "MicroMessenger") {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+/**
+ * @desc: the platform is Windows.
+ */
+exports.platformIsWin = function (userAgent) {
+  if (!userAgent) {
+    if ((typeof window === "undefined" ? "undefined" : _typeof(window)) !== undefined) {
+      userAgent = window.navigator.userAgent;
+    }
+  }
+
+  var agent = userAgent;
+  if (agent.indexOf("win32") >= 0 || agent.indexOf("wow32") >= 0) {
+    return true;
+  }
+  if (agent.indexOf("win64") >= 0 || agent.indexOf("wow64") >= 0) {
+    return true;
+  }
+
+  return false;
+};
+
+/**
+ * @desc: the platform is Mac.
+ */
+exports.platformIsMac = function (userAgent) {
+  if (!userAgent) {
+    if ((typeof window === "undefined" ? "undefined" : _typeof(window)) !== undefined) {
+      userAgent = window.navigator.userAgent;
+    }
+  }
+
+  var agent = userAgent;
+  if (/macintosh|mac os x/i.test(agent)) {
+    return true;
+  }
+
+  return false;
+};
+
+/***/ }),
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8107,7 +8212,7 @@ exports.denodeify = function (fn, self, argumentCount) {
 };
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8289,7 +8394,7 @@ net.ajax = ajax;
 module.exports = net;
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8739,7 +8844,7 @@ if (false) {
 module.exports = net;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8835,7 +8940,7 @@ net.jsonp = febsnet.jsonp;
 module.exports = net;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -8925,7 +9030,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports) {
 
 /*!
@@ -8952,7 +9057,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -8963,13 +9068,13 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function(){
   var crypt = __webpack_require__(4),
       utf8 = __webpack_require__(1).utf8,
-      isBuffer = __webpack_require__(26),
+      isBuffer = __webpack_require__(27),
       bin = __webpack_require__(1).bin,
 
   // The core
@@ -9129,7 +9234,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {(function() {
@@ -9218,7 +9323,7 @@ module.exports = Array.isArray || function (arr) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19).Buffer))
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports) {
 
 var g;
