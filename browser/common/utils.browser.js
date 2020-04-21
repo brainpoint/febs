@@ -53,7 +53,7 @@ exports.browserIEVer =
     } else if (isIE11) {
       return 11; //IE11  
     } else {
-      Number.MAX_SAFE_INTEGER;; //不是ie浏览器
+      return Number.MAX_SAFE_INTEGER;; //不是ie浏览器
     }
   }
 

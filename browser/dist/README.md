@@ -4,21 +4,9 @@ febs实现了jquery的常用方法(dom操作/事件/css/遍历等), 当页面引
 
 大多数场景下可以使用febs库代替jquery, 而解决jquery臃肿的问题.
 
-> 兼容ie8及以上浏览器
+> 兼容ie9及以上浏览器
 
-> ie8中使用 `febs.ie8.js` 文件.
-
-febs按功能分为如下的js包.
-
-| name |  require path  |  feature     |
-|----|--------|-------|
-| febs.js  |  require('febs-browser')  |  all feature |
-| febs.base.js  |  require('febs-browser/base')  |  base feature |
-| febs.bigint.js  |  require('febs-browser/bigint')  |  bigint feature: febs.utils.bigint_xxx |
-| febs.md5.js  |  require('febs-browser/md5')  |  md5 crypto feature: febs.crypt.md5() |
-| febs.sha1.js  |  require('febs-browser/sha1')  |  sha1 crypto feature: febs.crypt.sha1() |
-
-
+> 支持微信小程序 (暂时不支持dom库)
 
 # Install
 
@@ -63,7 +51,7 @@ febs.string.replace();
 以下列方式使用
 
 ```js
-import febs from 'febs-browser'; // 使用febs的客户端部分代码.
+import * as febs from 'febs-browser'; // 使用febs的客户端部分代码.
 
 //
 febs.string.replace();

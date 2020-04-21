@@ -1,3 +1,5 @@
+// require('core-js/stable');
+// require('regenerator-runtime/runtime');
 
 // require('es5-shim');
 // require('es5-shim/es5-sham');

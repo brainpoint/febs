@@ -52,9 +52,8 @@ function build(pkg, inputFile, outputFile) {
                     "ie": "9",
                     "firefox": "40",
                     "safari": "11",
-                    node: 8
                   },
-                  corejs: 2,
+                  corejs: 3,
                   useBuiltIns: 'usage'
                 }
               ]

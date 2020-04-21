@@ -43,7 +43,6 @@
     "browser/libs",
     "browser/dist",
     "browser/index.js",
-    "browser/index.ie8.js",
     "server",
     "test",
     "types",
@@ -63,5 +62,5 @@
     "test": "tap test/*.js"
   },
   "name": "febs",
-  "version": "1.0.0"
+  "version": "1.0.2"
 }

@@ -77,7 +77,7 @@ exports.denodeify = function (fn, self, argumentCount) {
   argumentCount = argumentCount || Infinity;
   return function () {
     var args = Array.prototype.slice.call(arguments, 0,
-        argumentCount > 0 ? argumentCount : 0);
+        (argumentCount > 0 ? argumentCount : 0));
     return new PromiseLib(function (resolve, reject) {
       args.push(function (err, res) {
         if (err) reject(err);

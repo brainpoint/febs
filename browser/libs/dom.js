@@ -201,7 +201,7 @@
     } else {
       _elem = name;
     }
-    return {_elem, _isarr};
+    return {_elem:_elem, _isarr:_isarr};
   }
 
 
@@ -1452,8 +1452,8 @@
       elementScrollLeft=window.document.body.scrollLeft;
       elementScrollTop=window.document.body.scrollTop;
 　　} else {  // CSS1Compat
-　　　 elementScrollLeft=document.documentElement.scrollLeft == 0 ? document.body.scrollLeft : document.documentElement.scrollLeft;
-      elementScrollTop=document.documentElement.scrollTop == 0 ? document.body.scrollTop : document.documentElement.scrollTop;
+　　　 elementScrollLeft = (document.documentElement.scrollLeft == 0) ? document.body.scrollLeft : document.documentElement.scrollLeft;
+      elementScrollTop = (document.documentElement.scrollTop == 0) ? document.body.scrollTop : document.documentElement.scrollTop;
 　　}
 
     return {
@@ -1499,8 +1499,8 @@
             elementScrollLeft=window.document.body.scrollLeft;
             elementScrollTop=window.document.body.scrollTop;
   　　　　} else {
-            elementScrollLeft=window.document.documentElement.scrollLeft == 0 ? window.document.body.scrollLeft : window.document.documentElement.scrollLeft;
-            elementScrollTop=window.document.documentElement.scrollTop == 0 ? window.document.body.scrollTop : window.document.documentElement.scrollTop;
+            elementScrollLeft = (window.document.documentElement.scrollLeft == 0) ? window.document.body.scrollLeft : window.document.documentElement.scrollLeft;
+            elementScrollTop = (window.document.documentElement.scrollTop == 0) ? window.document.body.scrollTop : window.document.documentElement.scrollTop;
   　　　　}
 
         return {
@@ -1518,11 +1518,7 @@
   * @return: boolean.
   */
   Dom.isDom = function(e) {
-    return (typeof HTMLElement === 'object') ? (
-      e instanceof HTMLElement
-    ) : (
-        e && typeof e === 'object' && e.nodeType === 1 && typeof e.nodeName === 'string'
-      );
+    return (typeof HTMLElement === 'object') ? (e instanceof HTMLElement) : (e && typeof e === 'object' && e.nodeType === 1 && typeof e.nodeName === 'string');
   }
 
   /**
