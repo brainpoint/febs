@@ -7,31 +7,19 @@ require('./common/promise-finally-polyfill');
 // require('../third-party/bluebird.min.js');
 // require('../third-party/bignumber.min.js');
 
-( function( global, factory ) {
-
-	"use strict";
-
-	if ( typeof module === "object" && typeof module.exports === "object" ) {
-
-		// For CommonJS and CommonJS-like environments where a proper `window`
-		// For environments that do not have a `window` with a `document`
-		// (such as Node.js), expose a factory as module.exports.
-		// This accentuates the need for the creation of a real `window`.
-		module.exports = global.document ?
-			factory( global, true ) :
-			function( w ) {
-				if ( !w.document ) {
-					throw new Error( "febs requires a window with a document" );
-				}
-				return factory( w );
-			};
-	} else {
-		factory( global );
-	}
-
-// Pass this if window is not defined yet
-} )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
-
+//
+// define the animationFrame.
+var animationFrame  = require('./libs/animationFrame');
+var _BigNumber = require('bignumber.js');
+var _date  = require('./libs/date');
+var _utils  = require('./libs/utils');
+var _string = require('./libs/string');
+var _crypt  = require('./libs/crypt');
+var _cryptMd5  = require('./libs/crypt.md5');
+var _cryptSha1  = require('./libs/crypt.sha1');
+var _utilsBig  = require('./common/utils.bigint');
+var _net  = require('./libs/net');
+var _dom  = require('./libs/dom');
 
 //
 // define the __debug.
@@ -41,7 +29,6 @@ if (!window['__debug']) {
 
 //
 // define the animationFrame.
-var animationFrame  = require('./libs/animationFrame');
 if (!window['requestAnimationFrame'])
   window.requestAnimationFrame = animationFrame.requestAnimationFrame;
 if (!window['cancelAnimationFrame'])
@@ -51,23 +38,15 @@ if (!window['cancelAnimationFrame'])
 var febs = {};
 febs.__debug = window.__debug;
 
-febs.BigNumber = require('bignumber.js');
-
-febs.date  = require('./libs/date');
-febs.utils  = require('./libs/utils');
-febs.string = require('./libs/string');
-febs.crypt  = require('./libs/crypt');
-var cryptMd5  = require('./libs/crypt.md5');
-febs.crypt = febs.utils.mergeMap(febs.crypt, cryptMd5);
-var cryptSha1  = require('./libs/crypt.sha1');
-febs.crypt = febs.utils.mergeMap(febs.crypt, cryptSha1);
-
-var utilsBig  = require('./common/utils.bigint');
-febs.utils = febs.utils.mergeMap(febs.utils, utilsBig);
-febs.net  = require('./libs/net');
-febs.dom  = require('./libs/dom');
-febs['$'] = febs.dom.CreateDom;
-febs.dom = febs.dom.Dom;
+febs.BigNumber = _BigNumber;
+febs.date  = _date;
+febs.utils = _utils;
+febs.utils  = febs.utils.mergeMap(_utils, _utilsBig);
+febs.string = _string;
+febs.crypt = febs.utils.mergeMap(_crypt, _cryptMd5, _cryptSha1);
+febs.net  = _net
+febs['$'] = _dom.CreateDom;
+febs.dom = _dom.Dom;
 
 if (!window['febs'])
   window['febs'] = febs;
@@ -88,6 +67,7 @@ if (!window['jQuery'])
 // debug.
 //
 // if (!console.debug) {
+if (window.console) {
   window.console.debug = function() {
     if (window.__debug) {
       var logfoo;
@@ -101,8 +81,29 @@ if (!window['jQuery'])
       }
     }
   }
+}
 // }
 
-return febs;
-}
-);
+
+const __debug = febs.__debug;
+
+const BigNumber = febs.BigNumber;
+const date = febs.date;
+const utils = febs.utils;
+const string = febs.string;
+const crypt = febs.crypt;
+const net = febs.net;
+const $ = febs['$'];
+const dom = febs.dom;
+
+export {
+  __debug,
+  BigNumber,
+  date,
+  utils,
+  string,
+  crypt,
+  net,
+  $,
+  dom
+};

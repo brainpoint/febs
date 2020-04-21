@@ -49,10 +49,8 @@ febs.string.replace();
 
 # babel
 
-以下列方式使用
-
 ```js
-import febs from 'febs';
+import * as febs from 'febs';
 
 //
 febs.string.replace();

@@ -63,7 +63,7 @@ febs.string.replace();
 以下列方式使用
 
 ```js
-import febs from 'febs-browser'; // 使用febs的客户端部分代码.
+import * as febs from 'febs-browser'; // 使用febs的客户端部分代码.
 
 //
 febs.string.replace();
