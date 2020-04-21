@@ -49,12 +49,12 @@ function build(pkg, inputFile, outputFile) {
                   modules: false,
                   targets: {
                     "chrome": "50",
-                    "ie": "10",
+                    "ie": "9",
                     "firefox": "40",
                     "safari": "11",
                     node: 8
                   },
-                  corejs: '2',
+                  corejs: 2,
                   useBuiltIns: 'usage'
                 }
               ]
@@ -154,5 +154,5 @@ function getInputMain(mainfile) {
 }
 
 build(cwd, 'index.js', 'index').then(res=>{}).catch(e=>{console.error(e)})
-build(cwd, 'index.ie8.js', 'index.ie8').then(res=>{}).catch(e=>{console.error(e)})
+// build(cwd, 'index.ie8.js', 'index.ie8').then(res=>{}).catch(e=>{console.error(e)})
 // build(cwd, 'wxmini/index.js', 'wxmini/index').then(res=>{}).catch(e=>{console.error(e)})

@@ -1,5 +1,5 @@
 /*!
- * febs v1.0.0
+ * febs v1.0.1
  * Copyright (c) 2020 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
@@ -1378,6 +1378,19 @@
 	} else if ($toString.name != TO_STRING) {
 	  define(function toString() {
 	    return $toString.call(this);
+	  });
+	}
+
+	var DateProto = Date.prototype;
+	var INVALID_DATE = 'Invalid Date';
+	var TO_STRING$1 = 'toString';
+	var $toString$1 = DateProto[TO_STRING$1];
+	var getTime = DateProto.getTime;
+	if (new Date(NaN) + '' != INVALID_DATE) {
+	  _redefine(DateProto, TO_STRING$1, function toString() {
+	    var value = getTime.call(this);
+	    // eslint-disable-next-line no-self-compare
+	    return value === value ? $toString$1.call(this) : INVALID_DATE;
 	  });
 	}
 
@@ -5581,7 +5594,7 @@
 	 */
 
 
-	var getTime = function getTime(strTime) {
+	var getTime$1 = function getTime(strTime) {
 	  var date = new Date();
 	  date.setFullYear(parseInt(strTime.substr(0, 4)), parseInt(strTime.substr(5, 2), 10) - 1, parseInt(strTime.substr(8, 2)));
 	  date.setHours(parseInt(strTime.substr(11, 2)) || 0, parseInt(strTime.substr(14, 2)) || 0, parseInt(strTime.substr(17, 2)) || 0, 0);
@@ -5738,7 +5751,7 @@
 	  isValidate: isValidate,
 	  getTimeString: getTimeString_1,
 	  getTimeStringFromNow: getTimeStringFromNow,
-	  getTime: getTime,
+	  getTime: getTime$1,
 	  getTime2: getTime2,
 	  getDate: getDate,
 	  getDate2: getDate2,
@@ -5767,7 +5780,7 @@
 	var getUTCTimeString$1 = date.getUTCTimeString;
 	var getTimeStringFromNow$1 = date.getTimeStringFromNow;
 	var getTimeFromUTC$1 = date.getTimeFromUTC;
-	var getTime$1 = date.getTime;
+	var getTime$2 = date.getTime;
 	var getTime2$1 = date.getTime2;
 	var date_1 = {
 	  isValidate: isValidate$1,
@@ -5780,7 +5793,7 @@
 	  getUTCTimeString: getUTCTimeString$1,
 	  getTimeStringFromNow: getTimeStringFromNow$1,
 	  getTimeFromUTC: getTimeFromUTC$1,
-	  getTime: getTime$1,
+	  getTime: getTime$2,
 	  getTime2: getTime2$1
 	};
 

@@ -70,7 +70,6 @@
     "common",
     "wxmini",
     "index.js",
-    "index.ie8.js",
     "base.js",
     "bigint.js",
     "md5.js",
@@ -92,5 +91,5 @@
     "prepare": "node scripts/webpack.build.js && node scripts/bundle.js"
   },
   "name": "febs-browser",
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
