@@ -554,7 +554,7 @@
 
       var _thisLength = (this.length) ? this.length : 1;
 
-      for (var i = 0; i < _thisLength; i++) {
+      for (var i = _thisLength-1; i >= 0; i--) {
         _removeElement(this.get(i));
       }
       return this;

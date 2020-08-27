@@ -22,6 +22,7 @@ declare global {
 
 export const __debug:boolean;
 
+export 
 export interface WeekFmt {
   '0'?: string;
   '1'?: string;
@@ -1148,3 +1149,5 @@ export namespace dom {
   */
   function removeEventListener(domElement:any, event:string, func:any, useCapture?:boolean):null;
 }
+
+export function $(select: SELECTOR): dom;

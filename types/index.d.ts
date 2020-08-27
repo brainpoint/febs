@@ -1399,3 +1399,5 @@ export namespace dom {
   */
   function removeEventListener(domElement:any, event:string, func:any, useCapture?:boolean):null;
 }
+
+export function $(select: SELECTOR): dom;
