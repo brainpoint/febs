@@ -22,7 +22,7 @@ declare global {
 
 export const __debug:boolean;
 
-export 
+
 export interface WeekFmt {
   '0'?: string;
   '1'?: string;
