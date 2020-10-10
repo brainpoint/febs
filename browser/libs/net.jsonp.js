@@ -8,9 +8,12 @@ var febsUtils = require('./utils');
 
 'use strict';
 
+var Window = "undefined" != typeof window ? window : ("undefined" != typeof global ? global : ("undefined" != typeof self ? self : undefined));
+
 var DefaultTimeout = 5000;
 var febsnet = {};
 var net = {};
+
 
 //--------------------------------------------------------
 // jsonp
@@ -31,7 +34,7 @@ febsnet.jsonp_clearFunction = function (functionName) {
   // IE8 throws an exception when you try to delete a property on window
   // http://stackoverflow.com/a/1824228/751089
   try {
-    delete window[functionName];
+    delete Window[functionName];
   } catch(e) {
   }
 }
@@ -51,7 +54,7 @@ febsnet.jsonp = function(url, options) {
   return new Promise(function(resolve, reject) {
     var callbackFunction = febsnet.jsonp_generateCallbackFunction();
 
-    window[callbackFunction] = function(response) {
+    Window[callbackFunction] = function(response) {
       resolve({
         ok: true,
         // keep consistent with fetch API

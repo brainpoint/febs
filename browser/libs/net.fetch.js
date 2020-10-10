@@ -8,6 +8,8 @@ var febsUtils = require('./utils');
 
 'use strict';
 
+var Window = "undefined" != typeof window ? window : ("undefined" != typeof global ? global : ("undefined" != typeof self ? self : undefined));
+
 var transfer = require('./net.transfer');
 
 var febsnet = {};
@@ -127,17 +129,22 @@ else {
     return febsnet.fileReaderReady(reader)
   }
 
-  febsnet.support = {
-    blob: 'FileReader' in window.self && 'Blob' in window.self && (function() {
-      try {
-        new Blob();
-        return true
-      } catch(e) {
-        return false
-      }
-    })(),
-    formData: 'FormData' in window.self,
-    arrayBuffer: 'ArrayBuffer' in window.self
+  if (!Window.self) {
+    febsnet.support = {}
+  }
+  else {
+    febsnet.support = {
+      blob: 'FileReader' in Window.self && 'Blob' in Window.self && (function() {
+        try {
+          new Blob();
+          return true
+        } catch(e) {
+          return false
+        }
+      })(),
+      formData: 'FormData' in Window.self,
+      arrayBuffer: 'ArrayBuffer' in Window.self
+    }
   }
 
   febsnet.Body = function () {
@@ -332,11 +339,11 @@ else {
     return new febsnet.Response(null, {status: status, headers: {location: url}})
   }
 
-  window.Headers = febsnet.Headers;
-  window.Request = febsnet.Request;
-  window.Response = febsnet.Response;
+  Window.Headers = febsnet.Headers;
+  Window.Request = febsnet.Request;
+  Window.Response = febsnet.Response;
 
-  window.fetch = febsnet.fetch = function(input, init) {
+  Window.fetch = febsnet.fetch = function(input, init) {
 
     // other.
     return new Promise(function(resolve, reject) {
@@ -347,7 +354,7 @@ else {
         request = new febsnet.Request(input, init)
       }
 
-      var xhr = transfer.transfer(window);
+      var xhr = transfer.transfer(Window);
 
       function responseURL() {
         if ('responseURL' in xhr) {

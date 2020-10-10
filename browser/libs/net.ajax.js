@@ -8,6 +8,8 @@ var febsUtils = require('./utils');
 
 'use strict';
 
+var Window = "undefined" != typeof window ? window : ("undefined" != typeof global ? global : ("undefined" != typeof self ? self : undefined));
+
 var transfer = require('./net.transfer');
 
 // var Ajaxmark = Symbol('ajaxmark');
@@ -25,23 +27,23 @@ var net = {};
  */
 function ajax( ctx )
 {
-  //if (!!window.ActiveXObject || "ActiveXObject" in window) // ie11.
+  //if (!!Window.ActiveXObject || "ActiveXObject" in Window) // ie11.
   {
     if (ctx.url)
     {
-      if (!window[Ajaxmark]) window[Ajaxmark] = 1;
+      if (!Window[Ajaxmark]) Window[Ajaxmark] = 1;
       var i = ctx.url.indexOf('?');
       if (i < 0) {
-        ctx.url += "?ajaxmark="+window[Ajaxmark];
+        ctx.url += "?ajaxmark="+Window[Ajaxmark];
       } else {
         if (i == ctx.url.length-1) {
-          ctx.url += "ajaxmark="+window[Ajaxmark];
+          ctx.url += "ajaxmark="+Window[Ajaxmark];
         } else {
-          ctx.url += "&ajaxmark="+window[Ajaxmark];
+          ctx.url += "&ajaxmark="+Window[Ajaxmark];
         }
       }
     }
-    window[Ajaxmark]++;
+    Window[Ajaxmark]++;
   } // if.
 
   var cbError = ctx.error || function(){}
@@ -52,7 +54,7 @@ function ajax( ctx )
 
   //
   // net transfer.
-  var xhr = transfer.transfer(window);
+  var xhr = transfer.transfer(Window);
 
   // xhr.onload = function() {
   //   var status = (xhr.status === 1223) ? 204 : xhr.status

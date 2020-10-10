@@ -7,6 +7,7 @@
 * Desc: 
 */
 
+var Window = "undefined" != typeof window ? window : ("undefined" != typeof global ? global : ("undefined" != typeof self ? self : undefined));
 
 
 /**
@@ -14,7 +15,7 @@
  */
 exports.browserIsIE =
   function () {
-    if (!!window.ActiveXObject || "ActiveXObject" in window)
+    if (!!Window.ActiveXObject || "ActiveXObject" in Window)
       return true;
     else
       return false;
@@ -78,8 +79,8 @@ exports.browserIsSupportHtml5 =
 exports.browserIsMobile = function(userAgent) {
 
   if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
+    if (typeof Window !== undefined) {
+      userAgent = Window.navigator.userAgent
     }
   }
 
@@ -99,8 +100,8 @@ exports.browserIsMobile = function(userAgent) {
  */
 exports.browserIsIOS = function(userAgent) {
   if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
+    if (typeof Window !== undefined) {
+      userAgent = Window.navigator.userAgent
     }
   }
 
@@ -121,8 +122,8 @@ exports.browserIsIOS = function(userAgent) {
  */
 exports.browserIsPhone = function(userAgent) {
   if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
+    if (typeof Window !== undefined) {
+      userAgent = Window.navigator.userAgent
     }
   }
   
@@ -142,8 +143,8 @@ exports.browserIsPhone = function(userAgent) {
  */
 exports.browserIsWeixin = function(userAgent) {
   if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
+    if (typeof Window !== undefined) {
+      userAgent = Window.navigator.userAgent
     }
   }
   
@@ -161,8 +162,8 @@ exports.browserIsWeixin = function(userAgent) {
  */
 exports.platformIsWin = function(userAgent) {
   if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
+    if (typeof Window !== undefined) {
+      userAgent = Window.navigator.userAgent
     }
   }
   
@@ -183,8 +184,8 @@ exports.platformIsWin = function(userAgent) {
  */
 exports.platformIsMac = function(userAgent) {
   if (!userAgent) {
-    if (typeof window !== undefined) {
-      userAgent = window.navigator.userAgent
+    if (typeof Window !== undefined) {
+      userAgent = Window.navigator.userAgent
     }
   }
   

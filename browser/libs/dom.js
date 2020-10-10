@@ -1,4 +1,6 @@
 
+  var Window = "undefined" != typeof window ? window : ("undefined" != typeof global ? global : ("undefined" != typeof self ? self : undefined));
+
   var utils = require('./utils');
   var stringUtils = require('./string');
 
@@ -48,15 +50,15 @@
 
     if (!parentNodes || parentNodes.length == 0) {
       if (2 == tag) {
-        elems = window.document.getElementsByClassName(name);
+        elems = Window.document.getElementsByClassName(name);
       }
       else if (1 == tag) {
-        elems = window.document.getElementById(name);
+        elems = Window.document.getElementById(name);
         if (elems) elems = [elems];
         else elems = [];
       }
       else if (0 == tag) {
-        elems = window.document.getElementsByTagName(name);
+        elems = Window.document.getElementsByTagName(name);
       }
 
       // attrvalue.
@@ -169,7 +171,7 @@
     var _isarr = false;
     if (typeof name === 'string') {
       if (name[0] == '<') {
-        _elem = window.document.createElement('div');
+        _elem = Window.document.createElement('div');
         _elem.innerHTML = name;
         if (_elem.childNodes.length == 1) {
           _elem = _elem.childNodes[0];
@@ -309,7 +311,7 @@
         d.appendChild(obj.cloneNode(true)); 
         return obj.nodeType==1 ? true : false; 
     }catch(e){ 
-        return obj==window || obj==document; 
+        return obj==Window || obj==document; 
     } 
 } 
 
@@ -334,7 +336,7 @@
       //
       // save in '_elem', '_isArr' 
       //
-      if (name === window.document || name == window) {
+      if (name === Window.document || name == Window) {
         this._elem = name;
         this._isArr = false;
       }
@@ -370,12 +372,12 @@
       this.live = this.on;
       this.die = this.off;
 
-      if (name === window.document) {
+      if (name === Window.document) {
         this.ready = function(f) { if (f) { 
-            if (window.addEventListener)
-              window.document.addEventListener('DOMContentLoaded', f); 
+            if (Window.addEventListener)
+              Window.document.addEventListener('DOMContentLoaded', f); 
             else
-              window.document.attachEvent('onload', f);
+              Window.document.attachEvent('onload', f);
           }
           else {
             _this.trigger('ready');
@@ -383,24 +385,24 @@
           return _this; 
         }
         this.unload = function(f) { if (f) { 
-          if (window.addEventListener)
-            window.document.addEventListener('unload', f); 
+          if (Window.addEventListener)
+            Window.document.addEventListener('unload', f); 
           else
-            window.document.attachEvent('onunload', f);
+            Window.document.attachEvent('onunload', f);
           }
           else {
             _this.trigger('unload');
           }
           return _this; 
         }
-        this.context = window.document;
+        this.context = Window.document;
       }
-      else if (name === window) {
+      else if (name === Window) {
         this.unload = function(f) { if (f) { 
-          if (window.addEventListener)
-            window.addEventListener('unload', f); 
+          if (Window.addEventListener)
+            Window.addEventListener('unload', f); 
           else
-            window.attachEvent('onunload', f); 
+            Window.attachEvent('onunload', f); 
           }
           else {
             _this.trigger('unload');
@@ -409,21 +411,21 @@
         }
       }
       else {
-        this.context = window.document;
+        this.context = Window.document;
       }
 
       if (typeof name === 'function') {
         function foo(e){
           name.bind(_this)(e);
-          if (window.addEventListener)
-            window.document.removeEventListener('DOMContentLoaded', foo);
+          if (Window.addEventListener)
+            Window.document.removeEventListener('DOMContentLoaded', foo);
           else
-            window.document.detachEvent('onload', foo);
+            Window.document.detachEvent('onload', foo);
         }
-        if (window.addEventListener)
-          window.document.addEventListener('DOMContentLoaded', foo);
+        if (Window.addEventListener)
+          Window.document.addEventListener('DOMContentLoaded', foo);
         else
-          window.document.attachEvent('onload', foo);
+          Window.document.attachEvent('onload', foo);
       }
       else {
         function ttt(event, f) {
@@ -1013,11 +1015,11 @@
         // fire.
         if (ee) {
           if ('on'+eventname in ee) {
-            if (!window.document.addEventListener) {
+            if (!Window.document.addEventListener) {
               ee.fireEvent('on'+eventname);
             }
             else {
-              var env = window.document.createEvent('HTMLEvents');
+              var env = Window.document.createEvent('HTMLEvents');
               env.initEvent(eventname, true, true);
               ee.dispatchEvent(env);
             }
@@ -1029,7 +1031,7 @@
               var j;
 
               var enve;
-              // if (!window.document.addEventListener) {
+              // if (!Window.document.addEventListener) {
                 enve = {
                   bubbles: false,
                   cancelable: false,
@@ -1041,7 +1043,7 @@
                 };
               // }
               // else {
-              //   enve = window.document.createEvent('HTMLEvents');
+              //   enve = Window.document.createEvent('HTMLEvents');
               //   enve.initEvent(eventname, false, false);
               // }
 
@@ -1114,7 +1116,7 @@
         if (!this.get(i).parentNode) continue;
         var elem = this.get(i);
         while (elem.parentNode) {
-          if (elem.parentNode == window || elem.parentNode == window.document)
+          if (elem.parentNode == Window || elem.parentNode == Window.document)
             break;
 
           if (!sel || sel._isElementIn(elem.parentNode)) {
@@ -1409,15 +1411,15 @@
   * @return: {width, height}
   */
   Dom.getViewPort = function() {
-    if(window.document.compatMode == "BackCompat") {   //浏览器嗅探，混杂模式
+    if(Window.document.compatMode == "BackCompat") {   //浏览器嗅探，混杂模式
         return {
-            width: window.document.body.clientWidth,
-            height: window.document.body.clientHeight
+            width: Window.document.body.clientWidth,
+            height: Window.document.body.clientHeight
         };
     } else {
         return {
-            width: window.document.documentElement.clientWidth,
-            height: window.document.documentElement.clientHeight
+            width: Window.document.documentElement.clientWidth,
+            height: Window.document.documentElement.clientHeight
         };
     }
   }
@@ -1427,15 +1429,15 @@
   * @return: {width, height}
   */
   Dom.getDocumentPort = function() {
-    if(window.document.compatMode == "BackCompat") {
+    if(Window.document.compatMode == "BackCompat") {
       return {
-          width: window.document.body.scrollWidth,
-          height: window.document.body.scrollHeight
+          width: Window.document.body.scrollWidth,
+          height: Window.document.body.scrollHeight
       };
     } else {
         return {
-            width: Math.max(window.document.documentElement.scrollWidth,window.document.documentElement.clientWidth),
-            height: Math.max(window.document.documentElement.scrollHeight,window.document.documentElement.clientHeight)
+            width: Math.max(Window.document.documentElement.scrollWidth,Window.document.documentElement.clientWidth),
+            height: Math.max(Window.document.documentElement.scrollHeight,Window.document.documentElement.clientHeight)
         }
     }
   }
@@ -1448,9 +1450,9 @@
     var elementScrollLeft;
     var elementScrollTop;
 
-    if (window.document.compatMode == "BackCompat"){
-      elementScrollLeft=window.document.body.scrollLeft;
-      elementScrollTop=window.document.body.scrollTop;
+    if (Window.document.compatMode == "BackCompat"){
+      elementScrollLeft=Window.document.body.scrollLeft;
+      elementScrollTop=Window.document.body.scrollTop;
 　　} else {  // CSS1Compat
 　　　 elementScrollLeft = (document.documentElement.scrollLeft == 0) ? document.body.scrollLeft : document.documentElement.scrollLeft;
       elementScrollTop = (document.documentElement.scrollTop == 0) ? document.body.scrollTop : document.documentElement.scrollTop;
@@ -1495,12 +1497,12 @@
         var elementScrollLeft;
         var elementScrollTop;
 
-  　　　　if (window.document.compatMode == "BackCompat"){
-            elementScrollLeft=window.document.body.scrollLeft;
-            elementScrollTop=window.document.body.scrollTop;
+  　　　　if (Window.document.compatMode == "BackCompat"){
+            elementScrollLeft=Window.document.body.scrollLeft;
+            elementScrollTop=Window.document.body.scrollTop;
   　　　　} else {
-            elementScrollLeft = (window.document.documentElement.scrollLeft == 0) ? window.document.body.scrollLeft : window.document.documentElement.scrollLeft;
-            elementScrollTop = (window.document.documentElement.scrollTop == 0) ? window.document.body.scrollTop : window.document.documentElement.scrollTop;
+            elementScrollLeft = (Window.document.documentElement.scrollLeft == 0) ? Window.document.body.scrollLeft : Window.document.documentElement.scrollLeft;
+            elementScrollTop = (Window.document.documentElement.scrollTop == 0) ? Window.document.body.scrollTop : Window.document.documentElement.scrollTop;
   　　　　}
 
         return {

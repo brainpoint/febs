@@ -1,5 +1,5 @@
 /*!
- * febs v1.0.5
+ * febs v1.0.6
  * Copyright (c) 2020 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
@@ -1455,17 +1455,17 @@
 	  setInterval: wrap(global_1.setInterval)
 	});
 
-	// window.requestAnimationFrame / window.cancelAnimationFrame
+	var Window = "undefined" != typeof window ? window : "undefined" != typeof commonjsGlobal ? commonjsGlobal : "undefined" != typeof self ? self : undefined;
 	var animationFrame = {};
 	var lastTime = 0;
-	window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-	window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
+	Window.requestAnimationFrame = Window.requestAnimationFrame || Window.mozRequestAnimationFrame || Window.webkitRequestAnimationFrame || Window.msRequestAnimationFrame;
+	Window.cancelAnimationFrame = Window.cancelAnimationFrame || Window.mozCancelAnimationFrame;
 
-	if (!window.requestAnimationFrame) {
-	  window.requestAnimationFrame = function (callback) {
+	if (!Window.requestAnimationFrame) {
+	  Window.requestAnimationFrame = function (callback) {
 	    var currTime = Date.now();
 	    var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-	    var id = window.setTimeout(function () {
+	    var id = Window.setTimeout(function () {
 	      callback(currTime + timeToCall);
 	    }, timeToCall);
 	    lastTime = currTime + timeToCall;
@@ -1473,14 +1473,14 @@
 	  };
 	}
 
-	if (!window.cancelAnimationFrame) {
-	  window.cancelAnimationFrame = function (id) {
+	if (!Window.cancelAnimationFrame) {
+	  Window.cancelAnimationFrame = function (id) {
 	    clearTimeout(id);
 	  };
 	}
 
-	animationFrame.requestAnimationFrame = window.requestAnimationFrame;
-	animationFrame.cancelAnimationFrame = window.cancelAnimationFrame;
+	animationFrame.requestAnimationFrame = Window.requestAnimationFrame;
+	animationFrame.cancelAnimationFrame = Window.cancelAnimationFrame;
 	var animationFrame_1 = animationFrame;
 
 	// `IsArray` abstract operation
@@ -5752,12 +5752,13 @@
 	  * Desc: 
 	  */
 
+	  var Window = "undefined" != typeof window ? window : "undefined" != typeof commonjsGlobal ? commonjsGlobal : "undefined" != typeof self ? self : undefined;
 	  /**
 	   * @desc: 判断是否是ie.
 	   */
 
 	  exports.browserIsIE = function () {
-	    if (!!window.ActiveXObject || "ActiveXObject" in window) return true;else return false;
+	    if (!!Window.ActiveXObject || "ActiveXObject" in Window) return true;else return false;
 	  };
 	  /**
 	   * @desc: 判断ie版本号.
@@ -5820,8 +5821,8 @@
 
 	  exports.browserIsMobile = function (userAgent) {
 	    if (!userAgent) {
-	      if ((typeof window === "undefined" ? "undefined" : _typeof(window)) !== undefined) {
-	        userAgent = window.navigator.userAgent;
+	      if (_typeof(Window) !== undefined) {
+	        userAgent = Window.navigator.userAgent;
 	      }
 	    }
 
@@ -5838,8 +5839,8 @@
 
 	  exports.browserIsIOS = function (userAgent) {
 	    if (!userAgent) {
-	      if ((typeof window === "undefined" ? "undefined" : _typeof(window)) !== undefined) {
-	        userAgent = window.navigator.userAgent;
+	      if (_typeof(Window) !== undefined) {
+	        userAgent = Window.navigator.userAgent;
 	      }
 	    }
 
@@ -5856,8 +5857,8 @@
 
 	  exports.browserIsPhone = function (userAgent) {
 	    if (!userAgent) {
-	      if ((typeof window === "undefined" ? "undefined" : _typeof(window)) !== undefined) {
-	        userAgent = window.navigator.userAgent;
+	      if (_typeof(Window) !== undefined) {
+	        userAgent = Window.navigator.userAgent;
 	      }
 	    }
 
@@ -5873,8 +5874,8 @@
 
 	  exports.browserIsWeixin = function (userAgent) {
 	    if (!userAgent) {
-	      if ((typeof window === "undefined" ? "undefined" : _typeof(window)) !== undefined) {
-	        userAgent = window.navigator.userAgent;
+	      if (_typeof(Window) !== undefined) {
+	        userAgent = Window.navigator.userAgent;
 	      }
 	    }
 
@@ -5893,8 +5894,8 @@
 
 	  exports.platformIsWin = function (userAgent) {
 	    if (!userAgent) {
-	      if ((typeof window === "undefined" ? "undefined" : _typeof(window)) !== undefined) {
-	        userAgent = window.navigator.userAgent;
+	      if (_typeof(Window) !== undefined) {
+	        userAgent = Window.navigator.userAgent;
 	      }
 	    }
 
@@ -5917,8 +5918,8 @@
 
 	  exports.platformIsMac = function (userAgent) {
 	    if (!userAgent) {
-	      if ((typeof window === "undefined" ? "undefined" : _typeof(window)) !== undefined) {
-	        userAgent = window.navigator.userAgent;
+	      if (_typeof(Window) !== undefined) {
+	        userAgent = Window.navigator.userAgent;
 	      }
 	    }
 
@@ -7302,6 +7303,8 @@
 	  transfer: transfer
 	};
 
+	var Window$1 = "undefined" != typeof window ? window : "undefined" != typeof commonjsGlobal ? commonjsGlobal : "undefined" != typeof self ? self : undefined; // var Ajaxmark = Symbol('ajaxmark');
+
 	var Ajaxmark = '_FeBs_ajaxmark';
 	var net = {}; //--------------------------------------------------------
 	// ajax
@@ -7313,24 +7316,24 @@
 	 */
 
 	function ajax(ctx) {
-	  //if (!!window.ActiveXObject || "ActiveXObject" in window) // ie11.
+	  //if (!!Window.ActiveXObject || "ActiveXObject" in Window) // ie11.
 	  {
 	    if (ctx.url) {
-	      if (!window[Ajaxmark]) window[Ajaxmark] = 1;
+	      if (!Window$1[Ajaxmark]) Window$1[Ajaxmark] = 1;
 	      var i = ctx.url.indexOf('?');
 
 	      if (i < 0) {
-	        ctx.url += "?ajaxmark=" + window[Ajaxmark];
+	        ctx.url += "?ajaxmark=" + Window$1[Ajaxmark];
 	      } else {
 	        if (i == ctx.url.length - 1) {
-	          ctx.url += "ajaxmark=" + window[Ajaxmark];
+	          ctx.url += "ajaxmark=" + Window$1[Ajaxmark];
 	        } else {
-	          ctx.url += "&ajaxmark=" + window[Ajaxmark];
+	          ctx.url += "&ajaxmark=" + Window$1[Ajaxmark];
 	        }
 	      }
 	    }
 
-	    window[Ajaxmark]++;
+	    Window$1[Ajaxmark]++;
 	  } // if.
 
 	  var cbError = ctx.error || function () {};
@@ -7342,7 +7345,7 @@
 	  ctx.processData = ctx.hasOwnProperty('processData') ? ctx.processData : true; //
 	  // net transfer.
 
-	  var xhr = net_transfer.transfer(window); // xhr.onload = function() {
+	  var xhr = net_transfer.transfer(Window$1); // xhr.onload = function() {
 	  //   var status = (xhr.status === 1223) ? 204 : xhr.status
 	  //   if (status < 100 || status > 599) {
 	  //     reject(new TypeError('Network request failed'))
@@ -7596,6 +7599,7 @@
 	  }
 	}
 
+	var Window$2 = "undefined" != typeof window ? window : "undefined" != typeof commonjsGlobal ? commonjsGlobal : "undefined" != typeof self ? self : undefined;
 	var febsnet = {};
 	var net$1 = {}; //--------------------------------------------------------
 	// fetch.
@@ -7715,18 +7719,22 @@
 	    return febsnet.fileReaderReady(reader);
 	  };
 
-	  febsnet.support = {
-	    blob: 'FileReader' in window.self && 'Blob' in window.self && function () {
-	      try {
-	        new Blob();
-	        return true;
-	      } catch (e) {
-	        return false;
-	      }
-	    }(),
-	    formData: 'FormData' in window.self,
-	    arrayBuffer: 'ArrayBuffer' in window.self
-	  };
+	  if (!Window$2.self) {
+	    febsnet.support = {};
+	  } else {
+	    febsnet.support = {
+	      blob: 'FileReader' in Window$2.self && 'Blob' in Window$2.self && function () {
+	        try {
+	          new Blob();
+	          return true;
+	        } catch (e) {
+	          return false;
+	        }
+	      }(),
+	      formData: 'FormData' in Window$2.self,
+	      arrayBuffer: 'ArrayBuffer' in Window$2.self
+	    };
+	  }
 
 	  febsnet.Body = function () {
 	    this.bodyUsed = false;
@@ -7933,11 +7941,11 @@
 	    });
 	  };
 
-	  window.Headers = febsnet.Headers;
-	  window.Request = febsnet.Request;
-	  window.Response = febsnet.Response;
+	  Window$2.Headers = febsnet.Headers;
+	  Window$2.Request = febsnet.Request;
+	  Window$2.Response = febsnet.Response;
 
-	  window.fetch = febsnet.fetch = function (input, init) {
+	  Window$2.fetch = febsnet.fetch = function (input, init) {
 	    // other.
 	    return new Promise(function (resolve, reject) {
 	      var request;
@@ -7948,7 +7956,7 @@
 	        request = new febsnet.Request(input, init);
 	      }
 
-	      var xhr = net_transfer.transfer(window);
+	      var xhr = net_transfer.transfer(Window$2);
 
 	      function responseURL() {
 	        if ('responseURL' in xhr) {
@@ -8047,6 +8055,7 @@
 
 	var net_fetch = net$1;
 
+	var Window$3 = "undefined" != typeof window ? window : "undefined" != typeof commonjsGlobal ? commonjsGlobal : "undefined" != typeof self ? self : undefined;
 	var DefaultTimeout$1 = 5000;
 	var febsnet$1 = {};
 	var net$2 = {}; //--------------------------------------------------------
@@ -8068,7 +8077,7 @@
 	  // IE8 throws an exception when you try to delete a property on window
 	  // http://stackoverflow.com/a/1824228/751089
 	  try {
-	    delete window[functionName];
+	    delete Window$3[functionName];
 	  } catch (e) {}
 	};
 
@@ -8085,7 +8094,7 @@
 	  return new Promise(function (resolve, reject) {
 	    var callbackFunction = febsnet$1.jsonp_generateCallbackFunction();
 
-	    window[callbackFunction] = function (response) {
+	    Window$3[callbackFunction] = function (response) {
 	      resolve({
 	        ok: true,
 	        // keep consistent with fetch API
@@ -8132,6 +8141,7 @@
 	  }
 	});
 
+	var Window$4 = "undefined" != typeof window ? window : "undefined" != typeof commonjsGlobal ? commonjsGlobal : "undefined" != typeof self ? self : undefined; // - parentNodes 父节点 (HTMLNode)
 	// - name 子节点selector.
 	// - notAllChildren 仅查询一层子节点.
 	// 返回匹配到的元素集合.
@@ -8179,12 +8189,12 @@
 
 	  if (!parentNodes || parentNodes.length == 0) {
 	    if (2 == tag) {
-	      elems = window.document.getElementsByClassName(name);
+	      elems = Window$4.document.getElementsByClassName(name);
 	    } else if (1 == tag) {
-	      elems = window.document.getElementById(name);
+	      elems = Window$4.document.getElementById(name);
 	      if (elems) elems = [elems];else elems = [];
 	    } else if (0 == tag) {
-	      elems = window.document.getElementsByTagName(name);
+	      elems = Window$4.document.getElementsByTagName(name);
 	    } // attrvalue.
 
 
@@ -8306,7 +8316,7 @@
 
 	  if (typeof name === 'string') {
 	    if (name[0] == '<') {
-	      _elem = window.document.createElement('div');
+	      _elem = Window$4.document.createElement('div');
 	      _elem.innerHTML = name;
 
 	      if (_elem.childNodes.length == 1) {
@@ -8454,7 +8464,7 @@
 	    d.appendChild(obj.cloneNode(true));
 	    return obj.nodeType == 1 ? true : false;
 	  } catch (e) {
-	    return obj == window || obj == document;
+	    return obj == Window$4 || obj == document;
 	  }
 	}
 
@@ -8481,7 +8491,7 @@
 	    //
 	    // save in '_elem', '_isArr' 
 	    //
-	    if (name === window.document || name == window) {
+	    if (name === Window$4.document || name == Window$4) {
 	      this._elem = name;
 	      this._isArr = false;
 	    } else if (name instanceof Dom) {
@@ -8516,10 +8526,10 @@
 	    this.live = this.on;
 	    this.die = this.off;
 
-	    if (name === window.document) {
+	    if (name === Window$4.document) {
 	      this.ready = function (f) {
 	        if (f) {
-	          if (window.addEventListener) window.document.addEventListener('DOMContentLoaded', f);else window.document.attachEvent('onload', f);
+	          if (Window$4.addEventListener) Window$4.document.addEventListener('DOMContentLoaded', f);else Window$4.document.attachEvent('onload', f);
 	        } else {
 	          _this.trigger('ready');
 	        }
@@ -8529,7 +8539,7 @@
 
 	      this.unload = function (f) {
 	        if (f) {
-	          if (window.addEventListener) window.document.addEventListener('unload', f);else window.document.attachEvent('onunload', f);
+	          if (Window$4.addEventListener) Window$4.document.addEventListener('unload', f);else Window$4.document.attachEvent('onunload', f);
 	        } else {
 	          _this.trigger('unload');
 	        }
@@ -8537,11 +8547,11 @@
 	        return _this;
 	      };
 
-	      this.context = window.document;
-	    } else if (name === window) {
+	      this.context = Window$4.document;
+	    } else if (name === Window$4) {
 	      this.unload = function (f) {
 	        if (f) {
-	          if (window.addEventListener) window.addEventListener('unload', f);else window.attachEvent('onunload', f);
+	          if (Window$4.addEventListener) Window$4.addEventListener('unload', f);else Window$4.attachEvent('onunload', f);
 	        } else {
 	          _this.trigger('unload');
 	        }
@@ -8549,16 +8559,16 @@
 	        return _this;
 	      };
 	    } else {
-	      this.context = window.document;
+	      this.context = Window$4.document;
 	    }
 
 	    if (typeof name === 'function') {
 	      var foo = function foo(e) {
 	        name.bind(_this)(e);
-	        if (window.addEventListener) window.document.removeEventListener('DOMContentLoaded', foo);else window.document.detachEvent('onload', foo);
+	        if (Window$4.addEventListener) Window$4.document.removeEventListener('DOMContentLoaded', foo);else Window$4.document.detachEvent('onload', foo);
 	      };
 
-	      if (window.addEventListener) window.document.addEventListener('DOMContentLoaded', foo);else window.document.attachEvent('onload', foo);
+	      if (Window$4.addEventListener) Window$4.document.addEventListener('DOMContentLoaded', foo);else Window$4.document.attachEvent('onload', foo);
 	    } else {
 	      var ttt = function ttt(event, f) {
 	        if (f) {
@@ -9322,10 +9332,10 @@
 
 	        if (ee) {
 	          if ('on' + eventname in ee) {
-	            if (!window.document.addEventListener) {
+	            if (!Window$4.document.addEventListener) {
 	              ee.fireEvent('on' + eventname);
 	            } else {
-	              var env = window.document.createEvent('HTMLEvents');
+	              var env = Window$4.document.createEvent('HTMLEvents');
 	              env.initEvent(eventname, true, true);
 	              ee.dispatchEvent(env);
 	            }
@@ -9333,7 +9343,7 @@
 	            if (ee.__events && ee.__events[eventname]) {
 	              var env = ee.__events[eventname];
 	              var j;
-	              var enve; // if (!window.document.addEventListener) {
+	              var enve; // if (!Window.document.addEventListener) {
 
 	              enve = {
 	                bubbles: false,
@@ -9345,7 +9355,7 @@
 	                type: eventname
 	              }; // }
 	              // else {
-	              //   enve = window.document.createEvent('HTMLEvents');
+	              //   enve = Window.document.createEvent('HTMLEvents');
 	              //   enve.initEvent(eventname, false, false);
 	              // }
 
@@ -9436,7 +9446,7 @@
 	        var elem = this.get(i);
 
 	        while (elem.parentNode) {
-	          if (elem.parentNode == window || elem.parentNode == window.document) break;
+	          if (elem.parentNode == Window$4 || elem.parentNode == Window$4.document) break;
 
 	          if (!sel || sel._isElementIn(elem.parentNode)) {
 	            var j;
@@ -9761,16 +9771,16 @@
 
 
 	Dom.getViewPort = function () {
-	  if (window.document.compatMode == "BackCompat") {
+	  if (Window$4.document.compatMode == "BackCompat") {
 	    //浏览器嗅探，混杂模式
 	    return {
-	      width: window.document.body.clientWidth,
-	      height: window.document.body.clientHeight
+	      width: Window$4.document.body.clientWidth,
+	      height: Window$4.document.body.clientHeight
 	    };
 	  } else {
 	    return {
-	      width: window.document.documentElement.clientWidth,
-	      height: window.document.documentElement.clientHeight
+	      width: Window$4.document.documentElement.clientWidth,
+	      height: Window$4.document.documentElement.clientHeight
 	    };
 	  }
 	};
@@ -9781,15 +9791,15 @@
 
 
 	Dom.getDocumentPort = function () {
-	  if (window.document.compatMode == "BackCompat") {
+	  if (Window$4.document.compatMode == "BackCompat") {
 	    return {
-	      width: window.document.body.scrollWidth,
-	      height: window.document.body.scrollHeight
+	      width: Window$4.document.body.scrollWidth,
+	      height: Window$4.document.body.scrollHeight
 	    };
 	  } else {
 	    return {
-	      width: Math.max(window.document.documentElement.scrollWidth, window.document.documentElement.clientWidth),
-	      height: Math.max(window.document.documentElement.scrollHeight, window.document.documentElement.clientHeight)
+	      width: Math.max(Window$4.document.documentElement.scrollWidth, Window$4.document.documentElement.clientWidth),
+	      height: Math.max(Window$4.document.documentElement.scrollHeight, Window$4.document.documentElement.clientHeight)
 	    };
 	  }
 	};
@@ -9803,9 +9813,9 @@
 	  var elementScrollLeft;
 	  var elementScrollTop;
 
-	  if (window.document.compatMode == "BackCompat") {
-	    elementScrollLeft = window.document.body.scrollLeft;
-	    elementScrollTop = window.document.body.scrollTop;
+	  if (Window$4.document.compatMode == "BackCompat") {
+	    elementScrollLeft = Window$4.document.body.scrollLeft;
+	    elementScrollTop = Window$4.document.body.scrollTop;
 	  } else {
 	    // CSS1Compat
 	    elementScrollLeft = document.documentElement.scrollLeft == 0 ? document.body.scrollLeft : document.documentElement.scrollLeft;
@@ -9852,12 +9862,12 @@
 	      var elementScrollLeft;
 	      var elementScrollTop;
 
-	      if (window.document.compatMode == "BackCompat") {
-	        elementScrollLeft = window.document.body.scrollLeft;
-	        elementScrollTop = window.document.body.scrollTop;
+	      if (Window$4.document.compatMode == "BackCompat") {
+	        elementScrollLeft = Window$4.document.body.scrollLeft;
+	        elementScrollTop = Window$4.document.body.scrollTop;
 	      } else {
-	        elementScrollLeft = window.document.documentElement.scrollLeft == 0 ? window.document.body.scrollLeft : window.document.documentElement.scrollLeft;
-	        elementScrollTop = window.document.documentElement.scrollTop == 0 ? window.document.body.scrollTop : window.document.documentElement.scrollTop;
+	        elementScrollLeft = Window$4.document.documentElement.scrollLeft == 0 ? Window$4.document.body.scrollLeft : Window$4.document.documentElement.scrollLeft;
+	        elementScrollTop = Window$4.document.documentElement.scrollTop == 0 ? Window$4.document.body.scrollTop : Window$4.document.documentElement.scrollTop;
 	      }
 
 	      return {
@@ -9915,6 +9925,7 @@
 	  CreateDom: CreateDom_1
 	};
 
+	var Window$5 = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : undefined; // require('core-js/stable');
 	// require('regenerator-runtime/runtime');
 	// require('core-js/modules/es.global-this');
 	// require('es5-shim');
@@ -9928,16 +9939,16 @@
 	//
 	// define the __debug.
 
-	if (!window['__debug']) {
-	  window.__debug = false;
+	if (!Window$5['__debug']) {
+	  Window$5.__debug = false;
 	} //
 	// define the animationFrame.
 
 
-	if (!window['requestAnimationFrame']) window.requestAnimationFrame = animationFrame_1.requestAnimationFrame;
-	if (!window['cancelAnimationFrame']) window.cancelAnimationFrame = animationFrame_1.cancelAnimationFrame;
+	if (!Window$5['requestAnimationFrame']) Window$5.requestAnimationFrame = animationFrame_1.requestAnimationFrame;
+	if (!Window$5['cancelAnimationFrame']) Window$5.cancelAnimationFrame = animationFrame_1.cancelAnimationFrame;
 	var febs = {};
-	febs.__debug = window.__debug;
+	febs.__debug = Window$5.__debug;
 	febs.BigNumber = bignumber_min;
 	febs.date = date_1;
 	febs.utils = utils_1;
@@ -9947,24 +9958,24 @@
 	febs.net = net_1;
 	febs['$'] = dom.CreateDom;
 	febs.dom = dom.Dom;
-	if (!window['febs']) window['febs'] = febs;else {
-	  window['febs'].string = window['febs'].string ? febs.utils.mergeMap(window['febs'].string, febs.string) : febs.string;
-	  window['febs'].crypt = window['febs'].crypt ? febs.utils.mergeMap(window['febs'].crypt, febs.crypt) : febs.crypt;
-	  window['febs'].utils = window['febs'].utils ? febs.utils.mergeMap(window['febs'].utils, febs.utils) : febs.utils;
-	  window['febs'].net = window['febs'].net ? febs.utils.mergeMap(window['febs'].net, febs.net) : febs.net;
-	  window['febs'].dom = window['febs'].dom ? febs.utils.mergeMap(window['febs'].dom, febs.dom) : febs.dom;
+	if (!Window$5['febs']) Window$5['febs'] = febs;else {
+	  Window$5['febs'].string = Window$5['febs'].string ? febs.utils.mergeMap(Window$5['febs'].string, febs.string) : febs.string;
+	  Window$5['febs'].crypt = Window$5['febs'].crypt ? febs.utils.mergeMap(Window$5['febs'].crypt, febs.crypt) : febs.crypt;
+	  Window$5['febs'].utils = Window$5['febs'].utils ? febs.utils.mergeMap(Window$5['febs'].utils, febs.utils) : febs.utils;
+	  Window$5['febs'].net = Window$5['febs'].net ? febs.utils.mergeMap(Window$5['febs'].net, febs.net) : febs.net;
+	  Window$5['febs'].dom = Window$5['febs'].dom ? febs.utils.mergeMap(Window$5['febs'].dom, febs.dom) : febs.dom;
 	}
-	if (!window['$']) window['$'] = febs['$'];
-	if (!window['jQuery']) window['jQuery'] = febs['$']; //
+	if (!Window$5['$']) Window$5['$'] = febs['$'];
+	if (!Window$5['jQuery']) Window$5['jQuery'] = febs['$']; //
 	// debug.
 	//
 	// if (!console.debug) {
 
-	if (window.console) {
-	  window.console.debug = function () {
-	    if (window.__debug) {
+	if (Window$5.console) {
+	  Window$5.console.debug = function () {
+	    if (Window$5.__debug) {
 	      var logfoo;
-	      if (window.console.warn) logfoo = window.console.warn;else logfoo = window.console.log;
+	      if (Window$5.console.warn) logfoo = Window$5.console.warn;else logfoo = Window$5.console.log;
 
 	      for (var i = 0; i < arguments.length; i++) {
 	        logfoo(arguments[i]);

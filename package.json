@@ -41,6 +41,9 @@
     "browser/libs",
     "browser/dist",
     "browser/index.js",
+    "browser/third-party",
+    "browser/wxmini",
+    "browser/index.js",
     "server",
     "test",
     "types",
@@ -60,5 +63,5 @@
     "test": "tap test/*.js"
   },
   "name": "febs",
-  "version": "1.0.5"
+  "version": "1.0.6"
 }

@@ -1,3 +1,5 @@
+var Window = "undefined" != typeof window ? window : ("undefined" != typeof global ? global : ("undefined" != typeof self ? self : undefined));
+
 // require('core-js/stable');
 // require('regenerator-runtime/runtime');
 
@@ -27,20 +29,20 @@ var _dom  = require('./libs/dom');
 
 //
 // define the __debug.
-if (!window['__debug']) {
-  window.__debug = false;
+if (!Window['__debug']) {
+  Window.__debug = false;
 }
 
 //
 // define the animationFrame.
-if (!window['requestAnimationFrame'])
-  window.requestAnimationFrame = animationFrame.requestAnimationFrame;
-if (!window['cancelAnimationFrame'])
-  window.cancelAnimationFrame = animationFrame.cancelAnimationFrame;
+if (!Window['requestAnimationFrame'])
+  Window.requestAnimationFrame = animationFrame.requestAnimationFrame;
+if (!Window['cancelAnimationFrame'])
+  Window.cancelAnimationFrame = animationFrame.cancelAnimationFrame;
 
 
 var febs = {};
-febs.__debug = window.__debug;
+febs.__debug = Window.__debug;
 
 febs.BigNumber = _BigNumber;
 febs.date  = _date;
@@ -52,33 +54,33 @@ febs.net  = _net
 febs['$'] = _dom.CreateDom;
 febs.dom = _dom.Dom;
 
-if (!window['febs'])
-  window['febs'] = febs;
+if (!Window['febs'])
+  Window['febs'] = febs;
 else {
-  window['febs'].string = window['febs'].string? febs.utils.mergeMap(window['febs'].string, febs.string) : febs.string;
-  window['febs'].crypt = window['febs'].crypt? febs.utils.mergeMap(window['febs'].crypt, febs.crypt) : febs.crypt;
-  window['febs'].utils = window['febs'].utils? febs.utils.mergeMap(window['febs'].utils, febs.utils) : febs.utils;
-  window['febs'].net = window['febs'].net? febs.utils.mergeMap(window['febs'].net, febs.net) : febs.net;
-  window['febs'].dom = window['febs'].dom? febs.utils.mergeMap(window['febs'].dom, febs.dom) : febs.dom;
+  Window['febs'].string = Window['febs'].string? febs.utils.mergeMap(Window['febs'].string, febs.string) : febs.string;
+  Window['febs'].crypt = Window['febs'].crypt? febs.utils.mergeMap(Window['febs'].crypt, febs.crypt) : febs.crypt;
+  Window['febs'].utils = Window['febs'].utils? febs.utils.mergeMap(Window['febs'].utils, febs.utils) : febs.utils;
+  Window['febs'].net = Window['febs'].net? febs.utils.mergeMap(Window['febs'].net, febs.net) : febs.net;
+  Window['febs'].dom = Window['febs'].dom? febs.utils.mergeMap(Window['febs'].dom, febs.dom) : febs.dom;
 }
 
-if (!window['$'])
-  window['$'] = febs['$'];
-if (!window['jQuery'])
-  window['jQuery'] = febs['$'];
+if (!Window['$'])
+  Window['$'] = febs['$'];
+if (!Window['jQuery'])
+  Window['jQuery'] = febs['$'];
 
 //
 // debug.
 //
 // if (!console.debug) {
-if (window.console) {
-  window.console.debug = function() {
-    if (window.__debug) {
+if (Window.console) {
+  Window.console.debug = function() {
+    if (Window.__debug) {
       var logfoo;
-      if (window.console.warn)
-        logfoo = window.console.warn;
+      if (Window.console.warn)
+        logfoo = Window.console.warn;
       else
-        logfoo = window.console.log;
+        logfoo = Window.console.log;
       
       for (var i = 0; i < arguments.length; i++) {
         logfoo(arguments[i]);
