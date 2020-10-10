@@ -1,6 +1,8 @@
 // require('core-js/stable');
 // require('regenerator-runtime/runtime');
 
+// require('core-js/modules/es.global-this');
+
 // require('es5-shim');
 // require('es5-shim/es5-sham');
 // require('console-polyfill');
@@ -12,7 +14,7 @@ require('./common/promise-finally-polyfill');
 //
 // define the animationFrame.
 var animationFrame  = require('./libs/animationFrame');
-var _BigNumber = require('bignumber.js');
+var _BigNumber = require('./third-party/bignumber.min.js');
 var _date  = require('./libs/date');
 var _utils  = require('./libs/utils');
 var _string = require('./libs/string');

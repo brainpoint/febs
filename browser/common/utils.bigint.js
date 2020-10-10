@@ -6,8 +6,7 @@
  * Desc:
  */
 
-// var BigNumber = require('../third-party/bignumber.min.js');
-var BigNumber = require('bignumber.js');
+var BigNumber = require('../third-party/bignumber.min.js');
 
 
 /**

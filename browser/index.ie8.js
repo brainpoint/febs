@@ -1,5 +1,6 @@
 // require('es5-shim');
 // require('es5-shim/es5-sham');
+
 // require('console-polyfill');
 require('./common/promise-finally-polyfill');
 // require('babel-polyfill');
@@ -92,7 +93,7 @@ if (window && !window.document.getElementsByClassName) {
 //
 // define the animationFrame.
 var animationFrame  = require('./libs/animationFrame');
-var _BigNumber = require('bignumber.js');
+var _BigNumber = require('./third-party/bignumber.min.js');
 var _date  = require('./libs/date');
 var _utils  = require('./libs/utils');
 var _string = require('./libs/string');

@@ -767,7 +767,17 @@ export namespace string {
   /**
   * @desc: 将utf8字节数组转为字符串.
   */
-  function bytesToUtf8(utfBytes:Array<number>):string;
+  function bytesToUtf8(utfBytes: Array<number>): string;
+  
+  /**
+  * @desc: utf8Encode.
+  */
+  function utf8Encode(str: string): string;
+  /**
+  * @desc: utf8Decode.
+  */
+  function utf8Decode(str: string): string;
+  
   /**
   * @desc: 去除两端空格.
   * @return: string.

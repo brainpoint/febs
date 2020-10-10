@@ -55,6 +55,9 @@ exports.replace = string.replace;
 exports.utf8ToBytes = string.utf8ToBytes;
 exports.bytesToUtf8 = string.bytesToUtf8;
 
+exports.utf8Encode = string.utf8Encode;
+exports.utf8Decode = string.utf8Decode;
+
 exports.trim = string.trim;
 
 /**

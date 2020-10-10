@@ -13,7 +13,7 @@ var cryptMd5  = require('../libs/crypt.md5');
 var cryptSha1  = require('../libs/crypt.sha1');
 var utilsBig  = require('../common/utils.bigint');
 var fetch  = require('./libs/fetch');
-var BigNumber = require('bignumber.js');
+var BigNumber = require('../third-party/bignumber.min.js');
 var date  = require('../libs/date');
 var string = require('../libs/string');
 

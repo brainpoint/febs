@@ -1,10 +1,6 @@
 {
   "description": "febs is a useful utilities set in browser",
-  "dependencies": {
-    "bignumber.js": "^4.0.1",
-    "md5": "^2.2.1",
-    "sha1": "^1.1.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
@@ -37,6 +33,7 @@
     "es6-promise": "^4.2.4",
     "ora": "^2.1.0",
     "rollup": "^1.31.1",
+    "rollup-plugin-analyzer": "^3.3.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-babel-minify": "^9.1.1",
     "tap": "^14.10.6",
@@ -57,7 +54,10 @@
     "crc32",
     "string",
     "net",
-    "febs"
+    "febs",
+    "sha1",
+    "md5",
+    "base64"
   ],
   "engines": {
     "node": ">=7"
@@ -70,10 +70,7 @@
     "common",
     "wxmini",
     "index.js",
-    "base.js",
-    "bigint.js",
-    "md5.js",
-    "sha1.js"
+    "index.ie8.js"
   ],
   "license": "MIT",
   "main": "./dist/index.common.js",
@@ -91,5 +88,5 @@
     "prepare": "node scripts/webpack.build.js && node scripts/bundle.js"
   },
   "name": "febs-browser",
-  "version": "1.0.4"
+  "version": "1.0.5"
 }

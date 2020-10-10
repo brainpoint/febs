@@ -8,6 +8,7 @@ const rollupResolve = require('@rollup/plugin-node-resolve');
 const rollupCommonjs = require('@rollup/plugin-commonjs');
 const rollupMinify = require('rollup-plugin-babel-minify');
 const rollupBabel = require('rollup-plugin-babel');
+const rollupAnalyze = require('rollup-plugin-analyzer')
 const version = require('../package.json').version;
 
 // var cwd = process.cwd();
@@ -32,6 +33,10 @@ function build(pkg, inputFile, outputFile) {
   let inputMain = getInputMain(inputFile);
   
   let plugins = [
+        rollupAnalyze({
+          summaryOnly: true,
+          hideDeps: true,
+        }),
         rollupResolve({
           extensions: ['.js', '.ts', '.scss', '.css'],
           preferBuiltins: false,
