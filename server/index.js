@@ -4,7 +4,7 @@ require('../browser/common/promise-finally-polyfill');
 exports.BigNumber = require('bignumber.js');
 
 exports.upload = require('./upload');
-exports.exception = require('./exception');
+exports.exception = require('../browser/common/exception');
 exports.file   = require('./file');
 exports.string = require('./string');
 exports.crypt  = require('./crypt');

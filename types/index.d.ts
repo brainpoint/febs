@@ -1019,6 +1019,16 @@ export class exception extends Error {
   line: string;
 }
 
+export namespace exception {
+
+  /** @desc: 一般错误. */
+  const ERROR: string;
+  /** @desc: 参数错误. */
+  const PARAM: string;
+  /** @desc: 越界 */
+  const OUT_OF_RANGE: string;
+}
+
 export interface DirExplorerRet {
   files: Array<string>;
   dirs: Array<string>;
@@ -1168,16 +1178,6 @@ export namespace upload {
   * @return: 
   */
   function base64_cleanup(sessionGet: () => any, sessionClear: () => void, cleanFile?: boolean): void;
-}
-
-export namespace exception {
-
-  /** @desc: 一般错误. */
-  const ERROR: string;
-  /** @desc: 参数错误. */
-  const PARAM: string;
-  /** @desc: 越界 */
-  const OUT_OF_RANGE: string;
 }
 
 

@@ -16,6 +16,7 @@ var fetch  = require('./libs/fetch');
 var BigNumber = require('../third-party/bignumber.min.js');
 var date  = require('../libs/date');
 var string = require('../libs/string');
+var exception  = require('../common/exception');
 
 
 const __debug = false;
@@ -32,5 +33,6 @@ export {
   net,
   BigNumber,
   date,
-  string
+  string,
+  exception
 }

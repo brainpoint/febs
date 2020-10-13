@@ -1161,3 +1161,29 @@ export namespace dom {
 }
 
 export function $(select: SELECTOR): dom;
+
+
+//
+// exception.
+export class exception extends Error {
+  constructor(msg: string, code: string, filename: string, line: number);
+
+  /** @desc: 错误代码 */
+  code: string;
+  /** @desc: 错误消息 */
+  msg: string;
+  /** @desc: 错误文件 */
+  filename: string;
+  /** @desc: 错误所在行 */
+  line: string;
+}
+
+export namespace exception {
+
+  /** @desc: 一般错误. */
+  const ERROR: string;
+  /** @desc: 参数错误. */
+  const PARAM: string;
+  /** @desc: 越界 */
+  const OUT_OF_RANGE: string;
+}

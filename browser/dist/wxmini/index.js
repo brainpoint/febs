@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 14);
+/******/ 	return __webpack_require__(__webpack_require__.s = 15);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1157,6 +1157,107 @@ exports.getTime2FromUTC = function (strTimeUTC) {
 "use strict";
 
 
+/**
+ * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
+ * Author: lipengxiang
+ * Desc:
+ */
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+module.exports = function (_Error) {
+  _inherits(_class, _Error);
+
+  /**
+  * @desc: 构造异常对象.
+  * @param msg: 异常消息
+  * @param code: 异常代码
+  * @param filename: 异常文件名
+  * @param line: 异常文件所在行
+  * @return: 
+  */
+  function _class(msg, code, filename, line) {
+    _classCallCheck(this, _class);
+
+    var _this = _possibleConstructorReturn(this, _Error.call(this, code + " " + msg));
+
+    _this.code = code;
+    _this.msg = msg;
+    _this.filename = filename;
+    _this.line = line;
+    return _this;
+  }
+
+  /**
+  * @desc: 一般错误.
+  */
+
+  _createClass(_class, null, [{
+    key: "ERROR",
+    get: function get() {
+      return "error";
+    }
+
+    /**
+    * @desc: 参数错误.
+    */
+
+  }, {
+    key: "PARAM",
+    get: function get() {
+      return "param error";
+    }
+
+    /**
+    * @desc: 越界
+    * @return:
+    */
+
+  }, {
+    key: "OUT_OF_RANGE",
+    get: function get() {
+      return "out of range";
+    }
+  }]);
+
+  return _class;
+}(Error);
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 (function () {
   if (typeof Promise.prototype['finally'] === 'function') {
     return;
@@ -1175,7 +1276,7 @@ exports.getTime2FromUTC = function (strTimeUTC) {
 })();
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1312,7 +1413,7 @@ exports.bigint_toFixed = function (a, fixed) {
 };
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1326,7 +1427,7 @@ exports.bigint_toFixed = function (a, fixed) {
  *  crc32_file(file, function(crc32Value) {})
  */
 
-var crypt = __webpack_require__(12);
+var crypt = __webpack_require__(13);
 
 /**
  * @desc: 计算字符串的crc32值
@@ -1485,7 +1586,7 @@ exports.uuid = function () {
 };
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1677,7 +1778,7 @@ exports.md5 = function (str) {
 };
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1811,7 +1912,7 @@ exports.sha1 = function (str) {
 };
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1840,7 +1941,7 @@ exports.getTime = date.getTime;
 exports.getTime2 = date.getTime2;
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1911,7 +2012,7 @@ exports.trim = string.trim;
 exports.escapeHtml = string.escapeHtml;
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1986,7 +2087,7 @@ function fetch(url, option/*: {
 }
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1998,7 +2099,7 @@ function fetch(url, option/*: {
  * Desc:
  */
 
-var utils = __webpack_require__(13);
+var utils = __webpack_require__(14);
 
 /**
  * @desc: 模拟sleep.
@@ -2169,7 +2270,7 @@ exports.platformIsMac = function(userAgent) {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2233,7 +2334,7 @@ exports.base64_encode = function (arrByte) {
 };
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2334,7 +2435,7 @@ exports.denodeify = function (fn, self, argumentCount) {
 };
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2346,24 +2447,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BigNumber", function() { return BigNumber; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "date", function() { return date; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "string", function() { return string; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exception", function() { return exception; });
 
 // require('es5-shim');
 // require('es5-shim/es5-sham');
 // require('console-polyfill');
-__webpack_require__(3);
+__webpack_require__(4);
 // require('babel-polyfill');
 // require('../third-party/bluebird.min.js');
 // require('../third-party/bignumber.min.js');
 
-var febsutils  = __webpack_require__(11);
-var febscrypt  = __webpack_require__(5);
-var cryptMd5  = __webpack_require__(6);
-var cryptSha1  = __webpack_require__(7);
-var utilsBig  = __webpack_require__(4);
-var fetch  = __webpack_require__(10);
+var febsutils  = __webpack_require__(12);
+var febscrypt  = __webpack_require__(6);
+var cryptMd5  = __webpack_require__(7);
+var cryptSha1  = __webpack_require__(8);
+var utilsBig  = __webpack_require__(5);
+var fetch  = __webpack_require__(11);
 var BigNumber = __webpack_require__(1);
-var date  = __webpack_require__(8);
-var string = __webpack_require__(9);
+var date  = __webpack_require__(9);
+var string = __webpack_require__(10);
+var exception  = __webpack_require__(3);
 
 
 const __debug = false;

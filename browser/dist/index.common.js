@@ -1,5 +1,5 @@
 /*!
- * febs v1.0.6
+ * febs v1.0.7
  * Copyright (c) 2020 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
@@ -4304,6 +4304,138 @@ function _createClass(Constructor, protoProps, staticProps) {
   if (protoProps) _defineProperties(Constructor.prototype, protoProps);
   if (staticProps) _defineProperties(Constructor, staticProps);
   return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+
+  try {
+    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function _construct(Parent, args, Class) {
+  if (_isNativeReflectConstruct()) {
+    _construct = Reflect.construct;
+  } else {
+    _construct = function _construct(Parent, args, Class) {
+      var a = [null];
+      a.push.apply(a, args);
+      var Constructor = Function.bind.apply(Parent, a);
+      var instance = new Constructor();
+      if (Class) _setPrototypeOf(instance, Class.prototype);
+      return instance;
+    };
+  }
+
+  return _construct.apply(null, arguments);
+}
+
+function _isNativeFunction(fn) {
+  return Function.toString.call(fn).indexOf("[native code]") !== -1;
+}
+
+function _wrapNativeSuper(Class) {
+  var _cache = typeof Map === "function" ? new Map() : undefined;
+
+  _wrapNativeSuper = function _wrapNativeSuper(Class) {
+    if (Class === null || !_isNativeFunction(Class)) return Class;
+
+    if (typeof Class !== "function") {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+
+    if (typeof _cache !== "undefined") {
+      if (_cache.has(Class)) return _cache.get(Class);
+
+      _cache.set(Class, Wrapper);
+    }
+
+    function Wrapper() {
+      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
+    }
+
+    Wrapper.prototype = Object.create(Class.prototype, {
+      constructor: {
+        value: Wrapper,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    return _setPrototypeOf(Wrapper, Class);
+  };
+
+  return _wrapNativeSuper(Class);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (typeof call === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _createSuper(Derived) {
+  return function () {
+    var Super = _getPrototypeOf(Derived),
+        result;
+
+    if (_isNativeReflectConstruct()) {
+      var NewTarget = _getPrototypeOf(this).constructor;
+
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+
+    return _possibleConstructorReturn(this, result);
+  };
 }
 
 var bignumber_min = createCommonjsModule(function (module) {
@@ -9923,6 +10055,65 @@ var dom = {
   CreateDom: CreateDom_1
 };
 
+var exception = /*#__PURE__*/function (_Error) {
+  _inherits(exception, _Error);
+
+  var _super = _createSuper(exception);
+
+  /**
+  * @desc: 构造异常对象.
+  * @param msg: 异常消息
+  * @param code: 异常代码
+  * @param filename: 异常文件名
+  * @param line: 异常文件所在行
+  * @return: 
+  */
+  function exception(msg, code, filename, line) {
+    var _this;
+
+    _classCallCheck(this, exception);
+
+    _this = _super.call(this, code + " " + msg);
+    _this.code = code;
+    _this.msg = msg;
+    _this.filename = filename;
+    _this.line = line;
+    return _this;
+  }
+  /**
+  * @desc: 一般错误.
+  */
+
+
+  _createClass(exception, null, [{
+    key: "ERROR",
+    get: function get() {
+      return "error";
+    }
+    /**
+    * @desc: 参数错误.
+    */
+
+  }, {
+    key: "PARAM",
+    get: function get() {
+      return "param error";
+    }
+    /**
+    * @desc: 越界
+    * @return:
+    */
+
+  }, {
+    key: "OUT_OF_RANGE",
+    get: function get() {
+      return "out of range";
+    }
+  }]);
+
+  return exception;
+}( /*#__PURE__*/_wrapNativeSuper(Error));
+
 var Window$5 = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : undefined; // require('core-js/stable');
 // require('regenerator-runtime/runtime');
 // require('core-js/modules/es.global-this');
@@ -9956,12 +10147,14 @@ febs.crypt = febs.utils.mergeMap(crypt_1, crypt_md5, crypt_sha1);
 febs.net = net_1;
 febs['$'] = dom.CreateDom;
 febs.dom = dom.Dom;
+febs.exception = exception;
 if (!Window$5['febs']) Window$5['febs'] = febs;else {
   Window$5['febs'].string = Window$5['febs'].string ? febs.utils.mergeMap(Window$5['febs'].string, febs.string) : febs.string;
   Window$5['febs'].crypt = Window$5['febs'].crypt ? febs.utils.mergeMap(Window$5['febs'].crypt, febs.crypt) : febs.crypt;
   Window$5['febs'].utils = Window$5['febs'].utils ? febs.utils.mergeMap(Window$5['febs'].utils, febs.utils) : febs.utils;
   Window$5['febs'].net = Window$5['febs'].net ? febs.utils.mergeMap(Window$5['febs'].net, febs.net) : febs.net;
   Window$5['febs'].dom = Window$5['febs'].dom ? febs.utils.mergeMap(Window$5['febs'].dom, febs.dom) : febs.dom;
+  Window$5['febs'].exception = Window$5['febs'].exception ? febs.utils.mergeMap(Window$5['febs'].exception, febs.exception) : febs.exception;
 }
 if (!Window$5['$']) Window$5['$'] = febs['$'];
 if (!Window$5['jQuery']) Window$5['jQuery'] = febs['$']; //
@@ -9992,6 +10185,7 @@ var crypt$1 = febs.crypt;
 var net$4 = febs.net;
 var $ = febs['$'];
 var dom$1 = febs.dom;
+var exception$1 = febs.exception;
 
 exports.$ = $;
 exports.BigNumber = BigNumber;
@@ -9999,6 +10193,7 @@ exports.__debug = __debug;
 exports.crypt = crypt$1;
 exports.date = date$1;
 exports.dom = dom$1;
+exports.exception = exception$1;
 exports.net = net$4;
 exports.string = string$1;
 exports.utils = utils$1;

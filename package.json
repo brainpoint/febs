@@ -10,9 +10,6 @@
     "url": "^0.10.3",
     "uuid": "^7.0.3"
   },
-  "devDependencies": {
-    "tap": "^14.10.6"
-  },
   "directories": {},
   "homepage": "https://github.com/brainpoint/febs#readme",
   "repository": {
@@ -59,9 +56,6 @@
       "email": "bpoint.lee@gmail.com"
     }
   ],
-  "scripts": {
-    "test": "tap test/*.js"
-  },
   "name": "febs",
-  "version": "1.0.6"
+  "version": "1.0.7"
 }

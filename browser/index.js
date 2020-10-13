@@ -26,6 +26,7 @@ var _cryptSha1  = require('./libs/crypt.sha1');
 var _utilsBig  = require('./common/utils.bigint');
 var _net  = require('./libs/net');
 var _dom  = require('./libs/dom');
+var _exception  = require('./common/exception');
 
 //
 // define the __debug.
@@ -53,6 +54,7 @@ febs.crypt = febs.utils.mergeMap(_crypt, _cryptMd5, _cryptSha1);
 febs.net  = _net
 febs['$'] = _dom.CreateDom;
 febs.dom = _dom.Dom;
+febs.exception = _exception;
 
 if (!Window['febs'])
   Window['febs'] = febs;
@@ -62,6 +64,7 @@ else {
   Window['febs'].utils = Window['febs'].utils? febs.utils.mergeMap(Window['febs'].utils, febs.utils) : febs.utils;
   Window['febs'].net = Window['febs'].net? febs.utils.mergeMap(Window['febs'].net, febs.net) : febs.net;
   Window['febs'].dom = Window['febs'].dom? febs.utils.mergeMap(Window['febs'].dom, febs.dom) : febs.dom;
+  Window['febs'].exception = Window['febs'].exception? febs.utils.mergeMap(Window['febs'].exception, febs.exception) : febs.exception;
 }
 
 if (!Window['$'])
@@ -101,6 +104,7 @@ const crypt = febs.crypt;
 const net = febs.net;
 const $ = febs['$'];
 const dom = febs.dom;
+const exception = febs.exception;
 
 export {
   __debug,
@@ -111,5 +115,6 @@ export {
   crypt,
   net,
   $,
-  dom
+  dom,
+  exception
 };
