@@ -11,6 +11,15 @@ declare global {
   var __debug: boolean;
 
   /**
+  * @desc: 当前所在行 (客户端不支持, 为undefined).
+  */
+  var __line: number;
+  /**
+  * @desc: 当前所在列 (客户端不支持, 为undefined).
+  */
+  var __column: number;
+
+  /**
    * 微信小程序不支持
    */
   function requestAnimationFrame(cb: (tm: number) => void): any;
@@ -1162,11 +1171,10 @@ export namespace dom {
 
 export function $(select: SELECTOR): dom;
 
-
 //
 // exception.
 export class exception extends Error {
-  constructor(msg: string, code: string, filename: string, line: number);
+  constructor(msg: string, code: string, filename: string, line: number, column?: number);
 
   /** @desc: 错误代码 */
   code: string;
@@ -1175,7 +1183,9 @@ export class exception extends Error {
   /** @desc: 错误文件 */
   filename: string;
   /** @desc: 错误所在行 */
-  line: string;
+  line: number;
+  /** @desc: 错误所在列 */
+  column: number;
 }
 
 export namespace exception {

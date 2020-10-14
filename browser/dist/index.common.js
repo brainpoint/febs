@@ -1,5 +1,5 @@
 /*!
- * febs v1.0.7
+ * febs v1.0.9
  * Copyright (c) 2020 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
@@ -10066,9 +10066,10 @@ var exception = /*#__PURE__*/function (_Error) {
   * @param code: 异常代码
   * @param filename: 异常文件名
   * @param line: 异常文件所在行
+  * @param column: 异常文件所在列
   * @return: 
   */
-  function exception(msg, code, filename, line) {
+  function exception(msg, code, filename, line, column) {
     var _this;
 
     _classCallCheck(this, exception);
@@ -10078,6 +10079,7 @@ var exception = /*#__PURE__*/function (_Error) {
     _this.msg = msg;
     _this.filename = filename;
     _this.line = line;
+    _this.column = column || 0;
     return _this;
   }
   /**
@@ -10114,7 +10116,12 @@ var exception = /*#__PURE__*/function (_Error) {
   return exception;
 }( /*#__PURE__*/_wrapNativeSuper(Error));
 
-var Window$5 = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : undefined; // require('core-js/stable');
+var Window$5 = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : undefined;
+
+if (!Window$5.__line) {
+  Window$5.__line = undefined;
+  Window$5.__column = undefined;
+} // require('core-js/stable');
 // require('regenerator-runtime/runtime');
 // require('core-js/modules/es.global-this');
 // require('es5-shim');
@@ -10127,6 +10134,7 @@ var Window$5 = "undefined" != typeof window ? window : "undefined" != typeof glo
 // define the animationFrame.
 //
 // define the __debug.
+
 
 if (!Window$5['__debug']) {
   Window$5.__debug = false;

@@ -2,6 +2,11 @@
 // require('es5-shim/es5-sham');
 var Window = "undefined" != typeof window ? window : ("undefined" != typeof global ? global : ("undefined" != typeof self ? self : undefined));
 
+if (!Window.__line) {
+  Window.__line = undefined;
+  Window.__column = undefined;
+}
+
 // require('console-polyfill');
 require('./common/promise-finally-polyfill');
 // require('babel-polyfill');

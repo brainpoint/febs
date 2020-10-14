@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 15);
+/******/ 	return __webpack_require__(__webpack_require__.s = 16);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1202,9 +1202,10 @@ module.exports = function (_Error) {
   * @param code: 异常代码
   * @param filename: 异常文件名
   * @param line: 异常文件所在行
+  * @param column: 异常文件所在列
   * @return: 
   */
-  function _class(msg, code, filename, line) {
+  function _class(msg, code, filename, line, column) {
     _classCallCheck(this, _class);
 
     var _this = _possibleConstructorReturn(this, _Error.call(this, code + " " + msg));
@@ -1213,6 +1214,7 @@ module.exports = function (_Error) {
     _this.msg = msg;
     _this.filename = filename;
     _this.line = line;
+    _this.column = column || 0;
     return _this;
   }
 
@@ -1427,7 +1429,7 @@ exports.bigint_toFixed = function (a, fixed) {
  *  crc32_file(file, function(crc32Value) {})
  */
 
-var crypt = __webpack_require__(13);
+var crypt = __webpack_require__(14);
 
 /**
  * @desc: 计算字符串的crc32值
@@ -2013,6 +2015,33 @@ exports.escapeHtml = string.escapeHtml;
 
 /***/ }),
 /* 11 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2087,7 +2116,7 @@ function fetch(url, option/*: {
 }
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2099,7 +2128,7 @@ function fetch(url, option/*: {
  * Desc:
  */
 
-var utils = __webpack_require__(14);
+var utils = __webpack_require__(15);
 
 /**
  * @desc: 模拟sleep.
@@ -2270,7 +2299,7 @@ exports.platformIsMac = function(userAgent) {
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2334,7 +2363,7 @@ exports.base64_encode = function (arrByte) {
 };
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2435,12 +2464,12 @@ exports.denodeify = function (fn, self, argumentCount) {
 };
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__debug", function() { return __debug; });
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__debug", function() { return __debug; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "crypt", function() { return crypt; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "utils", function() { return utils; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "net", function() { return net; });
@@ -2448,6 +2477,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "date", function() { return date; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "string", function() { return string; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exception", function() { return exception; });
+
+
+if (!global.__line) {
+  global.__line = undefined;
+  global.__column = undefined;
+}
 
 // require('es5-shim');
 // require('es5-shim/es5-sham');
@@ -2457,17 +2492,16 @@ __webpack_require__(4);
 // require('../third-party/bluebird.min.js');
 // require('../third-party/bignumber.min.js');
 
-var febsutils  = __webpack_require__(12);
+var febsutils  = __webpack_require__(13);
 var febscrypt  = __webpack_require__(6);
 var cryptMd5  = __webpack_require__(7);
 var cryptSha1  = __webpack_require__(8);
 var utilsBig  = __webpack_require__(5);
-var fetch  = __webpack_require__(11);
+var fetch  = __webpack_require__(12);
 var BigNumber = __webpack_require__(1);
 var date  = __webpack_require__(9);
 var string = __webpack_require__(10);
 var exception  = __webpack_require__(3);
-
 
 const __debug = false;
 const crypt = febsutils.mergeMap(febscrypt, cryptMd5, cryptSha1);
@@ -2478,6 +2512,7 @@ const net = {
 
 
 
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(11)))
 
 /***/ })
 /******/ ]);

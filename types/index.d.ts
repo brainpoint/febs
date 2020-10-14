@@ -1007,7 +1007,7 @@ export namespace net {
 //
 // exception.
 export class exception extends Error {
-  constructor(msg: string, code: string, filename: string, line: number);
+  constructor(msg: string, code: string, filename: string, line: number, column?: number);
 
   /** @desc: 错误代码 */
   code: string;
@@ -1016,7 +1016,9 @@ export class exception extends Error {
   /** @desc: 错误文件 */
   filename: string;
   /** @desc: 错误所在行 */
-  line: string;
+  line: number;
+  /** @desc: 错误所在列 */
+  column: number;
 }
 
 export namespace exception {

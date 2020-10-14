@@ -14,14 +14,16 @@ module.exports = class extends Error {
   * @param code: 异常代码
   * @param filename: 异常文件名
   * @param line: 异常文件所在行
+  * @param column: 异常文件所在列
   * @return: 
   */
-  constructor(msg, code, filename, line) {
+  constructor(msg, code, filename, line, column) {
     super(code + " " + msg);
     this.code = code;
     this.msg = msg;
     this.filename = filename;
     this.line = line;
+    this.column = column||0;
   }
 
   /**

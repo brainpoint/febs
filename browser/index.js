@@ -1,5 +1,10 @@
 var Window = "undefined" != typeof window ? window : ("undefined" != typeof global ? global : ("undefined" != typeof self ? self : undefined));
 
+if (!Window.__line) {
+  Window.__line = undefined;
+  Window.__column = undefined;
+}
+
 // require('core-js/stable');
 // require('regenerator-runtime/runtime');
 

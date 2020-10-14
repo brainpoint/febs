@@ -1,4 +1,10 @@
 
+
+if (!global.__line) {
+  global.__line = undefined;
+  global.__column = undefined;
+}
+
 // require('es5-shim');
 // require('es5-shim/es5-sham');
 // require('console-polyfill');
@@ -17,7 +23,6 @@ var BigNumber = require('../third-party/bignumber.min.js');
 var date  = require('../libs/date');
 var string = require('../libs/string');
 var exception  = require('../common/exception');
-
 
 const __debug = false;
 const crypt = febsutils.mergeMap(febscrypt, cryptMd5, cryptSha1);
