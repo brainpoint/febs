@@ -8,7 +8,7 @@
 
 var fs    = require('fs');
 var crypto = require('crypto');
-var uuidv1   = require('uuid/v1');
+var { v4: uuidv4 } = require('uuid');
 var crypt = require('../browser/common/crypt');
 
 /**
@@ -277,7 +277,7 @@ function (hash) {
 */
 exports.uuid =
 function () {
-  return uuidv1();
+  return uuidv4();
 }
 
 /**
