@@ -7,8 +7,7 @@
     "node-fetch": "^2.6.0",
     "promise": "^7.1.1",
     "raw-body": "^2.2.0",
-    "url": "^0.10.3",
-    "uuid": "^8.3.1"
+    "url": "^0.10.3"
   },
   "directories": {},
   "homepage": "https://github.com/brainpoint/febs#readme",
@@ -57,5 +56,5 @@
     }
   ],
   "name": "febs",
-  "version": "1.0.10"
+  "version": "1.0.11"
 }

@@ -1,7 +1,7 @@
 
 require('../browser/common/promise-finally-polyfill');
 
-exports.BigNumber = require('bignumber.js');
+exports.BigNumber = require('../browser/third-party/bignumber');
 
 exports.upload = require('./upload');
 exports.exception = require('../browser/common/exception');

@@ -21,7 +21,7 @@ require('./common/promise-finally-polyfill');
 //
 // define the animationFrame.
 var animationFrame  = require('./libs/animationFrame');
-var _BigNumber = require('./third-party/bignumber.min.js');
+var _BigNumber = require('./third-party/bignumber.js');
 var _date  = require('./libs/date');
 var _utils  = require('./libs/utils');
 var _string = require('./libs/string');

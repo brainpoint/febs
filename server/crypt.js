@@ -8,8 +8,9 @@
 
 var fs    = require('fs');
 var crypto = require('crypto');
-var { v4: uuidv4 } = require('uuid');
+// var { v4: uuidv4 } = require('uuid');
 var crypt = require('../browser/common/crypt');
+var cryptUUID = require('../browser/libs/crypt');
 
 /**
  * @desc: 计算crc32值.
@@ -277,7 +278,8 @@ function (hash) {
 */
 exports.uuid =
 function () {
-  return uuidv4();
+  // return uuidv4();
+  return cryptUUID.uuid();
 }
 
 /**

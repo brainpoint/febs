@@ -55,7 +55,7 @@ febs.file.fileCopy(path.join(root, 'README.md'), path.join(root, 'dist/febs/READ
 // make febs.min.js
 var cmdStr = 'uglifyjs\
   third-party/bluebird.min.js\
-  third-party/bignumber.min.js\
+  third-party/bignumber.js\
   client/js/animationFrame.js\
   client/febsformin.js\
   client/js/crypt.js\
