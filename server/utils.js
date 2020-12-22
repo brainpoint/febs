@@ -234,6 +234,10 @@ exports.execCommand = function execCommand(cmdString, params, optionOrCbFinish, 
 
       //option = utils.mergeMap( {stdio: 'inherit'}, option);
       var proc = spawn(cmps, inputps, option);
+      proc.on('error', function(e) {
+        if (reject) reject(e);
+        else cbFinish(e, null, null);
+      });
       proc.stdout.on('data', function(data) {
         out += data;
       });
