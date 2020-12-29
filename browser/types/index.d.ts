@@ -3,6 +3,7 @@
 
 /// <reference types="node" />
 
+import { Fetch } from './fetch.d';
 
 declare global {
   /**
@@ -669,6 +670,13 @@ export namespace utils {
   * @return: promise.
   */
   function denodeify(fn: any, self?: any, argumentCount?: number): (...args:any[])=>Promise<any>;
+  /**
+  * @desc: 将异步回调方式的方法转换成promise, 函数中的this可以为指定值.
+  *         例如: yield denodeify(fs.exists)(path);
+  * @param self: 指定的调用对象
+  * @return: promise.
+  */
+  function promisify(fn: any, self?: any, argumentCount?: number): (...args:any[])=>Promise<any>;
 
   /**
    * @desc: 进行bigint类型转换. 如果数值超过15位,等同于 new BigNumber(v)
@@ -898,18 +906,8 @@ export namespace net {
           if (err === 'timeout)  // 超时.
         });
   */
-  function fetch(url: string, option: {
-    method?: string, // 请求方法 get, post, delete 等.
-    mode?: string | 'no-cors' | 'cors' | 'same-origin',   // 'no-cors', 'same-origin'等; (可忽略)
-    headers?: any, // 请求header, 例如:
-    // {
-    //   "Content-Type": "application/json",
-    //   "Accept": 'application/json',
-    // }
-    body?: string,    // 请求内容.
-    timeout?: number, // 超时 (ms), 默认为5000,
-    credentials?: 'include' | null | undefined,  // 携带了credentials='include'则服务器需设置Access-Control-Allow-Credentials
-  }): Promise<any>;
+  type fetch = Fetch;
+  
   /**
    * @desc: jsonp方式获取数据.
    *        如果超時, 可以catch到 'timeout'

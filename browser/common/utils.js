@@ -96,3 +96,5 @@ exports.denodeify = function (fn, self, argumentCount) {
     })
   }
 }
+
+exports.promisify = exports.denodeify;

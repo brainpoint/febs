@@ -1,5 +1,5 @@
 /*!
- * febs v1.0.11
+ * febs v1.0.14
  * Copyright (c) 2020 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
@@ -7377,109 +7377,110 @@ _export({ target: 'Number', stat: true }, {
   }
 });
 
-/**
- * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
- * Author: lipengxiang
- * Desc:
- */
+var utils = createCommonjsModule(function (module, exports) {
+  /**
+   * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
+   * Author: lipengxiang
+   * Desc:
+   */
 
+  var PromiseLib = Promise;
+  /**
+   * @desc: 模拟sleep.
+   * @return: Promise.
+   *     在ms时间后执行.
+   * @e.g.
+   *     febs.utils.sleep(1000).then(()=>{
+            //1000ms之后resolve.
+         });
+   */
 
-var PromiseLib = Promise;
-/**
- * @desc: 模拟sleep.
- * @return: Promise.
- *     在ms时间后执行.
- * @e.g.
- *     febs.utils.sleep(1000).then(()=>{
-          //1000ms之后resolve.
-       });
- */
-
-var sleep = function sleep(ms) {
-  return new PromiseLib(function (resolve, reject) {
-    try {
-      setTimeout(function () {
-        resolve();
-      }, ms);
-    } catch (err) {
-      reject(err);
-    }
-  });
-};
-/**
- * @desc: 合并多个map (浅拷贝).
- * @return: {}
- */
-
-
-var mergeMap = function mergeMap() {
-  var map0 = {};
-  var map2;
-
-  for (var i = 0; i < arguments.length; i++) {
-    map2 = arguments[i];
-
-    if (map2) {
-      for (var k in map2) {
-        map0[k] = map2[k];
-      }
-    }
-  }
-
-  return map0;
-};
-/**
-* @desc: 判断参数是否是null,undefined,NaN
-* @return: boolean
-*/
-
-
-var isNull = function isNull(e) {
-  return e === null || e === undefined || Number.isNaN(e);
-};
-/**
- * date.
- */
-
-
-var getTimeString$2 = date.getTimeString;
-var getTimeStringFromNow$2 = date.getTimeStringFromNow;
-var getDate$2 = date.getDate;
-var getDate2$2 = date.getDate2;
-/**
-* @desc: 创建promise，但函数中的this可以为指定值.
-*         例如: yield denodeify(fs.exists)(path);
-* @param self: 指定的对象.s
-* @return: promise.
-*/
-
-var denodeify = function denodeify(fn, self, argumentCount) {
-  argumentCount = argumentCount || Infinity;
-  return function () {
-    var args = Array.prototype.slice.call(arguments, 0, argumentCount > 0 ? argumentCount : 0);
+  exports.sleep = function (ms) {
     return new PromiseLib(function (resolve, reject) {
-      args.push(function (err, res) {
-        if (err) reject(err);else resolve(res);
-      });
-      var res = fn.apply(self, args);
-
-      if (res && (_typeof(res) === 'object' || typeof res === 'function') && typeof res.then === 'function') {
-        resolve(res);
+      try {
+        setTimeout(function () {
+          resolve();
+        }, ms);
+      } catch (err) {
+        reject(err);
       }
     });
   };
-};
+  /**
+   * @desc: 合并多个map (浅拷贝).
+   * @return: {}
+   */
 
-var utils = {
-  sleep: sleep,
-  mergeMap: mergeMap,
-  isNull: isNull,
-  getTimeString: getTimeString$2,
-  getTimeStringFromNow: getTimeStringFromNow$2,
-  getDate: getDate$2,
-  getDate2: getDate2$2,
-  denodeify: denodeify
-};
+
+  exports.mergeMap = function () {
+    var map0 = {};
+    var map2;
+
+    for (var i = 0; i < arguments.length; i++) {
+      map2 = arguments[i];
+
+      if (map2) {
+        for (var k in map2) {
+          map0[k] = map2[k];
+        }
+      }
+    }
+
+    return map0;
+  };
+  /**
+  * @desc: 判断参数是否是null,undefined,NaN
+  * @return: boolean
+  */
+
+
+  exports.isNull = function (e) {
+    return e === null || e === undefined || Number.isNaN(e);
+  };
+  /**
+   * date.
+   */
+
+
+  exports.getTimeString = date.getTimeString;
+  exports.getTimeStringFromNow = date.getTimeStringFromNow;
+  exports.getDate = date.getDate;
+  exports.getDate2 = date.getDate2;
+  /**
+  * @desc: 创建promise，但函数中的this可以为指定值.
+  *         例如: yield denodeify(fs.exists)(path);
+  * @param self: 指定的对象.s
+  * @return: promise.
+  */
+
+  exports.denodeify = function (fn, self, argumentCount) {
+    argumentCount = argumentCount || Infinity;
+    return function () {
+      var args = Array.prototype.slice.call(arguments, 0, argumentCount > 0 ? argumentCount : 0);
+      return new PromiseLib(function (resolve, reject) {
+        args.push(function (err, res) {
+          if (err) reject(err);else resolve(res);
+        });
+        var res = fn.apply(self, args);
+
+        if (res && (_typeof(res) === 'object' || typeof res === 'function') && typeof res.then === 'function') {
+          resolve(res);
+        }
+      });
+    };
+  };
+
+  exports.promisify = exports.denodeify;
+});
+var utils_1 = utils.sleep;
+var utils_2 = utils.mergeMap;
+var utils_3 = utils.isNull;
+var utils_4 = utils.getTimeString;
+var utils_5 = utils.getTimeStringFromNow;
+var utils_6 = utils.getDate;
+var utils_7 = utils.getDate2;
+var utils_8 = utils.denodeify;
+var utils_9 = utils.promisify;
 
 var nativeJoin = [].join;
 
@@ -7752,7 +7753,7 @@ var utils_browser_9 = utils_browser.platformIsMac;
  */
 
 
-var sleep$1 = utils.sleep;
+var sleep = utils.sleep;
 /**
  * @desc: 获取时间的string.
  * @param time: ms.
@@ -7765,7 +7766,7 @@ var sleep$1 = utils.sleep;
  * @return: string.
  */
 
-var getTimeString$3 = utils.getTimeString;
+var getTimeString$2 = utils.getTimeString;
 /**
  * @desc: 获取指定时间距离现在的时间描述.
  *        例如, 昨天, 1小时前等.
@@ -7784,31 +7785,31 @@ var getTimeString$3 = utils.getTimeString;
  * @return: string.
  */
 
-var getTimeStringFromNow$3 = utils.getTimeStringFromNow;
+var getTimeStringFromNow$2 = utils.getTimeStringFromNow;
 /**
  * @desc: getDate('2012-05-09')
  * @return: Date.
  */
 
-var getDate$3 = utils.getDate;
+var getDate$2 = utils.getDate;
 /**
  * @desc: getDate2('20120509')
  * @return: Date.
  */
 
-var getDate2$3 = utils.getDate2;
+var getDate2$2 = utils.getDate2;
 /**
  * @desc: 合并多个map.
  * @return: {}
  */
 
-var mergeMap$1 = utils.mergeMap;
+var mergeMap = utils.mergeMap;
 /**
  * @desc: 判断参数是否是null,undefined,NaN
  * @return: boolean
  */
 
-var isNull$1 = utils.isNull;
+var isNull = utils.isNull;
 /**
 * @desc: 创建promise，但函数中的this可以为指定值.
 *         例如: yield denodeify(fs.exists)(path);
@@ -7816,7 +7817,8 @@ var isNull$1 = utils.isNull;
 * @return: promise.
 */
 
-var denodeify$1 = utils.denodeify;
+var denodeify = utils.denodeify;
+var promisify = utils.promisify;
 /**
  * @desc: 判断是否是ie.
  */
@@ -7867,15 +7869,16 @@ var platformIsWin = utils_browser.platformIsWin;
  */
 
 var platformIsMac = utils_browser.platformIsMac;
-var utils_1 = {
-  sleep: sleep$1,
-  getTimeString: getTimeString$3,
-  getTimeStringFromNow: getTimeStringFromNow$3,
-  getDate: getDate$3,
-  getDate2: getDate2$3,
-  mergeMap: mergeMap$1,
-  isNull: isNull$1,
-  denodeify: denodeify$1,
+var utils_1$1 = {
+  sleep: sleep,
+  getTimeString: getTimeString$2,
+  getTimeStringFromNow: getTimeStringFromNow$2,
+  getDate: getDate$2,
+  getDate2: getDate2$2,
+  mergeMap: mergeMap,
+  isNull: isNull,
+  denodeify: denodeify,
+  promisify: promisify,
   browserIsIE: browserIsIE,
   browserIEVer: browserIEVer,
   browserIsSupportHtml5: browserIsSupportHtml5,
@@ -11658,7 +11661,7 @@ CreateDom.extend = function (plugin) {
     if (arguments[0] === true) i = 1;
 
     for (; i < arguments.length; i++) {
-      o = utils_1.mergeMap(o, arguments[i]);
+      o = utils_1$1.mergeMap(o, arguments[i]);
     }
 
     return o;
@@ -11919,8 +11922,8 @@ var febs = {};
 febs.__debug = Window$5.__debug;
 febs.BigNumber = bignumber;
 febs.date = date_1;
-febs.utils = utils_1;
-febs.utils = febs.utils.mergeMap(utils_1, utils_bigint);
+febs.utils = utils_1$1;
+febs.utils = febs.utils.mergeMap(utils_1$1, utils_bigint);
 febs.string = string_1$1;
 febs.crypt = febs.utils.mergeMap(crypt_1, crypt_md5, crypt_sha1);
 febs.net = net_1;

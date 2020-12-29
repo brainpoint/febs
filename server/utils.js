@@ -177,6 +177,14 @@ exports.bigint_toFixed = utilsBigint.bigint_toFixed;
 */
 exports.denodeify = utils.denodeify;
 
+/**
+* @desc: 创建promise，但函数中的this可以为指定值.
+*         例如: yield denodeify(fs.exists)(path);
+* @param self: 指定的对象.s
+* @return: promise.
+*/
+exports.promisify = utils.promisify;
+
 
 /**
 * @desc: 执行cmd.

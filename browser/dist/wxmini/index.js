@@ -4335,9 +4335,10 @@ class FetchResponse {
   }
 
   json() {
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
+      let data;
       try {
-        let data = JSON.parse(this.data);
+        data = JSON.parse(this.data);
       } catch (e) {
         reject(e);
         return;
@@ -4377,6 +4378,9 @@ function fetch(url, option/*: {
       method: option.method?option.method.toUpperCase():undefined,
       success: (res)=>{
         resolve( new FetchResponse(res.data, res.header, res.status) );
+      },
+      fail: (err) => {
+        reject(err);
       }
     })
   });
@@ -4475,6 +4479,7 @@ exports.isNull = utils.isNull;
 * @return: promise.
 */
 exports.denodeify = utils.denodeify;
+exports.promisify = utils.promisify;
 
 /**
  * @desc: 判断是否是ie.
@@ -4729,6 +4734,8 @@ exports.denodeify = function (fn, self, argumentCount) {
     });
   };
 };
+
+exports.promisify = exports.denodeify;
 
 /***/ }),
 /* 16 */

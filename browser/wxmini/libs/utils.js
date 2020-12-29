@@ -86,6 +86,7 @@ exports.isNull = utils.isNull;
 * @return: promise.
 */
 exports.denodeify = utils.denodeify;
+exports.promisify = utils.promisify;
 
 /**
  * @desc: 判断是否是ie.

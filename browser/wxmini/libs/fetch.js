@@ -19,9 +19,10 @@ class FetchResponse {
   }
 
   json() {
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
+      let data;
       try {
-        let data = JSON.parse(this.data);
+        data = JSON.parse(this.data);
       } catch (e) {
         reject(e);
         return;
@@ -61,6 +62,9 @@ export function fetch(url, option/*: {
       method: option.method?option.method.toUpperCase():undefined,
       success: (res)=>{
         resolve( new FetchResponse(res.data, res.header, res.status) );
+      },
+      fail: (err) => {
+        reject(err);
       }
     })
   });
