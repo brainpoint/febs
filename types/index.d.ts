@@ -962,7 +962,7 @@ export namespace net {
           if (err === 'timeout)  // 超时.
         });
   */
-  type fetch = Fetch;
+  const fetch: Fetch;
 
   /**
   * @desc: [only in browser] 使用jquery.ajax类似参数调用.

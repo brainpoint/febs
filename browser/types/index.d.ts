@@ -906,7 +906,7 @@ export namespace net {
           if (err === 'timeout)  // 超时.
         });
   */
-  type fetch = Fetch;
+  const fetch : Fetch;
   
   /**
    * @desc: jsonp方式获取数据.
