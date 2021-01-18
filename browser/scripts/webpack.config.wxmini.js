@@ -1,6 +1,7 @@
 
 var path = require('path')
 var webpack = require('webpack')
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 var packageJson = require('../package.json');
 var distDir = 'febs-'+packageJson.version;
@@ -49,11 +50,33 @@ module.exports = function(main, output, outputDir){
       }
     ]
   },
-  devtool: '#source-map',
+  // devtool: '#source-map',
   plugins: [
     new webpack.DefinePlugin({
       'process.env': 'production'
-    })
+    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false,
+    //     drop_console: false,
+    //   },
+    //   output: {
+    //     quote_keys: true,
+    //     comments: false,
+    //     beautify: false,
+    //   },
+    //   mangle: {
+    //     screw_ie8: false
+    //   },
+    //   sourceMap: false
+    // }),
+    // new BundleAnalyzerPlugin({
+    //   analyzerMode: 'static',
+    //   analyzerHost: '127.0.0.1',
+    //   analyzerPort: 8888,
+    //   reportFilename: 'report.html',
+    //   openAnalyzer: true, 
+    // })
   ]
 }
 }

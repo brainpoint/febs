@@ -1,3 +1,23 @@
+- [Install](#install)
+  - [commonjs](#commonjs)
+  - [browser](#browser)
+  - [babel](#babel)
+- [framework](#framework)
+- [说明](#说明)
+  - [polyfill](#polyfill)
+- [dom](#dom)
+- [date](#date)
+- [utils](#utils)
+- [string](#string)
+- [crypt](#crypt)
+- [animationFrame](#animationframe)
+- [net](#net)
+- [jquery](#jquery)
+    - [常用](#常用)
+    - [事件.](#事件)
+    - [遍历](#遍历)
+
+
 febs 库是一些常用的工具的合集;
 
 febs实现了jquery的常用方法(dom操作/事件/css/遍历等), 当页面引入febs前如果未引入jquery, 会自动设置全局变量 `$` 为内部实现的jquery相关方法.
@@ -16,7 +36,23 @@ Use npm to install:
 npm install febs-browser --save
 ```
 
-# nodejs
+发布包位置在`febs-browser/dist`下, 提供如下两种不同体积的发布包:
+
+| 类型                               | 路径                                         |
+| ---------------------------------- | -------------------------------------------- |
+| 不包含BigNumber相关的库 (体积较小) | `febs-browser`                               |
+| 包含BigNumber相关的库              | `febs-browser/dist/index.noBignumber.min.js` |
+
+同时提供如下三种模式的库:
+
+| 类型     | 文件名规则                                                 |
+| -------- | ---------------------------------------------------------- |
+| umd      | `dist/index.js`, `dist/index.noBignumber.js`               |
+| commonjs | `dist/index.common.js`, `dist/index.noBignumber.common.js` |
+| esm      | `dist/index.esm.js`, `dist/index.noBignumber.esm.js`       |
+
+
+## commonjs
 
 以下列方式使用
 
@@ -27,26 +63,22 @@ var febs = require('febs-browser');
 febs.string.replace();
 ```
 
-# browser
+## browser
 
-以下列方式使用 (将不同的功能分解到不同的包中)
+以下列方式使用
 
-> copy directory `node_modules/febs/dist/febs` to client
+> copy directory `node_modules/febs/dist/index.min.js` to client
 
 ```html
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />  <!-- 如ie9等早期浏览器提示使用最新渲染器 -->
-<link rel="stylesheet" type="text/css" href="path/febs/febs.css" />
-<script charset='UTF-8' type="text/javascript" src="path/febs/febs.base.js"></script>
-<script charset='UTF-8' type="text/javascript" src="path/febs/febs.sha1.js"></script> <!-- febs.crypt.sha1()方法 -->
-<script charset='UTF-8' type="text/javascript" src="path/febs/febs.md5.js"></script> <!-- febs.crypt.md5()方法 -->
-<script charset='UTF-8' type="text/javascript" src="path/febs/febs.bigint.js"></script> <!-- febs.utils.bigint_xxx()方法 -->
+<script charset='UTF-8' type="text/javascript" src="path/dist/index.min.js"></script>
 
 <script>
 febs.string.replace();
 </script>
 ```
 
-# babel
+## babel
 
 以下列方式使用
 
@@ -72,16 +104,13 @@ febs.string.replace();
 
 # 说明
 
-客户端中已将旧版本中的jquery依赖的相关内容抽出到 [febs-ui](https://www.npmjs.com/package/febs-ui) 库中, `febs`将不再依赖 `jquery`. (ie9以下浏览器需要jquery/zepto).
-
-
 * 定义了如下一些全局变量
 
-| name           | description |
-|----------------|-------------|
-| __line  | 当前所在行, 可以配合 __filename 定位错误日志   |
-| __debug  |  判断当前的环境process.env.NODE_ENV是否为development, 如对此值设置后, 使用设置后的值.  |
-| console.debug  | development 环境下输出日志  |
+| name          | description                                                                          |
+| ------------- | ------------------------------------------------------------------------------------ |
+| __line        | 当前所在行, 可以配合 __filename 定位错误日志                                         |
+| __debug       | 判断当前的环境process.env.NODE_ENV是否为development, 如对此值设置后, 使用设置后的值. |
+| console.debug | development 环境下输出日志                                                           |
 
 > 其他
 * 函数调用使用 `类名.xxx` 的方式调用, 例如: `febs.utils.browserIsMobile()` 
@@ -91,11 +120,12 @@ febs.string.replace();
 ## polyfill
 
 
-| name           |
-|----------------|
-| promise.finally  |
-| console  |
-| fetch  |
+| name            |
+| --------------- |
+| promise.finally |
+| console         |
+| fetch           |
+| AnimationFrame  |
 
 
 # dom

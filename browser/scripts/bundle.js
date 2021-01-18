@@ -158,5 +158,8 @@ function getInputMain(mainfile) {
 }
 
 build(cwd, 'index.js', 'index').then(res=>{}).catch(e=>{console.error(e)})
+build(cwd, 'index.noBignumber.js', 'index.noBignumber').then(res=>{}).catch(e=>{console.error(e)})
 // build(cwd, 'index.ie8.js', 'index.ie8').then(res=>{}).catch(e=>{console.error(e)})
-// build(cwd, 'wxmini/index.js', 'wxmini/index').then(res=>{}).catch(e=>{console.error(e)})
+// build(cwd, 'index.ie8.noBignumber.js', 'index.ie8.noBignumber').then(res=>{}).catch(e=>{console.error(e)})
+// build(cwd, 'wxmini/index.js', 'wxmini/index').then(res => { }).catch(e => { console.error(e) })
+// build(cwd, 'wxmini/index.noBignumber.js', 'wxmini/index.noBignumber').then(res=>{}).catch(e=>{console.error(e)})
