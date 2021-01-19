@@ -69,6 +69,7 @@
     "types",
     "common",
     "wxmini",
+    "wxmini-package",
     "index.js",
     "index.noBignumber.js",
     "index.ie8.js",
@@ -86,8 +87,8 @@
     }
   ],
   "scripts": {
-    "build": "node scripts/webpack.build.js && node scripts/bundle.js",
-    "prepare": "node scripts/webpack.build.js && node scripts/bundle.js"
+    "build": "node scripts/webpack.build.js && cp -rf dist/wxmini/index.js wxmini-package/ && node scripts/bundle.js",
+    "prepare": "node scripts/webpack.build.js && cp -rf dist/wxmini/index.js wxmini-package/ && node scripts/bundle.js"
   },
   "name": "febs-browser",
   "version": "1.1.3"

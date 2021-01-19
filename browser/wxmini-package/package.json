@@ -1,0 +1,37 @@
+{
+  "description": "febs is a useful utilities set in browser",
+  "dependencies": {},
+  "directories": {},
+  "homepage": "https://github.com/brainpoint/febs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/brainpoint/febs.git"
+  },
+  "keywords": [
+    "browser",
+    "jquery",
+    "zepto",
+    "crc32",
+    "string",
+    "net",
+    "febs",
+    "sha1",
+    "md5",
+    "base64",
+    "mp"
+  ],
+  "engines": {
+    "node": ">=7"
+  },
+  "license": "MIT",
+  "miniprogram": ".",
+  "types": "./types/index.d.ts",
+  "maintainers": [
+    {
+      "name": "brainpoint",
+      "email": "bpoint.lee@gmail.com"
+    }
+  ],
+  "name": "febs-miniprogram",
+  "version": "0.0.1"
+}
