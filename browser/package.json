@@ -90,5 +90,5 @@
     "prepare": "node scripts/webpack.build.js && node scripts/bundle.js"
   },
   "name": "febs-browser",
-  "version": "1.1.1"
+  "version": "1.1.2"
 }

@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 15);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -375,33 +375,6 @@ exports.escapeHtml = function (str) {
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -691,7 +664,7 @@ exports.getTime2FromUTC = function (strTimeUTC) {
 };
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -794,7 +767,7 @@ module.exports = function (_Error) {
 }(Error);
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -818,146 +791,7 @@ module.exports = function (_Error) {
 })();
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
-
-/**
- * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
- * Author: lipengxiang
- * Desc:
- */
-
-var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-var Window = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : undefined;
-
-function checkoutSupportBigint() {
-  if (!Window.hasOwnProperty('BigInt')) {
-    throw new Error('Unsupport BigInt');
-  }
-}
-
-var BigInt = Window.BigInt;
-
-/**
- * @desc: 进行bigint转换.
- */
-exports.bigint = function (v) {
-  if (exports.bigint_check(v)) {
-    return BigInt(v);
-  } else {
-    return Number.NaN;
-  }
-};
-
-/**
- * @desc: 判断是否是bigint.
- */
-exports.bigint_check = function (v) {
-  checkoutSupportBigint();
-  if (Number.isInteger(v)) return true;
-  if (!v) return false;
-
-  var typev = typeof v === "undefined" ? "undefined" : _typeof(v);
-  if (typev === 'string') {
-    if (v.length > 22 || v.length < 1) return false;
-
-    for (var j = 1; j < v.length; j++) {
-      if (v[j] < '0' || v[j] > '9') return false;
-    }
-
-    if (v.length == 1) {
-      if (v[0] < '0' || v[0] > '9') return false;else return true;
-    }
-
-    if (v[0] == '-') {
-      if (v.length < 2 || v[1] < '1' || v[1] > '9') return false;
-    } else {
-      if (v[0] < '1' || v[0] > '9') return false;
-    }
-
-    return true;
-  } else if (typev === 'bigint') {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-/**
-* @desc: calc bigint
-* @return: bigint.
-*/
-exports.bigint_add = function (a, b) {
-  checkoutSupportBigint();return BigInt(a) + BigInt(b);
-};
-
-exports.bigint_minus = function (a, b) {
-  checkoutSupportBigint();return BigInt(a) - BigInt(b);
-};
-
-exports.bigint_dividedBy = function (a, b) {
-  checkoutSupportBigint();return BigInt(a) / BigInt(b);
-};
-
-exports.bigint_mul = function (a, b) {
-  checkoutSupportBigint();return BigInt(a) * BigInt(b);
-};
-
-/**
-* @desc: compare with bigint.
-* @return: boolean.
-*/
-exports.bigint_equal = function (a, b) {
-  checkoutSupportBigint();return BigInt(a) === BigInt(b);
-};
-
-exports.bigint_more_than = function (a, b) {
-  checkoutSupportBigint();return BigInt(a) > BigInt(b);
-};
-
-exports.bigint_more_than_e = function (a, b) {
-  checkoutSupportBigint();return BigInt(a) >= BigInt(b);
-};
-
-exports.bigint_less_than = function (a, b) {
-  checkoutSupportBigint();return BigInt(a) < BigInt(b);
-};
-
-exports.bigint_less_than_e = function (a, b) {
-  checkoutSupportBigint();return BigInt(a) <= BigInt(b);
-};
-
-exports.bigint_mod = function (a, b) {
-  checkoutSupportBigint();return BigInt(a) % BigInt(b);
-};
-
-/**
-* @desc: 转换bigint->string.
-* @param fixed: 小数位个数, 默认为0.
-* @return: string.
-*/
-exports.bigint_toFixed = function (a, fixed) {
-  checkoutSupportBigint();
-  a = BigInt(a).toString();
-  if (fixed > 0) {
-    a += '.0';
-  }
-  return a;
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ }),
-/* 6 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -971,7 +805,7 @@ exports.bigint_toFixed = function (a, fixed) {
  *  crc32_file(file, function(crc32Value) {})
  */
 
-var crypt = __webpack_require__(13);
+var crypt = __webpack_require__(12);
 
 /**
  * @desc: 计算字符串的crc32值
@@ -1130,7 +964,7 @@ exports.uuid = function () {
 };
 
 /***/ }),
-/* 7 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1322,7 +1156,7 @@ exports.md5 = function (str) {
 };
 
 /***/ }),
-/* 8 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1456,7 +1290,7 @@ exports.sha1 = function (str) {
 };
 
 /***/ }),
-/* 9 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1469,7 +1303,7 @@ exports.sha1 = function (str) {
 * Desc: 
 */
 
-var date = __webpack_require__(2);
+var date = __webpack_require__(1);
 
 exports.isValidate = date.isValidate;
 exports.getDate = date.getDate;
@@ -1485,7 +1319,7 @@ exports.getTime = date.getTime;
 exports.getTime2 = date.getTime2;
 
 /***/ }),
-/* 10 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1556,7 +1390,34 @@ exports.trim = string.trim;
 exports.escapeHtml = string.escapeHtml;
 
 /***/ }),
-/* 11 */
+/* 9 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1635,7 +1496,7 @@ function fetch(url, option/*: {
 }
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1647,7 +1508,7 @@ function fetch(url, option/*: {
  * Desc:
  */
 
-var utils = __webpack_require__(14);
+var utils = __webpack_require__(13);
 
 /**
  * @desc: 模拟sleep.
@@ -1819,7 +1680,7 @@ exports.platformIsMac = function(userAgent) {
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1883,7 +1744,7 @@ exports.base64_encode = function (arrByte) {
 };
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1904,7 +1765,7 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 };
 
 var PromiseLib = Promise;
-var utilsDate = __webpack_require__(2);
+var utilsDate = __webpack_require__(1);
 
 /**
  * @desc: 模拟sleep.
@@ -1986,7 +1847,7 @@ exports.denodeify = function (fn, self, argumentCount) {
 exports.promisify = exports.denodeify;
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1998,7 +1859,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "date", function() { return date; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "string", function() { return string; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exception", function() { return exception; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BigNumber", function() { return BigNumber; });
 
 
 if (!global.__line) {
@@ -2009,33 +1869,33 @@ if (!global.__line) {
 // require('es5-shim');
 // require('es5-shim/es5-sham');
 // require('console-polyfill');
-__webpack_require__(4);
+__webpack_require__(3);
 // require('babel-polyfill');
 // require('../third-party/bluebird.min.js');
 // require('../third-party/bignumber.min.js');
 
-var utilsBig  = __webpack_require__(5);
-var febsutils  = __webpack_require__(12);
-var febscrypt  = __webpack_require__(6);
-var cryptMd5  = __webpack_require__(7);
-var cryptSha1  = __webpack_require__(8);
-var fetch  = __webpack_require__(11);
-var date  = __webpack_require__(9);
-var string = __webpack_require__(10);
-var exception  = __webpack_require__(3);
+// var utilsBig  = require('../common/utils.bigint.native');
+var febsutils  = __webpack_require__(11);
+var febscrypt  = __webpack_require__(4);
+var cryptMd5  = __webpack_require__(5);
+var cryptSha1  = __webpack_require__(6);
+var fetch  = __webpack_require__(10);
+var date  = __webpack_require__(7);
+var string = __webpack_require__(8);
+var exception  = __webpack_require__(2);
 
 const __debug = false;
 const crypt = febsutils.mergeMap(febscrypt, cryptMd5, cryptSha1);
-const utils = febsutils.mergeMap(febsutils, utilsBig);
+const utils = febsutils.mergeMap(febsutils);
 const net = {
     fetch: fetch.fetch,
 };
 
-const BigNumber = BigInt;
+// const BigNumber = BigInt;
 
 
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(9)))
 
 /***/ })
 /******/ ]);

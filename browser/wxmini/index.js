@@ -13,7 +13,7 @@ require('../common/promise-finally-polyfill');
 // require('../third-party/bluebird.min.js');
 // require('../third-party/bignumber.min.js');
 
-var utilsBig  = require('../common/utils.bigint.native');
+// var utilsBig  = require('../common/utils.bigint.native');
 var febsutils  = require('./libs/utils');
 var febscrypt  = require('../libs/crypt');
 var cryptMd5  = require('../libs/crypt.md5');
@@ -25,12 +25,12 @@ var exception  = require('../common/exception');
 
 const __debug = false;
 const crypt = febsutils.mergeMap(febscrypt, cryptMd5, cryptSha1);
-const utils = febsutils.mergeMap(febsutils, utilsBig);
+const utils = febsutils.mergeMap(febsutils);
 const net = {
     fetch: fetch.fetch,
 };
 
-const BigNumber = BigInt;
+// const BigNumber = BigInt;
 
 export {
   __debug,
@@ -40,5 +40,5 @@ export {
   date,
   string,
   exception,
-  BigNumber
+  // BigNumber
 }

@@ -1,5 +1,5 @@
 /*!
- * febs v1.1.1
+ * febs v1.1.2
  * Copyright (c) 2021 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
