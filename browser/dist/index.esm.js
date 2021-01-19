@@ -1,5 +1,5 @@
 /*!
- * febs v1.1.2
+ * febs v1.1.3
  * Copyright (c) 2021 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
@@ -11988,8 +11988,7 @@ var index_noBignumber = /*#__PURE__*/Object.freeze({
 
 var febs$1 = getCjsExportFromNamespace(index_noBignumber);
 
-febs$1.BigNumber = bignumber;
-var BigNumber = febs$1.BigNumber;
+var BigNumber = bignumber;
 var __debug$1 = febs$1.__debug;
 var date$2 = febs$1.date;
 var utils$2 = febs$1.utils;

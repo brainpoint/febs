@@ -1,10 +1,8 @@
 var _BigNumber = require('./third-party/bignumber.js');
-var febs = require('./index.noBignumber');
-
-febs.BigNumber = _BigNumber;
+var febs = require('./index.ie8.noBignumber');
 
 const __debug = febs.__debug;
-const BigNumber = febs.BigNumber;
+const BigNumber = _BigNumber;
 const date = febs.date;
 const utils = febs.utils;
 const string = febs.string;
