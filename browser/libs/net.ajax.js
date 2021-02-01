@@ -4,9 +4,10 @@
  * Desc:
  */
 
-var febsUtils = require('./utils');
 
 'use strict';
+
+var febsUtils = require('./utils');
 
 var Window = "undefined" != typeof window ? window : ("undefined" != typeof global ? global : ("undefined" != typeof self ? self : undefined));
 

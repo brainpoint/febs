@@ -40,16 +40,16 @@ npm install febs-browser --save
 
 | 类型                               | 路径                                         |
 | ---------------------------------- | -------------------------------------------- |
-| 不包含BigNumber相关的库 (体积较小) | `febs-browser`                               |
-| 包含BigNumber相关的库              | `febs-browser/dist/index.noBignumber.min.js` |
+| 不包含BigNumber相关的库 (体积较小) | `febs-browser/dist/index.noBignumber.min.js`                               |
+| 包含BigNumber相关的库              | `febs-browser` |
 
 同时提供如下三种模式的库:
 
-| 类型     | 文件名规则                                                 |
+| 类型     | 对应文件                                                 |
 | -------- | ---------------------------------------------------------- |
-| umd      | `dist/index.js`, `dist/index.noBignumber.js`               |
-| commonjs | `dist/index.common.js`, `dist/index.noBignumber.common.js` |
-| esm      | `dist/index.esm.js`, `dist/index.noBignumber.esm.js`       |
+| umd      | `dist/index.js` 或 `dist/index.noBignumber.js`               |
+| commonjs | `dist/index.common.js` 或 `dist/index.noBignumber.common.js` |
+| esm      | `dist/index.esm.js` 或 `dist/index.noBignumber.esm.js`       |
 
 
 ## commonjs

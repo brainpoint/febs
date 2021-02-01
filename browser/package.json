@@ -70,8 +70,10 @@
     "common",
     "wxmini",
     "wxmini-package",
+    "index.base.js",
     "index.js",
     "index.noBignumber.js",
+    "index.ie8.base.js",
     "index.ie8.js",
     "index.ie8.noBignumber.js"
   ],
@@ -91,5 +93,5 @@
     "prepare": "node scripts/webpack.build.js && cp -rf dist/wxmini/index.js wxmini-package/ && node scripts/bundle.js"
   },
   "name": "febs-browser",
-  "version": "1.1.3"
+  "version": "1.2.1"
 }

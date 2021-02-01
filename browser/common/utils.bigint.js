@@ -8,6 +8,7 @@
 
 var BigNumber = require('../third-party/bignumber.js');
 
+exports.BigNumber = BigNumber;
 
 /**
  * @desc: 进行bigint转换.

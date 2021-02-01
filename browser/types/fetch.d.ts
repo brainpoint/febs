@@ -44,6 +44,7 @@ export interface RequestInit {
   timeout?: number;
   mode?: RequestMode,
   credentials?: RequestCredentials,
+  progress?: (progress:number)=>void,
 }
 
 export namespace Response {
@@ -72,6 +73,28 @@ export type ResponseType =
     | "opaque"
     | "opaqueredirect";
 
+/**
+ * @example
+ *  fetch(...).then(...).catch(e=>{
+ *    if (e instanceof Error) {
+ *      // network error.
+ *      if (e.code === 'NetworkFailed') {
+ *      }
+ *      // network timeout.
+ *      if (e.code === 'NetworkTimeout') {
+ *      }
+ *    }
+ *    throw e;
+ *  });
+ * 
+ * @desc 
+ * 
+ * exception: 
+ *   - Network error: 
+ *        Error.code = 'NetworkFailed'
+ *   - Network timeout:
+ *        Error.code = 'NetworkTimeout'
+ */
 export type Fetch = (
     url: RequestInfo,
     init?: RequestInit

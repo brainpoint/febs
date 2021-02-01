@@ -4,13 +4,14 @@
  * Desc:
  */
 
-var febsUtils = require('./utils');
 
 'use strict';
 
+var febsUtils = require('./utils');
 var Window = "undefined" != typeof window ? window : ("undefined" != typeof global ? global : ("undefined" != typeof self ? self : undefined));
 
 var transfer = require('./net.transfer');
+var exception = require('../common/exception');
 
 var febsnet = {};
 var net = {};
@@ -389,7 +390,7 @@ else {
         if (xhr.readyState == 4) {
           var status = (xhr.status === 1223) ? 204 : xhr.status
           if (status < 100 || status > 599) {
-            reject(new TypeError('Network request failed'))
+            reject(new exception('Network request failed', 'NetworkFailed', __filename, __line, __column))
             return
           }
           var options = {
@@ -404,10 +405,10 @@ else {
       }
 
       xhr.ontimeout = function() {
-        reject('timeout')
+        reject(new exception('Network timeout', 'NetworkTimeout', __filename, __line, __column))
       }
       xhr.onerror = function() {
-        reject(new TypeError('Network request failed'))
+        reject(new exception('Network request failed', 'NetworkFailed', __filename, __line, __column))
       }
 
       if (init.progress) {

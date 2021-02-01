@@ -4,13 +4,13 @@
  * Desc:
  */
 
+'use strict';
+
 var febsUtils = require('./utils');
 var netajax = require('./net.ajax');
 var netfetch = require('./net.fetch');
 var netjsonp = require('./net.jsonp');
 
-
-'use strict';
 
 var net = {
   ajax: netajax.ajax,

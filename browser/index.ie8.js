@@ -1,10 +1,10 @@
-var _BigNumber = require('./third-party/bignumber.js');
-var febs = require('./index.ie8.noBignumber');
+var febs = require('./index.ie8.base');
+var _utilsBig  = require('./common/utils.bigint');
 
 const __debug = febs.__debug;
-const BigNumber = _BigNumber;
+const BigNumber = _utilsBig.BigNumber;
 const date = febs.date;
-const utils = febs.utils;
+const utils = febs.utils.mergeMap(febs.utils, _utilsBig);
 const string = febs.string;
 const crypt = febs.crypt;
 const net = febs.net;

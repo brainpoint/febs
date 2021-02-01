@@ -72,6 +72,28 @@ export type ResponseType =
     | "opaque"
     | "opaqueredirect";
 
+/**
+ * @example
+ *  fetch(...).then(...).catch(e=>{
+ *    if (e instanceof febs.exception) {
+ *      // network error.
+ *      if (e.code === 'NetworkFailed') {
+ *      }
+ *      // network timeout.
+ *      if (e.code === 'NetworkTimeout') {
+ *      }
+ *    }
+ *    throw e;
+ *  });
+ * 
+ * @desc 
+ * 
+ * exception: 
+ *   - Network error: 
+ *        febs.exception.code = 'NetworkFailed'
+ *   - Network timeout:
+ *        febs.exception.code = 'NetworkTimeout'
+ */
 export type Fetch = (
     url: RequestInfo,
     init?: RequestInit
