@@ -723,6 +723,7 @@ module.exports = function (_Error) {
 
     var _this = _possibleConstructorReturn(this, _Error.call(this, code + " " + msg));
 
+    _this.__tag = 'febs.exception';
     _this.code = code;
     _this.msg = msg;
     _this.filename = filename;
@@ -732,11 +733,19 @@ module.exports = function (_Error) {
   }
 
   /**
+   * 判断是否是febs.exception异常实例.
+   */
+
+  _class.isInstance = function isInstance(e) {
+    return e && e.__tag === 'febs.exception';
+  };
+
+  /**
   * @desc: 一般错误.
   */
 
   _createClass(_class, null, [{
-    key: "ERROR",
+    key: 'ERROR',
     get: function get() {
       return "error";
     }
@@ -746,7 +755,7 @@ module.exports = function (_Error) {
     */
 
   }, {
-    key: "PARAM",
+    key: 'PARAM',
     get: function get() {
       return "param error";
     }
@@ -757,7 +766,7 @@ module.exports = function (_Error) {
     */
 
   }, {
-    key: "OUT_OF_RANGE",
+    key: 'OUT_OF_RANGE',
     get: function get() {
       return "out of range";
     }

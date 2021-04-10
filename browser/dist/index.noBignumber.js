@@ -1,5 +1,5 @@
 /*!
- * febs v1.2.1
+ * febs v1.2.2
  * Copyright (c) 2021 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
@@ -5357,6 +5357,7 @@
 	    _classCallCheck(this, exception);
 
 	    _this = _super.call(this, code + " " + msg);
+	    _this.__tag = 'febs.exception';
 	    _this.code = code;
 	    _this.msg = msg;
 	    _this.filename = filename;
@@ -5365,11 +5366,20 @@
 	    return _this;
 	  }
 	  /**
-	  * @desc: 一般错误.
-	  */
+	   * 判断是否是febs.exception异常实例.
+	   */
 
 
 	  _createClass(exception, null, [{
+	    key: "isInstance",
+	    value: function isInstance(e) {
+	      return e && e.__tag === 'febs.exception';
+	    }
+	    /**
+	    * @desc: 一般错误.
+	    */
+
+	  }, {
 	    key: "ERROR",
 	    get: function get() {
 	      return "error";

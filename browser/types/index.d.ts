@@ -1188,6 +1188,11 @@ export class exception extends Error {
 
 export namespace exception {
 
+  /**
+   * 判断是否是febs.exception异常实例.
+   */
+  function isInstance(e: any): boolean;
+
   /** @desc: 一般错误. */
   const ERROR: string;
   /** @desc: 参数错误. */

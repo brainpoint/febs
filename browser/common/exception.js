@@ -19,12 +19,18 @@ module.exports = class extends Error {
   */
   constructor(msg, code, filename, line, column) {
     super(code + " " + msg);
+    this.__tag = 'febs.exception';
     this.code = code;
     this.msg = msg;
     this.filename = filename;
     this.line = line;
     this.column = column||0;
   }
+
+  /**
+   * 判断是否是febs.exception异常实例.
+   */
+  static isInstance(e) { return e && e.__tag === 'febs.exception'; }
 
   /**
   * @desc: 一般错误.
