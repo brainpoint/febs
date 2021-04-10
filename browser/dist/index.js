@@ -1,5 +1,5 @@
 /*!
- * febs v1.2.2
+ * febs v1.2.3
  * Copyright (c) 2021 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
@@ -14,10 +14,6 @@
 
 	function createCommonjsModule(fn, module) {
 		return module = { exports: {} }, fn(module, module.exports), module.exports;
-	}
-
-	function getCjsExportFromNamespace (n) {
-		return n && n['default'] || n;
 	}
 
 	var check = function (it) {
@@ -1433,10 +1429,6 @@
 	    });
 	  };
 	})();
-
-	var promiseFinallyPolyfill = /*#__PURE__*/Object.freeze({
-		__proto__: null
-	});
 
 	var slice = [].slice;
 	var MSIE = /MSIE .\./.test(engineUserAgent); // <- dirty ie9- check
@@ -7850,8 +7842,6 @@
 	  CreateDom: CreateDom_1
 	};
 
-	getCjsExportFromNamespace(promiseFinallyPolyfill);
-
 	var Window$5 = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : undefined;
 
 	if (!Window$5.__line) {
@@ -12003,18 +11993,16 @@
 	var utils_bigint_13 = utils_bigint.bigint_mod;
 	var utils_bigint_14 = utils_bigint.bigint_toFixed;
 
-	var febs$1 = getCjsExportFromNamespace(index_base);
-
 	var BigNumber = utils_bigint.BigNumber;
-	var __debug$1 = febs$1.__debug;
-	var date$2 = febs$1.date;
-	var utils$2 = febs$1.utils.mergeMap(febs$1.utils, utils_bigint);
-	var string$2 = febs$1.string;
-	var crypt$2 = febs$1.crypt;
-	var net$5 = febs$1.net;
-	var $$1 = febs$1['$'];
-	var dom$2 = febs$1.dom;
-	var exception$2 = febs$1.exception;
+	var __debug$1 = index_base.__debug;
+	var date$2 = index_base.date;
+	var utils$2 = index_base.utils.mergeMap(index_base.utils, utils_bigint);
+	var string$2 = index_base.string;
+	var crypt$2 = index_base.crypt;
+	var net$5 = index_base.net;
+	var $$1 = index_base['$'];
+	var dom$2 = index_base.dom;
+	var exception$2 = index_base.exception;
 
 	exports.$ = $$1;
 	exports.BigNumber = BigNumber;

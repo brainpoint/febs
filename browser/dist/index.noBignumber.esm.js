@@ -1,5 +1,5 @@
 /*!
- * febs v1.2.2
+ * febs v1.2.3
  * Copyright (c) 2021 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
@@ -8,6 +8,10 @@ var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof win
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+function getCjsExportFromNamespace (n) {
+	return n && n['default'] || n;
 }
 
 var check = function (it) {
@@ -1423,6 +1427,10 @@ if ( typeof nativePromiseConstructor == 'function' && !nativePromiseConstructor.
     });
   };
 })();
+
+var promiseFinallyPolyfill = /*#__PURE__*/Object.freeze({
+	__proto__: null
+});
 
 var slice = [].slice;
 var MSIE = /MSIE .\./.test(engineUserAgent); // <- dirty ie9- check
@@ -7836,6 +7844,8 @@ var dom = {
   CreateDom: CreateDom_1
 };
 
+getCjsExportFromNamespace(promiseFinallyPolyfill);
+
 var Window$5 = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : undefined;
 
 if (!Window$5.__line) {
@@ -8094,15 +8104,17 @@ var utils_bigint_native_11 = utils_bigint_native.bigint_less_than_e;
 var utils_bigint_native_12 = utils_bigint_native.bigint_mod;
 var utils_bigint_native_13 = utils_bigint_native.bigint_toFixed;
 
-var __debug$1 = index_base.__debug;
-var date$2 = index_base.date;
-var utils$2 = index_base.utils.mergeMap(index_base.utils, utils_bigint_native);
-var string$2 = index_base.string;
-var crypt$2 = index_base.crypt;
-var net$5 = index_base.net;
-var $$1 = index_base['$'];
-var dom$2 = index_base.dom;
-var exception$2 = index_base.exception;
+var febs$1 = getCjsExportFromNamespace(index_base);
+
+var __debug$1 = febs$1.__debug;
+var date$2 = febs$1.date;
+var utils$2 = febs$1.utils.mergeMap(febs$1.utils, utils_bigint_native);
+var string$2 = febs$1.string;
+var crypt$2 = febs$1.crypt;
+var net$5 = febs$1.net;
+var $$1 = febs$1['$'];
+var dom$2 = febs$1.dom;
+var exception$2 = febs$1.exception;
 
 export { $$1 as $, __debug$1 as __debug, crypt$2 as crypt, date$2 as date, dom$2 as dom, exception$2 as exception, net$5 as net, string$2 as string, utils$2 as utils };
 //# sourceMappingURL=index.noBignumber.esm.js.map
