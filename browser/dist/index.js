@@ -1,5 +1,5 @@
 /*!
- * febs v1.2.3
+ * febs v1.2.4
  * Copyright (c) 2021 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
@@ -11876,7 +11876,7 @@
 	    var typev = _typeof(v);
 
 	    if (typev === 'string') {
-	      if (v.length > 22 || v.length < 1) return false;
+	      if (v.length > 100 || v.length < 1) return false;
 
 	      for (var j = 1; j < v.length; j++) {
 	        if (v[j] < '0' || v[j] > '9') return false;

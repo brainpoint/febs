@@ -42,7 +42,7 @@ function(v) {
   var typev = typeof v;
   if (typev === 'string')
   {
-    if (v.length > 22 || v.length < 1)
+    if (v.length > 100 || v.length < 1)
       return false;
 
     for (var j = 1; j < v.length; j++) {

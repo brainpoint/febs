@@ -1,6 +1,5 @@
 {
   "description": "febs is a useful utilities set in browser",
-  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
@@ -39,7 +38,7 @@
     "tap": "^14.10.6",
     "uglify-js": "^3.2.1",
     "webpack": "^2.6.1",
-    "webpack-bundle-analyzer": "^2.11.1"
+    "webpack-bundle-analyzer": ">=3.3.2"
   },
   "directories": {},
   "homepage": "https://github.com/brainpoint/febs#readme",
@@ -93,5 +92,5 @@
     "prepublishOnly": "node scripts/webpack.build.js && cp -rf dist/wxmini/index.js wxmini-package/ && node scripts/bundle.js"
   },
   "name": "febs-browser",
-  "version": "1.2.3"
+  "version": "1.2.4"
 }
