@@ -89,7 +89,7 @@ exports.denodeify = utils.denodeify;
 exports.promisify = utils.promisify;
 
 /**
- * @desc: 判断是否是ie.
+ * @desc: 判断是否是ie.
  */
 exports.browserIsIE = utilsBrowser.browserIsIE;
 
@@ -126,6 +126,34 @@ exports.browserIsIOS = utilsBrowser.browserIsIOS;
  */
 exports.browserIsPhone = utilsBrowser.browserIsPhone;
 
+/**
+ * @desc: the browser is safari.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsSafari = utilsBrowser.browserIsSafari;
+
+/**
+ * @desc: the browser is opera.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsOpera = utilsBrowser.browserIsOpera;
+
+/**
+ * @desc: the browser is firefox.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsFirefox = utilsBrowser.browserIsFirefox;
+/**
+ * @desc: the browser is chrome.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsChrome = utilsBrowser.browserIsChrome;
+
+/**
+ * @desc: the browser is Edge.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsEdge = utilsBrowser.browserIsEdge;
 
 /**
  * @desc: the browser is weixin.

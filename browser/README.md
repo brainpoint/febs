@@ -331,6 +331,26 @@ febs.utils.browserIEVer()
  * @desc: the browser is support html5.
  */
 febs.utils.browserIsSupportHtml5()  `服务端不支持`
+/**
+* @desc: 判断是否是safari.
+*/
+febs.utils.browserIsSafari()
+/**
+* @desc: 判断是否是opera.
+*/
+febs.utils.browserIsOpera()
+/**
+* @desc: 判断是否是firefox.
+*/
+febs.utils.browserIsFirefox()
+/**
+* @desc: 判断是否是chrome.
+*/
+febs.utils.browserIsChrome()
+/**
+* @desc: 判断是否是edge.
+*/
+febs.utils.browserIsEdge()
 ```
 ```js
 /**

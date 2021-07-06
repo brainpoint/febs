@@ -596,7 +596,13 @@ export namespace utils {
   function browserIsPhone(): boolean;
   function browserIsWeixin(): boolean;
   function browserIsIE(): boolean;
-  function browserIEVer(): boolean;
+  function browserIEVer(): number;
+  function browserIsSafari(): boolean;
+  function browserIsOpera(): boolean;
+  function browserIsFirefox(): boolean;
+  function browserIsChrome(): boolean;
+  function browserIsEdge(): boolean;
+
 
   /**
    * @desc: the platform is Windows.
@@ -1028,7 +1034,7 @@ export interface dom {
   /**
    * @desc: attr.
    */
-  attr(attrName: any, value: any): string;
+  attr(attrName: any, value?: any): string;
 
   /**
    * @desc: removeAttr
@@ -1060,7 +1066,7 @@ export interface dom {
   /**
   * @desc: css.
   */
-  css(name: string, value: string): string;
+  css(name: string, value?: string): string;
 
   /**
    * html.

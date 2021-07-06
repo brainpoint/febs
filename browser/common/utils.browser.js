@@ -11,7 +11,7 @@ var Window = "undefined" != typeof window ? window : ("undefined" != typeof glob
 
 
 /**
- * @desc: 判断是否是ie.
+ * @desc: 判断是否是ie.
  */
 exports.browserIsIE =
   function () {
@@ -32,7 +32,6 @@ exports.browserIEVer =
 
     var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串  
     var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器  
-    var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器  
     var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
     if (isIE) {
       var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
@@ -49,12 +48,10 @@ exports.browserIEVer =
       } else {
         return 6; //IE版本<=7
       }
-    } else if (isEdge) {
-      return 'edge'; //edge
     } else if (isIE11) {
       return 11; //IE11  
     } else {
-      return Number.MAX_SAFE_INTEGER;; //不是ie浏览器
+      return Number.MAX_SAFE_INTEGER; //不是ie浏览器
     }
   }
 
@@ -137,7 +134,80 @@ exports.browserIsPhone = function(userAgent) {
   return agent.match(expression) != null;
 }
 
+/**
+ * @desc: the browser is safari.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsSafari = function(userAgent) {
+  if (!userAgent) {
+    if (typeof Window !== undefined) {
+      userAgent = Window.navigator.userAgent
+    }
+  }
+  
+  var agent = userAgent.toLowerCase();
+  return agent.match(/version\/([\d.]+).*safari/);
+}
 
+/**
+ * @desc: the browser is opera.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsOpera = function(userAgent) {
+  if (!userAgent) {
+    if (typeof Window !== undefined) {
+      userAgent = Window.navigator.userAgent
+    }
+  }
+  
+  var agent = userAgent.toLowerCase();
+  return agent.match(/opera.([\d.]+)/);
+}
+
+/**
+ * @desc: the browser is firefox.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsFirefox = function(userAgent) {
+  if (!userAgent) {
+    if (typeof Window !== undefined) {
+      userAgent = Window.navigator.userAgent
+    }
+  }
+  
+  var agent = userAgent.toLowerCase();
+  return agent.match(/firefox\/([\d.]+)/);
+}
+
+/**
+ * @desc: the browser is chrome.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsChrome = function(userAgent) {
+  if (!userAgent) {
+    if (typeof Window !== undefined) {
+      userAgent = Window.navigator.userAgent
+    }
+  }
+  
+  var agent = userAgent.toLowerCase();
+  return !!agent.match(/chrome\/([\d.]+)/) && !(!!agent.match(/edg\/([\d.]+)/));
+}
+
+/**
+ * @desc: the browser is Edge.
+ * @param userAgent: the browser user agent string.
+ */
+exports.browserIsEdge = function(userAgent) {
+  if (!userAgent) {
+    if (typeof Window !== undefined) {
+      userAgent = Window.navigator.userAgent
+    }
+  }
+  
+  var agent = userAgent.toLowerCase();
+  return agent.match(/edg\/([\d.]+)/);
+}
 /**
  * @desc: the browser is weixin.
  */

@@ -92,5 +92,5 @@
     "prepublishOnly": "node scripts/webpack.build.js && cp -rf dist/wxmini/index.js wxmini-package/ && node scripts/bundle.js"
   },
   "name": "febs-browser",
-  "version": "1.2.4"
+  "version": "1.2.9"
 }

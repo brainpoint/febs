@@ -580,7 +580,12 @@ export namespace utils {
   function browserIsIOS(agent?: string): boolean;
   function browserIsPhone(agent?: string): boolean;
   function browserIsWeixin(agent?: string): boolean;
-
+  function browserIsSafari(agent?: string): boolean;
+  function browserIsOpera(agent?: string): boolean;
+  function browserIsFirefox(agent?: string): boolean;
+  function browserIsChrome(agent?: string): boolean;
+  function browserIsEdge(agent?: string): boolean;
+  
   /**
    * [only in browser]
    */
@@ -1274,7 +1279,7 @@ export interface dom {
   /**
    * @desc: attr.
    */
-  attr(attrName: any, value: any): string;
+  attr(attrName: any, value?: any): string;
 
   /**
    * @desc: removeAttr
@@ -1306,7 +1311,7 @@ export interface dom {
   /**
   * @desc: css.
   */
-  css(name: string, value: string): string;
+  css(name: string, value?: string): string;
 
   /**
    * html.

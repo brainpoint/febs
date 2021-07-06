@@ -1,5 +1,5 @@
 /*!
- * febs v1.2.4
+ * febs v1.2.9
  * Copyright (c) 2021 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
@@ -14,6 +14,10 @@
 
 	function createCommonjsModule(fn, module) {
 		return module = { exports: {} }, fn(module, module.exports), module.exports;
+	}
+
+	function getCjsExportFromNamespace (n) {
+		return n && n['default'] || n;
 	}
 
 	var check = function (it) {
@@ -1429,6 +1433,10 @@
 	    });
 	  };
 	})();
+
+	var promiseFinallyPolyfill = /*#__PURE__*/Object.freeze({
+		__proto__: null
+	});
 
 	var slice = [].slice;
 	var MSIE = /MSIE .\./.test(engineUserAgent); // <- dirty ie9- check
@@ -3082,7 +3090,7 @@
 
 	  var Window = "undefined" != typeof window ? window : "undefined" != typeof commonjsGlobal ? commonjsGlobal : "undefined" != typeof self ? self : undefined;
 	  /**
-	   * @desc: 判断是否是ie.
+	   * @desc: 判断是否是ie.
 	   */
 
 	  exports.browserIsIE = function () {
@@ -3100,8 +3108,6 @@
 	    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串  
 
 	    var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器  
-
-	    var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器  
 
 	    var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
 
@@ -3121,12 +3127,10 @@
 	      } else {
 	        return 6; //IE版本<=7
 	      }
-	    } else if (isEdge) {
-	      return 'edge'; //edge
 	    } else if (isIE11) {
 	      return 11; //IE11  
 	    } else {
-	      return Number.MAX_SAFE_INTEGER;
+	      return Number.MAX_SAFE_INTEGER; //不是ie浏览器
 	    }
 	  };
 	  /**
@@ -3194,6 +3198,86 @@
 	    var platforms = ['Android', 'iPhone', 'iPod', 'Blackberry', 'Windows Phone'];
 	    var expression = new RegExp(platforms.join('|'), 'i');
 	    return agent.match(expression) != null;
+	  };
+	  /**
+	   * @desc: the browser is safari.
+	   * @param userAgent: the browser user agent string.
+	   */
+
+
+	  exports.browserIsSafari = function (userAgent) {
+	    if (!userAgent) {
+	      if (_typeof(Window) !== undefined) {
+	        userAgent = Window.navigator.userAgent;
+	      }
+	    }
+
+	    var agent = userAgent.toLowerCase();
+	    return agent.match(/version\/([\d.]+).*safari/);
+	  };
+	  /**
+	   * @desc: the browser is opera.
+	   * @param userAgent: the browser user agent string.
+	   */
+
+
+	  exports.browserIsOpera = function (userAgent) {
+	    if (!userAgent) {
+	      if (_typeof(Window) !== undefined) {
+	        userAgent = Window.navigator.userAgent;
+	      }
+	    }
+
+	    var agent = userAgent.toLowerCase();
+	    return agent.match(/opera.([\d.]+)/);
+	  };
+	  /**
+	   * @desc: the browser is firefox.
+	   * @param userAgent: the browser user agent string.
+	   */
+
+
+	  exports.browserIsFirefox = function (userAgent) {
+	    if (!userAgent) {
+	      if (_typeof(Window) !== undefined) {
+	        userAgent = Window.navigator.userAgent;
+	      }
+	    }
+
+	    var agent = userAgent.toLowerCase();
+	    return agent.match(/firefox\/([\d.]+)/);
+	  };
+	  /**
+	   * @desc: the browser is chrome.
+	   * @param userAgent: the browser user agent string.
+	   */
+
+
+	  exports.browserIsChrome = function (userAgent) {
+	    if (!userAgent) {
+	      if (_typeof(Window) !== undefined) {
+	        userAgent = Window.navigator.userAgent;
+	      }
+	    }
+
+	    var agent = userAgent.toLowerCase();
+	    return !!agent.match(/chrome\/([\d.]+)/) && !!!agent.match(/edg\/([\d.]+)/);
+	  };
+	  /**
+	   * @desc: the browser is Edge.
+	   * @param userAgent: the browser user agent string.
+	   */
+
+
+	  exports.browserIsEdge = function (userAgent) {
+	    if (!userAgent) {
+	      if (_typeof(Window) !== undefined) {
+	        userAgent = Window.navigator.userAgent;
+	      }
+	    }
+
+	    var agent = userAgent.toLowerCase();
+	    return agent.match(/edg\/([\d.]+)/);
 	  };
 	  /**
 	   * @desc: the browser is weixin.
@@ -3266,9 +3350,14 @@
 	var utils_browser_4 = utils_browser.browserIsMobile;
 	var utils_browser_5 = utils_browser.browserIsIOS;
 	var utils_browser_6 = utils_browser.browserIsPhone;
-	var utils_browser_7 = utils_browser.browserIsWeixin;
-	var utils_browser_8 = utils_browser.platformIsWin;
-	var utils_browser_9 = utils_browser.platformIsMac;
+	var utils_browser_7 = utils_browser.browserIsSafari;
+	var utils_browser_8 = utils_browser.browserIsOpera;
+	var utils_browser_9 = utils_browser.browserIsFirefox;
+	var utils_browser_10 = utils_browser.browserIsChrome;
+	var utils_browser_11 = utils_browser.browserIsEdge;
+	var utils_browser_12 = utils_browser.browserIsWeixin;
+	var utils_browser_13 = utils_browser.platformIsWin;
+	var utils_browser_14 = utils_browser.platformIsMac;
 
 	/**
 	 * Copyright (c) 2017 Copyright brainpoint All Rights Reserved.
@@ -3354,7 +3443,7 @@
 	var denodeify = utils.denodeify;
 	var promisify = utils.promisify;
 	/**
-	 * @desc: 判断是否是ie.
+	 * @desc: 判断是否是ie.
 	 */
 
 	var browserIsIE = utils_browser.browserIsIE;
@@ -3389,6 +3478,36 @@
 
 	var browserIsPhone = utils_browser.browserIsPhone;
 	/**
+	 * @desc: the browser is safari.
+	 * @param userAgent: the browser user agent string.
+	 */
+
+	var browserIsSafari = utils_browser.browserIsSafari;
+	/**
+	 * @desc: the browser is opera.
+	 * @param userAgent: the browser user agent string.
+	 */
+
+	var browserIsOpera = utils_browser.browserIsOpera;
+	/**
+	 * @desc: the browser is firefox.
+	 * @param userAgent: the browser user agent string.
+	 */
+
+	var browserIsFirefox = utils_browser.browserIsFirefox;
+	/**
+	 * @desc: the browser is chrome.
+	 * @param userAgent: the browser user agent string.
+	 */
+
+	var browserIsChrome = utils_browser.browserIsChrome;
+	/**
+	 * @desc: the browser is Edge.
+	 * @param userAgent: the browser user agent string.
+	 */
+
+	var browserIsEdge = utils_browser.browserIsEdge;
+	/**
 	 * @desc: the browser is weixin.
 	 */
 
@@ -3419,6 +3538,11 @@
 	  browserIsMobile: browserIsMobile,
 	  browserIsIOS: browserIsIOS,
 	  browserIsPhone: browserIsPhone,
+	  browserIsSafari: browserIsSafari,
+	  browserIsOpera: browserIsOpera,
+	  browserIsFirefox: browserIsFirefox,
+	  browserIsChrome: browserIsChrome,
+	  browserIsEdge: browserIsEdge,
 	  browserIsWeixin: browserIsWeixin,
 	  platformIsWin: platformIsWin,
 	  platformIsMac: platformIsMac
@@ -7842,6 +7966,8 @@
 	  CreateDom: CreateDom_1
 	};
 
+	getCjsExportFromNamespace(promiseFinallyPolyfill);
+
 	var Window$5 = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : undefined;
 
 	if (!Window$5.__line) {
@@ -11993,16 +12119,18 @@
 	var utils_bigint_13 = utils_bigint.bigint_mod;
 	var utils_bigint_14 = utils_bigint.bigint_toFixed;
 
+	var febs$1 = getCjsExportFromNamespace(index_base);
+
 	var BigNumber = utils_bigint.BigNumber;
-	var __debug$1 = index_base.__debug;
-	var date$2 = index_base.date;
-	var utils$2 = index_base.utils.mergeMap(index_base.utils, utils_bigint);
-	var string$2 = index_base.string;
-	var crypt$2 = index_base.crypt;
-	var net$5 = index_base.net;
-	var $$1 = index_base['$'];
-	var dom$2 = index_base.dom;
-	var exception$2 = index_base.exception;
+	var __debug$1 = febs$1.__debug;
+	var date$2 = febs$1.date;
+	var utils$2 = febs$1.utils.mergeMap(febs$1.utils, utils_bigint);
+	var string$2 = febs$1.string;
+	var crypt$2 = febs$1.crypt;
+	var net$5 = febs$1.net;
+	var $$1 = febs$1['$'];
+	var dom$2 = febs$1.dom;
+	var exception$2 = febs$1.exception;
 
 	exports.$ = $$1;
 	exports.BigNumber = BigNumber;

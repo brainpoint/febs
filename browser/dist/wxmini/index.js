@@ -1600,7 +1600,7 @@ exports.denodeify = utils.denodeify;
 exports.promisify = utils.promisify;
 
 /**
- * @desc: 判断是否是ie.
+ * @desc: 判断是否是ie.
  */
 exports.browserIsIE =
   function () {
