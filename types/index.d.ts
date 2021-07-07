@@ -742,7 +742,7 @@ export namespace utils {
   * @desc: 执行cmd.
   * @param cmd: 指令.
   * @param params: 输入参数数组.
-  * @param cbFinish: 完成的回调.
+  * @param cbFinish: 有信息输出时的回调. 当stdout与stderr都为null时, 进程结束. 
   */
   function execCommand(cmd:string, params:string[], options:{cwd?:string}, cbFinish:(err:any, stdout:string, stderr:string)=>void):void;
   /**

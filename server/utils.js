@@ -276,24 +276,34 @@ exports.execCommand = function execCommand(cmdString, params, optionOrCbFinish, 
         if (reject) reject(e);
         else cbFinish(e, null, null);
       });
-      proc.stdout.on('data', function(data) {
-        out += data;
+      proc.stdout.on('data', function (data) {
+        if (resolve) {
+          out += data;
+        }
+        else {
+          cbFinish(null, data.toString(), null)
+        }
       });
-      proc.stderr.on('data', function(data) {
-        err += data;
+      proc.stderr.on('data', function (data) {
+        if (resolve) {
+          err += data;
+        }
+        else {
+          cbFinish(null, null, data.toString())
+        }
       });
       proc.on('close', function (code) {
-        if (code !== 0) {
-          console.log(code);
-        } else {
-        }
+        // if (code !== 0) {
+        //   console.log(code);
+        // } else {
+        // }
         if (code !== 0) {
           if (reject) reject(code);
-          else cbFinish(code, out, err);
+          else cbFinish(code, null, null);
         }
         else {
           if (resolve) resolve({stdout:out, stderr:err});
-          else cbFinish(code, out, err);
+          else cbFinish(code, null, null);
         }
       });
     }
