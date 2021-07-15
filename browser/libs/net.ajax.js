@@ -99,7 +99,7 @@ function ajax( ctx )
       cbError(xhr, null, new TypeError('Network request failed'));
   }
 
-  if (ctx.progress) {
+  if (ctx && ctx.progress) {
     if(('upload' in xhr) && ('onprogress' in xhr.upload)) {
       xhr.upload.onprogress = function(event){
         if(event.lengthComputable){

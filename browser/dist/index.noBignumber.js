@@ -1,5 +1,5 @@
 /*!
- * febs v1.2.9
+ * febs v1.2.10
  * Copyright (c) 2021 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
@@ -4665,7 +4665,7 @@
 	    if (cbError) cbError(xhr, null, new TypeError('Network request failed'));
 	  };
 
-	  if (ctx.progress) {
+	  if (ctx && ctx.progress) {
 	    if ('upload' in xhr && 'onprogress' in xhr.upload) {
 	      xhr.upload.onprogress = function (event) {
 	        if (event.lengthComputable) {
@@ -5939,7 +5939,7 @@
 	        reject(new exception('Network request failed', 'NetworkFailed', __filename, __line, __column));
 	      };
 
-	      if (init.progress) {
+	      if (init && init.progress) {
 	        xhr.onprogress = function (event) {
 	          if (event.lengthComputable) {
 	            init.progress(event.position / event.totalSize);

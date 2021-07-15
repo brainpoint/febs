@@ -344,7 +344,7 @@ else {
   Window.Request = febsnet.Request;
   Window.Response = febsnet.Response;
 
-  Window.fetch = febsnet.fetch = function(input, init) {
+  Window.fetch = febsnet.fetch = function (input, init) {
 
     // other.
     return new Promise(function(resolve, reject) {
@@ -411,7 +411,7 @@ else {
         reject(new exception('Network request failed', 'NetworkFailed', __filename, __line, __column))
       }
 
-      if (init.progress) {
+      if (init && init.progress) {
         xhr.onprogress = function(event){
           if(event.lengthComputable){
             init.progress(event.position/event.totalSize);
