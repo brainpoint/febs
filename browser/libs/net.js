@@ -14,6 +14,7 @@ var netjsonp = require('./net.jsonp');
 
 var net = {
   ajax: netajax.ajax,
+  AbortController: netfetch.AbortController,
   fetch: netfetch.fetch,
   jsonp: netjsonp.jsonp
 };

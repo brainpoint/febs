@@ -44,7 +44,8 @@ export interface RequestInit {
   timeout?: number;
   mode?: RequestMode,
   credentials?: RequestCredentials,
-  progress?: (progress:number)=>void,
+  progress?: (progress: number) => void,
+  signal?: any; // AbortControllerObject.signal
 }
 
 export namespace Response {
@@ -99,3 +100,9 @@ export type Fetch = (
     url: RequestInfo,
     init?: RequestInit
 )=>Promise<Response>;
+
+export interface AbortControllerClass {
+  new(): AbortControllerClass;
+  get signal(): any;
+  abort(): void;
+}

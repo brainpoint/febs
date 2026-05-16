@@ -1,6 +1,6 @@
 /*!
- * febs v1.2.10
- * Copyright (c) 2021 bpoint.lee@gmail.com All Rights Reserved.
+ * febs v1.2.11
+ * Copyright (c) 2026 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
 
@@ -8,6 +8,10 @@ var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof win
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+function getCjsExportFromNamespace (n) {
+	return n && n['default'] || n;
 }
 
 var check = function (it) {
@@ -1423,6 +1427,10 @@ if ( typeof nativePromiseConstructor == 'function' && !nativePromiseConstructor.
     });
   };
 })();
+
+var promiseFinallyPolyfill = /*#__PURE__*/Object.freeze({
+	__proto__: null
+});
 
 var slice = [].slice;
 var MSIE = /MSIE .\./.test(engineUserAgent); // <- dirty ie9- check
@@ -5525,10 +5533,40 @@ var net$1 = {}; //--------------------------------------------------------
 //--------------------------------------------------------
 
 {
+  var AbortController = function AbortController() {
+    var _this = this;
+
+    Object.defineProperty(this, 'signal', {
+      get: function get() {
+        if (!_this.__signalWrap) {
+          _this.__signalWrap = {};
+        }
+
+        return _this.__signalWrap;
+      },
+      enumerable: true,
+      configurable: true
+    });
+  };
+
   if (!Promise) {
     throw new Error('unsupported Promise');
-  } // https://github.com/github/fetch
+  }
 
+  AbortController.prototype.abort = function () {
+    if (this.__signalWrap && this.__signalWrap.__xhr) {
+      try {
+        this.__signalWrap.__xhr.abort();
+      } catch (e) {
+        console.log(e);
+      }
+
+      this.__signalWrap.__xhr = null;
+    }
+  };
+
+  Window$2._AbortController = AbortController;
+  net$1.AbortController = AbortController; // https://github.com/github/fetch
 
   febsnet.normalizeName = function (name) {
     if (typeof name !== 'string') {
@@ -5910,7 +5948,7 @@ var net$1 = {}; //--------------------------------------------------------
           var status = xhr.status === 1223 ? 204 : xhr.status;
 
           if (status < 100 || status > 599) {
-            reject(new exception('Network request failed', 'NetworkFailed', __filename, __line, __column));
+            reject(new exception('Network request failed', 'NetworkFailed', null, null, null));
             return;
           }
 
@@ -5926,19 +5964,23 @@ var net$1 = {}; //--------------------------------------------------------
       };
 
       xhr.ontimeout = function () {
-        reject(new exception('Network timeout', 'NetworkTimeout', __filename, __line, __column));
+        reject(new exception('Network timeout', 'NetworkTimeout', null, null, null));
       };
 
       xhr.onerror = function () {
-        reject(new exception('Network request failed', 'NetworkFailed', __filename, __line, __column));
+        reject(new exception('Network request failed', 'NetworkFailed', null, null, null));
       };
 
       if (init && init.progress) {
         xhr.onprogress = function (event) {
           if (event.lengthComputable) {
-            init.progress(event.position / event.totalSize);
+            init.progress((event.position || event.loaded || 0) / (event.totalSize || event.total || 1));
           }
         };
+      }
+
+      if (init && init.signal) {
+        init.signal.__xhr = xhr;
       }
 
       xhr.open(request.method, request.url, true);
@@ -5963,7 +6005,11 @@ var net$1 = {}; //--------------------------------------------------------
         console.log('fetch can\'t set headers');
       }
 
-      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit);
+      try {
+        xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit);
+      } catch (e) {
+        reject(new exception('Network request failed', 'NetworkFailed', null, null, null));
+      }
     });
   };
 
@@ -6045,6 +6091,7 @@ var net_jsonp = net$2;
 
 var net$3 = {
   ajax: net_ajax.ajax,
+  AbortController: net_fetch.AbortController,
   fetch: net_fetch.fetch,
   jsonp: net_jsonp.jsonp
 };
@@ -7952,6 +7999,8 @@ var dom = {
   CreateDom: CreateDom_1
 };
 
+getCjsExportFromNamespace(promiseFinallyPolyfill);
+
 var Window$5 = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : undefined;
 
 if (!Window$5.__line) {
@@ -8210,15 +8259,17 @@ var utils_bigint_native_11 = utils_bigint_native.bigint_less_than_e;
 var utils_bigint_native_12 = utils_bigint_native.bigint_mod;
 var utils_bigint_native_13 = utils_bigint_native.bigint_toFixed;
 
-var __debug$1 = index_base.__debug;
-var date$2 = index_base.date;
-var utils$2 = index_base.utils.mergeMap(index_base.utils, utils_bigint_native);
-var string$2 = index_base.string;
-var crypt$2 = index_base.crypt;
-var net$5 = index_base.net;
-var $$1 = index_base['$'];
-var dom$2 = index_base.dom;
-var exception$2 = index_base.exception;
+var febs$1 = getCjsExportFromNamespace(index_base);
+
+var __debug$1 = febs$1.__debug;
+var date$2 = febs$1.date;
+var utils$2 = febs$1.utils.mergeMap(febs$1.utils, utils_bigint_native);
+var string$2 = febs$1.string;
+var crypt$2 = febs$1.crypt;
+var net$5 = febs$1.net;
+var $$1 = febs$1['$'];
+var dom$2 = febs$1.dom;
+var exception$2 = febs$1.exception;
 
 export { $$1 as $, __debug$1 as __debug, crypt$2 as crypt, date$2 as date, dom$2 as dom, exception$2 as exception, net$5 as net, string$2 as string, utils$2 as utils };
 //# sourceMappingURL=index.noBignumber.esm.js.map

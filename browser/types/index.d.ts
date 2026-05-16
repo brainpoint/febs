@@ -3,7 +3,7 @@
 
 /// <reference types="node" />
 
-import { Fetch } from './fetch.d';
+import { Fetch, AbortControllerClass } from './fetch.d';
 
 declare global {
   /**
@@ -912,7 +912,16 @@ export namespace net {
           if (err === 'timeout)  // 超时.
         });
   */
-  const fetch : Fetch;
+  const fetch: Fetch;
+  
+  /**
+   * let abortController = new febs.net.AbortController();
+   * 
+   * febs.net.fetch(url, {signal: abortController.signal}).then(...);
+   * 
+   * abortController.abort();
+   */
+  const AbortController: AbortControllerClass;
   
   /**
    * @desc: jsonp方式获取数据.

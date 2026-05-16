@@ -93,14 +93,24 @@ febs.string.replace();
 
 ![](../doc/framework.png)
 
-  - [dom](#dom)
-  - [date](#date)
-  - [utils](#utils)
-  - [string](#string)
-  - [crypt](#crypt)
-  - [animationFrame](#animationFrame)
-  - [net](#net)
-  - [jquery $](#jquery)
+- [Install](#install)
+  - [commonjs](#commonjs)
+  - [browser](#browser)
+  - [babel](#babel)
+- [framework](#framework)
+- [说明](#说明)
+  - [polyfill](#polyfill)
+- [dom](#dom)
+- [date](#date)
+- [utils](#utils)
+- [string](#string)
+- [crypt](#crypt)
+- [animationFrame](#animationframe)
+- [net](#net)
+- [jquery](#jquery)
+    - [常用](#常用)
+    - [事件.](#事件)
+    - [遍历](#遍历)
 
 # 说明
 
@@ -574,6 +584,7 @@ febs.net.ajax(cfg:any):{abort:()=>void}
               timeout, // 超时 (ms), 默认为5000,
               credentials,  // 携带了credentials='include'则服务器需设置Access-Control-Allow-Credentials
               progress, // 允许设置进度cb. function(percent) {}
+              signal?: any; // AbortControllerObject.signal
             }
  * @return: 返回 Promise;
  * @e.g.
@@ -583,6 +594,11 @@ febs.net.ajax(cfg:any):{abort:()=>void}
       .catch(err=>{
         if (err === 'timeout)  // 超时.
       });
+ * @e.g.
+      // abort fetch.
+      let abortController = new. febs.net.AbortController();
+      febs.net.fetch(url, {signal: abortController.signal}).then(...);
+      abortController.abort();  // abort network.
  */
 febs.net.fetch(url, option)
 /**

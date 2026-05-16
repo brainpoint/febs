@@ -27,6 +27,34 @@ else {
     throw new Error('unsupported Promise')
   }
 
+  function AbortController() {
+    let _this = this;
+    Object.defineProperty(this, 'signal', {
+      get: function () {
+        if (!_this.__signalWrap) {
+          _this.__signalWrap = {};
+        }
+        return _this.__signalWrap;
+      },
+      enumerable: true,
+      configurable: true,
+    });
+  }
+  AbortController.prototype.abort = function () {
+    if (this.__signalWrap && this.__signalWrap.__xhr) {
+      try {
+        this.__signalWrap.__xhr.abort();
+      } catch (e) {
+        console.log(e);
+      }
+      this.__signalWrap.__xhr = null;
+    }
+  }
+
+  Window._AbortController = AbortController;
+  net.AbortController = AbortController;
+
+
   // https://github.com/github/fetch
   febsnet.normalizeName = function(name) {
     if (typeof name !== 'string') {
@@ -390,7 +418,7 @@ else {
         if (xhr.readyState == 4) {
           var status = (xhr.status === 1223) ? 204 : xhr.status
           if (status < 100 || status > 599) {
-            reject(new exception('Network request failed', 'NetworkFailed', __filename, __line, __column))
+            reject(new exception('Network request failed', 'NetworkFailed', null, null, null))
             return
           }
           var options = {
@@ -405,18 +433,22 @@ else {
       }
 
       xhr.ontimeout = function() {
-        reject(new exception('Network timeout', 'NetworkTimeout', __filename, __line, __column))
+        reject(new exception('Network timeout', 'NetworkTimeout', null, null, null))
       }
       xhr.onerror = function() {
-        reject(new exception('Network request failed', 'NetworkFailed', __filename, __line, __column))
+        reject(new exception('Network request failed', 'NetworkFailed', null, null, null))
       }
 
       if (init && init.progress) {
         xhr.onprogress = function(event){
-          if(event.lengthComputable){
-            init.progress(event.position/event.totalSize);
+          if (event.lengthComputable) {
+            init.progress(((event.position||event.loaded)||0) / ((event.totalSize||event.total)||1));
           }
         }
+      }
+
+      if (init && init.signal) {
+        init.signal.__xhr = xhr;
       }
 
       xhr.open(request.method, request.url, true)
@@ -442,7 +474,11 @@ else {
         console.log('fetch can\'t set headers');
       }
 
-      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+      try {
+        xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+      } catch (e) {
+        reject(new exception('Network request failed', 'NetworkFailed', null, null, null))
+      }
     })
   }
 

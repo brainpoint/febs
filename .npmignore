@@ -4,6 +4,7 @@
 
 # Xcode
 #
+.specstory
 build/
 *.pbxuser
 !default.pbxuser
