@@ -1,5 +1,5 @@
 /*!
- * febs v1.2.11
+ * febs v1.2.13
  * Copyright (c) 2026 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */
@@ -8,6 +8,10 @@ var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof win
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+function getCjsExportFromNamespace (n) {
+	return n && n['default'] || n;
 }
 
 var check = function (it) {
@@ -1423,6 +1427,10 @@ if ( typeof nativePromiseConstructor == 'function' && !nativePromiseConstructor.
     });
   };
 })();
+
+var promiseFinallyPolyfill = /*#__PURE__*/Object.freeze({
+	__proto__: null
+});
 
 var slice = [].slice;
 var MSIE = /MSIE .\./.test(engineUserAgent); // <- dirty ie9- check
@@ -7990,6 +7998,8 @@ var dom = {
   Dom: Dom_1,
   CreateDom: CreateDom_1
 };
+
+getCjsExportFromNamespace(promiseFinallyPolyfill);
 
 var Window$5 = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : undefined;
 

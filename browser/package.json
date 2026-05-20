@@ -91,5 +91,5 @@
     "build": "node --max-old-space-size=4096 scripts/webpack.build.js && cp -rf dist/wxmini/index.js wxmini-package/ && node --max-old-space-size=4096 scripts/bundle.js"
   },
   "name": "febs-browser",
-  "version": "1.2.11"
+  "version": "1.2.13"
 }
