@@ -60,7 +60,7 @@ function crc32_fileSegment( filename, offset, length ) {
       }
 
       if (stat.size-offset < length) {
-        length = file.size-offset;
+        length = stat.size-offset;
       }
 
       var fd = fs.openSync(filename, 'r');
@@ -68,7 +68,7 @@ function crc32_fileSegment( filename, offset, length ) {
         return 0;
 
       var crc = 0;
-      var buf = new Buffer(1024*10);
+      var buf = Buffer.alloc(1024*10);
       var size;
       for (var i = offset, len = offset+length; i < len; i+=buf.length) {
         size = buf.length > len-i ? len-i : buf.length;
@@ -129,7 +129,7 @@ exports.md5_file = function( filename ) {
       if (!fd)
         return 0;
 
-      var buf = new Buffer(1024*10);
+      var buf = Buffer.alloc(1024*10);
       var size;
 
       var md5 = crypto.createHash('md5');
@@ -191,7 +191,7 @@ exports.sha1_file = function( filename ) {
       if (!fd)
         return 0;
 
-      var buf = new Buffer(1024*10);
+      var buf = Buffer.alloc(1024*10);
       var size;
 
       var sha1 = crypto.createHash('sha1');

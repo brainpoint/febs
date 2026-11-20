@@ -28,34 +28,36 @@ var net = {};
  */
 function ajax( ctx )
 {
-  //if (!!Window.ActiveXObject || "ActiveXObject" in Window) // ie11.
+  // 不修改调用方传入的 ctx.url, 只在本次请求的 url 上追加标记.
+  var url = ctx.url;
+  if (url)
   {
-    if (ctx.url)
-    {
-      if (!Window[Ajaxmark]) Window[Ajaxmark] = 1;
-      var i = ctx.url.indexOf('?');
-      if (i < 0) {
-        ctx.url += "?ajaxmark="+Window[Ajaxmark];
+    if (!Window[Ajaxmark]) Window[Ajaxmark] = 1;
+    var i = url.indexOf('?');
+    if (i < 0) {
+      url += "?ajaxmark="+Window[Ajaxmark];
+    } else {
+      if (i == url.length-1) {
+        url += "ajaxmark="+Window[Ajaxmark];
       } else {
-        if (i == ctx.url.length-1) {
-          ctx.url += "ajaxmark="+Window[Ajaxmark];
-        } else {
-          ctx.url += "&ajaxmark="+Window[Ajaxmark];
-        }
+        url += "&ajaxmark="+Window[Ajaxmark];
       }
     }
-    Window[Ajaxmark]++;
-  } // if.
+  }
+  Window[Ajaxmark]++;
 
   var cbError = ctx.error || function(){}
   var cbSuccess = ctx.success || function(){}
   var cbComplete = ctx.complete || function(){}
 
-  ctx.processData = ctx.hasOwnProperty('processData') ? ctx.processData : true;
+  var processData = ctx.hasOwnProperty('processData') ? ctx.processData : true;
 
   //
   // net transfer.
   var xhr = transfer.transfer(Window);
+  if (!xhr) {
+    throw new Error('XMLHttpRequest is not supported in current environment');
+  }
 
   // xhr.onload = function() {
   //   var status = (xhr.status === 1223) ? 204 : xhr.status
@@ -83,7 +85,7 @@ function ajax( ctx )
       }
 
       var body = 'response' in xhr ? xhr.response : xhr.responseText;
-      if (status == 200)
+      if ((status >= 200 && status < 300) || status == 304)
         cbSuccess(body, xhr.statusText, xhr);
       
       cbComplete(xhr, xhr.statusText);
@@ -111,15 +113,12 @@ function ajax( ctx )
     }
   }
 
-  xhr.open(ctx.type, ctx.url, ctx.async===false?false:true);
+  xhr.open(ctx.type, url, ctx.async===false?false:true);
   var timeout = (ctx.async===false?false:true)? ctx.timeout: 0;
   xhr.timeout = (timeout !== undefined && timeout !== null) ? timeout : transfer.DefaultTimeout;
 
   if (ctx.hasOwnProperty('withCredentials')) {
     xhr.withCredentials = ctx.withCredentials;
-  }
-  else {
-    xhr.withCredentials = true;
   }
 
   if (ctx.headers) {
@@ -138,14 +137,14 @@ function ajax( ctx )
     }
   }
 
-  if (!ctx.headers || !ctx.headers.hasOwnProperty('Content-Type')) {
+  if ((!ctx.headers || !ctx.headers.hasOwnProperty('Content-Type')) && xhr.setRequestHeader) {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
   }
 
   // auto content-type.
   var data_content = ctx.data;
   if (data_content) {
-    if (ctx.processData && typeof data_content !== 'string') {
+    if (processData && typeof data_content !== 'string') {
       try {
         
         if (ctx.headers && ctx.headers['Content-Type'] && ctx.headers['Content-Type'].toLowerCase().indexOf('json') >= 0) {

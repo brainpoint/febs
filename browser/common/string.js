@@ -88,14 +88,21 @@ exports.getByteSize = function (s) {
   var charCode;
   for (i = 0; i < s.length; i++) {
     charCode = s.charCodeAt(i);
-    if (charCode < 0x007f) {
+    if (charCode < 0x0080) {
       totalLength = totalLength + 1;
-    } else if ((0x0080 <= charCode) && (charCode <= 0x07ff)) {
+    } else if (charCode < 0x0800) {
       totalLength += 2;
-    } else if ((0x0800 <= charCode) && (charCode <= 0xffff)) {
+    } else if (charCode >= 0xD800 && charCode <= 0xDBFF) {
+      // utf-16 代理对: 组合成一个码点, 编码为 4 字节.
+      var next = s.charCodeAt(i + 1);
+      if (next >= 0xDC00 && next <= 0xDFFF) {
+        totalLength += 4;
+        i++;
+      } else {
+        totalLength += 3;
+      }
+    } else {
       totalLength += 3;
-    } else if ((0x10000 <= charCode)) {
-      totalLength += 4;
     }
   }
   //alert(totalLength);
@@ -141,24 +148,33 @@ exports.utf8ToBytes = function (str) {
     return new Array();
   }
   var bytes = new Array();
-  var len, c;
-  len = str.length;
-  for (var i = 0; i < len; i++) {
+  var c;
+  for (var i = 0; i < str.length; i++) {
     c = str.charCodeAt(i);
-    if (c >= 0x010000 && c <= 0x10FFFF) {
+
+    // utf-16 代理对: 组合成一个码点后再编码.
+    if (c >= 0xD800 && c <= 0xDBFF) {
+      var next = str.charCodeAt(i + 1);
+      if (next >= 0xDC00 && next <= 0xDFFF) {
+        c = 0x10000 + ((c - 0xD800) << 10) + (next - 0xDC00);
+        i++;
+      }
+    }
+
+    if (c <= 0x007F) {
+      bytes.push(c & 0xFF);
+    } else if (c <= 0x07FF) {
+      bytes.push(((c >> 6) & 0x1F) | 0xC0);
+      bytes.push((c & 0x3F) | 0x80);
+    } else if (c <= 0xFFFF) {
+      bytes.push(((c >> 12) & 0x0F) | 0xE0);
+      bytes.push(((c >> 6) & 0x3F) | 0x80);
+      bytes.push((c & 0x3F) | 0x80);
+    } else {
       bytes.push(((c >> 18) & 0x07) | 0xF0);
       bytes.push(((c >> 12) & 0x3F) | 0x80);
       bytes.push(((c >> 6) & 0x3F) | 0x80);
       bytes.push((c & 0x3F) | 0x80);
-    } else if (c >= 0x000800 && c <= 0x00FFFF) {
-      bytes.push(((c >> 12) & 0x0F) | 0xE0);
-      bytes.push(((c >> 6) & 0x3F) | 0x80);
-      bytes.push((c & 0x3F) | 0x80);
-    } else if (c >= 0x000080 && c <= 0x0007FF) {
-      bytes.push(((c >> 6) & 0x1F) | 0xC0);
-      bytes.push((c & 0x3F) | 0x80);
-    } else {
-      bytes.push(c & 0xFF);
     }
   }
   return bytes;
@@ -197,7 +213,13 @@ exports.bytesToUtf8 = function (utf8Bytes) {
       unicode |= (utf8Bytes[pos + 1] & 0x3F) << 12;
       unicode |= (utf8Bytes[pos + 2] & 0x3F) << 6;
       unicode |= (utf8Bytes[pos + 3] & 0x3F);
-      unicodeStr += String.fromCharCode(unicode);
+      if (unicode > 0xFFFF) {
+        // 4 字节序列需要还原为 utf-16 代理对.
+        unicode -= 0x10000;
+        unicodeStr += String.fromCharCode(0xD800 + (unicode >> 10), 0xDC00 + (unicode & 0x03FF));
+      } else {
+        unicodeStr += String.fromCharCode(unicode);
+      }
       pos += 4;
 
     } else if ((flag & 0xE0) === 0xE0) {

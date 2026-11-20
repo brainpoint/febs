@@ -9,12 +9,25 @@
 
 var Window = "undefined" != typeof window ? window : ("undefined" != typeof global ? global : ("undefined" != typeof self ? self : undefined));
 
+/**
+ * @desc: 获取 userAgent. 无 window/无 navigator 时返回空串, 避免在 node 下崩溃.
+ * @return: string.
+ */
+function getUserAgent(userAgent) {
+  if (userAgent) return userAgent;
+  if (Window && Window.navigator && Window.navigator.userAgent) {
+    return Window.navigator.userAgent;
+  }
+  return '';
+}
 
 /**
  * @desc: 判断是否是ie.
+ * @deprecated 构建已不再支持 IE, 保留该接口仅为兼容.
  */
 exports.browserIsIE =
   function () {
+    if (!Window) return false;
     if (!!Window.ActiveXObject || "ActiveXObject" in Window)
       return true;
     else
@@ -25,12 +38,13 @@ exports.browserIsIE =
  * @desc: 判断ie版本号.
  * @return number. 非ie返回Number.MAX_SAFE_INTEGER.
  *        如果是 edge 返回 'edge'
+ * @deprecated 构建已不再支持 IE, 保留该接口仅为兼容.
  */
 exports.browserIEVer =
   function () {
     if (!exports.browserIsIE()) return Number.MAX_SAFE_INTEGER;
 
-    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串  
+    var userAgent = getUserAgent(); //取得浏览器的userAgent字符串  
     var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器  
     var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
     if (isIE) {
@@ -61,7 +75,7 @@ exports.browserIEVer =
  */
 exports.browserIsSupportHtml5 =
   function () {
-    if (typeof (Worker) !== "undefined") {
+    if (Window && typeof (Window.Worker) !== "undefined") {
       return true;
     } else {
       return false;
@@ -75,13 +89,7 @@ exports.browserIsSupportHtml5 =
  */
 exports.browserIsMobile = function(userAgent) {
 
-  if (!userAgent) {
-    if (typeof Window !== undefined) {
-      userAgent = Window.navigator.userAgent
-    }
-  }
-
-  var agent = userAgent;
+  var agent = getUserAgent(userAgent);
   var platforms = [
     'Android', 'webOS', 'iPhone', 'iPad',
     'iPod', 'Blackberry', 'Windows Phone'
@@ -96,13 +104,7 @@ exports.browserIsMobile = function(userAgent) {
  * @param userAgent: the browser user agent string.
  */
 exports.browserIsIOS = function(userAgent) {
-  if (!userAgent) {
-    if (typeof Window !== undefined) {
-      userAgent = Window.navigator.userAgent
-    }
-  }
-
-  var agent = userAgent;
+  var agent = getUserAgent(userAgent);
   var platforms = [
     'iPhone', 'iPad',
     'iPod'
@@ -118,13 +120,7 @@ exports.browserIsIOS = function(userAgent) {
  * @param userAgent: the browser user agent string.
  */
 exports.browserIsPhone = function(userAgent) {
-  if (!userAgent) {
-    if (typeof Window !== undefined) {
-      userAgent = Window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent;
+  var agent = getUserAgent(userAgent);
   var platforms = [
     'Android', 'iPhone',
     'iPod', 'Blackberry', 'Windows Phone'
@@ -139,13 +135,7 @@ exports.browserIsPhone = function(userAgent) {
  * @param userAgent: the browser user agent string.
  */
 exports.browserIsSafari = function(userAgent) {
-  if (!userAgent) {
-    if (typeof Window !== undefined) {
-      userAgent = Window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent.toLowerCase();
+  var agent = getUserAgent(userAgent).toLowerCase();
   return agent.match(/version\/([\d.]+).*safari/);
 }
 
@@ -154,13 +144,7 @@ exports.browserIsSafari = function(userAgent) {
  * @param userAgent: the browser user agent string.
  */
 exports.browserIsOpera = function(userAgent) {
-  if (!userAgent) {
-    if (typeof Window !== undefined) {
-      userAgent = Window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent.toLowerCase();
+  var agent = getUserAgent(userAgent).toLowerCase();
   return agent.match(/opera.([\d.]+)/);
 }
 
@@ -169,13 +153,7 @@ exports.browserIsOpera = function(userAgent) {
  * @param userAgent: the browser user agent string.
  */
 exports.browserIsFirefox = function(userAgent) {
-  if (!userAgent) {
-    if (typeof Window !== undefined) {
-      userAgent = Window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent.toLowerCase();
+  var agent = getUserAgent(userAgent).toLowerCase();
   return agent.match(/firefox\/([\d.]+)/);
 }
 
@@ -184,13 +162,7 @@ exports.browserIsFirefox = function(userAgent) {
  * @param userAgent: the browser user agent string.
  */
 exports.browserIsChrome = function(userAgent) {
-  if (!userAgent) {
-    if (typeof Window !== undefined) {
-      userAgent = Window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent.toLowerCase();
+  var agent = getUserAgent(userAgent).toLowerCase();
   return !!agent.match(/chrome\/([\d.]+)/) && !(!!agent.match(/edg\/([\d.]+)/));
 }
 
@@ -199,26 +171,14 @@ exports.browserIsChrome = function(userAgent) {
  * @param userAgent: the browser user agent string.
  */
 exports.browserIsEdge = function(userAgent) {
-  if (!userAgent) {
-    if (typeof Window !== undefined) {
-      userAgent = Window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent.toLowerCase();
+  var agent = getUserAgent(userAgent).toLowerCase();
   return agent.match(/edg\/([\d.]+)/);
 }
 /**
  * @desc: the browser is weixin.
  */
 exports.browserIsWeixin = function(userAgent) {
-  if (!userAgent) {
-    if (typeof Window !== undefined) {
-      userAgent = Window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent;
+  var agent = getUserAgent(userAgent);
   if(agent.match(/MicroMessenger/i)=="MicroMessenger") {
       return true;
   } else {
@@ -231,17 +191,14 @@ exports.browserIsWeixin = function(userAgent) {
  * @desc: the platform is Windows.
  */
 exports.platformIsWin = function(userAgent) {
-  if (!userAgent) {
-    if (typeof Window !== undefined) {
-      userAgent = Window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent;
+  var agent = getUserAgent(userAgent).toLowerCase();
   if (agent.indexOf("win32") >= 0 || agent.indexOf("wow32") >= 0) {
     return true;
   }
   if (agent.indexOf("win64") >= 0 || agent.indexOf("wow64") >= 0) {
+    return true;
+  }
+  if (agent.indexOf("windows nt") >= 0) {
     return true;
   }
 
@@ -253,13 +210,7 @@ exports.platformIsWin = function(userAgent) {
  * @desc: the platform is Mac.
  */
 exports.platformIsMac = function(userAgent) {
-  if (!userAgent) {
-    if (typeof Window !== undefined) {
-      userAgent = Window.navigator.userAgent
-    }
-  }
-  
-  var agent = userAgent;
+  var agent = getUserAgent(userAgent);
   if (/macintosh|mac os x/i.test(agent)) {
     return true;
   }

@@ -6,20 +6,14 @@
 
 exports.DefaultTimeout = 5000;
 
+/**
+ * @desc: 创建 XMLHttpRequest 实例.
+ *        不再支持 IE8/9 的 ActiveXObject.
+ */
 exports.transfer = function(window) {
-  var xhr;
-  if (window.XMLHttpRequest) xhr = new XMLHttpRequest();
-  else if (window.XDomainRequest) xhr = new XDomainRequest();
-  else {
-    var XmlHttpVersions = new Array("MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.5.0", "MSXML2.XMLHTTP.4.0", "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP");
-    for (var i = 0; i < XmlHttpVersions.length && !xmlHttp; i++) {
-      try {
-        xhr = new ActiveXObject(XmlHttpVersions[i]);
-      } 
-      catch (e) {
-      }
-    }
+  if (window && window.XMLHttpRequest) {
+    return new window.XMLHttpRequest();
   }
-  
-  return xhr;
+
+  return null;
 }
