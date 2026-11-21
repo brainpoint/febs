@@ -1,5 +1,5 @@
 /*!
- * febs-browser v1.3.0
+ * febs-browser v1.3.2
  * Copyright (c) 2026 bpoint.lee@gmail.com All Rights Reserved.
  * Released under the MIT License.
  */

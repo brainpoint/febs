@@ -103,6 +103,7 @@ export type Fetch = (
 
 export interface AbortControllerClass {
   new(): AbortControllerClass;
-  get signal(): any;
+  readonly signal: any;
   abort(): void;
 }
+

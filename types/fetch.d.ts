@@ -44,6 +44,7 @@ export interface RequestInit {
   timeout?: number;
   mode?: RequestMode,
   credentials?: RequestCredentials,
+  signal?: any; // AbortControllerObject.signal
 }
 
 export namespace Response {
